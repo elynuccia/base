@@ -1,0 +1,321 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Some custom title{% endblock title %}
+
+{% block body %}
+
+    <div>
+        Hello, {{ person_name }}!
+
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+
+
+
+
+
+
+    {{ form_end(form) }}
+    <table id="code" class="display" style="width:100%">  </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+
+
+    <script>
+
+
+        jQuery(document).ready(function() {
+
+            $var= $('#code_generator_number_of_codes');
+
+
+
+            $var.on('change', function(e) {
+                    // prevent the link from creating a "#" on the URL
+
+
+                document.getElementById("code").innerHTML="<thead>\n" +
+                    "            <tr>\n" +
+                    "                <th>Code</th>\n" +
+                    "                <th>Nickname</th>\n" +
+                    "            </tr>\n" +
+                    "        </thead>" +
+                    "        <tbody id=\"body\"></tbody>";
+                for (var i = 0; i < e.currentTarget.value-1; i++) {
+
+                    $('#body').append( "<tr><td>" + randomString() + "</td> <td>" + generateName() + "</td></tr>");
+                }
+                $('#code').append ("<tfoot>\n" +
+                    "            <tr>\n" +
+                    "                <th>Code</th>\n" +
+                    "                <th>Nickname</th>\n" +
+                    "            </tr>\n" +
+                    "        </tfoot> ")
+
+                $('#code').DataTable( {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'pdfHtml5'
+                    ]
+                } );
+                });
+
+
+
+        });
+
+        function stampa() { print()}
+
+
+
+        function randomString() {
+            return Math.round((Math.pow(36, 8 + 1) - Math.random() * Math.pow(36, 8))).toString(36).slice(1).toUpperCase();
+        }
+
+        function capFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function generateName(){
+
+           var name1= [
+                    "Aardvark",
+                    "Albatross",
+                    "Alligator",
+                    "Alpaca",
+                    "Ant",
+                    "Anteater",
+                    "Antelope",
+                    "Ape",
+                    "Armadillo",
+                    "Donkey",
+                    "Baboon",
+                    "Badger",
+                    "Barracuda",
+                    "Bat",
+                    "Bear",
+                    "Beaver",
+                    "Bee",
+                    "Bison",
+                    "Boar",
+                    "Buffalo",
+                    "Butterfly",
+                    "Camel",
+                    "Capybara",
+                    "Caribou",
+                    "Cassowary",
+                    "Cat",
+                    "Caterpillar",
+                    "Cattle",
+                    "Chamois",
+                    "Cheetah",
+                    "Chicken",
+                    "Chimpanzee",
+                    "Chinchilla",
+                    "Chough",
+                    "Clam",
+                    "Cobra",
+                    "Cockroach",
+                    "Cod",
+                    "Cormorant",
+                    "Coyote",
+                    "Crab",
+                    "Crane",
+                    "Crocodile",
+                    "Crow",
+                    "Curlew",
+                    "Deer",
+                    "Dinosaur",
+                    "Dog",
+                    "Dogfish",
+                    "Dolphin",
+                    "Dotterel",
+                    "Dove",
+                    "Dragonfly",
+                    "Duck",
+                    "Dugong",
+                    "Dunlin",
+                    "Eagle",
+                    "Echidna",
+                    "Eel",
+                    "Eland",
+                    "Elephant",
+                    "Elk",
+                    "Emu",
+                    "Falcon",
+                    "Ferret",
+                    "Finch",
+                    "Fish",
+                    "Flamingo",
+                    "Fly",
+                    "Fox",
+                    "Frog",
+                    "Gaur",
+                    "Gazelle",
+                    "Gerbil",
+                    "Giraffe",
+                    "Gnat",
+                    "Gnu",
+                    "Goat",
+                    "Goldfinch",
+                    "Goldfish",
+                    "Goose",
+                    "Gorilla",
+                    "Goshawk",
+                    "Grasshopper",
+                    "Grouse",
+                    "Guanaco",
+                    "Gull",
+                    "Hamster",
+                    "Hare",
+                    "Hawk",
+                    "Hedgehog",
+                    "Heron",
+                    "Herring",
+                    "Hippopotamus",
+                    "Hornet",
+                    "Horse",
+                    "Human",
+                    "Hummingbird",
+                    "Hyena",
+                    "Ibex",
+                    "Ibis",
+                    "Jackal",
+                    "Jaguar",
+                    "Jay",
+                    "Jellyfish",
+                    "Kangaroo",
+                    "Kingfisher",
+                    "Koala",
+                    "Kookabura",
+                    "Kouprey",
+                    "Kudu",
+                    "Lapwing",
+                    "Lark",
+                    "Lemur",
+                    "Leopard",
+                    "Lion",
+                    "Llama",
+                    "Lobster",
+                    "Locust",
+                    "Loris",
+                    "Louse",
+                    "Lyrebird",
+                    "Magpie",
+                    "Mallard",
+                    "Manatee",
+                    "Mandrill",
+                    "Mantis",
+                    "Marten",
+                    "Meerkat",
+                    "Mink",
+                    "Mole",
+                    "Mongoose",
+                    "Monkey",
+                    "Moose",
+                    "Mosquito",
+                    "Mouse",
+                    "Mule",
+                    "Narwhal",
+                    "Newt",
+                    "Nightingale",
+                    "Octopus",
+                    "Okapi",
+                    "Opossum",
+                    "Oryx",
+                    "Ostrich",
+                    "Otter",
+                    "Owl",
+                    "Oyster",
+                    "Panther",
+                    "Parrot",
+                    "Partridge",
+                    "Peafowl",
+                    "Pelican",
+                    "Penguin",
+                    "Pheasant",
+                    "Pig",
+                    "Pigeon",
+                    "Pony",
+                    "Porcupine",
+                    "Porpoise",
+                    "Quail",
+                    "Quelea",
+                    "Quetzal",
+                    "Rabbit",
+                    "Raccoon",
+                    "Rail",
+                    "Ram",
+                    "Rat",
+                    "Raven",
+                    "Red deer",
+                    "Red panda",
+                    "Reindeer",
+                    "Rhinoceros",
+                    "Rook",
+                    "Salamander",
+                    "Salmon",
+                    "Sand Dollar",
+                    "Sandpiper",
+                    "Sardine",
+                    "Scorpion",
+                    "Seahorse",
+                    "Seal",
+                    "Shark",
+                    "Sheep",
+                    "Shrew",
+                    "Skunk",
+                    "Snail",
+                    "Snake",
+                    "Sparrow",
+                    "Spider",
+                    "Spoonbill",
+                    "Squid",
+                    "Squirrel",
+                    "Starling",
+                    "Stingray",
+                    "Stinkbug",
+                    "Stork",
+                    "Swallow",
+                    "Swan",
+                    "Tapir",
+                    "Tarsier",
+                    "Termite",
+                    "Tiger",
+                    "Toad",
+                    "Trout",
+                    "Turkey",
+                    "Turtle",
+                    "Viper",
+                    "Vulture",
+                    "Wallaby",
+                    "Walrus",
+                    "Wasp",
+                    "Weasel",
+                    "Whale",
+                    "Wildcat",
+                    "Wolf",
+                    "Wolverine",
+                    "Wombat",
+                    "Woodcock",
+                    "Woodpecker",
+                    "Worm",
+                    "Wren",
+                    "Yak",
+                    "Zebra"
+            ]
+            return capFirst(name1[getRandomInt(0, name1.length + 1)]) + getRandomInt(100,999);
+
+
+        }
+    </script>
+{% endblock %}
