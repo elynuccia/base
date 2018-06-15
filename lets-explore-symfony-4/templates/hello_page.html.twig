@@ -19,7 +19,10 @@
 
 
     {{ form_end(form) }}
+
     <table id="code" class="display" style="width:100%">  </table>
+    <div id="card"></div>
+    <button id="myButton" class="float-right submit-button" >Show QR Codes</button>
 {% endblock %}
 
 {% block javascripts %}
@@ -32,7 +35,8 @@
         jQuery(document).ready(function() {
 
             $var= $('#code_generator_number_of_codes');
-
+            var cards = [];
+            var names = [];
 
 
             $var.on('change', function(e) {
@@ -43,28 +47,145 @@
                     "            <tr>\n" +
                     "                <th>Code</th>\n" +
                     "                <th>Nickname</th>\n" +
+                    "                <th>QR Code</th>\n" +
                     "            </tr>\n" +
                     "        </thead>" +
                     "        <tbody id=\"body\"></tbody>";
-                for (var i = 0; i < e.currentTarget.value-1; i++) {
 
-                    $('#body').append( "<tr><td>" + randomString() + "</td> <td>" + generateName() + "</td></tr>");
+                for (var i = 0; i < e.currentTarget.value-1; i++) {
+                    var codice = randomString();
+                    var name= generateName();
+                    cards.push(codice);
+                    names.push(name);
+
+                    $('#body').append( "<tr><td>" + codice + "</td> <td>" + name + "</td> <td id='"+i+"' ></td></tr>" );
+
+                    $('#'+i).qrcode({
+                        // render method: 'canvas', 'image' or 'div'
+                        render: 'canvas',
+
+                        // version range somewhere in 1 .. 40
+                        minVersion: 1,
+                        maxVersion: 40,
+
+                        // error correction level: 'L', 'M', 'Q' or 'H'
+                        ecLevel: 'L',
+
+                        // offset in pixel if drawn onto existing canvas
+                        left: 0,
+                        top: 0,
+
+                        // size in pixel
+                        size: 50,
+
+                        // code color or image element
+                        fill: '#000',
+
+                        // background color or image element, null for transparent background
+                        background: null,
+
+                        // content
+                        text: codice,
+
+                        // corner radius relative to module width: 0.0 .. 0.5
+                        radius: 0,
+
+                        // quiet zone in modules
+                        quiet: 0,
+
+                        // modes
+                        // 0: normal
+                        // 1: label strip
+                        // 2: label box
+                        // 3: image strip
+                        // 4: image box
+                        mode: 0,
+
+                        mSize: 0.1,
+                        mPosX: 0.5,
+                        mPosY: 0.5,
+
+                        label: 'no label',
+                        fontname: 'sans',
+                        fontcolor: '#000',
+
+                        image: null
+                    }) ;
                 }
                 $('#code').append ("<tfoot>\n" +
                     "            <tr>\n" +
                     "                <th>Code</th>\n" +
                     "                <th>Nickname</th>\n" +
+                    "                <th>QR Code</th>\n" +
                     "            </tr>\n" +
                     "        </tfoot> ")
 
                 $('#code').DataTable( {
                     dom: 'Bfrtip',
                     buttons: [
-                        'pdfHtml5'
-                    ]
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5',
+                    ],
+                    destroy: true
                 } );
+
+
                 });
 
+            document.getElementById("myButton").onclick = function () {
+                $('#code').hide();
+                $('#myButton').hide();
+                for (var i=0; i!==cards.length; i++) {
+                    $('#card').append("<div id='" + cards[i] + "'></div>" );
+                    $('#' + cards[i]).qrcode({
+                        // render method: 'canvas', 'image' or 'div'
+                        render: 'canvas',
+
+                        // version range somewhere in 1 .. 40
+                        minVersion: 1,
+                        maxVersion: 40,
+
+                        // error correction level: 'L', 'M', 'Q' or 'H'
+                        ecLevel: 'L',
+
+                        // offset in pixel if drawn onto existing canvas
+                        left: 0,
+                        top: 0,
+
+                        // size in pixel
+                        size: 200,
+
+                        // code color or image element
+                        fill: '#000',
+
+                        // background color or image element, null for transparent background
+                        background: null,
+
+                        text: cards[i],
+                        radius: 0,
+                        quiet: 0,
+
+
+                        mode: 0,
+
+                        mSize: 0.1,
+                        mPosX: 0.5,
+                        mPosY: 0.5,
+
+                        label: 'no label',
+                        fontname: 'sans',
+                        fontcolor: '#000',
+
+                        image: null
+                    });
+                    $('#' + cards[i]).append(names[i]);
+
+                }
+                $('#card').append( "<button id=\"print\" class=\"float-right submit-button\" onclick=\"stampa()\">Print QR Codes</button>")
+
+            };
 
 
         });
@@ -257,14 +378,14 @@
                     "Ram",
                     "Rat",
                     "Raven",
-                    "Red deer",
-                    "Red panda",
+                    "Red_deer",
+                    "Red_panda",
                     "Reindeer",
                     "Rhinoceros",
                     "Rook",
                     "Salamander",
                     "Salmon",
-                    "Sand Dollar",
+                    "Sand_Dollar",
                     "Sandpiper",
                     "Sardine",
                     "Scorpion",
