@@ -56,9 +56,12 @@ class Contact
         // for a many-to-many association:
         $tag->addContact($this);
 
-        // for a many-to-one association:
-        $tag->setTask($this);
 
         $this->tags->add($tag);
+    }
+
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
     }
 }

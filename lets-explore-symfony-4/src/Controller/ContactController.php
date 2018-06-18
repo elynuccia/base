@@ -20,24 +20,26 @@ class ContactController extends AbstractController
     public function index(Request $request)
     {
         $contact = new Contact();
-
+/*
         $tag3 = new Tag();
         $tag3->setName('tag3');
         $contact->getTags()->add($tag3);
 
         $tag4=new Tag();
         $tag4->setName('ciao');
-        $contact->getTags()->add($tag4);
+        $contact->getTags()->add($tag4);*/
 
         $form = $this->createForm(ContactType::class, $contact);
+
+
         $form->handleRequest($request);
 
-
+/*
         if ($form->isSubmitted() && $form->isValid()) {
 
             $contactFormData = $form->getData();
             dump($contactFormData);
-        }
+        }*/
 
         return $this->render('contact/index.html.twig', array(
             //'our_form' => $form,

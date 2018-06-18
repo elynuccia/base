@@ -4,8 +4,10 @@
 
 {% block body %}
 
+    <div class="row">
         {{ form_start(form) }}
-        {{ form_widget(form)}}
+        {{ form_row(form.motto)}}
+        {{ form_row(form.expectations)}}
 
         <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
             {% for tag in form.tags %}
@@ -16,6 +18,7 @@
 
         <input type="submit" value="Send" class="btn btn-success" />
         {{ form_end(form) }}
+    </div>
 
 {% endblock %}
 
@@ -35,10 +38,10 @@
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
         $var.on('change', function(e) {
-            // prevent the link from creating a "#" on the URL
-            alert("onchange event");
-            //e.preventDefault();
 
+           // alert("onchange event");
+            //e.preventDefault();
+            $('ul.tags li').remove();
             for (var i = 0; i < e.currentTarget.value; i++) {
 
               addTagForm($collectionHolder);
@@ -73,6 +76,10 @@
 
         // increase the index with one for the next item
         $collectionHolder.data('index', index + 1);
+
+        var newFormLi = $('<li></li>').append(newForm);
+
+        $collectionHolder.append(newFormLi);
 
 
 

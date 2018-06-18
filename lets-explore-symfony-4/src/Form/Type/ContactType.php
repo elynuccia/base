@@ -31,9 +31,7 @@ $builder->add('tags', CollectionType::class, array(
     'entry_type' => TagType::class,
     'entry_options' => array('label' => false),
     'allow_add' => true,
-    'by_reference' => false,
-    'mapped' => false,
-
+    'by_reference' => false
 ));
            // ->add('Expectation_1')
            //->add('Expectation_2')

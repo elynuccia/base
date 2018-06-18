@@ -36,8 +36,7 @@ class Task
         // for a many-to-many association:
         $tag->addTask($this);
 
-        // for a many-to-one association:
-        $tag->setTask($this);
+
 
         $this->tags->add($tag);
     }
