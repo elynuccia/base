@@ -1,6 +1,6 @@
 body {
-    background-color: #d7d6d3;
-    font-family:'verdana';
+    /*background-color: #d7d6d3;
+    font-family:'verdana';*/
 }
 .id-card-holder {
     width: 225px;
@@ -9,6 +9,8 @@ body {
     background-color: #1f1f1f;
     border-radius: 5px;
     position: relative;
+    display: block;
+    float: left;
 }
 .id-card-holder:after {
     content: '';

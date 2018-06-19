@@ -15,9 +15,15 @@
                 </li>
             {% endfor %}
         </ul>
-
+        {{ form_row(form.locations)}}
+        <ul class="locationTags" data-prototype="{{ form_widget(form.locationTags.vars.prototype)|e('html_attr') }}">
+            {% for tag in form.locationTags %}
+                <li> {{ form_row(tag.name) }}
+                </li>
+            {% endfor %}
+        </ul>
         <input type="submit" value="Send" class="btn btn-success" />
-        {{ form_end(form) }}
+        {{ form_end(form, {'render_rest': false}) }}
     </div>
 
 {% endblock %}
@@ -26,16 +32,20 @@
     {{ parent () }}
 <script>
     var $collectionHolder;
+    var $collectionHolder2;
     var $var;
+    var $var2;
 
     $(document).ready( function() {
 
         $collectionHolder = $('ul.tags');
-        console.log($collectionHolder);
+        $collectionHolder2 = $('ul.locationTags');
 
         $var= $('#contact_expectations');
-        console.log($var);
+        $var2= $('#contact_locations');
+
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
 
         $var.on('change', function(e) {
 
@@ -47,6 +57,23 @@
               addTagForm($collectionHolder);
             }
             // add a new tag form (see next code block)
+
+
+            }
+
+
+        );
+
+        $var2.on('change', function(e) {
+
+                // alert("onchange event");
+                //e.preventDefault();
+                $('ul.locationTags li').remove();
+                for (var i = 0; i < e.currentTarget.value; i++) {
+
+                    addTagForm($collectionHolder2);
+                }
+                // add a new tag form (see next code block)
 
 
             }

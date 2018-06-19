@@ -25,6 +25,7 @@ class ContactType extends AbstractType
 
 
                 ),
+                'mapped' => false,
             ));
 
 $builder->add('tags', CollectionType::class, array(
@@ -32,11 +33,9 @@ $builder->add('tags', CollectionType::class, array(
     'entry_options' => array('label' => false),
     'allow_add' => true,
     'by_reference' => false
-));
-           // ->add('Expectation_1')
-           //->add('Expectation_2')
-           // ->add('Expectation_3')
-          /*  ->add('locations', ChoiceType::class, array(
+))
+
+            ->add('locations', ChoiceType::class, array(
                 'choices'  => array(
                     '1' => '1',
                     '2' => '2',
@@ -44,7 +43,16 @@ $builder->add('tags', CollectionType::class, array(
                     '4' => '4',
                     '5' => '5',
                 ),
+                'mapped' => false,
             ));
+
+
+    $builder->add('locationTags', CollectionType::class, array(
+        'entry_type' => TagType::class,
+        'entry_options' => array('label' => false),
+        'allow_add' => true,
+        'by_reference' => false
+    ));
 
 
            // ->add('Location_1')
@@ -52,16 +60,9 @@ $builder->add('tags', CollectionType::class, array(
             //->add('Location_3')
             //->add('Behavior_1-1')
 
-        $builder->add('tags2', CollectionType::class, array(
-            'entry_type' => TagType::class,
-            'entry_options' => array('label' => false),
-            'allow_add' => true,
-            'by_reference' => false,
-            'allow_extra_fields' => true,
 
-        ));
 
-*/
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

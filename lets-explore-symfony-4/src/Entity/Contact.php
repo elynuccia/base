@@ -20,7 +20,9 @@ class Contact
      * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
      */
     protected $tags;
-    protected $expectations;
+    protected $locationTags;
+
+
 
     public function __construct()
     {
@@ -37,15 +39,6 @@ class Contact
         $this->motto = $motto;
     }
 
-    public function getExpectations()
-    {
-        return $this->expectations;
-    }
-
-    public function setExpectations($expectations)
-    {
-        $this->expectations = $expectations;
-    }
 
     public function getTags()
     {
@@ -63,5 +56,24 @@ class Contact
     public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
+    }
+
+
+    public function getLocationTags()
+    {
+        return $this->locationTags;
+    }
+    public function addLocationTag(Tag $locationTag)
+    {
+        // for a many-to-many association:
+        $locationTag->addContact($this);
+
+
+        $this->locationTags->add($locationTag);
+    }
+
+    public function removeLocationTag(Tag $locationTag)
+    {
+        $this->locationTags->removeElement($locationTag);
     }
 }

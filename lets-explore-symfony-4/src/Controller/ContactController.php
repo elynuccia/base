@@ -34,12 +34,12 @@ class ContactController extends AbstractController
 
         $form->handleRequest($request);
 
-/*
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $contactFormData = $form->getData();
             dump($contactFormData);
-        }*/
+        }
 
         return $this->render('contact/index.html.twig', array(
             //'our_form' => $form,
