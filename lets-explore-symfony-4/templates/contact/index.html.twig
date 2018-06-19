@@ -4,27 +4,30 @@
 
 {% block body %}
 
-    <div class="row">
+    <div id="page" class="row">
         {{ form_start(form) }}
         {{ form_row(form.motto)}}
         {{ form_row(form.expectations)}}
 
-        <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+        <ul id="expectationTag" class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
             {% for tag in form.tags %}
                 <li> {{ form_row(tag.name) }}
                 </li>
             {% endfor %}
         </ul>
         {{ form_row(form.locations)}}
-        <ul class="locationTags" data-prototype="{{ form_widget(form.locationTags.vars.prototype)|e('html_attr') }}">
+        <ul id="locationTag" class="locationTags" data-prototype="{{ form_widget(form.locationTags.vars.prototype)|e('html_attr') }}">
             {% for tag in form.locationTags %}
                 <li> {{ form_row(tag.name) }}
                 </li>
             {% endfor %}
         </ul>
-        <input type="submit" value="Send" class="btn btn-success" />
+
         {{ form_end(form, {'render_rest': false}) }}
     </div>
+    <div id="newPage"></div>
+    <button id="matrixButton" type= "submit" class="float-right" >Send</button>
+
 
 {% endblock %}
 
@@ -33,55 +36,62 @@
 <script>
     var $collectionHolder;
     var $collectionHolder2;
+  //  var $collectionHolder3;
+
     var $var;
     var $var2;
+   // var $var3;
 
     $(document).ready( function() {
 
         $collectionHolder = $('ul.tags');
         $collectionHolder2 = $('ul.locationTags');
+       // $collectionHolder3 = $('ul.behaviorTags');
 
         $var= $('#contact_expectations');
         $var2= $('#contact_locations');
 
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
         $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
+//        $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
 
         $var.on('change', function(e) {
 
            // alert("onchange event");
-            //e.preventDefault();
             $('ul.tags li').remove();
             for (var i = 0; i < e.currentTarget.value; i++) {
 
               addTagForm($collectionHolder);
             }
-            // add a new tag form (see next code block)
 
-
-            }
-
-
-        );
+                                         }
+             );
 
         $var2.on('change', function(e) {
 
                 // alert("onchange event");
-                //e.preventDefault();
                 $('ul.locationTags li').remove();
-                for (var i = 0; i < e.currentTarget.value; i++) {
 
+                for (var i = 0; i < e.currentTarget.value; i++) {
                     addTagForm($collectionHolder2);
                 }
-                // add a new tag form (see next code block)
+                                        }
+                );
+
+        document.getElementById("matrixButton").onclick = function () {
+            $('#page').hide();
+            var nexpectations = document.getElementById("expectationTag").childElementCount;
+            var nlocations= document.getElementById("locationTag").childElementCount;
+            for (var i=0; i<nexpectations; i++)
+            $('#newPage').append($('#contact_tags_'+i+'_name').val() + "    ");
+
+            for (var j=0; j<nlocations; j++)
+                $('#newPage').append($('#contact_locationTags_'+j+'_name').val() + "    ");
+
+        }
 
 
-            }
-
-
-        );
-
-    });
+        });
 
     function addTagForm($collectionHolder) {
 

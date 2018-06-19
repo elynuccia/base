@@ -21,13 +21,17 @@ class Contact
      */
     protected $tags;
     protected $locationTags;
+    //protected $behaviorTags;
 
 
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->locationTags = new ArrayCollection();
+        $this->behaviorTags = new ArrayCollection();
     }
+
 
     public function getMotto()
     {
@@ -76,4 +80,23 @@ class Contact
     {
         $this->locationTags->removeElement($locationTag);
     }
+
+/*
+    public function getBehaviorTags()
+    {
+        return $this->behaviorTags;
+    }
+    public function addBehaviorTags(Tag $behaviorTags)
+    {
+        // for a many-to-many association:
+        $behaviorTags->addContact($this);
+
+
+        $this->behaviorTags->add($behaviorTags);
+    }
+
+    public function removeBehaviorTags(Tag $behaviorTags)
+    {
+        $this->behaviorTags->removeElement($behaviorTags);
+    }*/
 }

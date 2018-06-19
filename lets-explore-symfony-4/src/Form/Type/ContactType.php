@@ -55,20 +55,13 @@ $builder->add('tags', CollectionType::class, array(
     ));
 
 
-           // ->add('Location_1')
-            //->add('Location_2')
-            //->add('Location_3')
-            //->add('Behavior_1-1')
-
-
-
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'csrf_protection' => false,
         ]);
     }
 }
