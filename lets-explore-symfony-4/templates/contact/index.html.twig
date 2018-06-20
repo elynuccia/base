@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Our Contact Form{% endblock title %}
+{% block title %}Matrix of Expectations{% endblock title %}
 
 {% block body %}
 
@@ -25,7 +25,7 @@
 
         {{ form_end(form, {'render_rest': false}) }}
     </div>
-    <div id="newPage"></div>
+    <div id="newPage" class="cont"></div>
     <button id="matrixButton" type= "submit" class="float-right" >Send</button>
 
 
@@ -80,18 +80,71 @@
 
         document.getElementById("matrixButton").onclick = function () {
             $('#page').hide();
+            $('#matrixButton').hide();
             var nexpectations = document.getElementById("expectationTag").childElementCount;
             var nlocations= document.getElementById("locationTag").childElementCount;
-            for (var i=0; i<nexpectations; i++)
-            $('#newPage').append($('#contact_tags_'+i+'_name').val() + "    ");
 
-            for (var j=0; j<nlocations; j++)
-                $('#newPage').append($('#contact_locationTags_'+j+'_name').val() + "    ");
+            $('#newPage').append("<h1>" + $('#contact_motto').val() + "</h1>");
+            $('#newPage').append("<table id= 'tab' class 'table'>" +
+                "<tr id= \"row\">" +
+                "<td>Expectations& Locations   </td>" +
+                "</tr>" +
+                "<tr id= \"column\">" +
+                "</tr>" +
+                "</table>");
+
+           for (var i=0; i<nexpectations; i++)
+              $('#row').append("<td>" + $('#contact_tags_'+i+'_name').val() + "</td>");
+           for (var j=0; j<nlocations; j++) {
+               $('#tab').append("<tr id= '"+j+"'><td>" + $('#contact_locationTags_'+j+'_name').val()+ "</td>" );
+                for (var k=0; k<nexpectations; k++)
+                    $('#'+j).append("<td > <input id='testo" + k + j + "' type= 'text'> </td>");
+               $('#tab').append("</tr>");
+           }
+
+            $('#newPage').append("<button id='matrixButton2' type='button' class=\"btn btn-primary md\" > Send </button>");
+            document.getElementById("matrixButton2").onclick = function () {
+
+                $('#matrixButton').hide();
+                for (var j=0; j<nlocations; j++) {
+                    for (var k = 0; k < nexpectations; k++)
+                        document.getElementById("testo" + k + j).parentElement.innerHTML = $('#testo' + k + j).val();
+
+                }
+                $('#matrixButton2').hide();
+                $('#newPage').append("<button id='printButton' type='button' class=\"btn btn-primary md\" > print </button>");
+                document.getElementById("printButton").onclick = function () {
+                    $('#printButton').hide();
+                    printElem("newPage");
+
+                }
+            }
+
 
         }
 
 
+
         });
+
+    function printElem(elem)
+    {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + document.title  + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
 
     function addTagForm($collectionHolder) {
 
