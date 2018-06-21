@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    <!--suppress ALL -->
     <div id="page" class="row">
         {{ form_start(form) }}
         {{ form_row(form.motto)}}
@@ -33,147 +34,154 @@
 
 {% block javascripts %}
     {{ parent () }}
-<script>
-    var $collectionHolder;
-    var $collectionHolder2;
-  //  var $collectionHolder3;
+    <script>
+        var $collectionHolder;
+        var $collectionHolder2;
+        //  var $collectionHolder3;
 
-    var $var;
-    var $var2;
-   // var $var3;
+        var $var;
+        var $var2;
+        // var $var3;
 
-    $(document).ready( function() {
+        $(document).ready( function() {
 
-        $collectionHolder = $('ul.tags');
-        $collectionHolder2 = $('ul.locationTags');
-       // $collectionHolder3 = $('ul.behaviorTags');
+            $collectionHolder = $('ul.tags');
+            $collectionHolder2 = $('ul.locationTags');
+            // $collectionHolder3 = $('ul.behaviorTags');
 
-        $var= $('#contact_expectations');
-        $var2= $('#contact_locations');
+            $var= $('#contact_expectations');
+            $var2= $('#contact_locations');
 
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
-        $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
 //        $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
 
-        $var.on('change', function(e) {
+            $var.on('change', function(e) {
 
-           // alert("onchange event");
-            $('ul.tags li').remove();
-            for (var i = 0; i < e.currentTarget.value; i++) {
+                    // alert("onchange event");
+                    $('ul.tags li').remove();
+                    for (var i = 0; i < e.currentTarget.value; i++) {
 
-              addTagForm($collectionHolder);
-            }
+                        addTagForm($collectionHolder);
+                    }
 
-                                         }
-             );
-
-        $var2.on('change', function(e) {
-
-                // alert("onchange event");
-                $('ul.locationTags li').remove();
-
-                for (var i = 0; i < e.currentTarget.value; i++) {
-                    addTagForm($collectionHolder2);
                 }
-                                        }
-                );
+            );
 
-        document.getElementById("matrixButton").onclick = function () {
-            $('#page').hide();
-            $('#matrixButton').hide();
-            var nexpectations = document.getElementById("expectationTag").childElementCount;
-            var nlocations= document.getElementById("locationTag").childElementCount;
+            $var2.on('change', function(e) {
 
-            $('#newPage').append("<h1>" + $('#contact_motto').val() + "</h1>");
-            $('#newPage').append("<table id= 'tab' class 'table'>" +
-                "<tr id= \"row\">" +
-                "<td>Expectations& Locations   </td>" +
-                "</tr>" +
-                "<tr id= \"column\">" +
-                "</tr>" +
-                "</table>");
+                    // alert("onchange event");
+                    $('ul.locationTags li').remove();
 
-           for (var i=0; i<nexpectations; i++)
-              $('#row').append("<td>" + $('#contact_tags_'+i+'_name').val() + "</td>");
-           for (var j=0; j<nlocations; j++) {
-               $('#tab').append("<tr id= '"+j+"'><td>" + $('#contact_locationTags_'+j+'_name').val()+ "</td>" );
-                for (var k=0; k<nexpectations; k++)
-                    $('#'+j).append("<td > <input id='testo" + k + j + "' type= 'text'> </td>");
-               $('#tab').append("</tr>");
-           }
+                    for (var i = 0; i < e.currentTarget.value; i++) {
+                        addTagForm($collectionHolder2);
+                    }
+                }
+            );
 
-            $('#newPage').append("<button id='matrixButton2' type='button' class=\"btn btn-primary md\" > Send </button>");
-            document.getElementById("matrixButton2").onclick = function () {
-
+            document.getElementById("matrixButton").onclick = function () {
+                $('#page').hide();
                 $('#matrixButton').hide();
+                var nexpectations = document.getElementById("expectationTag").childElementCount;
+                var nlocations= document.getElementById("locationTag").childElementCount;
+
+                $('#newPage').append("<h1>" + $('#contact_motto').val() + "</h1>");
+                $('#newPage').append("<br/><table id='tab' border=\"1\" cellpadding=\"3\" class='table'>" +
+                    "<tr id= \"row\">" +
+                    "<td>Expectations& Locations   </td>" +
+                    "</tr>" +
+                    "<tr id= \"column\">" +
+                    "</tr>" +
+                    "</table>");
+
+                for (var i=0; i<nexpectations; i++)
+                    $('#row').append("<td>" + $('#contact_tags_'+i+'_name').val() + "</td>");
                 for (var j=0; j<nlocations; j++) {
-                    for (var k = 0; k < nexpectations; k++)
-                        document.getElementById("testo" + k + j).parentElement.innerHTML = $('#testo' + k + j).val();
+                    $('#tab').append("<tr id= '"+j+"'><td>" + $('#contact_locationTags_'+j+'_name').val()+ "</td>" );
+                    for (var k=0; k<nexpectations; k++) {
+                        $('#' + j).append("<td > <button class='addButton'>+</button> <input class='inputs testo" + k + j + "' type= 'text'>"
+                        +" </td>");
+                    }
+
+                    $('#tab').append("</tr>");
 
                 }
-                $('#matrixButton2').hide();
-                $('#newPage').append("<button id='printButton' type='button' class=\"btn btn-primary md\" > print </button>");
-                document.getElementById("printButton").onclick = function () {
-                    $('#printButton').hide();
-                    printElem("newPage");
+                $('.addButton').on('click', function () {
 
+                    $(this).parent("td").append("<input class='"+ $(this).next().attr('class') + "' type= 'text'>");
+
+                });
+
+                $('#newPage').append("<button id='matrixButton2' type='button' class=\"btn btn-primary md\" > Send </button>");
+                document.getElementById("matrixButton2").onclick = function () {
+                    $('#matrixButton').hide();
+                    for (var j=0; j<nlocations; j++) {
+                        for (var k = 0; k < nexpectations; k++) {
+                            var array = document.getElementsByClassName("testo" + k + j);
+                            console.log(array);
+                            var tot= "";
+                            for(var z=0; z<array.length; z++) {
+                                tot= tot + "<br/>" + array[z].value;
+
+
+                            }
+
+                            array[0].parentElement.innerHTML = tot;
+                        }
+                    }
+                    $('#matrixButton2').hide();
+                    $('#newPage').append("<button id='printButton' type='button' class=\"btn btn-primary md\" > print </button>");
+                    document.getElementById("printButton").onclick = function () {
+                        $('#printButton').hide();
+                        printData();
+
+                    }
                 }
+
+
             }
-
-
-        }
 
 
 
         });
 
-    function printElem(elem)
-    {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+        function printData()
+        {
+            var divToPrint=document.getElementById("tab");
+            newWin= window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.print();
+            newWin.close();
+        }
 
-        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write('<h1>' + document.title  + '</h1>');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
-        mywindow.document.write('</body></html>');
+        function addTagForm($collectionHolder) {
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
 
-        mywindow.print();
-        mywindow.close();
+            // get the new index
+            var index = $collectionHolder.data('index');
 
-        return true;
-    }
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
 
-    function addTagForm($collectionHolder) {
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
 
-        // Get the data-prototype explained earlier
-        var prototype = $collectionHolder.data('prototype');
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
 
-        // get the new index
-        var index = $collectionHolder.data('index');
+            var newFormLi = $('<li></li>').append(newForm);
 
-        var newForm = prototype;
-        // You need this only if you didn't set 'label' => false in your tags field in TaskType
-        // Replace '__name__label__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        // newForm = newForm.replace(/__name__label__/g, index);
-
-        // Replace '__name__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        newForm = newForm.replace(/__name__/g, index);
-
-        // increase the index with one for the next item
-        $collectionHolder.data('index', index + 1);
-
-        var newFormLi = $('<li></li>').append(newForm);
-
-        $collectionHolder.append(newFormLi);
+            $collectionHolder.append(newFormLi);
 
 
 
-    }
+        }
 
-</script>
+    </script>
 {% endblock %}

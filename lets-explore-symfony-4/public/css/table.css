@@ -1,13 +1,7 @@
-#tab {
 
-}
 
 th, td {
     height: 50px;
     width: 50px;
 }
 
-#tab, th, td {
-
-    border: 1px solid black;
-}
