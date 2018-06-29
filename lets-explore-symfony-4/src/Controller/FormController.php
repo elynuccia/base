@@ -12,18 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 class FormController extends AbstractController
 {
     /**
-     * @Route("/form", name="form")
+     * @Route("/bootstrap2", name="bootstrap2")
      */
-    public function index(Request $request)
+    public function index()
     {
 
-        $form = $this->createForm(ShippingType::class);
-        $form->handleRequest($request);
 
-
-        return $this->render('form/fields.html.twig', [
-            'form' => $form,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('form/fields.html.twig');
     }
 }
