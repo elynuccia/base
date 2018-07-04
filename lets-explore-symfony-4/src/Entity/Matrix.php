@@ -29,16 +29,16 @@ class Matrix
      */
     protected $motto;
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App/Entity/Tag", cascade={"persist"})
      */
     protected $expectationTags;
     /**
-     *@ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
+     *@ORM\ManyToMany(targetEntity="App/Entity/Tag", cascade={"persist"})
      */
     protected $locationTags;
 
     /**
-     *@ORM\OneToMany(targetEntity="matrixBehavior", mappedBy="matrix")
+     *@ORM\OneToMany(targetEntity="App/Entity/MatrixBehavior", mappedBy="Matrix")
      */
     protected $behaviors;
 
