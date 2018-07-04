@@ -10,8 +10,8 @@
         {{ form_row(form.motto)}}
         {{ form_row(form.expectations)}}
 
-        <ul id="expectationTag" class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
-            {% for tag in form.tags %}
+        <ul id="expectationTag" class="expectationTags" data-prototype="{{ form_widget(form.expectationTags.vars.prototype)|e('html_attr') }}">
+            {% for tag in form.expectationTags %}
                 <li> {{ form_row(tag.name) }}
                 </li>
             {% endfor %}
@@ -45,12 +45,12 @@
 
         $(document).ready( function() {
 
-            $collectionHolder = $('ul.tags');
+            $collectionHolder = $('ul.expectationTags');
             $collectionHolder2 = $('ul.locationTags');
             // $collectionHolder3 = $('ul.behaviorTags');
 
-            $var= $('#contact_expectations');
-            $var2= $('#contact_locations');
+            $var= $('#matrix_expectations');
+            $var2= $('#matrix_locations');
 
             $collectionHolder.data('index', $collectionHolder.find(':input').length);
             $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
@@ -59,7 +59,7 @@
             $var.on('change', function(e) {
 
                     // alert("onchange event");
-                    $('ul.tags li').remove();
+                    $('ul.expectationTags li').remove();
                     for (var i = 0; i < e.currentTarget.value; i++) {
 
                         addTagForm($collectionHolder);
@@ -85,7 +85,7 @@
                 var nexpectations = document.getElementById("expectationTag").childElementCount;
                 var nlocations= document.getElementById("locationTag").childElementCount;
 
-                $('#newPage').append("<h1>" + $('#contact_motto').val() + "</h1>");
+                $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
                 $('#newPage').append("<br/><table id='tab' border=\"1\" cellpadding=\"3\" class='table'>" +
                     "<tr id= \"row\">" +
                     "<td>Expectations& Locations   </td>" +
@@ -95,9 +95,9 @@
                     "</table>");
 
                 for (var i=0; i<nexpectations; i++)
-                    $('#row').append("<td>" + $('#contact_tags_'+i+'_name').val() + "</td>");
+                    $('#row').append("<td>" + $('#matrix_expectationTags_'+i+'_name').val() + "</td>");
                 for (var j=0; j<nlocations; j++) {
-                    $('#tab').append("<tr id= '"+j+"'><td>" + $('#contact_locationTags_'+j+'_name').val()+ "</td>" );
+                    $('#tab').append("<tr id= '"+j+"'><td>" + $('#matrix_locationTags_'+j+'_name').val()+ "</td>" );
                     for (var k=0; k<nexpectations; k++) {
                         $('#' + j).append("<td > <button class='addButton'>+</button> <input class='inputs testo" + k + j + "' type= 'text'>"
                         +" </td>");

@@ -11,23 +11,42 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Contact
-{    /**
+/**
+ * @ORM\Entity()
+ */
+class Matrix
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
     * @Assert\NotBlank()
-    */
+     * @ORM\Column(type="string", length=255)
+     */
     protected $motto;
     /**
      * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
      */
-    protected $tags;
+    protected $expectationTags;
+    /**
+     *@ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
+     */
     protected $locationTags;
-    //protected $behaviorTags;
+
+    /**
+     *@ORM\OneToMany(targetEntity="matrixBehavior", mappedBy="matrix")
+     */
+    protected $behaviors;
 
 
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
+        $this->expectationTags = new ArrayCollection();
         $this->locationTags = new ArrayCollection();
         $this->behaviorTags = new ArrayCollection();
     }
@@ -44,22 +63,22 @@ class Contact
     }
 
 
-    public function getTags()
+    public function getExpectationTags()
     {
-        return $this->tags;
+        return $this->expectationTags;
     }
-    public function addTag(Tag $tag)
+    public function addExpectationTag(Tag $expectationTag)
     {
         // for a many-to-many association:
-        $tag->addContact($this);
+        $expectationTag->addMatrix($this);
 
 
-        $this->tags->add($tag);
+        $this->expectationTags->add($expectationTag);
     }
 
-    public function removeTag(Tag $tag)
+    public function removeTag(Tag $expectationTag)
     {
-        $this->tags->removeElement($tag);
+        $this->expectationTags->removeElement($expectationTag);
     }
 
 
@@ -70,7 +89,7 @@ class Contact
     public function addLocationTag(Tag $locationTag)
     {
         // for a many-to-many association:
-        $locationTag->addContact($this);
+        $locationTag->addMatrix($this);
 
 
         $this->locationTags->add($locationTag);

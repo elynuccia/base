@@ -2,34 +2,33 @@
 
 namespace App\Controller;
 
-use App\Form\Type\ContactType;
+use App\Form\Type\MatrixType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Tag;
 use App\Entity\Task;
-use App\Entity\Contact;
+use App\Entity\Matrix;
 use App\Form\Type\TaskType;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ContactController extends AbstractController
+class MatrixController extends AbstractController
 {
     /**
      * @Route("/matrix", name="matrix")
      */
     public function index(Request $request)
     {
-        $contact = new Contact();
+        $contact = new Matrix();
 /*
         $tag3 = new Tag();
         $tag3->setName('tag3');
-        $contact->getTags()->add($tag3);
+        $matrix->getTags()->add($tag3);
 
         $tag4=new Tag();
         $tag4->setName('ciao');
-        $contact->getTags()->add($tag4);*/
+        $matrix->getTags()->add($tag4);*/
 
-        $form = $this->createForm(ContactType::class, $contact);
+        $form = $this->createForm(MatrixType::class, $contact);
 
 
         $form->handleRequest($request);
@@ -41,7 +40,7 @@ class ContactController extends AbstractController
             dump($contactFormData);
         }
 
-        return $this->render('contact/index.html.twig', array(
+        return $this->render('matrix/index.html.twig', array(
             //'our_form' => $form,
         'form' => $form->createView(),
         ));

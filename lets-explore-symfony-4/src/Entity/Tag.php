@@ -14,14 +14,14 @@ class Tag
     private $tasks;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Contact", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Matrix", cascade={"persist"})
      */
-    private $contacts;
+    private $matrixes;
 
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
-        $this->contacts = new ArrayCollection();
+        $this->matrixes = new ArrayCollection();
     }
 
     public function getName()
@@ -41,10 +41,10 @@ class Tag
         }
     }
 
-    public function addContact(Contact $contact)
+    public function addMatrix(Matrix $matrix)
     {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts->add($contact);
+        if (!$this->matrixes->contains($matrix)) {
+            $this->matrixes->add($matrix);
         }
     }
 }

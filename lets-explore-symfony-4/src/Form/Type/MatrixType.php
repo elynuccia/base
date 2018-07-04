@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class ContactType extends AbstractType
+class MatrixType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,7 +28,7 @@ class ContactType extends AbstractType
                 'mapped' => false,
             ));
 
-$builder->add('tags', CollectionType::class, array(
+$builder->add('expectationTags', CollectionType::class, array(
     'entry_type' => TagType::class,
     'entry_options' => array('label' => false),
     'allow_add' => true,
