@@ -29,16 +29,16 @@ class Matrix
      */
     protected $motto;
     /**
-     * @ORM\ManyToMany(targetEntity="App/Entity/Tag", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ExpectationTag", mappedBy="matrix", cascade={"persist"})
      */
     protected $expectationTags;
     /**
-     *@ORM\ManyToMany(targetEntity="App/Entity/Tag", cascade={"persist"})
+     *@ORM\OneToMany(targetEntity="LocationTag", mappedBy="matrix", cascade={"persist"})
      */
     protected $locationTags;
 
     /**
-     *@ORM\OneToMany(targetEntity="App/Entity/MatrixBehavior", mappedBy="Matrix")
+     *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix")
      */
     protected $behaviors;
 
@@ -51,6 +51,11 @@ class Matrix
         $this->behaviorTags = new ArrayCollection();
     }
 
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function getMotto()
     {
@@ -67,18 +72,24 @@ class Matrix
     {
         return $this->expectationTags;
     }
-    public function addExpectationTag(Tag $expectationTag)
+
+    public function addExpectationTag(ExpectationTag $expectationTag)
     {
-        // for a many-to-many association:
-        $expectationTag->addMatrix($this);
+      if(!$this->expectationTags->contains($expectationTag)) {
+          $this->expectationTags[] = $expectationTag;
+          $expectationTag->setMatrix($this);
 
-
-        $this->expectationTags->add($expectationTag);
+      }
     }
 
-    public function removeTag(Tag $expectationTag)
+    public function removeTag(ExpectationTag $expectationTag)
     {
-        $this->expectationTags->removeElement($expectationTag);
+        if (!$this->expectationTags->contains($expectationTag)) {
+            $this->expectationTags->removeElement($expectationTag);
+            if ($expectationTag->getMatrix()=== $this) {
+                $expectationTag->setMatrix(null);
+            }
+        }
     }
 
 
@@ -86,18 +97,23 @@ class Matrix
     {
         return $this->locationTags;
     }
-    public function addLocationTag(Tag $locationTag)
+    public function addLocationTag(LocationTag $locationTag)
     {
-        // for a many-to-many association:
-        $locationTag->addMatrix($this);
+        if(!$this->locationTags->contains($locationTag)) {
+            $this->locationTags[] = $locationTag;
+            $locationTag->setMatrix($this);
 
-
-        $this->locationTags->add($locationTag);
+        }
     }
 
-    public function removeLocationTag(Tag $locationTag)
+    public function removeLocationTag(LocationTag $locationTag)
     {
-        $this->locationTags->removeElement($locationTag);
+        if (!$this->locationTags->contains($locationTag)) {
+            $this->locationTags->removeElement($locationTag);
+            if ($locationTag->getMatrix()=== $this) {
+                $locationTag->setMatrix(null);
+            }
+        }
     }
 
 /*

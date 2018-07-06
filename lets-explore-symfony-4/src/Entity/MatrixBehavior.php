@@ -25,7 +25,7 @@ class MatrixBehavior
     private $id;
 
     /**
-     *@ORM\ManyToOne(targetEntity="App/Entity/Matrix", mappedBy="MatrixBehavior")
+     *@ORM\ManyToOne(targetEntity="Matrix", inversedBy="behaviors")
      */
     protected $matrix;
 
@@ -36,12 +36,12 @@ class MatrixBehavior
     protected $behavior;
 
     /**
-     *@ORM\ManyToOne(targetEntity="App/Entity/Matrix", inversedBy="expectationsTags")
+     *@ORM\ManyToOne(targetEntity="ExpectationTag")
      */
     protected $expectation;
 
     /**
-     *@ORM\ManyToOne(targetEntity="App/Entity/Matrix", inversedBy="locationsTags")
+     *@ORM\ManyToOne(targetEntity="LocationTag")
      */
     protected $location;
 
