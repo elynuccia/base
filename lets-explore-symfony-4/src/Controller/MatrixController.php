@@ -6,8 +6,10 @@ use App\Form\Type\MatrixType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Task;
 use App\Entity\Matrix;
+use App\Form\Handler\MatrixFormHandler;
 use App\Form\Type\TaskType;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -16,9 +18,9 @@ class MatrixController extends AbstractController
     /**
      * @Route("/matrix", name="matrix")
      */
-    public function index(Request $request)
+    public function index(Request $request, MatrixFormHandler $formHandler)
     {
-        $contact = new Matrix();
+        $matrix = new Matrix();
 /*
         $tag3 = new Tag();
         $tag3->setName('tag3');
@@ -28,20 +30,14 @@ class MatrixController extends AbstractController
         $tag4->setName('ciao');
         $matrix->getTags()->add($tag4);*/
 
-        $form = $this->createForm(MatrixType::class, $contact);
+        $form = $this->createForm(MatrixType::class, $matrix);
 
-
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $contactFormData = $form->getData();
-            dump($contactFormData);
+        if($formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('matrix'));
         }
 
+
         return $this->render('matrix/index.html.twig', array(
-            //'our_form' => $form,
         'form' => $form->createView(),
         ));
     }
@@ -49,42 +45,57 @@ class MatrixController extends AbstractController
     public function edit($id, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $task = $entityManager->getRepository(Task::class)->find($id);
+        $matrix = $entityManager->getRepository(Matrix::class)->find($id);
 
-        if (!$task) {
+        if (!$matrix) {
             throw $this->createNotFoundException('No task found for id '.$id);
         }
 
         $originalTags = new ArrayCollection();
 
         // Create an ArrayCollection of the current Tag objects in the database
-        foreach ($task->getTags() as $tag) {
-            $originalTags->add($tag);
+        foreach ($matrix->getExpectationTags() as $expectationTag) {
+            $originalTags->add($expectationTag);
         }
 
-        $editForm = $this->createForm(TaskType::class, $task);
+        foreach ($matrix->getLocationTags() as $locationTag) {
+            $originalTags->add($locationTag);
+        }
+
+        $editForm = $this->createForm(TaskType::class, $matrix);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
 
             // remove the relationship between the tag and the Task
-            foreach ($originalTags as $tag) {
-                if (false === $task->getTags()->contains($tag)) {
-                    // remove the Task from the Tag
-                    $tag->getTasks()->removeElement($task);
+            foreach ($originalTags as $expectationTag) {
+                if (false === $matrix->getExpectationTags()->contains($expectationTag)) {
+
 
                     // if it was a many-to-one relationship, remove the relationship like this
-                    // $tag->setTask(null);
+                    $expectationTag->setExpectationTask(null);
 
-                    $entityManager->persist($tag);
+                    $entityManager->persist($expectationTag);
 
                     // if you wanted to delete the Tag entirely, you can also do that
                     // $entityManager->remove($tag);
                 }
             }
+            foreach ($originalTags as $locationTag) {
+                if (false === $matrix->getLocationTags()->contains($locationTag)) {
 
-            $entityManager->persist($task);
+
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    $locationTag->setTask(null);
+
+                    $entityManager->persist($locationTag);
+
+                    // if you wanted to delete the Tag entirely, you can also do that
+                    // $entityManager->remove($tag);
+                }
+            }
+            $entityManager->persist($matrix);
             $entityManager->flush();
 
             // redirect back to some edit page
@@ -92,6 +103,18 @@ class MatrixController extends AbstractController
         }
 
         // render some form template
+        $matrix = new Matrix();
+
+
+        $form = $this->createForm(MatrixType::class, $matrix);
+
+
+
+        return $this->render('matrix/index.html.twig', array(
+            //'our_form' => $form,
+            'form' => $form->createView(),
+        ));
+
     }
 
 

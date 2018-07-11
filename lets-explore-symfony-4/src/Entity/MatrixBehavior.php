@@ -41,6 +41,86 @@ class MatrixBehavior
     protected $expectation;
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMatrix()
+    {
+        return $this->matrix;
+    }
+
+    /**
+     * @param mixed $matrix
+     */
+    public function setMatrix($matrix): void
+    {
+        $this->matrix = $matrix;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBehavior()
+    {
+        return $this->behavior;
+    }
+
+    /**
+     * @param mixed $behavior
+     */
+    public function setBehavior($behavior): void
+    {
+        $this->behavior = $behavior;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpectation()
+    {
+        return $this->expectation;
+    }
+
+    /**
+     * @param mixed $expectation
+     */
+    public function setExpectation($expectation): void
+    {
+        $this->expectation = $expectation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     */
+    public function setLocation($location): void
+    {
+        $this->location = $location;
+    }
+
+    /**
      *@ORM\ManyToOne(targetEntity="LocationTag")
      */
     protected $location;
