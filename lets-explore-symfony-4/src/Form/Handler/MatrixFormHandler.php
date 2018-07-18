@@ -37,12 +37,23 @@ class MatrixFormHandler
 
     public function handle(FormInterface $form, Request $request)
     {
+        if (!$request->isMethod('POST')) {
+            return false;
+        }
+
+
+
         $form->handleRequest($request);
+
+        if (!$form->isValid()) {
+            return false;
+        }
 
         //$validObject = $form->getData();
        // $this->create($validObject);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()
+        ) {
             $matrixFormData = $form->getData();
             dump($matrixFormData);
         }

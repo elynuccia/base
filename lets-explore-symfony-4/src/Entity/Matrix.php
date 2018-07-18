@@ -40,7 +40,7 @@ class Matrix
     /**
      *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix")
      */
-    protected $behaviors;
+    protected $behaviorTags;
 
 
 
@@ -82,7 +82,7 @@ class Matrix
       }
     }
 
-    public function removeTag(ExpectationTag $expectationTag)
+    public function removeExpectationTag(ExpectationTag $expectationTag)
     {
         if (!$this->expectationTags->contains($expectationTag)) {
             $this->expectationTags->removeElement($expectationTag);
@@ -116,22 +116,29 @@ class Matrix
         }
     }
 
-/*
     public function getBehaviorTags()
     {
         return $this->behaviorTags;
     }
-    public function addBehaviorTags(Tag $behaviorTags)
+
+    public function addBehaviorTag(BehaviorTag $behaviorTag)
     {
-        // for a many-to-many association:
-        $behaviorTags->addContact($this);
+        if(!$this->behaviorTags->contains($behaviorTag)) {
+            $this->behaviorTags[] = $behaviorTag;
+            $behaviorTag->setMatrix($this);
 
-
-        $this->behaviorTags->add($behaviorTags);
+        }
     }
 
-    public function removeBehaviorTags(Tag $behaviorTags)
+    public function removeBehaviorTag(BehaviorTag $behaviorTag)
     {
-        $this->behaviorTags->removeElement($behaviorTags);
-    }*/
+        if (!$this->behaviorTags->contains($behaviorTag)) {
+            $this->behaviorTags->removeElement($behaviorTag);
+            if ($behaviorTag->getMatrix()=== $this) {
+                $behaviorTag->setMatrix(null);
+            }
+        }
+    }
+
+
 }

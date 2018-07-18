@@ -25,20 +25,27 @@ class MatrixBehavior
     private $id;
 
     /**
-     *@ORM\ManyToOne(targetEntity="Matrix", inversedBy="behaviors")
+     *@ORM\ManyToOne(targetEntity="Matrix", inversedBy="behaviorTags")
      */
     protected $matrix;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     *
      */
+
     protected $behavior;
 
     /**
      *@ORM\ManyToOne(targetEntity="ExpectationTag")
      */
     protected $expectation;
+
+    /**
+     *@ORM\ManyToOne(targetEntity="LocationTag")
+     */
+    protected $location;
 
     /**
      * @return mixed
@@ -120,9 +127,6 @@ class MatrixBehavior
         $this->location = $location;
     }
 
-    /**
-     *@ORM\ManyToOne(targetEntity="LocationTag")
-     */
-    protected $location;
+
 
 }

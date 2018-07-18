@@ -24,10 +24,22 @@
             {% endfor %}
         </ul>
 
+        <ul id="behaviorTag" class="behaviorTags" data-prototype="{{ form_widget(form.behaviorTags.vars.prototype)|e('html_attr') }}">
+            {% for tag in form.behaviorTags %}
+                <li> {{ form_row(tag.name) }}
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        {{ form_row(form.submit)}}
+
         {{ form_end(form, {'render_rest': false}) }}
     </div>
     <div id="newPage" class="cont"></div>
-    <button id="matrixButton" type= "submit" class="float-right" >Send</button>
+
+
+<!--  <button id="matrixButton" type= "submit" class="float-right" >Send</button> -->
 
 
 {% endblock %}
@@ -37,95 +49,85 @@
     <script>
         var $collectionHolder;
         var $collectionHolder2;
-        //  var $collectionHolder3;
+        var $collectionHolder3;
 
         var $var;
         var $var2;
         // var $var3;
-
         $(document).ready( function() {
-
             $collectionHolder = $('ul.expectationTags');
             $collectionHolder2 = $('ul.locationTags');
-            // $collectionHolder3 = $('ul.behaviorTags');
+            $collectionHolder3 = $('ul.behaviorTags');
 
             $var= $('#matrix_expectations');
             $var2= $('#matrix_locations');
 
             $collectionHolder.data('index', $collectionHolder.find(':input').length);
             $collectionHolder2.data('index', $collectionHolder2.find(':input').length);
-//        $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
+            $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
+
 
             $var.on('change', function(e) {
-
                     // alert("onchange event");
                     $('ul.expectationTags li').remove();
                     for (var i = 0; i < e.currentTarget.value; i++) {
-
                         addTagForm($collectionHolder);
                     }
-
                 }
             );
-
             $var2.on('change', function(e) {
-
                     // alert("onchange event");
                     $('ul.locationTags li').remove();
-
                     for (var i = 0; i < e.currentTarget.value; i++) {
                         addTagForm($collectionHolder2);
                     }
                 }
             );
-
-            document.getElementById("matrixButton").onclick = function () {
+            document.getElementById("matrixButton_test").onclick = function () {
                 $('#page').hide();
                 $('#matrixButton').hide();
-
                 var nexpectations = document.getElementById("expectationTag").childElementCount;
                 var nlocations= document.getElementById("locationTag").childElementCount;
+
                 var counter=0;
                 var counter2=0;
-               /* for (var i=0; i<nexpectations; i++)
-                    $('#newPage').append("<div>" + $('#matrix_expectationTags_'+i+'_name').val() + "</div>");
-                for (var j=0; j<nlocations; j++)
-                    $('#newPage').append("<div id= '"+j+"'><div>" + $('#matrix_locationTags_'+j+'_name').val()+ "</div>" );*/
+
+                 for (var i=0; i<nexpectations; i++)
+                     $('#newPage').append("<div>" + $('#matrix_expectationTags_'+i+'_name').val() + "</div>");
+                 for (var j=0; j<nlocations; j++)
+                     $('#newPage').append("<div id= '"+j+"'><div>" + $('#matrix_locationTags_'+j+'_name').val()+ "</div>" );
+
+
+
+               /*
 
                 $('#newPage').append("<div class='row'>"
                     + "<div id='cont1' class='col-12 col-sm-6 col-lg-8'></div>"
-               + "<div id='cont2' class='col-6 col-lg-4'></div>"
-                +"</div>");
-
+                    + "<div id='cont2' class='col-6 col-lg-4'></div>"
+                    +"</div>");
                 $('#cont1').append("<div id='behaviorContainer' class='md-form input-group'>"
                     + "<div class='input-group-prepend'>"
                     + "<button id='removeBehavior' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
                     + "</div>"
-                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+0+'_name').val() + "&" + $('#matrix_locationTags_'+0+'_name').val() +" Behavior' aria-label='Recipient username' aria-describedby='basic-addon2'>"
+                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+0+'_name').val() + "&" + $('#matrix_locationTags_'+0+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
                     + "<div class='input-group-append'>"
                     + "<button id= 'addBehavior' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
                     + "</div>"
                     + "</div>");
-
                 document.getElementById("addBehavior").onclick = function () {
                     counter++;
                     $('#cont1').append("<input id='text" + counter + "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
                     );
                 }
-
-
-                    document.getElementById("removeBehavior").onclick = function () {
-                        $('#text'+ counter).remove();
-                        counter--;
-
-
-                    }
-
+                document.getElementById("removeBehavior").onclick = function () {
+                    $('#text'+ counter).remove();
+                    counter--;
+                }
                 $('#cont2').append("<div id='behaviorContainer2' class='md-form input-group'>"
                     + "<div class='input-group-prepend'>"
                     + "<button id='removeBehavior2' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
                     + "</div>"
-                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+1+'_name').val() + "&" + $('#matrix_locationTags_'+1+'_name').val() +" Behavior' aria-label='Recipient username' aria-describedby='basic-addon2'>"
+                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+1+'_name').val() + "&" + $('#matrix_locationTags_'+1+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
                     + "<div class='input-group-append'>"
                     + "<button id= 'addBehavior2' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
                     + "</div>"
@@ -134,79 +136,58 @@
                     counter2++;
                     $('#cont2').append("<input id='text2" + counter2+ "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
                     );
-
                     document.getElementById("removeBehavior2").onclick = function () {
                         $('#text2'+ counter2).remove();
                         counter2--;
-
-
                     };
-
-
+                }*/
+                /*
+                var nexpectations = document.getElementById("expectationTag").childElementCount;
+                var nlocations= document.getElementById("locationTag").childElementCount;
+                $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
+                $('#newPage').append("<br/><table id='tab' border=\"1\" cellpadding=\"3\" class='table'>" +
+                    "<tr id= \"row\">" +
+                    "<td>Expectations& Locations   </td>" +
+                    "</tr>" +
+                    "<tr id= \"column\">" +
+                    "</tr>" +
+                    "</table>");
+                for (var i=0; i<nexpectations; i++)
+                    $('#row').append("<td>" + $('#matrix_expectationTags_'+i+'_name').val() + "</td>");
+                for (var j=0; j<nlocations; j++) {
+                    $('#tab').append("<tr id= '"+j+"'><td>" + $('#matrix_locationTags_'+j+'_name').val()+ "</td>" );
+                    for (var k=0; k<nexpectations; k++) {
+                        $('#' + j).append("<td > <button class='addButton'>+</button> <input class='inputs testo" + k + j + "' type= 'text'>"
+                        +" </td>");
+                    }
+                    $('#tab').append("</tr>");
                 }
-
-                    /*
-
-                    var nexpectations = document.getElementById("expectationTag").childElementCount;
-                    var nlocations= document.getElementById("locationTag").childElementCount;
-
-                    $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
-                    $('#newPage').append("<br/><table id='tab' border=\"1\" cellpadding=\"3\" class='table'>" +
-                        "<tr id= \"row\">" +
-                        "<td>Expectations& Locations   </td>" +
-                        "</tr>" +
-                        "<tr id= \"column\">" +
-                        "</tr>" +
-                        "</table>");
-
-                    for (var i=0; i<nexpectations; i++)
-                        $('#row').append("<td>" + $('#matrix_expectationTags_'+i+'_name').val() + "</td>");
+                $('.addButton').on('click', function () {
+                    $(this).parent("td").append("<input class='"+ $(this).next().attr('class') + "' type= 'text'>");
+                });
+                $('#newPage').append("<button id='matrixButton2' type='button' class=\"btn btn-primary md\" > Send </button>");
+                document.getElementById("matrixButton2").onclick = function () {
+                    $('#matrixButton').hide();
                     for (var j=0; j<nlocations; j++) {
-                        $('#tab').append("<tr id= '"+j+"'><td>" + $('#matrix_locationTags_'+j+'_name').val()+ "</td>" );
-                        for (var k=0; k<nexpectations; k++) {
-                            $('#' + j).append("<td > <button class='addButton'>+</button> <input class='inputs testo" + k + j + "' type= 'text'>"
-                            +" </td>");
-                        }
-
-                        $('#tab').append("</tr>");
-
-                    }
-                    $('.addButton').on('click', function () {
-
-                        $(this).parent("td").append("<input class='"+ $(this).next().attr('class') + "' type= 'text'>");
-
-                    });
-
-                    $('#newPage').append("<button id='matrixButton2' type='button' class=\"btn btn-primary md\" > Send </button>");
-                    document.getElementById("matrixButton2").onclick = function () {
-                        $('#matrixButton').hide();
-                        for (var j=0; j<nlocations; j++) {
-                            for (var k = 0; k < nexpectations; k++) {
-                                var array = document.getElementsByClassName("testo" + k + j);
-                                console.log(array);
-                                var tot= "";
-                                for(var z=0; z<array.length; z++) {
-                                    tot= tot + "<br/>" + array[z].value;
-
-
-                                }
-
-                                array[0].parentElement.innerHTML = tot;
+                        for (var k = 0; k < nexpectations; k++) {
+                            var array = document.getElementsByClassName("testo" + k + j);
+                            console.log(array);
+                            var tot= "";
+                            for(var z=0; z<array.length; z++) {
+                                tot= tot + "<br/>" + array[z].value;
                             }
-                        }
-                        $('#matrixButton2').hide();
-                        $('#newPage').append("<button id='printButton' type='button' class=\"btn btn-primary md\" > print </button>");
-                        document.getElementById("printButton").onclick = function () {
-                            $('#printButton').hide();
-                            printData();
-
+                            array[0].parentElement.innerHTML = tot;
                         }
                     }
-
-
-              */  }
+                    $('#matrixButton2').hide();
+                    $('#newPage').append("<button id='printButton' type='button' class=\"btn btn-primary md\" > print </button>");
+                    document.getElementById("printButton").onclick = function () {
+                        $('#printButton').hide();
+                        printData();
+                    }
+                }
+          */  }
         });
-
         function printData()
         {
             var divToPrint=document.getElementById("tab");
@@ -215,35 +196,23 @@
             newWin.print();
             newWin.close();
         }
-
         function addTagForm($collectionHolder) {
-
             // Get the data-prototype explained earlier
             var prototype = $collectionHolder.data('prototype');
-
             // get the new index
             var index = $collectionHolder.data('index');
-
             var newForm = prototype;
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
             // Replace '__name__label__' in the prototype's HTML to
             // instead be a number based on how many items we have
             // newForm = newForm.replace(/__name__label__/g, index);
-
             // Replace '__name__' in the prototype's HTML to
             // instead be a number based on how many items we have
             newForm = newForm.replace(/__name__/g, index);
-
             // increase the index with one for the next item
             $collectionHolder.data('index', index + 1);
-
             var newFormLi = $('<li></li>').append(newForm);
-
             $collectionHolder.append(newFormLi);
-
-
-
         }
-
     </script>
 {% endblock %}

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\BehaviorTag;
+use App\Entity\MatrixBehavior;
 use App\Form\Type\MatrixType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +20,16 @@ class MatrixController extends AbstractController
 {
     /**
      * @Route("/matrix", name="matrix")
+     * @Method({"GET", "POST"})
      */
     public function index(Request $request, MatrixFormHandler $formHandler)
     {
         $matrix = new Matrix();
+
+        $tag1 = new BehaviorTag();
+
+        $tag1->setName('tag1');
+        $matrix->getBehaviorTags()->add($tag1);
 /*
         $tag3 = new Tag();
         $tag3->setName('tag3');
@@ -33,6 +42,8 @@ class MatrixController extends AbstractController
         $form = $this->createForm(MatrixType::class, $matrix);
 
         if($formHandler->handle($form, $request)) {
+            echo 'reiderect'; exit;
+
             return $this->redirect($this->generateUrl('matrix'));
         }
 

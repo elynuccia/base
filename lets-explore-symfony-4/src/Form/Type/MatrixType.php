@@ -2,12 +2,15 @@
 
 namespace App\Form\Type;
 
+use App\Entity\BehaviorTag;
+use App\Entity\ExpectationTag;
 use Symfony\Component\Form\AbstractType;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MatrixType extends AbstractType
 {
@@ -29,7 +32,7 @@ class MatrixType extends AbstractType
             ));
 
 $builder->add('expectationTags', CollectionType::class, array(
-    'entry_type' => TagType::class,
+    'entry_type' => ExpectationTagType::class,
     'entry_options' => array('label' => false),
     'allow_add' => true,
     'by_reference' => false
@@ -48,15 +51,24 @@ $builder->add('expectationTags', CollectionType::class, array(
 
 
     $builder->add('locationTags', CollectionType::class, array(
-        'entry_type' => TagType::class,
+        'entry_type' => LocationTagType::class,
         'entry_options' => array('label' => false),
         'allow_add' => true,
         'by_reference' => false
     ));
 
+        $builder->add('behaviorTags', CollectionType::class, array(
+            'entry_type' => BehaviorTagType::class,
+            'entry_options' => array('label' => false),
+            'allow_add' => true,
+            'by_reference' => false,
 
+        ));
 
+        $builder->add('submit', SubmitType::class);
     }
+
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
