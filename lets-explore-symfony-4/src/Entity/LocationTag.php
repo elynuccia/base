@@ -16,6 +16,11 @@ class LocationTag
      */
     private $id;
 
+    /**
+     * @var string $name
+     *
+     * @ORM\Column(type="string", length=255)
+     */
     private $name;
 
     /**

@@ -1,10 +1,11 @@
 <?php
 namespace App\Form\Type;
 
-use App\Entity\BehaviorTag;
+use App\Entity\MatrixBehavior;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class BehaviorTagType extends AbstractType
 {
@@ -16,7 +17,7 @@ class BehaviorTagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => BehaviorTag::class,
+            'data_class' => MatrixBehavior::class,
         ));
     }
 }

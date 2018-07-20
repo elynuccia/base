@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% for location in matrix.locationTags %}
+    {{ location.name }}
+{% endfor %}
+
+{% endblock %}

@@ -7,6 +7,8 @@ use App\Entity\MatrixBehavior;
 use App\Form\Type\MatrixType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,30 +28,21 @@ class MatrixController extends AbstractController
     {
         $matrix = new Matrix();
 
-        $tag1 = new BehaviorTag();
+        /*$tag1 = new BehaviorTag();
 
         $tag1->setName('tag1');
-        $matrix->getBehaviorTags()->add($tag1);
-/*
-        $tag3 = new Tag();
-        $tag3->setName('tag3');
-        $matrix->getTags()->add($tag3);
+        $matrix->getBehaviorTags()->add($tag1);*/
 
-        $tag4=new Tag();
-        $tag4->setName('ciao');
-        $matrix->getTags()->add($tag4);*/
 
         $form = $this->createForm(MatrixType::class, $matrix);
 
-        if($formHandler->handle($form, $request)) {
-            echo 'reiderect'; exit;
-
-            return $this->redirect($this->generateUrl('matrix'));
+        if($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('matrix_behavior_new', array('id'=> $lastId)));
         }
 
 
         return $this->render('matrix/index.html.twig', array(
-        'form' => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -128,5 +121,34 @@ class MatrixController extends AbstractController
 
     }
 
+    /**
+     * @Route("/behavior/{id}", name="matrix_behavior_new")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param MatrixFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newAction(Request $request, Matrix $matrix, MatrixFormHandler $formHandler)
+    {
+        $form = $this->createForm(MatrixType::class, $matrix, array(
+            'action' => $this->generateUrl('matrix_behavior_new', array(
+                'id' => $matrix->getId()
+            ))
+        ));
+
+
+        //return new Response('ciao');
+
+        // per la visualizzazione
+        /*if($formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl(''));
+        }*/
+        return $this->render('matrix/new.html.twig', array(
+            'form' => $form->createView(),
+            'matrix' => $matrix
+        ));
+    }
 
 }

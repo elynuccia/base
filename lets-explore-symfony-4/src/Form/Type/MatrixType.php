@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\BehaviorTag;
+use App\Entity\Matrix;
 use App\Entity\ExpectationTag;
 use Symfony\Component\Form\AbstractType;
 
@@ -20,6 +20,8 @@ class MatrixType extends AbstractType
             ->add('motto')
             ->add('expectations', ChoiceType::class, array(
                 'choices'  => array(
+                    'Select the number of Expectations' => array(
+                        '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
@@ -27,6 +29,7 @@ class MatrixType extends AbstractType
                     '5' => '5',
 
 
+                ),
                 ),
                 'mapped' => false,
             ));
@@ -40,11 +43,14 @@ $builder->add('expectationTags', CollectionType::class, array(
 
             ->add('locations', ChoiceType::class, array(
                 'choices'  => array(
+                    'Select the number of Locations' => array(
+                        '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
                     '4' => '4',
                     '5' => '5',
+                ),
                 ),
                 'mapped' => false,
             ));
@@ -74,6 +80,7 @@ $builder->add('expectationTags', CollectionType::class, array(
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'data_class' => Matrix::class
         ]);
     }
 }

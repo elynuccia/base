@@ -11,15 +11,13 @@ namespace App\Form\Handler;
 
 use Symfony\Component\HttpFoundation\Request;
 
-
+use App\Entity\Matrix;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Entity\Matrix;
 
 class MatrixFormHandler
 {
@@ -49,21 +47,26 @@ class MatrixFormHandler
             return false;
         }
 
-        //$validObject = $form->getData();
-       // $this->create($validObject);
+
+
 
         if ($form->isSubmitted() && $form->isValid()
         ) {
             $matrixFormData = $form->getData();
-            dump($matrixFormData);
+            $lastId = $this->create($matrixFormData);
+
+            return $lastId;
         }
+
+
     }
-    /*
+
     public function create(Matrix $entity)
     {
-
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
-    }*/
+
+        return $entity -> getId();
+    }
 
 }
