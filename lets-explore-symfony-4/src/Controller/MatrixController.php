@@ -28,7 +28,7 @@ class MatrixController extends AbstractController
     {
         $matrix = new Matrix();
 
-        /*$tag1 = new BehaviorTag();
+       /* $tag1 = new BehaviorTag();
 
         $tag1->setName('tag1');
         $matrix->getBehaviorTags()->add($tag1);*/
@@ -132,7 +132,25 @@ class MatrixController extends AbstractController
      */
     public function newAction(Request $request, Matrix $matrix, MatrixFormHandler $formHandler)
     {
+        foreach($matrix->getLocationTags() as $location) {
+            foreach ($matrix->getExpectationTags() as $expectation) {
+                $matrixBehavior = new MatrixBehavior();
+                $matrixBehavior->setLocation($location);
+
+                $matrixBehavior->setExpectation($expectation);
+
+                $matrix->addBehaviorTag($matrixBehavior);
+
+            }
+
+        }
+
+
+
+        dump($matrix);
+
         $form = $this->createForm(MatrixType::class, $matrix, array(
+            'matrix' => $matrix,
             'action' => $this->generateUrl('matrix_behavior_new', array(
                 'id' => $matrix->getId()
             ))
@@ -147,7 +165,8 @@ class MatrixController extends AbstractController
         }*/
         return $this->render('matrix/new.html.twig', array(
             'form' => $form->createView(),
-            'matrix' => $matrix
+            'matrix' => $matrix,
+
         ));
     }
 

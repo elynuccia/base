@@ -42,13 +42,19 @@ class Matrix
      */
     protected $behaviorTags;
 
-
-
     public function __construct()
     {
         $this->expectationTags = new ArrayCollection();
         $this->locationTags = new ArrayCollection();
         $this->behaviorTags = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocations()
+    {
+        return $this->locationsTags;
     }
 
 
@@ -121,7 +127,7 @@ class Matrix
         return $this->behaviorTags;
     }
 
-    public function addBehaviorTag(BehaviorTag $behaviorTag)
+    public function addBehaviorTag(MatrixBehavior $behaviorTag)
     {
         if(!$this->behaviorTags->contains($behaviorTag)) {
             $this->behaviorTags[] = $behaviorTag;
@@ -130,7 +136,7 @@ class Matrix
         }
     }
 
-    public function removeBehaviorTag(BehaviorTag $behaviorTag)
+    public function removeBehaviorTag(MatrixBehavior $behaviorTag)
     {
         if (!$this->behaviorTags->contains($behaviorTag)) {
             $this->behaviorTags->removeElement($behaviorTag);

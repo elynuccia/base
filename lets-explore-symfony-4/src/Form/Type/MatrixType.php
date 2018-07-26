@@ -19,17 +19,14 @@ class MatrixType extends AbstractType
         $builder
             ->add('motto')
             ->add('expectations', ChoiceType::class, array(
-                'choices'  => array(
-                    'Select the number of Expectations' => array(
+                'placeholder' => 'Select the number of Expectations',
+                'choices' => array(
                         '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
                     '4' => '4',
                     '5' => '5',
-
-
-                ),
                 ),
                 'mapped' => false,
             ));
@@ -42,15 +39,15 @@ $builder->add('expectationTags', CollectionType::class, array(
 ))
 
             ->add('locations', ChoiceType::class, array(
-                'choices'  => array(
-                    'Select the number of Locations' => array(
+                'placeholder' => 'Select the number of Locations',
+                'choices' => array(
                         '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
                     '4' => '4',
                     '5' => '5',
-                ),
+
                 ),
                 'mapped' => false,
             ));
@@ -65,9 +62,14 @@ $builder->add('expectationTags', CollectionType::class, array(
 
         $builder->add('behaviorTags', CollectionType::class, array(
             'entry_type' => BehaviorTagType::class,
-            'entry_options' => array('label' => false),
+            'entry_options' => array(
+                'label' => false,
+                'matrix' => $options['matrix']
+            ),
             'allow_add' => true,
             'by_reference' => false,
+            'allow_delete' => true,
+
 
         ));
 
@@ -80,7 +82,8 @@ $builder->add('expectationTags', CollectionType::class, array(
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => Matrix::class
+            'data_class' => Matrix::class,
+            'matrix' => null,
         ]);
     }
 }

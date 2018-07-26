@@ -1,9 +1,129 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Matrix of Expectations{% endblock title %}
+
 {% block body %}
+    <div id="page" class="row">
+        {{ form_start(form) }}
 
-{% for location in matrix.locationTags %}
-    {{ location.name }}
-{% endfor %}
 
+        <ul class="behaviorTags" data-prototype="{{ form_widget(form.behaviorTags.vars.prototype)|e }}">
+            {# iterate over each existing tag and render its only field: name #}
+            {% for tag in matrix.behaviorTags %}
+               <li> {{ form_row(form.behaviorTags) }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+
+
+
+    <div id="newPage" class="cont"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+       // var $collectionHolder;
+        //var $collectionHolder2;
+        var $collectionHolder3;
+
+       var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
+       var $newLinkLi = $('<li></li>').append($addTagButton);
+
+        var $var;
+        var $var2;
+        // var $var3;
+        $(document).ready( function() {
+         //   $collectionHolder = $('ul.expectationTags');
+           // $collectionHolder2 = $('ul.locationTags');
+            $collectionHolder3 = $('ul.behaviorTags');
+
+            $collectionHolder3.find('li').each(function() {
+                addTagFormDeleteLink($(this));
+            });
+
+            $collectionHolder3.append($newLinkLi);
+
+          //  $var= $('#matrix_expectations');
+            //$var2= $('#matrix_locations');
+
+           // $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            //$collectionHolder2.data('index', $collectionHolder2.find(':input').length);
+            $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
+
+            $addTagButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addTagForm($collectionHolder3,$newLinkLi );
+            });
+
+            /*  $var.on('change', function(e) {
+                    // alert("onchange event");
+                    $('ul.expectationTags li').remove();
+                    for (var i = 0; i < e.currentTarget.value; i++) {
+                        addTagForm($collectionHolder);
+                    }
+                }
+            );
+            $var2.on('change', function(e) {
+                    // alert("onchange event");
+                    $('ul.locationTags li').remove();
+                    for (var i = 0; i < e.currentTarget.value; i++) {
+                        addTagForm($collectionHolder2);
+                    }
+                }
+            );*/
+
+            //nascondere da jquery expectation e location
+
+            $('#newPage').append("!");
+
+
+        });
+        function printData()
+        {
+            var divToPrint=document.getElementById("tab");
+            newWin= window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.print();
+            newWin.close();
+        }
+        function addTagForm($collectionHolder) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+            // get the new index
+            var index = $collectionHolder.data('index');
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+            /*var newFormLi = $('<li></li>').append(newForm);
+            $collectionHolder.append(newFormLi);*/
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+            addTagFormDeleteLink($newFormLi);
+        }
+
+       function addTagFormDeleteLink($tagFormLi) {
+           var $removeFormA = $('<a href="#">delete this tag</a>');
+           $tagFormLi.append($removeFormA);
+
+           $removeFormA.on('click', function(e) {
+               // prevent the link from creating a "#" on the URL
+               e.preventDefault();
+
+               // remove the li for the tag form
+               $tagFormLi.remove();
+           });
+       }
+    </script>
 {% endblock %}

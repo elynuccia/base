@@ -106,7 +106,7 @@ class MatrixBehavior
     /**
      * @param mixed $expectation
      */
-    public function setExpectation($expectation): void
+    public function setExpectation($expectation)
     {
         $this->expectation = $expectation;
     }

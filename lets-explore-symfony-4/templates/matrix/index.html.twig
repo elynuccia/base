@@ -24,16 +24,8 @@
             {% endfor %}
         </ul>
 
-        <ul id="behaviorTag" class="behaviorTags" data-prototype="{{ form_widget(form.behaviorTags.vars.prototype)|e('html_attr') }}">
-            {% for tag in form.behaviorTags %}
-                <li> {{ form_row(tag.name) }}
-                </li>
-            {% endfor %}
-        </ul>
-
-
         {{ form_row(form.submit)}}
-
+    
         {{ form_end(form, {'render_rest': false}) }}
     </div>
     <div id="newPage" class="cont"></div>
@@ -87,6 +79,7 @@
 
 
                 $('#page').hide();
+
                // $('#matrixButton').hide();
               /*  var nexpectations = document.getElementById("expectationTag").childElementCount;
                 var nlocations= document.getElementById("locationTag").childElementCount;
