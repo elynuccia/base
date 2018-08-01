@@ -155,6 +155,7 @@ class MatrixController extends AbstractController
                 'id' => $matrix->getId()
             ))
         ));
+        dump($form);
 
 
         //return new Response('ciao');

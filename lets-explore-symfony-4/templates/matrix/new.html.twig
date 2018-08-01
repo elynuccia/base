@@ -6,14 +6,36 @@
     <div id="page" class="row">
         {{ form_start(form) }}
 
+        <ul class="behaviorTags" data-prototype=" {{ form_widget(form.behaviorTags.vars.prototype)|e }}">
+            {{ dump(form.locationTags)  }}
+            {% set i = 0 %}
+            {% for formBehaviorTag in form.behaviorTags %}
 
-        <ul class="behaviorTags" data-prototype="{{ form_widget(form.behaviorTags.vars.prototype)|e }}">
-            {# iterate over each existing tag and render its only field: name #}
-            {% for tag in matrix.behaviorTags %}
-               <li> {{ form_row(form.behaviorTags) }}
-                </li>
-            {% endfor %}
+            <li>
+                <div class="form-group row">
+                    {{ form_label(formBehaviorTag.behavior) }}
+                    {{ form_errors(formBehaviorTag.behavior) }}
+
+
+                    <div class="col-sm-10">
+                        {{ form_widget(formBehaviorTag.behavior) }}
+                        <span class="input-group-btn">
+                                         <button id="plus-{{ i }}" class="btn btn-success btn-add" type="button">
+                                              + <span class="glyphicon glyphicon-plus"></span>
+                                         </button>
+                        </span>
+                    </div>
+
+
+                </div>
+                {% set i = i + 1 %}
+                {{ form_row(formBehaviorTag.location) }}
+                {{ form_row(formBehaviorTag.expectation) }}
+            </li>
+        {% endfor %}
         </ul>
+
+
 
         {{ form_end(form, {'render_rest': false}) }}
     </div>
@@ -30,13 +52,12 @@
        // var $collectionHolder;
         //var $collectionHolder2;
         var $collectionHolder3;
+//<button type="button" class="add_tag_link">Add a tag</button>
 
-       var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
-       var $newLinkLi = $('<li></li>').append($addTagButton);
+       var $addTagButton;
+       var $newLinkLi = $('<li></li>'); //append addTagButton
 
-        var $var;
-        var $var2;
-        // var $var3;
+//cambiare il valore delle select tanto l'input è lo stesso
         $(document).ready( function() {
          //   $collectionHolder = $('ul.expectationTags');
            // $collectionHolder2 = $('ul.locationTags');
@@ -45,21 +66,27 @@
             $collectionHolder3.find('li').each(function() {
                 addTagFormDeleteLink($(this));
             });
+            var $numButton = $('.btn-success').length;
+            for (i=0; i<$numButton; i++) {
+                $addTagButton=$('#plus-'+ i);
+                $collectionHolder3.append($newLinkLi);
+                $collectionHolder3.append($addTagButton);
+                //  $var= $('#matrix_expectations');
+                //$var2= $('#matrix_locations');
 
-            $collectionHolder3.append($newLinkLi);
+                // $collectionHolder.data('index', $collectionHolder.find(':input').length);
+                //$collectionHolder2.data('index', $collectionHolder2.find(':input').length);
+                $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
 
-          //  $var= $('#matrix_expectations');
-            //$var2= $('#matrix_locations');
+                $addTagButton.on('click', function (e) {
+                    var formIndex = this.id.split("-")[1];
+                    var lastLocationId = $('#matrix_behaviorTags_' + formIndex + '_location').val();
+                    var lastExpectationId = $('#matrix_behaviorTags_' + formIndex + '_expectation').val();
 
-           // $collectionHolder.data('index', $collectionHolder.find(':input').length);
-            //$collectionHolder2.data('index', $collectionHolder2.find(':input').length);
-            $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
-
-            $addTagButton.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addTagForm($collectionHolder3,$newLinkLi );
-            });
-
+                    // add a new tag form (see next code block)
+                    addTagForm($collectionHolder3, $newLinkLi, lastExpectationId, lastLocationId);
+                });
+            }
             /*  $var.on('change', function(e) {
                     // alert("onchange event");
                     $('ul.expectationTags li').remove();
@@ -83,15 +110,15 @@
 
 
         });
-        function printData()
+       /* function printData()
         {
             var divToPrint=document.getElementById("tab");
             newWin= window.open("");
             newWin.document.write(divToPrint.outerHTML);
             newWin.print();
             newWin.close();
-        }
-        function addTagForm($collectionHolder) {
+        }*/
+        function addTagForm($collectionHolder, $newLinkLi, lastExpectationId, lastLocationId) {
             // Get the data-prototype explained earlier
             var prototype = $collectionHolder.data('prototype');
             // get the new index
@@ -103,6 +130,7 @@
             // newForm = newForm.replace(/__name__label__/g, index);
             // Replace '__name__' in the prototype's HTML to
             // instead be a number based on how many items we have
+
             newForm = newForm.replace(/__name__/g, index);
             // increase the index with one for the next item
             $collectionHolder.data('index', index + 1);
@@ -111,10 +139,17 @@
             var $newFormLi = $('<li></li>').append(newForm);
             $newLinkLi.before($newFormLi);
             addTagFormDeleteLink($newFormLi);
+
+            $('#matrix_behaviorTags_' + index + '_expectation').val(lastExpectationId);
+            $('#matrix_behaviorTags_' + index + '_location').val(lastLocationId);
         }
 
        function addTagFormDeleteLink($tagFormLi) {
-           var $removeFormA = $('<a href="#">delete this tag</a>');
+           var $removeFormA = $('<span class="input-group-btn">\n' +
+               '                               <button id="minus" class="btn btn-danger btn-add" type="button">\n' +
+               '                                   - <span class="glyphicon glyphicon-plus"></span>\n' +
+               '                               </button>\n' +
+               '                           </span>');
            $tagFormLi.append($removeFormA);
 
            $removeFormA.on('click', function(e) {
