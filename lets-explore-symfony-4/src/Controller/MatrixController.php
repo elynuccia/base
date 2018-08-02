@@ -28,16 +28,16 @@ class MatrixController extends AbstractController
     {
         $matrix = new Matrix();
 
-       /* $tag1 = new BehaviorTag();
+        /* $tag1 = new BehaviorTag();
 
-        $tag1->setName('tag1');
-        $matrix->getBehaviorTags()->add($tag1);*/
+         $tag1->setName('tag1');
+         $matrix->getBehaviorTags()->add($tag1);*/
 
 
         $form = $this->createForm(MatrixType::class, $matrix);
 
-        if($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('matrix_behavior_new', array('id'=> $lastId)));
+        if ($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('matrix_behavior_new', array('id' => $lastId)));
         }
 
 
@@ -45,14 +45,14 @@ class MatrixController extends AbstractController
             'form' => $form->createView(),
         ));
     }
-
+/*
     public function edit($id, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $matrix = $entityManager->getRepository(Matrix::class)->find($id);
 
         if (!$matrix) {
-            throw $this->createNotFoundException('No task found for id '.$id);
+            throw $this->createNotFoundException('No task found for id ' . $id);
         }
 
         $originalTags = new ArrayCollection();
@@ -113,13 +113,12 @@ class MatrixController extends AbstractController
         $form = $this->createForm(MatrixType::class, $matrix);
 
 
-
         return $this->render('matrix/index.html.twig', array(
             //'our_form' => $form,
             'form' => $form->createView(),
         ));
 
-    }
+    }*/
 
     /**
      * @Route("/behavior/{id}", name="matrix_behavior_new")
@@ -132,7 +131,7 @@ class MatrixController extends AbstractController
      */
     public function newAction(Request $request, Matrix $matrix, MatrixFormHandler $formHandler)
     {
-        foreach($matrix->getLocationTags() as $location) {
+        foreach ($matrix->getLocationTags() as $location) {
             foreach ($matrix->getExpectationTags() as $expectation) {
                 $matrixBehavior = new MatrixBehavior();
                 $matrixBehavior->setLocation($location);
@@ -144,7 +143,6 @@ class MatrixController extends AbstractController
             }
 
         }
-
 
 
         dump($matrix);
@@ -161,9 +159,13 @@ class MatrixController extends AbstractController
         //return new Response('ciao');
 
         // per la visualizzazione
-        /*if($formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl(''));
+     /*   if ($formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('matrix_list'), array('id'=>$matrix->getId()));
         }*/
+
+        if ($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('matrix_list', array('id' => $lastId)));
+        }
         return $this->render('matrix/new.html.twig', array(
             'form' => $form->createView(),
             'matrix' => $matrix,
@@ -171,4 +173,24 @@ class MatrixController extends AbstractController
         ));
     }
 
+    /**
+     * @Route("/list/{id}", name="matrix_list")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param MatrixFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction(Request $request, Matrix $matrix, MatrixFormHandler $formHandler) {
+
+        $form = $this->createForm(MatrixType::class, $matrix, array(
+            'matrix' => $matrix,
+            ));
+
+        return $this->render('matrix/list.html.twig', array(
+            'form' => $form->createView(),
+            'matrix' => $matrix,
+        ));
+    }
 }

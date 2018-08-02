@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Matrix of Expectations{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+    {% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
+        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
+        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
+    </div>
+
+    <div id="newPage"></div>
+    {{ form_end(form, {'render_rest': true}) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+    $(document).ready( function() {
+        var $numBehavior = jQuery("[id^=matrix_behaviorTags][id $=behavior]").length;
+        var $numExpectation = jQuery("[id^=matrix_expectationTags][id $=name]").length;
+        var $numLocation = jQuery("[id^=matrix_locationTags][id $=name]").length;
+
+
+        $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
+        for (i=0; i<$numBehavior;i++) {
+            $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
+        }
+
+        for (j=0; j<$numExpectation;j++) {
+            $('#newPage').append("<div>" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
+        }
+
+        for (k=0; k<$numLocation;k++) {
+            $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
+        }
+
+    });
+    </script>
+
+{% endblock %}

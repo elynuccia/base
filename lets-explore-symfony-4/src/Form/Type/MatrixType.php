@@ -19,7 +19,7 @@ class MatrixType extends AbstractType
         $builder
             ->add('motto')
             ->add('expectations', ChoiceType::class, array(
-                'placeholder' => 'Select the number of Expectations',
+                //'placeholder' => 'Select the number of Expectations',
                 'choices' => array(
                         '0' => '0',
                     '1' => '1',
@@ -39,7 +39,7 @@ $builder->add('expectationTags', CollectionType::class, array(
 ))
 
             ->add('locations', ChoiceType::class, array(
-                'placeholder' => 'Select the number of Locations',
+                //'placeholder' => 'Select the number of Locations',
                 'choices' => array(
                         '0' => '0',
                     '1' => '1',

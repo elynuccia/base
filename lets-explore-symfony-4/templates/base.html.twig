@@ -13,7 +13,7 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
           integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
           crossorigin="anonymous"/>
-    <link rel="stylesheet" href="{{ asset('css/custom-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom-styles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/idcardstyle.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/table.css') }}" />
@@ -22,6 +22,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"/>
+
+
     {% block stylesheets %}{% endblock %}
 </head>
 
@@ -69,7 +71,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="{{ asset('js/jquery-qrcode-0.14.0.js') }}"></script>
-    <script src="{{ asset('jquery-qrcode-0.14.0.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-qrcode-0.14.0.min.js') }}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src={{ asset('js/popper.min.js') }}></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src={{ asset('js/bootstrap.min.js') }}></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src={{ asset('js/mdb.min.js') }}></script>
 {% endblock %}
 </body>
 </html>

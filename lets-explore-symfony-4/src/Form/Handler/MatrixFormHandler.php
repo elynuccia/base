@@ -40,14 +40,11 @@ class MatrixFormHandler
         }
 
 
-
         $form->handleRequest($request);
 
         if (!$form->isValid()) {
             return false;
         }
-
-
 
 
         if ($form->isSubmitted() && $form->isValid()
@@ -66,7 +63,7 @@ class MatrixFormHandler
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
-        return $entity -> getId();
+        return $entity->getId();
     }
 
 }

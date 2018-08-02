@@ -5,9 +5,9 @@
 {% block body %}
     <div id="page" class="row">
         {{ form_start(form) }}
+        {{ form_row(form.motto)}}
 
         <ul class="behaviorTags" data-prototype=" {{ form_widget(form.behaviorTags.vars.prototype)|e }}">
-            {{ dump(form.locationTags)  }}
             {% set i = 0 %}
             {% for formBehaviorTag in form.behaviorTags %}
 
@@ -35,9 +35,9 @@
         {% endfor %}
         </ul>
 
+        {{ form_row(form.submit)}}
 
-
-        {{ form_end(form, {'render_rest': false}) }}
+        {{ form_end(form, {'render_rest': true}) }}
     </div>
 
 
@@ -69,8 +69,8 @@
             var $numButton = $('.btn-success').length;
             for (i=0; i<$numButton; i++) {
                 $addTagButton=$('#plus-'+ i);
+                //$collectionHolder3.append($addTagButton);
                 $collectionHolder3.append($newLinkLi);
-                $collectionHolder3.append($addTagButton);
                 //  $var= $('#matrix_expectations');
                 //$var2= $('#matrix_locations');
 
@@ -142,6 +142,7 @@
 
             $('#matrix_behaviorTags_' + index + '_expectation').val(lastExpectationId);
             $('#matrix_behaviorTags_' + index + '_location').val(lastLocationId);
+
         }
 
        function addTagFormDeleteLink($tagFormLi) {

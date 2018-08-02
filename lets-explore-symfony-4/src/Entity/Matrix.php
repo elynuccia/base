@@ -38,7 +38,7 @@ class Matrix
     protected $locationTags;
 
     /**
-     *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix")
+     *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix", cascade={"persist"})
      */
     protected $behaviorTags;
 
@@ -54,7 +54,7 @@ class Matrix
      */
     public function getLocations()
     {
-        return $this->locationsTags;
+        return $this->locationTags;
     }
 
 
