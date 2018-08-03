@@ -16,16 +16,9 @@
 
 {% block body %}
     {{ form_start(form) }}
-    <div class="row">
-        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
-        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
-        <div class="col-12 col-md-8">.col-12 .col-md-8</div>
-    </div>
 
-    <div id="newPage"></div>
+
+    <div id="newPage"> </div>
     {{ form_end(form, {'render_rest': true}) }}
 
 {% endblock %}
@@ -40,17 +33,25 @@
 
 
         $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
-        for (i=0; i<$numBehavior;i++) {
-            $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
-        }
+
+        $('#newPage').append("<div id='j' class=\"row\">\n" +
+            "            <div class=\"col-6 col-sm-4\">Expectation &Locations</div>\n" +
+            "        </div>\n");
+
+
 
         for (j=0; j<$numExpectation;j++) {
-            $('#newPage').append("<div>" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
+            $('#j').append("<div  class=\"col-6 col-sm-4\">" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
         }
 
         for (k=0; k<$numLocation;k++) {
-            $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
+            $('#newPage').append("<div class=\"row\"><div class=\"col-6 col-sm-4\">" +  $('#matrix_locationTags_' + k + '_name').val() + "</div></div>");
+           // $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
         }
+/*
+        for (i=0; i<$numBehavior;i++) {
+            $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
+        }*/
 
     });
     </script>
