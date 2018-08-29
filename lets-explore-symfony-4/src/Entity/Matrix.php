@@ -7,6 +7,7 @@
  */
 
 namespace App\Entity;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,11 +43,17 @@ class Matrix
      */
     protected $behaviorTags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cico", mappedBy="matrix", orphanRemoval=true)
+     */
+    private $cicos;
+
     public function __construct()
     {
         $this->expectationTags = new ArrayCollection();
         $this->locationTags = new ArrayCollection();
         $this->behaviorTags = new ArrayCollection();
+        $this->cicos = new ArrayCollection();
     }
 
     /**
@@ -144,6 +151,37 @@ class Matrix
                 $behaviorTag->setMatrix(null);
             }
         }
+    }
+
+    /**
+     * @return Collection|Cico[]
+     */
+    public function getCicos(): Collection
+    {
+        return $this->cicos;
+    }
+
+    public function addCico(Cico $cico): self
+    {
+        if (!$this->cicos->contains($cico)) {
+            $this->cicos[] = $cico;
+            $cico->setMatrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCico(Cico $cico): self
+    {
+        if ($this->cicos->contains($cico)) {
+            $this->cicos->removeElement($cico);
+            // set the owning side to null (unless already changed)
+            if ($cico->getMatrix() === $this) {
+                $cico->setMatrix(null);
+            }
+        }
+
+        return $this;
     }
 
 

@@ -15,6 +15,24 @@
     {% endblock %}
 
 {% block body %}
+
+    {% for expectation in matrix.expectationTags %}
+        {{ expectation.name }}
+
+        {% for location in matrix.locationTags %}
+            {{ location.name }}
+
+            {% for behavior in matrix.behaviorTags %}
+                {% if behavior.expectation == expectation and behavior.location == location %}
+                    {{ behavior.behavior }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    {% endfor %}
+
+
+
     {{ form_start(form) }}
 
 
@@ -34,7 +52,7 @@
 
         $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
 
-        $('#newPage').append("<div id='j' class=\"row\">\n" +
+      /*  $('#newPage').append("<div id='j' class=\"row\">\n" +
             "            <div class=\"col-6 col-sm-4\">Expectation &Locations</div>\n" +
             "        </div>\n");
 
@@ -42,12 +60,14 @@
 
         for (j=0; j<$numExpectation;j++) {
             $('#j').append("<div  class=\"col-6 col-sm-4\">" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
+            //stampa behavior
+            alert($('#matrix_behaviorTags_' + j + '_behavior').val());
         }
 
         for (k=0; k<$numLocation;k++) {
             $('#newPage').append("<div class=\"row\"><div class=\"col-6 col-sm-4\">" +  $('#matrix_locationTags_' + k + '_name').val() + "</div></div>");
            // $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
-        }
+        } */
 /*
         for (i=0; i<$numBehavior;i++) {
             $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
