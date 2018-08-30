@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\BehaviorTag;
+use App\Entity\ExpectationTag;
+use App\Entity\LocationTag;
 use App\Entity\MatrixBehavior;
 use App\Form\Type\MatrixType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -192,5 +194,24 @@ class MatrixController extends AbstractController
             'form' => $form->createView(),
             'matrix' => $matrix,
         ));
+    }
+
+    /**
+     * @Route("/behaviors", name="matrix_behavior_list")
+     * @Method({"GET"})
+     * @Template
+     *
+     * @param Request $request
+     * @param MatrixFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getBehaviorsByExpectationAndLocationAction(ExpectationTag $expectationTag,
+                                                               LocationTag $locationTag)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $matrixBehaviors = $entityManager->getRepository(MatrixBehavior::class)
+            ->findByExpectationAndLocation($expectationTag, $locationTag);
+
+        return array('behaviors' => $matrixBehaviors);
     }
 }

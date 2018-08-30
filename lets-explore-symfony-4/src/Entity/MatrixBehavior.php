@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\MatrixBehaviorRepository")
  */
 class MatrixBehavior
 {

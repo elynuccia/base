@@ -29,3 +29,10 @@ main {
     height: 5000px;
 }
 
+#matrix {
+    background-color: #fefffd;
+    border: 1px solid #000000;
+    margin: 5vh;
+    padding: 5vh;
+}
+
