@@ -14,6 +14,8 @@ use App\Entity\Cico;
 use App\Form\Type\CicoType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\Handler\CicoFormHandler;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class CicoController extends AbstractController
@@ -22,10 +24,12 @@ class CicoController extends AbstractController
      * @Route("/cico", name="cico")
      * @Method({"GET", "POST"})
      */
-    public function index(/*Request $request, MatrixFormHandler $formHandler*/)
+    public function index(/*Request $request , CicoFormHandler $formHandler*/)
     {
-        $cico=new Cico();
+        $cico = new Cico();
+
         $form = $this->createForm(CicoType::class, $cico);
+
         return $this->render('cico/new.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -44,8 +48,5 @@ class CicoController extends AbstractController
              'form' => $form->createView(),
          )); */
 
-        return $this->render('cico/new.html.twig', array(
-
-        ));
     }
 }

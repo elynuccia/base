@@ -9,7 +9,6 @@
 namespace App\Form\Type;
 
 use App\Entity\Cico;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
 
 
@@ -25,16 +24,27 @@ class CicoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('threshold')
-            ;
+            ->add('periodNumber', ChoiceType::class, array(
+                //'placeholder' => 'Select the number of Expectations',
+                'choices' => array(
+                    '0' => '0',
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    '5' => '5',
+                    '6' => '6',
+                ),
 
-           }
+            ));
+    }
 
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+
             'data_class' => Cico::class,
         ]);
     }

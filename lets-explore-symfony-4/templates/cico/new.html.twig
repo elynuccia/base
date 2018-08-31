@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Matrix of Expectations{% endblock title %}
+{% block title %}CICO{% endblock title %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,39 +11,101 @@
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
     <!-- Your custom styles (optional) -->
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
-    <link rel="stylesheet" href={{ asset('css/list.css') }} >
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
 {% endblock %}
 
 {% block body %}
 
 
+<h1>CICO</h1>
 
-  {# perche non funziona mdb
+    <h2>Studente:</h2>
+
+    <h3>Motto:</h3>
 
    <div class="row">
         <div class="col-6 col-sm-4">  <label for="customRange1">Goal percentage</label>
             <input type="range" class="custom-range" id="customRange1"></div>
     </div>
 
+    <div class="row">
+    <div class="col-6 col-sm-4">
     <div class="md-form">
         <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">
-        <label for="date-picker-example">Try me...</label>
-    </div> #}
+        <label for="date-picker-example">Select the Session Date</label>
+    </div>
+     </div>
+    </div>
+
+    <div class="row">
     {{ form_start(form) }}
 
-    {{ form_row(form.threshold)}}
+    {{ form_row(form.periodNumber) }}
+
     {{ form_end(form, {'render_rest': false}) }}
 
+    </div>
+
+
+    <div id="tabella"></div>
+
+    <div class="row">
+        <div class="col-6 col-sm-4"> Totale: /goal
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent () }}
     <script>
         $(document).ready( function() {
-            $('.datepicker').pickadate();
+
+            $var= $('#cico_periodNumber');
+            $('#tabella').append("");
+
+            $var.on('change', function(e) {
+                    // alert("onchange event");
+
+                    document.getElementById("tabella").innerHTML="";
+                    for (var i = 0; i < e.currentTarget.value; i++) {
+                        $('#tabella').append("  <div class=\"row\">\n" +
+                            "        <div class=\"col-6 col-sm-4\">"+(i+1)+"</div>\n" +
+                            "        <div class=\"col-6 col-sm-4\"><!-- Default inline 1-->\n" +
+                            "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                            "  <input type=\"radio\" class=\"custom-control-input\" id=\"defaultInline1"+i+"\" name=\"inlineDefaultRadiosExample"+i+"\">\n" +
+                            "  <label class=\"custom-control-label\" for=\"defaultInline1"+i+"\">1</label>\n" +
+                            "</div>\n" +
+                            "\n" +
+                            "<!-- Default inline 2-->\n" +
+                            "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                            "  <input type=\"radio\" class=\"custom-control-input\" id=\"defaultInline2"+i+"\" name=\"inlineDefaultRadiosExample"+i+"\">\n" +
+                            "  <label class=\"custom-control-label\" for=\"defaultInline2"+i+"\">2</label>\n" +
+                            "</div>\n" +
+                            "\n" +
+                            "<!-- Default inline 3-->\n" +
+                            "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                            "  <input type=\"radio\" class=\"custom-control-input\" id=\"defaultInline3"+i+"\" name=\"inlineDefaultRadiosExample"+i+"\">\n" +
+                            "  <label class=\"custom-control-label\" for=\"defaultInline3"+i+"\">3</label>\n" +
+                            "</div></div>\n" +
+                            "        <div class=\"col-6 col-sm-4\">.col-6 .col-sm-4</div>\n" +
+                            "    </div>");
+                    }
+                }
+                /*
+                */
+            );
+
+            $('.datepicker').pickadate({
+                today: 'Today',
+                clear: 'Clear selection',
+                close: 'Cancel',
+
+            });
+
         });
     </script>
 

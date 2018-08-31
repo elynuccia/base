@@ -2,6 +2,10 @@ body {
     background-color: #eee;
 }
 
+select {
+    display: inline !important;
+}
+
 .side-nav .logo-sn {
     padding-bottom: 1rem;
     padding-top: 1rem;

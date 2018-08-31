@@ -53,6 +53,7 @@ class Cico
     public function __construct()
     {
         $this->data = new ArrayCollection();
+
     }
 
     public function getId()
