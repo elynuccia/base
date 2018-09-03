@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Entity\Cico;
+use App\Entity\Matrix;
 use App\Form\Type\CicoType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,10 +22,10 @@ use Symfony\Component\HttpFoundation\Request;
 class CicoController extends AbstractController
 {
     /**
-     * @Route("/cico", name="cico")
+     * @Route("/cico/{id}", name="cico")
      * @Method({"GET", "POST"})
      */
-    public function index(/*Request $request , CicoFormHandler $formHandler*/)
+    public function index(Matrix $matrix/*Request $request , CicoFormHandler $formHandler*/)
     {
         $cico = new Cico();
 
@@ -32,6 +33,7 @@ class CicoController extends AbstractController
 
         return $this->render('cico/new.html.twig', array(
             'form' => $form->createView(),
+            'matrix' => $matrix
         ));
         /* $matrix = new Matrix();
 
