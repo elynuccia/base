@@ -40,3 +40,14 @@ main {
     padding: 5vh;
 }
 
+#totals {
+    display:block !important;
+    float:right !important;
+
+}
+
+#goals{
+    display:block !important;
+    float:left !important;
+
+}

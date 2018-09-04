@@ -37,6 +37,9 @@ class CicoType extends AbstractType
                 ),
 
             ));
+
+        $builder->add('submit', SubmitType::class);
+
     }
 
 
