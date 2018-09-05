@@ -48,8 +48,8 @@ class CicoFormHandler
 
         if ($form->isSubmitted() && $form->isValid()
         ) {
-            $matrixFormData = $form->getData();
-            $lastId = $this->create($matrixFormData);
+            $cicoFormData = $form->getData();
+            $lastId = $this->create($cicoFormData);
 
             return $lastId;
         }

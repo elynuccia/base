@@ -13,6 +13,7 @@ use Symfony\Component\Form\AbstractType;
 
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,7 +40,8 @@ class CicoType extends AbstractType
             ));
 
         $builder->add('submit', SubmitType::class);
-
+        $builder->add('total', HiddenType::class);
+        $builder->add('threshold', HiddenType::class);
     }
 
 

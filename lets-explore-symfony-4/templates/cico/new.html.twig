@@ -50,7 +50,8 @@
     {{ form_start(form) }}
 
     {{ form_row(form.periodNumber) }}
-
+        {{ form_row(form.total) }}
+        {{ form_row(form.threshold) }}
 
 
 
@@ -74,6 +75,9 @@
           <div class="col-sm-10">{{ form_row(form.submit)}}</div>
 
     </div>
+
+    <div id="colonna"></div>
+    {{ form_row(form._token) }}
   {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
 
@@ -86,14 +90,7 @@
             $var= $('#cico_periodNumber');
             $exp = document.getElementById("expectations");
 
-
-
-
-
             $var.on('change', function(e) {
-
-
-
                     // alert("onchange event");
             $totale_massimo=3*expectations.length*e.currentTarget.value;
 
@@ -104,17 +101,19 @@
             $('#max').text($totale_massimo);
             $('#goal').text($goal);
             $('#max2').text($totale_massimo);
-
-
-
+            $('#cico_threshold').val($goal);
 
             rows=e.currentTarget.value;
+
+
                     document.getElementById("tabella").innerHTML="";
                     for (var i = 0; i < e.currentTarget.value; i++) {
                         $str= "  <div class=\"row\">\n" +
                             "        <div class=\"col-6 col-sm-2\">"+(i+1)+"</div>\n";
 
                     for (var j = 0; j < expectations.length; j++) {
+                        $('#colonna').append("        <div id='col"+ j +"' class=\"col-6 col-sm-2\"></div>\n" +
+                            "    </div>");
                         $str=$str+
                             "        <div class=\"col-6 col-sm-2\"><!-- Default inline 1-->\n" +
                             "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
@@ -164,20 +163,72 @@
         }*/
 
        totRow = 0;
+       //totCol = 0;
 
-       $('#tabella').on('change', "input[id*='defaultInline']", function(){
+
+    $('#tabella').on('change', "input[id*='defaultInline']", function(){
            totSum = 0;
            $tempTot=0;
+           totCol = [] ;
            selectorName = $(this).attr('name');
+           //console.log(selectorName);
            rowSelectorName = selectorName.substr(0, selectorName.length - 1);
+          // console.log(rowSelectorName);
+           colSelectorName1 = selectorName.substr(0, selectorName.length -2);
+           colSelectorName2 = selectorName.substr(selectorName.length -1, selectorName.length);
+           //console.log(colSelectorName1);
+           //console.log(colSelectorName2);
+           colSelectorName= colSelectorName1+colSelectorName2;
+         //  console.log(colSelectorName);
 
            $('input[name*=' + rowSelectorName + ']:checked').each(function() {
                 totRow += parseInt($(this).next().text());
 
                 //console.log($(this));
+               //console.log($(totRow));
+
            });
 
+           colSelectorName = 'inlineDefaultRadiosExample';
+
+           $('input[name*=' + colSelectorName + ']:checked').each(function() {
+
+               totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
+
+               columnValue = parseInt($(this).next().text());
+
+               if(totCol[totIndex] == undefined) {
+                   totCol[totIndex] = 0;
+               }
+
+               totCol[totIndex] += parseInt($(this).next().text());
+
+               /*
+               totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
+
+               if(totCol[totIndex] !== void 0) {
+                   totCol[totIndex] = 0;
+               }
+
+               totCol[totIndex] += parseInt($(this).next().text());
+               */
+
+               /*
+               totCol += parseInt($(this).next().text());
+
+               console.log(colSelectorName);
+               */
+               //console.log($(this));
+           });
+
+           console.log(totCol);
+
            $('#tot' + selectorName.substr(selectorName.length - 2, 1)).text(totRow);
+           //console.log(selectorName.substr(selectorName.length - 1, 1));
+        //  $('#col' + selectorName.substr(selectorName.length - 1, 1)).text(totCol);
+
+        //$('#colonna').text(totCol);
+
 
            /* funziona
            $('div[id*=tot]').each(function(){
@@ -197,6 +248,8 @@
 
 
             }
+
+           $('#cico_total').val(totSum);
 
              $('#sumSpan').text(totSum);
 

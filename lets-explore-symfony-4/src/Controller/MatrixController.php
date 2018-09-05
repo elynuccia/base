@@ -157,17 +157,11 @@ class MatrixController extends AbstractController
         ));
         dump($form);
 
-
-        //return new Response('ciao');
-
         // per la visualizzazione
-     /*   if ($formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('matrix_list'), array('id'=>$matrix->getId()));
-        }*/
-
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('matrix_list', array('id' => $lastId)));
         }
+
         return $this->render('matrix/new.html.twig', array(
             'form' => $form->createView(),
             'matrix' => $matrix,

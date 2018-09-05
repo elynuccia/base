@@ -25,30 +25,63 @@ class CicoController extends AbstractController
      * @Route("/cico/{id}", name="cico")
      * @Method({"GET", "POST"})
      */
-    public function index(Matrix $matrix/*Request $request , CicoFormHandler $formHandler*/)
+    public function index(Matrix $matrix, Request $request , CicoFormHandler $formHandler)
     {
         $cico = new Cico();
+        $cico->setMatrix($matrix);
 
         $form = $this->createForm(CicoType::class, $cico);
+        dump($form);
+
+        if ($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('cico', array('id' => $lastId)));
+        }
 
         return $this->render('cico/new.html.twig', array(
             'form' => $form->createView(),
-            'matrix' => $matrix
+            'matrix' => $matrix,
+            'id' => $cico->getId(),
+            'cico' => $cico,
         ));
-        /* $matrix = new Matrix();
+
+        // $matrix = new Matrix();
 
 
 
-         $form = $this->createForm(MatrixType::class, $matrix);
-
-         if ($lastId = $formHandler->handle($form, $request)) {
-             return $this->redirect($this->generateUrl('matrix_behavior_new', array('id' => $lastId)));
-         }
 
 
-         return $this->render('matrix/index.html.twig', array(
-             'form' => $form->createView(),
-         )); */
+    }
+
+
+    /**
+     * @Route("/cico_new/{id}", name="cico_new")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param CicoFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function newAction(Request $request, Cico $cico, CicoFormHandler $formHandler) {
+
+        $form = $this->createForm(CicoType::class, $cico, array(
+            //'matrix' => $cico->getMatrix(),
+            //'cico' => $cico,
+            'action' => $this->generateUrl('cico_new', array(
+                'id'=>$cico->getId()
+            ))
+        ));
+
+      /*  if ($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('cico_new', array('id' => $lastId)));
+        }
+*/
+        return $this->render('cico/new2.html.twig', array(
+            'form' => $form->createView(),
+            'matrix' => $cico->getMatrix(),
+            'id' => $cico->getId(),
+            'cico' => $cico,
+        ));
 
     }
 }

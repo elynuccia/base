@@ -41,7 +41,7 @@ class Cico
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="cicos")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $student;
 
