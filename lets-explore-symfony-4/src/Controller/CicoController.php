@@ -34,7 +34,7 @@ class CicoController extends AbstractController
         dump($form);
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('cico', array('id' => $lastId)));
+            return $this->redirect($this->generateUrl('cico_new', array('id' => $lastId)));
         }
 
         return $this->render('cico/new.html.twig', array(
