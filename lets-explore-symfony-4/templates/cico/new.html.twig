@@ -35,23 +35,24 @@
 <br>
     <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
 
-<br>
+    {{ form_start(form) }}
 
     <div class="row">
     <div class="col-6 col-sm-4">
     <div class="md-form">
-        <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker" value="0">
-        <label for="date-picker-example">Select the Session Date</label>
+        {{ form_row(form.fillInDate) }}
     </div>
      </div>
     </div>
 
     <div class="row">
-    {{ form_start(form) }}
+
 
     {{ form_row(form.periodNumber) }}
         {{ form_row(form.total) }}
         {{ form_row(form.threshold) }}
+        {{ form_row(form.tmpData) }}
+
 
 
 
@@ -141,9 +142,20 @@
                         $('#tabella').append($str);
                     }
                 }
+
+
             );
 
-            $('.datepicker').pickadate({
+            $('form').on('submit', function (e) {
+               // e.preventDefault();
+
+                $('#cico_tmpData').val(totCol);
+
+
+            });
+
+            $('#cico_fillInDate').pickadate({
+                format: 'd mmmm yyyy',
                 today: 'Today',
                 clear: 'Clear selection',
                 close: 'Cancel',
@@ -151,6 +163,8 @@
             });
 
         });
+
+
 
 
         //bisogna differenziare il totale di ogni riga

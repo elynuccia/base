@@ -8,6 +8,7 @@
 
 namespace App\Form\Handler;
 
+use App\Entity\CicoData;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Cico;
@@ -49,7 +50,8 @@ class CicoFormHandler
         if ($form->isSubmitted() && $form->isValid()
         ) {
             $cicoFormData = $form->getData();
-            $lastId = $this->create($cicoFormData);
+
+            $lastId = $this->create($cicoFormData, $form->get('fillInDate')->getData());
 
             return $lastId;
         }
@@ -57,8 +59,25 @@ class CicoFormHandler
 
     }
 
-    public function create(Cico $entity)
+    public function create(Cico $entity, $fillInDate)
     {
+        $totCols = $entity->getTmpData();
+
+        foreach(explode(',', $totCols) as $key => $totCol) {
+            $fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));
+
+
+            $cicoData = new CicoData();
+            $cicoData->setExpectation($entity->getMatrix()->getExpectationTags()->get($key));
+            $cicoData->setCico($entity);
+            $cicoData->setValue($totCol);
+            $cicoData->setFillInDate($fillInDateTime);
+
+            $entity->addData($cicoData);
+        }
+
+        $entity->setTmpData(null);
+
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 

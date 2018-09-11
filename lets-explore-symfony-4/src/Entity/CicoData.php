@@ -31,12 +31,12 @@ class CicoData
     /**
      * @ORM\Column(type="integer")
      */
-    private $period;
+    private $value;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="date")
      */
-    private $value;
+    private $fillInDate;
 
     public function getId()
     {
@@ -67,18 +67,6 @@ class CicoData
         return $this;
     }
 
-    public function getPeriod(): ?int
-    {
-        return $this->period;
-    }
-
-    public function setPeriod(int $period): self
-    {
-        $this->period = $period;
-
-        return $this;
-    }
-
     public function getValue(): ?int
     {
         return $this->value;
@@ -87,6 +75,18 @@ class CicoData
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getFillInDate(): ?\DateTimeInterface
+    {
+        return $this->fillInDate;
+    }
+
+    public function setFillInDate(\DateTimeInterface $fillInDate): self
+    {
+        $this->fillInDate = $fillInDate;
 
         return $this;
     }

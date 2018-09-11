@@ -46,9 +46,16 @@ class Cico
     private $student;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CicoData", mappedBy="cico", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\CicoData", mappedBy="cico", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $data;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tmpData;
+
+
 
     public function __construct()
     {
@@ -151,4 +158,17 @@ class Cico
 
         return $this;
     }
+
+    public function getTmpData(): ?string
+    {
+        return $this->tmpData;
+    }
+
+    public function setTmpData(?string $tmpData): self
+    {
+        $this->tmpData = $tmpData;
+
+        return $this;
+    }
+
 }
