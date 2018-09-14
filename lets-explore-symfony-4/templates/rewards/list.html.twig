@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rewards{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+{% block body %}
+{# sistema grafica dei premi inseriti#}
+    {% for reward in rewards %}
+{{ reward.name }}
+{{ reward.value }}
+{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+
+
+        $(document).ready( function() {
+
+        });
+
+    </script>
+
+{% endblock %}
