@@ -41,7 +41,6 @@ class CicoDataType extends AbstractType
             ->add('expectation');
 
 
-        $builder->add('fillInDate', TextType::class);
     }
 
 

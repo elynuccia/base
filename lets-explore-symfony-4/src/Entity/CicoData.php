@@ -17,12 +17,6 @@ class CicoData
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cico", inversedBy="data")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $cico;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ExpectationTag")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -34,25 +28,14 @@ class CicoData
     private $value;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\ManyToOne(targetEntity="App\Entity\CicoSession", inversedBy="data")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $fillInDate;
+    private $session;
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getCico(): ?Cico
-    {
-        return $this->cico;
-    }
-
-    public function setCico(?Cico $cico): self
-    {
-        $this->cico = $cico;
-
-        return $this;
     }
 
     public function getExpectation(): ?ExpectationTag
@@ -79,14 +62,14 @@ class CicoData
         return $this;
     }
 
-    public function getFillInDate()
+    public function getSession(): ?CicoSession
     {
-        return ($this->fillInDate) ? $this->fillInDate->format('Y-m-d') : null;
+        return $this->session;
     }
 
-    public function setFillInDate($fillInDate)
+    public function setSession(?CicoSession $session): self
     {
-        $this->fillInDate = new \DateTime($fillInDate);
+        $this->session = $session;
 
         return $this;
     }

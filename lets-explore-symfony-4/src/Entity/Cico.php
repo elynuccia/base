@@ -42,20 +42,20 @@ class Cico
     private $student;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CicoData", mappedBy="cico", orphanRemoval=true, cascade={"persist", "remove"})
-     */
-    private $data;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tmpData;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CicoSession", mappedBy="cico")
+     */
+    private $sessions;
 
 
 
     public function __construct()
     {
-        $this->data = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
 
     }
 
@@ -113,37 +113,6 @@ class Cico
         return $this;
     }
 
-    /**
-     * @return Collection|CicoData[]
-     */
-    public function getData(): Collection
-    {
-        return $this->data;
-    }
-
-    public function addData(CicoData $data): self
-    {
-        if (!$this->data->contains($data)) {
-            $this->data[] = $data;
-            $data->setCico($this);
-        }
-
-        return $this;
-    }
-
-    public function removeData(CicoData $data): self
-    {
-        if ($this->data->contains($data)) {
-            $this->data->removeElement($data);
-            // set the owning side to null (unless already changed)
-            if ($data->getCico() === $this) {
-                $data->setCico(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTmpData(): ?string
     {
         return $this->tmpData;
@@ -152,6 +121,37 @@ class Cico
     public function setTmpData(?string $tmpData): self
     {
         $this->tmpData = $tmpData;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CicoSession[]
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(CicoSession $session): self
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions[] = $session;
+            $session->setCico($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSession(CicoSession $session): self
+    {
+        if ($this->sessions->contains($session)) {
+            $this->sessions->removeElement($session);
+            // set the owning side to null (unless already changed)
+            if ($session->getCico() === $this) {
+                $session->setCico(null);
+            }
+        }
 
         return $this;
     }

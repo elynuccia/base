@@ -28,16 +28,18 @@
 
     <h3>Motto:<i>{{ matrix.motto }}</i> </h3>
 
-   {# <div class="row">
-        <div class="col-6 col-sm-4">  <label for="customRange1">Goal percentage</label>
-            <input type="range" class="custom-range" id="customRange1"></div>
-    </div>
-    <br>#}
+
     {{ form_start(form) }}
 
-   {#{ form_row(form.data) }#}
+    <div class="row">
+        <div class="col-6 col-sm-4">
+            <div class="md-form">
+                {{ form_row(form.sessions[0].fillInDate) }}
+            </div>
+        </div>
+    </div>
 
-    <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2"></span></h4></div>
+    <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2">{{ 3 * ( (cico.matrix.expectationTags | length ) + (cico.periodNumber)) }} </span></h4></div>
 
 
     {% if(cico.matrix.expectationTags | length ) == 1 %}
@@ -83,7 +85,7 @@
 
             {% for expectation in 1..cico.matrix.expectationTags | length %}
                 <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
-                    {{ form_widget(form.data[formDataIndex].value) }}
+                    {{ form_widget(form.sessions[0].data[formDataIndex].value) }}
                 </div>
 
                 {% set formDataIndex = formDataIndex + 1 %}
@@ -97,9 +99,6 @@
 
     </div>
 
-    {#{{ cico.total }}
-    {{ cico.tmpData }}
-#}
 
 
     </div>
@@ -125,14 +124,14 @@
         var rows;
         $(document).ready( function() {
 
-            periods = parseInt(document.getElementById("ciao").innerHTML);
+           // periods = parseInt(document.getElementById("ciao").innerHTML);
 
             $var= $('#cico_periodNumber');
             $exp = document.getElementById("expectations");
 
 //inizio onchange
 
-            $totale_massimo=3*expectations.length*periods;
+         //   $totale_massimo=3*expectations.length*periods;
 
             $percentage= parseInt($('#customRange1').val());
             console.log($percentage);
@@ -187,7 +186,7 @@
 
 
 
-        $('#cico_data_fillInDate').pickadate({
+        $('#cico_sessions_0_fillInDate').pickadate({
             format: 'd mmmm yyyy',
             today: 'Today',
             clear: 'Clear selection',

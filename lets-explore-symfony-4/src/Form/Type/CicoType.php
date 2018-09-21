@@ -41,8 +41,9 @@ class CicoType extends AbstractType
 
             ));
 
-        $builder->add('data', CollectionType::class, array(
-            'entry_type' => CicoDataType::class,
+
+        $builder->add('sessions', CollectionType::class, array(
+            'entry_type' => CicoSessionType::class,
 
         ));
         $builder->add('submit', SubmitType::class, array('label'=>'Save'));

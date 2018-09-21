@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 use App\Entity\CicoData;
+use App\Entity\CicoSession;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -33,17 +34,20 @@ class CicoDataController extends AbstractController
             //$cicoData = new CicoData();
             //$cicoData->setExpectation($blabla);
             //$cico->addData($cicoData);
+        $session = new CicoSession();
+        $session->setCico($cico);
 
         for($i=1; $i<=$cico->getPeriodNumber(); $i++) {
             foreach($cico->getMatrix()->getExpectationTags() as $expectation) {
                 $cicoData = new CicoData();
-                $cicoData->setCico($cico);
+                $cicoData->setSession($session);
                 $cicoData->setExpectation($expectation);
 
-                $cico->addData($cicoData);
+                $session->addData($cicoData);
             }
         }
 
+        $cico->addSession($session);
 
 
         $form = $this->createForm(CicoType::class, $cico);
