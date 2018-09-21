@@ -239,7 +239,7 @@
 
                     <!--Panel Header-->
                     <div class="view view-cascade py-3 gradient-card-header info-color-dark">
-                        <h5 class="mb-0">Sales</h5>
+                        <h5 class="mb-0">CICO Session</h5>
                     </div>
                     <!--/Panel Header-->
 
@@ -300,7 +300,7 @@
                                 </p>
 
                                 <!--Change chart-->
-                                <span class="min-chart my-4" id="chart-sales" data-percent="76">
+                                <span class="min-chart my-4" id="chart-sales" data-percent="80">
                                         <span class="percent"></span>
                                     </span>
                                 <h5>
@@ -812,11 +812,11 @@
     });
 
     // Main chart
-    var ctxL = document.getElementById("lineChart").getContext('2d');
+   /* var ctxL = document.getElementById("lineChart").getContext('2d');
     var myLineChart = new Chart(ctxL, {
         type: 'line',
         data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: ["Day1", "Day2", "Day3", "Day4", "Day5", "Day6", "Day7"],
             datasets: [{
                 label: "My First dataset",
                 fillColor: "#fff",
@@ -826,6 +826,70 @@
             }]
         },
         options: {
+            legend: {
+                labels: {
+                    fontColor: "#fff",
+                }
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: true,
+                        color: "rgba(255,255,255,.25)"
+                    },
+                    ticks: {
+                        fontColor: "#fff",
+
+                    },
+                }],
+                yAxes: [{
+                    display: true,
+                    gridLines: {
+                        display: true,
+                        color: "rgba(255,255,255,.25)"
+                    },
+                    ticks: {
+                        fontColor: "#fff",
+                    },
+                }],
+            }
+        }
+    });*/
+
+
+    //line
+    var ctxL = document.getElementById("lineChart").getContext('2d');
+    var myLineChart = new Chart(ctxL, {
+        type: 'line',
+        data: {
+            labels: ["Day1", "Day2", "Day3", "Day4", "Day5", "Day6", "Day7"],
+            datasets: [
+                {
+                    label: "Cico Dataset",
+                    fillColor: "#fff",
+                    backgroundColor: 'rgba(255, 255, 255, .3)',
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [65, 59, 80, 81, 56, 55, 40]
+                },
+                {
+                    label: "Goal Line",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    backgroundColor: 'rgba(255, 255, 255, .3)',
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: [80, 80, 80, 80, 80, 80, 80]
+                }
+            ]
+        },
+        options: {
+            responsive: true,
             legend: {
                 labels: {
                     fontColor: "#fff",
@@ -849,6 +913,8 @@
                     },
                     ticks: {
                         fontColor: "#fff",
+                        beginAtZero:true,
+                        max:100,
                     },
                 }],
             }

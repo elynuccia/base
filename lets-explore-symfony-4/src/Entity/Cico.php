@@ -28,10 +28,6 @@ class Cico
      */
     private $threshold;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $total;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Matrix", inversedBy="cicos")
@@ -92,17 +88,6 @@ class Cico
         return $this;
     }
 
-    public function getTotal(): ?int
-    {
-        return $this->total;
-    }
-
-    public function setTotal(?int $total): self
-    {
-        $this->total = $total;
-
-        return $this;
-    }
 
     public function getMatrix(): ?Matrix
     {

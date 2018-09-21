@@ -39,9 +39,9 @@
 
     <div class="row">
     <div class="col-6 col-sm-4">
-    <div class="md-form">
+    {#<div class="md-form">
         {{ form_row(form.fillInDate) }}
-    </div>
+    </div>#}
      </div>
     </div>
 
@@ -49,7 +49,6 @@
 
 
     {{ form_row(form.periodNumber) }}
-        {{ form_row(form.total) }}
         {{ form_row(form.threshold) }}
         {{ form_row(form.tmpData) }}
 
@@ -107,7 +106,7 @@
             rows=e.currentTarget.value;
 
 
-                    document.getElementById("tabella").innerHTML="";
+            /*        document.getElementById("tabella").innerHTML="";
                     for (var i = 0; i < e.currentTarget.value; i++) {
                         $str= "  <div class=\"row\">\n" +
                             "        <div class=\"col-6 col-sm-2\">"+(i+1)+"</div>\n";
@@ -140,19 +139,19 @@
                             "    </div>";
 
                         $('#tabella').append($str);
-                    }
+                    }*/
                 }
 
 
             );
 
-            $('form').on('submit', function (e) {
+          /*  $('form').on('submit', function (e) {
                // e.preventDefault();
 
                 $('#cico_tmpData').val(totCol);
 
 
-            });
+            });*/
 
             $('#cico_fillInDate').pickadate({
                 format: 'd mmmm yyyy',

@@ -22,8 +22,9 @@
 {% block body %}
 {# sistema grafica dei premi inseriti#}
     {% for reward in rewards %}
-{{ reward.name }}
+        <div>{{ reward.name }}
 {{ reward.value }}
+    </div>
 {% endfor %}
 
 {% endblock %}

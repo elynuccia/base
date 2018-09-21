@@ -79,14 +79,14 @@ class CicoData
         return $this;
     }
 
-    public function getFillInDate(): ?\DateTimeInterface
+    public function getFillInDate()
     {
-        return $this->fillInDate;
+        return ($this->fillInDate) ? $this->fillInDate->format('Y-m-d') : null;
     }
 
-    public function setFillInDate(\DateTimeInterface $fillInDate): self
+    public function setFillInDate($fillInDate)
     {
-        $this->fillInDate = $fillInDate;
+        $this->fillInDate = new \DateTime($fillInDate);
 
         return $this;
     }

@@ -9,9 +9,11 @@
 namespace App\Form\Type;
 
 use App\Entity\Cico;
+use App\Entity\CicoData;
 use Symfony\Component\Form\AbstractType;
 
 
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,11 +41,13 @@ class CicoType extends AbstractType
 
             ));
 
-        $builder->add('submit', SubmitType::class);
-        $builder->add('fillInDate', TextType::class, array(
-            'mapped' => false
+        $builder->add('data', CollectionType::class, array(
+            'entry_type' => CicoDataType::class,
+
         ));
-        $builder->add('total', HiddenType::class);
+        $builder->add('submit', SubmitType::class, array('label'=>'Save'));
+        $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
+
         $builder->add('threshold', HiddenType::class);
         $builder->add('tmpData', HiddenType::class);
     }

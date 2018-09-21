@@ -35,35 +35,73 @@
     <br>#}
     {{ form_start(form) }}
 
+   {#{ form_row(form.data) }#}
+
     <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2"></span></h4></div>
 
 
+    {% if(cico.matrix.expectationTags | length ) == 1 %}
+        {% set sizeColumn = 4 %}
+    {% endif %}
+
+    {% if(cico.matrix.expectationTags | length ) == 2 %}
+        {% set sizeColumn = 3 %}
+    {% endif %}
+
+    {% if(cico.matrix.expectationTags | length ) == 3 %}
+        {% set sizeColumn = 3 %}
+    {% endif %}
+
+    {% if(cico.matrix.expectationTags | length ) == 4 %}
+        {% set sizeColumn = 2 %}
+    {% endif %}
+
+    {% if(cico.matrix.expectationTags | length ) == 5 %}
+        {% set sizeColumn = 1 %}
+    {% endif %}
+
+    {% set formDataIndex = 0 %}
 
     <div class="row">
-        <div class="col-6 col-sm-4">
-            <div class="md-form">
-                {{ form_row(form.fillInDate) }}
-            </div>
+        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+            Periods
         </div>
+
+        {% for expectation in cico.matrix.expectationTags %}
+            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                {{ expectation }}
+            </div>
+        {% endfor %}
     </div>
 
-        {{ form_row(form.total) }}
-        {{ form_row(form.threshold) }}
 
-      <div>Selected periods: <span id="ciao"> {{ cico.periodNumber }} </span></div>
+    {% for period in 1..cico.periodNumber %}
+        <div class="row">
+            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                {{ loop.index }}
+            </div>
+
+            {% for expectation in 1..cico.matrix.expectationTags | length %}
+                <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                    {{ form_widget(form.data[formDataIndex].value) }}
+                </div>
+
+                {% set formDataIndex = formDataIndex + 1 %}
+           {% endfor %}
+        </div>
+    {% endfor %}
+
+
+
+
+
     </div>
 
     {#{{ cico.total }}
     {{ cico.tmpData }}
 #}
 
-    <div id="header"> <div class="row">
-            <div class="col-6 col-sm-2"> <h4>Periods</h4> </div>
-            {% for expectation in matrix.expectationTags %}
-                <div id="expectations" class="col-6 col-sm-2"><h4> {{ expectation.name }} </h4></div>
-            {% endfor %}
-            <div class="col-6 col-sm-2"> <h4>Total</h4> </div>
-        </div>
+
     </div>
     <div id="tabella"></div>
 
@@ -73,7 +111,7 @@
         </div>
         <div id="success" class="col-6 col-sm-2"></div>
         <div class="col-sm-10">{{ form_row(form.submit)}}</div>
-
+        <div class="col-sm-10">{{ form_row(form.submitAndAdd)}}</div>
     </div>
 
     <div id="colonna"></div>
@@ -110,7 +148,7 @@
 
 
 
-
+/*
             document.getElementById("tabella").innerHTML="";
             for (var i = 0; i < periods; i++) {
                 $str= "  <div class=\"row\">\n" +
@@ -144,18 +182,12 @@
                     "    </div>";
 
                 $('#tabella').append($str);
-            }
+            }*/
         });
 
-        $('form').on('submit', function (e) {
-            // e.preventDefault();
-
-            $('#cico_tmpData').val(totCol);
 
 
-        });
-
-        $('#cico_fillInDate').pickadate({
+        $('#cico_data_fillInDate').pickadate({
             format: 'd mmmm yyyy',
             today: 'Today',
             clear: 'Clear selection',

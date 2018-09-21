@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class CicoFormHandler
+class CicoDataFormHandler
 {
     private $entityManager;
     private $session;
@@ -49,9 +49,11 @@ class CicoFormHandler
 
         if ($form->isSubmitted() && $form->isValid()
         ) {
-            $cicoForm = $form->getData();
+            $cicoFormData = $form->getData();
 
-            $lastId = $this->create($cicoForm);
+           dump($cicoFormData);exit;
+
+            $lastId = $this->create($cicoFormData, $form->get('fillInDate')->getData());
 
             return $lastId;
         }
@@ -59,10 +61,27 @@ class CicoFormHandler
 
     }
 
-    public function create(Cico $entity)
+    public function create(CicoData $entity, $fillInDate)
     {
+        //dump($fillInDate); exit;
+       // $totCols = $entity->getTmpData();
+
+        /*foreach(explode(',', $totCols) as $key => $totCol) {
+            $fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));*/
 
 
+        //$cicoData = new CicoData();
+           // $cicoData->setExpectation($entity->getMatrix()->getExpectationTags()->get($key));
+           // $cicoData->setCico($entity);
+           // $cicoData->setValue($totCol);
+            //$cicoData->setFillInDate($fillInDateTime);
+
+           // $entity->addData($cicoData);
+        /*}*/
+
+      //  $entity->setTmpData(null);
+        //$fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));
+        //$entity->setFillInDate($fillInDateTime);
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
