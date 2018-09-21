@@ -86,6 +86,10 @@
             {% for expectation in 1..cico.matrix.expectationTags | length %}
                 <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
                     {{ form_widget(form.sessions[0].data[formDataIndex].value) }}
+
+                    <div class="d-none">
+                        {{ form_widget(form.sessions[0].data[formDataIndex].expectation) }}
+                    </div>
                 </div>
 
                 {% set formDataIndex = formDataIndex + 1 %}
@@ -97,16 +101,11 @@
 
 
 
-    </div>
-
-
-
-    </div>
     <div id="tabella"></div>
 
     <div class="row">
         <div id="totals" class="col-6 col-sm-4"> <h4>Total:
-                <span id="sumSpan"></span>/ <span id="max"></span></h4>
+                <span id="sumSpan"></span>/{{ 3 * ( (cico.matrix.expectationTags | length ) + (cico.periodNumber)) }}<span id="max"></span></h4>
         </div>
         <div id="success" class="col-6 col-sm-2"></div>
         <div class="col-sm-10">{{ form_row(form.submit)}}</div>
@@ -114,6 +113,8 @@
     </div>
 
     <div id="colonna"></div>
+    {{ form_row(form.periodNumber) }}
+    {{ form_row(form.threshold) }}
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
@@ -139,7 +140,7 @@
             //console.log($goal);
             $('#max').text($totale_massimo);
             $('#goal').text($goal);
-            $('#max2').text($totale_massimo);
+       //     $('#max2').text($totale_massimo);
             $('#cico_threshold').val($goal);
 
             rows=2;
@@ -187,7 +188,7 @@
 
 
         $('#cico_sessions_0_fillInDate').pickadate({
-            format: 'd mmmm yyyy',
+            format: 'yyyy-mm-dd',
             today: 'Today',
             clear: 'Clear selection',
             close: 'Cancel',

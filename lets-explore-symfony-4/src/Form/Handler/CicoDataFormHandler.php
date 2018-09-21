@@ -51,7 +51,7 @@ class CicoDataFormHandler
         ) {
             $cicoFormData = $form->getData();
 
-           dump($cicoFormData);exit;
+         //  dump($cicoFormData);exit;
 
             $lastId = $this->create($cicoFormData, $form->get('fillInDate')->getData());
 

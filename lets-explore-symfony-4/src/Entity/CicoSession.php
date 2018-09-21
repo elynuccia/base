@@ -24,7 +24,7 @@ class CicoSession
     private $fillInDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CicoData", mappedBy="session", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\CicoData", mappedBy="session", orphanRemoval=true, cascade={"all"})
      */
     private $data;
 
@@ -41,6 +41,17 @@ class CicoSession
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getTotal()
+    {
+        $total = 0;
+
+        foreach ($this->getData() as $data) {
+            $total+= $data->getValue();
+        }
+
+        return $total;
     }
 
     public function getFillInDate()

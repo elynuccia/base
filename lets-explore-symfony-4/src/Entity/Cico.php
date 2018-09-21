@@ -47,7 +47,7 @@ class Cico
     private $tmpData;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CicoSession", mappedBy="cico")
+     * @ORM\OneToMany(targetEntity="App\Entity\CicoSession", mappedBy="cico", cascade={"all"})
      */
     private $sessions;
 

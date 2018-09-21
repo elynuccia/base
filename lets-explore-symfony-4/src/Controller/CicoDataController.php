@@ -17,7 +17,7 @@ use App\Entity\Matrix;
 
 use App\Form\Type\CicoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Form\Handler\CicoDataFormHandler;
+use App\Form\Handler\CicoFormHandler;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +27,7 @@ class CicoDataController extends AbstractController
      * @Route("/cicodata/{id}", name="cico_data")
      * @Method({"GET", "POST"})
      */
-    public function index(Cico $cico, Request $request, CicoDataFormHandler $formHandler)
+    public function index(Cico $cico, Request $request, CicoFormHandler $formHandler)
     {
         //per ciascun periodo
             // per ciascuna aspettativa
@@ -53,10 +53,10 @@ class CicoDataController extends AbstractController
         $form = $this->createForm(CicoType::class, $cico);
         //dump($form);
 
-        /*
+
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('cico_data', array('id' => $lastId)));
-        }*/
+        }
 
         return $this->render('cico/new2.html.twig', array(
             'form' => $form->createView(),
@@ -74,7 +74,7 @@ class CicoDataController extends AbstractController
      * @Template
      *
      * @param Request $request
-     * @param CicoDataFormHandler $formHandler
+     * @param CicoFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
