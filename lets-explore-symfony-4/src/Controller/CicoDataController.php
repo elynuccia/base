@@ -30,15 +30,15 @@ class CicoDataController extends AbstractController
     public function index(Cico $cico, Request $request, CicoFormHandler $formHandler)
     {
         //per ciascun periodo
-            // per ciascuna aspettativa
-            //$cicoData = new CicoData();
-            //$cicoData->setExpectation($blabla);
-            //$cico->addData($cicoData);
+        // per ciascuna aspettativa
+        //$cicoData = new CicoData();
+        //$cicoData->setExpectation($blabla);
+        //$cico->addData($cicoData);
         $session = new CicoSession();
         $session->setCico($cico);
 
-        for($i=1; $i<=$cico->getPeriodNumber(); $i++) {
-            foreach($cico->getMatrix()->getExpectationTags() as $expectation) {
+        for ($i = 1; $i <= $cico->getPeriodNumber(); $i++) {
+            foreach ($cico->getMatrix()->getExpectationTags() as $expectation) {
                 $cicoData = new CicoData();
                 $cicoData->setSession($session);
                 $cicoData->setExpectation($expectation);
@@ -55,7 +55,12 @@ class CicoDataController extends AbstractController
 
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('cico_data', array('id' => $lastId)));
+            $nextAction = $form->get('submitAndAdd')->isClicked()
+                ? 'cico_new'
+                : 'cico_list';
+
+            return $this->redirect($this->generateUrl($nextAction, array('id' => $lastId)));
+            //return $this->redirect($this->generateUrl('cico_data', array('id' => $lastId)));
         }
 
         return $this->render('cico/new2.html.twig', array(
@@ -66,6 +71,32 @@ class CicoDataController extends AbstractController
         ));
 
     }
+
+
+
+    /**
+     * @Route("/cicolist", name="cico_list")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param CicoFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+     public function listAction() {
+
+
+         $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
+         $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
+
+
+         return $this->render('cico/list.html.twig', array(
+             'cicoData'=>$cicoData,
+             'cicoSession'=>$cicoSession,
+
+         ));
+     }
+}
 
 
     /**
@@ -106,24 +137,4 @@ class CicoDataController extends AbstractController
     }
 
 
-    /**
-     * @Route("/cicolist", name="cico_list")
-     * @Method({"GET", "POST"})
-     * @Template
-     *
-     * @param Request $request
-     * @param CicoDataFormHandler $formHandler
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-   /* public function listAction() {
-
-
-        $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
-
-
-        return $this->render('cico/list.html.twig', array(
-            'cicoData'=>$cicoData,
-
-        ));
-    }*/
 }
