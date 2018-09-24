@@ -10,7 +10,7 @@ namespace App\Form\Type;
 
 use App\Entity\CicoSession;
 use Symfony\Component\Form\AbstractType;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,8 @@ class CicoSessionType extends AbstractType
         ));
 
         $builder->add('fillInDate', TextType::class);
-
+        $builder->add('submit', SubmitType::class, array('label'=>'Save'));
+        $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
 
     }
 

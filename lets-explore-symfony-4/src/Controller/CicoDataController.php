@@ -16,6 +16,7 @@ use App\Entity\Cico;
 use App\Entity\Matrix;
 
 use App\Form\Type\CicoType;
+use App\Form\Type\CicoSessionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\Handler\CicoFormHandler;
 
@@ -56,7 +57,7 @@ class CicoDataController extends AbstractController
 
         if ($lastId = $formHandler->handle($form, $request)) {
             $nextAction = $form->get('submitAndAdd')->isClicked()
-                ? 'cico_new'
+                ? 'cico_data'
                 : 'cico_list';
 
             return $this->redirect($this->generateUrl($nextAction, array('id' => $lastId)));
@@ -85,7 +86,7 @@ class CicoDataController extends AbstractController
      */
      public function listAction() {
 
-
+         $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
          $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
          $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
 
@@ -93,10 +94,10 @@ class CicoDataController extends AbstractController
          return $this->render('cico/list.html.twig', array(
              'cicoData'=>$cicoData,
              'cicoSession'=>$cicoSession,
+             'cico'=>$cico,
 
          ));
      }
-}
 
 
     /**
@@ -108,26 +109,34 @@ class CicoDataController extends AbstractController
      * @param CicoFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    public function newAction(Request $request, CicoSession $session, CicoFormHandler $formHandler) {
 
-    /*
-    public function newAction(Request $request, CicoData $cicoData, CicoDataFormHandler $formHandler) {
-        $form = $this->createForm(CicoType::class, $cico, array(
-            'action' => $this->generateUrl('cico_new', array(
-                'id'=>$cico->getId()
-            ))
-        ));
+        $cico = $session->getCico();
 
-        if ($lastId = $formHandler->handle($form, $request)) {
+        for ($i = 1; $i <= $cico->getPeriodNumber(); $i++) {
+            foreach ($cico->getMatrix()->getExpectationTags() as $expectation) {
+                $cicoData = new CicoData();
+                $cicoData->setSession($session);
+                $cicoData->setExpectation($expectation);
+
+                $session->addData($cicoData);
+            }
+        }
+
+        $form = $this->createForm(CicoSessionType::class, $session);
+
+
+/*
             if ($lastId = $formHandler->handle($form, $request)) {
 
                 $nextAction = $form->get('submitAndAdd')->isClicked()
-                    ? 'cico_new'
+                    ? 'cicodata_new'
                     : 'cico_list';
 
-                return $this->redirect($this->generateUrl($nextAction, array('id' => $lastId)));
-            }        }
+                return $this->redirect($this->generateUrl($nextAction, array('id' => $session->getId())));
+                }*/
 
-        return $this->render('cico/new2.html.twig', array(
+        return $this->render('cico/new3.html.twig', array(
             'form' => $form->createView(),
             'matrix' => $cico->getMatrix(),
             'id' => $cico->getId(),

@@ -31,12 +31,22 @@
         <div>
             {{ fillInDate.fillInDate }}
           {{ fillInDate.getTotal() }}
+
+        </div>
+    {% endfor %}
+
+    {% for threshold in cico %}
+        <div>
+           {{ (threshold.threshold * 100) / (3 * threshold.periodNumber)}}
+
         </div>
     {% endfor %}
 
     <div class="row">
+                <div class="col-3 col-sm-8">
 
-
+        <canvas id="lineChart"></canvas>
+                </div>
     </div>
 {% endblock %}
 
@@ -45,8 +55,69 @@
     <script>
         var rows;
         $(document).ready( function() {
-});
 
+});
+        //line
+        var ctxL = document.getElementById("lineChart").getContext('2d');
+        var myLineChart = new Chart(ctxL, {
+            type: 'line',
+            data: {
+                labels: ["2018-09-21", "2018-09-21", "2018-09-21"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "5d51ff",
+                        strokeColor: "5d51ff",
+                        pointColor: "5d51ff",
+                        pointStrokeColor: "#0d0d0d",
+                        pointHighlightFill: "#0d0d0d",
+                        pointHighlightStroke: "5d51ff",
+                        data: [6, 6, 6]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#5d51ff",
+                        pointHighlightFill: "#ff3da3",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        data: [6, 8, 6]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    labels: {
+                        fontColor: "#0d0d0d",
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: true,
+                            color: "#c7c8c6"
+                        },
+                        ticks: {
+                            fontColor: "#71beee",
+                        },
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true,
+                            color: "#c7c8c6"
+                        },
+                        ticks: {
+                            fontColor: "#71beee",
+                            beginAtZero:true,
+                            max:100,
+                        },
+                    }],
+                }
+            }
+        });
     </script>
 
 {% endblock %}

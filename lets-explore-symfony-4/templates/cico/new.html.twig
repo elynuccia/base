@@ -89,7 +89,10 @@
             $totale_massimo=3*expectations.length*e.currentTarget.value;
 
             $percentage= parseInt($('#customRange1').val());
-            console.log($percentage);
+                    $('#percentage').text($percentage);
+                    $('#cico_tempData').val($percentage);
+
+                    console.log($percentage);
             $goal = Math.round(($totale_massimo*$percentage)/100);
             //console.log($goal);
             $('#max').text($totale_massimo);

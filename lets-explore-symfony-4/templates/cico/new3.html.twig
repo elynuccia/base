@@ -31,16 +31,10 @@
 
     {{ form_start(form) }}
 
-    {% set sessionIndex = (form.sessions | length) -1 %}
-
-   {% for lastSessionIndex in 0..sessionIndex %}
-
-    <div class="{% if loop.index0 != sessionIndex %}d-none{% endif %}">
-
     <div class="row">
         <div class="col-6 col-sm-4">
             <div class="md-form">
-                {{ form_row(form.sessions[lastSessionIndex].fillInDate) }}
+                {{ form_row(form.fillInDate) }}
             </div>
         </div>
     </div>
@@ -91,19 +85,17 @@
 
             {% for expectation in 1..cico.matrix.expectationTags | length %}
                 <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
-                    {{ form_widget(form.sessions[lastSessionIndex].data[formDataIndex].value) }}
+                    {{ form_widget(form.data[formDataIndex].value) }}
 
                     <div class="d-none">
-                        {{ form_widget(form.sessions[lastSessionIndex].data[formDataIndex].expectation) }}
+                        {{ form_widget(form.data[formDataIndex].expectation) }}
                     </div>
                 </div>
 
                 {% set formDataIndex = formDataIndex + 1 %}
-           {% endfor %}
+            {% endfor %}
         </div>
     {% endfor %}
-       </div>
-   {% endfor %}
 
 
 
@@ -121,8 +113,7 @@
     </div>
 
     <div id="colonna"></div>
-    {{ form_row(form.periodNumber) }}
-    {{ form_row(form.threshold) }}
+
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
@@ -133,14 +124,14 @@
         var rows;
         $(document).ready( function() {
 
-           // periods = parseInt(document.getElementById("ciao").innerHTML);
+            // periods = parseInt(document.getElementById("ciao").innerHTML);
 
             $var= $('#cico_periodNumber');
             $exp = document.getElementById("expectations");
 
 //inizio onchange
 
-         //   $totale_massimo=3*expectations.length*periods;
+            //   $totale_massimo=3*expectations.length*periods;
 
             $percentage= parseInt($('#customRange1').val());
             console.log($percentage);
@@ -148,7 +139,7 @@
             //console.log($goal);
             $('#max').text($totale_massimo);
             $('#goal').text($goal);
-       //     $('#max2').text($totale_massimo);
+            //     $('#max2').text($totale_massimo);
             $('#cico_threshold').val($goal);
 
             rows=2;
@@ -156,41 +147,41 @@
 
 
 
-/*
-            document.getElementById("tabella").innerHTML="";
-            for (var i = 0; i < periods; i++) {
-                $str= "  <div class=\"row\">\n" +
-                    "        <div class=\"col-6 col-sm-2\">"+(i+1)+"</div>\n";
+            /*
+                        document.getElementById("tabella").innerHTML="";
+                        for (var i = 0; i < periods; i++) {
+                            $str= "  <div class=\"row\">\n" +
+                                "        <div class=\"col-6 col-sm-2\">"+(i+1)+"</div>\n";
 
-                for (var j = 0; j < expectations.length; j++) {
-                    $('#colonna').append("        <div id='col"+ j +"' class=\"col-6 col-sm-2\"></div>\n" +
-                        "    </div>");
-                    $str=$str+
-                        "        <div class=\"col-6 col-sm-2\"><!-- Default inline 1-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"1defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"1defaultInline"+i+j+"\">1</label>\n" +
-                        "</div>\n" +
-                        "\n" +
-                        "<!-- Default inline 2-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"2defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"2defaultInline"+i+j+"\">2</label>\n" +
-                        "</div>\n" +
-                        "\n" +
-                        "<!-- Default inline 3-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"3defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"3defaultInline"+i+j+"\">3</label>\n" +
-                        "</div></div>\n";
+                            for (var j = 0; j < expectations.length; j++) {
+                                $('#colonna').append("        <div id='col"+ j +"' class=\"col-6 col-sm-2\"></div>\n" +
+                                    "    </div>");
+                                $str=$str+
+                                    "        <div class=\"col-6 col-sm-2\"><!-- Default inline 1-->\n" +
+                                    "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                                    "  <input type=\"radio\" class=\"custom-control-input\" id=\"1defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
+                                    "  <label class=\"custom-control-label\" for=\"1defaultInline"+i+j+"\">1</label>\n" +
+                                    "</div>\n" +
+                                    "\n" +
+                                    "<!-- Default inline 2-->\n" +
+                                    "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                                    "  <input type=\"radio\" class=\"custom-control-input\" id=\"2defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
+                                    "  <label class=\"custom-control-label\" for=\"2defaultInline"+i+j+"\">2</label>\n" +
+                                    "</div>\n" +
+                                    "\n" +
+                                    "<!-- Default inline 3-->\n" +
+                                    "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
+                                    "  <input type=\"radio\" class=\"custom-control-input\" id=\"3defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
+                                    "  <label class=\"custom-control-label\" for=\"3defaultInline"+i+j+"\">3</label>\n" +
+                                    "</div></div>\n";
 
-                }
+                            }
 
-                $str=$str+ "        <div id='tot"+ i +"' class=\"col-6 col-sm-2\"></div>\n" +
-                    "    </div>";
+                            $str=$str+ "        <div id='tot"+ i +"' class=\"col-6 col-sm-2\"></div>\n" +
+                                "    </div>";
 
-                $('#tabella').append($str);
-            }*/
+                            $('#tabella').append($str);
+                        }*/
 
 
         });
