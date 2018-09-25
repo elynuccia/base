@@ -88,19 +88,24 @@
                     // alert("onchange event");
             $totale_massimo=3*expectations.length*e.currentTarget.value;
 
-            $percentage= parseInt($('#customRange1').val());
-                    $('#percentage').text($percentage);
-                    $('#cico_tempData').val($percentage);
 
-                    console.log($percentage);
+
+            $percentage= parseInt($('#customRange1').val());
+
+
+
             $goal = Math.round(($totale_massimo*$percentage)/100);
-            //console.log($goal);
+
+
+                    //console.log($goal);
             $('#max').text($totale_massimo);
             $('#goal').text($goal);
             $('#max2').text($totale_massimo);
             $('#cico_threshold').val($goal);
+            $('#cico_tmpData').val($percentage);
 
-            rows=e.currentTarget.value;
+
+                    rows=e.currentTarget.value;
 
 
             /*        document.getElementById("tabella").innerHTML="";
@@ -148,7 +153,7 @@
                 $('#cico_tmpData').val(totCol);
 
 
-            });*/
+            });
 
             $('#cico_fillInDate').pickadate({
                 format: 'd mmmm yyyy',
@@ -157,7 +162,7 @@
                 close: 'Cancel',
 
             });
-
+*/
         });
 
 
@@ -172,68 +177,12 @@
             });
         }*/
 
-       totRow = 0;
+       //totRow = 0;
        //totCol = 0;
 
 
-    $('#tabella').on('change', "input[id*='defaultInline']", function(){
-           totSum = 0;
-           $tempTot=0;
-           totCol = [] ;
-           selectorName = $(this).attr('name');
-           //console.log(selectorName);
-           rowSelectorName = selectorName.substr(0, selectorName.length - 1);
-          // console.log(rowSelectorName);
-           colSelectorName1 = selectorName.substr(0, selectorName.length -2);
-           colSelectorName2 = selectorName.substr(selectorName.length -1, selectorName.length);
-           //console.log(colSelectorName1);
-           //console.log(colSelectorName2);
-           colSelectorName= colSelectorName1+colSelectorName2;
-         //  console.log(colSelectorName);
 
-           $('input[name*=' + rowSelectorName + ']:checked').each(function() {
-                totRow += parseInt($(this).next().text());
 
-                //console.log($(this));
-               //console.log($(totRow));
-
-           });
-
-           colSelectorName = 'inlineDefaultRadiosExample';
-
-           $('input[name*=' + colSelectorName + ']:checked').each(function() {
-
-               totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
-
-               columnValue = parseInt($(this).next().text());
-
-               if(totCol[totIndex] === undefined) {
-                   totCol[totIndex] = 0;
-               }
-
-               totCol[totIndex] += parseInt($(this).next().text());
-
-               /*
-               totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
-
-               if(totCol[totIndex] !== void 0) {
-                   totCol[totIndex] = 0;
-               }
-
-               totCol[totIndex] += parseInt($(this).next().text());
-               */
-
-               /*
-               totCol += parseInt($(this).next().text());
-
-               console.log(colSelectorName);
-               */
-               //console.log($(this));
-           });
-
-           console.log(totCol);
-
-           $('#tot' + selectorName.substr(selectorName.length - 2, 1)).text(totRow);
            //console.log(selectorName.substr(selectorName.length - 1, 1));
         //  $('#col' + selectorName.substr(selectorName.length - 1, 1)).text(totCol);
 
@@ -250,34 +199,8 @@
            });*/
 
 
-           for (var j=0; j<rows; j++){
-               $tempTot = document.getElementById("tot" + j).innerHTML;
-
-              // console.log($tempTot);
-               totSum = (isNaN(parseInt($tempTot))) ? totSum : totSum + parseInt($tempTot);
 
 
-            }
-
-           $('#cico_total').val(totSum);
-
-             $('#sumSpan').text(totSum);
-
-
-            if (totSum > $goal) {
-
-                $('#success').html("<div class=\"alert alert-success\" role=\"alert\">Success!</div>");
-            }
-
-            else {
-
-                $('#success').html("<div class=\"alert alert-danger\" role=\"alert\">Failed!</div>");
-
-            }
-
-           totRow = 0;
-
-       });
     </script>
 
 {% endblock %}

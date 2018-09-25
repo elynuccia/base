@@ -76,7 +76,7 @@ class CicoDataController extends AbstractController
 
 
     /**
-     * @Route("/cicolist", name="cico_list")
+     * @Route("/cicolist/{id}", name="cico_list")
      * @Method({"GET", "POST"})
      * @Template
      *
@@ -84,19 +84,23 @@ class CicoDataController extends AbstractController
      * @param CicoFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
-     public function listAction() {
+     public function listAction(Cico $cico) {
 
+         /*
          $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
          $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
          $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
+         */
 
-
+         /*
          return $this->render('cico/list.html.twig', array(
              'cicoData'=>$cicoData,
              'cicoSession'=>$cicoSession,
              'cico'=>$cico,
 
-         ));
+         ));*/
+
+         return array('cico' => $cico);
      }
 
 
