@@ -21,11 +21,47 @@
 
 {% block body %}
 {# sistema grafica dei premi inseriti#}
-    {% for reward in rewards %}
-        <div>{{ reward.name }}
-{{ reward.value }}
-    </div>
+    <h1>Rewards</h1>
+
+    <div class="card-group">
+    {% for reward in rewards|slice(1,5) %}
+        <div class="card mb-4">
+
+            <!-- Card image -->
+            <div class="view overlay">
+                <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/48.jpg" alt="Card image cap">
+                <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"> {{ reward.name }}</h4>
+                <!-- Text -->
+                <p class="card-text">{{ reward.value }}</p>
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <button type="button" id="ciao" class="btn btn-primary btn-md">Redeem the prize!</button>
+
+            </div>
+            <!-- Card content -->
+
+        </div>
+        <!-- Card -->
+
+      {#      <div class="row">
+                <div class="col">
+
+                </div>
+                 <div class="col">
+                 {{ reward.value }}
+                 </div>
+            </div>
+            #}
 {% endfor %}
+    </div>
 
 {% endblock %}
 
@@ -35,7 +71,9 @@
 
 
         $(document).ready( function() {
-
+            $('#ciao').on('click', function() {
+              alert();
+            });
         });
 
     </script>

@@ -15,12 +15,6 @@
 
     <h3>Minor Behaviors </h3>
 
-    <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}">
-        {# iterate over each existing tag and render its only field: name #}
-        {% for tag in form.tags %}
-            <li>{{ form_row(tag.name) }}</li>
-        {% endfor %}
-    </ul>
     <input type="submit" value="Send" class="btn btn-success" />
 
 

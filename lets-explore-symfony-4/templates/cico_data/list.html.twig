@@ -26,7 +26,9 @@
 
     <h2>Studente:</h2>
 
-    Totali
+    {% set foo = [] %}
+    {% for session in cico.sessions %} {% set foo =  foo|merge([session.total]) %} {% endfor %}
+   <div id="maxElem" style="display:none" >{{ max(foo) }}</div>
 
     <div class="row">
                 <div class="col-3 col-sm-8">
@@ -34,6 +36,8 @@
         <canvas id="lineChart"></canvas>
                 </div>
     </div>
+
+
 {% endblock %}
 
 {% block javascripts %}
@@ -42,89 +46,91 @@
         var rows;
         $(document).ready( function() {
 
+            propDim= parseInt($('#maxElem').text());
+
+            //line
+
+
+            var ctxL = document.getElementById("lineChart").getContext('2d');
+            var myLineChart = new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: [{% for session in cico.sessions %}"{{ session.fillInDate | date('Y-m-d') }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
+                    //labels: ["2018-09-21", "2018-09-21", "2018-09-21"],
+                    datasets: [
+                        {
+                            label: "Line Goal",
+                            fillColor: "5d51ff",
+                            strokeColor: "5d51ff",
+                            pointColor: "5d51ff",
+                            pointStrokeColor: "#0d0d0d",
+                            pointHighlightFill: "#0d0d0d",
+                            pointHighlightStroke: "5d51ff",
+                            data: [{% for session in cico.sessions %}"{{ cico.threshold }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
+                            backgroundColor: [
+                                'rgba(105, 0, 132, 0)'
+                            ],
+                            borderColor: [
+                                'rgba(200, 99, 132, .7)'
+                            ],
+                            borderWidth: 7
+                        },
+                        {
+                            label: "Day Total",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#5d51ff",
+                            pointHighlightFill: "#ff3da3",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [{% for session in cico.sessions %}"{{ session.total }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
+                            backgroundColor: [
+                                'rgba(0, 137, 132, .2)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 10, 130, .7)'],
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        labels: {
+                            fontColor: "#0d0d0d",
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: true,
+                                color: "#c7c8c6"
+                            },
+                            ticks: {
+                                fontColor: "#71beee",
+                            },
+                        }],
+                        yAxes: [{
+                            display: true,
+                            gridLines: {
+                                display: true,
+                                color: "#c7c8c6"
+                            },
+                            ticks: {
+                                fontColor: "#71beee",
+                                beginAtZero:true,
+                                max: (propDim*2),
+                            },
+                        }],
+                    }
+                }
+            });
+
 
 });
-        ciao= parseInt($('#goal').text());
+       // ciao= parseInt($('#goal').text());
 
-        var dati = [];
-        dati.push(ciao);
-        dati.push(ciao);
-        dati.push(ciao);
-       // console.log(dati);
-        //line
-        var ctxL = document.getElementById("lineChart").getContext('2d');
-        var myLineChart = new Chart(ctxL, {
-            type: 'line',
-            data: {
-                labels: [{% for session in cico.sessions %}"{{ session.fillInDate | date('Y-m-d') }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
-                //labels: ["2018-09-21", "2018-09-21", "2018-09-21"],
-                datasets: [
-                    {
-                        label: "Line Goal",
-                        fillColor: "5d51ff",
-                        strokeColor: "5d51ff",
-                        pointColor: "5d51ff",
-                        pointStrokeColor: "#0d0d0d",
-                        pointHighlightFill: "#0d0d0d",
-                        pointHighlightStroke: "5d51ff",
-                        data: [{% for session in cico.sessions %}"{{ cico.threshold }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
-                        backgroundColor: [
-                            'rgba(105, 0, 132, 0)'
-                        ],
-                        borderColor: [
-                            'rgba(200, 99, 132, .7)'
-                        ],
-                        borderWidth: 7
-                    },
-                    {
-                        label: "Day Total",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
-                        pointStrokeColor: "#5d51ff",
-                        pointHighlightFill: "#ff3da3",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
-                        data: [{% for session in cico.sessions %}"{{ session.total }}"{% if loop.index != cico.sessions | length %},{% endif %}{% endfor %}],
-                        backgroundColor: [
-                            'rgba(0, 137, 132, .2)'
-                        ],
-                        borderColor: [
-                            'rgba(0, 10, 130, .7)'],
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    labels: {
-                        fontColor: "#0d0d0d",
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: true,
-                            color: "#c7c8c6"
-                        },
-                        ticks: {
-                            fontColor: "#71beee",
-                        },
-                    }],
-                    yAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: true,
-                            color: "#c7c8c6"
-                        },
-                        ticks: {
-                            fontColor: "#71beee",
-                            beginAtZero:true,
-                            max:100,
-                        },
-                    }],
-                }
-            }
-        });
+
+
     </script>
 
 {% endblock %}
