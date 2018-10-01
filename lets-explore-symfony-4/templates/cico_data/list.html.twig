@@ -30,6 +30,9 @@
     {% for session in cico.sessions %} {% set foo =  foo|merge([session.total]) %} {% endfor %}
    <div id="maxElem" style="display:none" >{{ max(foo) }}</div>
 
+
+    {% for threshold in cico.cicoThresholds %} <div> {{ threshold.threshold }} {{ threshold.value }}</div>{% endfor %}
+
     <div class="row">
                 <div class="col-3 col-sm-8">
 
@@ -45,6 +48,7 @@
     <script>
         var rows;
         $(document).ready( function() {
+
 
             propDim= parseInt($('#maxElem').text());
 

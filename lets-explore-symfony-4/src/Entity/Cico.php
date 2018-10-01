@@ -51,11 +51,17 @@ class Cico
      */
     private $sessions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CicoThreshold", mappedBy="cico", cascade={"all"}, orphanRemoval=true)
+     */
+    private $cicoThresholds;
+
 
 
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
+        $this->cicoThresholds = new ArrayCollection();
 
     }
 
@@ -150,6 +156,37 @@ class Cico
             // set the owning side to null (unless already changed)
             if ($session->getCico() === $this) {
                 $session->setCico(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CicoThreshold[]
+     */
+    public function getCicoThresholds(): Collection
+    {
+        return $this->cicoThresholds;
+    }
+
+    public function addCicoThreshold(CicoThreshold $cicoThreshold): self
+    {
+        if (!$this->cicoThresholds->contains($cicoThreshold)) {
+            $this->cicoThresholds[] = $cicoThreshold;
+            $cicoThreshold->setCico($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCicoThreshold(CicoThreshold $cicoThreshold): self
+    {
+        if ($this->cicoThresholds->contains($cicoThreshold)) {
+            $this->cicoThresholds->removeElement($cicoThreshold);
+            // set the owning side to null (unless already changed)
+            if ($cicoThreshold->getCico() === $this) {
+                $cicoThreshold->setCico(null);
             }
         }
 

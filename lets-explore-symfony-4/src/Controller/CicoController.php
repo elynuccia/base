@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 use App\Entity\CicoData;
+use App\Entity\CicoThreshold;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,8 +29,19 @@ class CicoController extends AbstractController
      */
     public function index(Matrix $matrix, Request $request , CicoFormHandler $formHandler)
     {
+
         $cico = new Cico();
         $cico->setMatrix($matrix);
+
+        $cicoThreshold = new CicoThreshold();
+        $cicoThreshold->setCico($cico);
+
+        $cico->addCicoThreshold($cicoThreshold);
+
+       /* $cicoThreshold = new CicoThreshold();
+        $cicoThreshold->setCico($cico);
+
+        $cico->addCicoThreshold($cicoThreshold);*/
 
         $form = $this->createForm(CicoType::class, $cico);
         dump($form);

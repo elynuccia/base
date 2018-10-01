@@ -62,6 +62,11 @@ class CicoFormHandler
     public function create(Cico $entity)
     {
 
+        if($entity->getCicoThresholds()->isEmpty() == false) {
+            foreach($entity->getCicoThresholds() as $relatedEntity) {
+                $relatedEntity->setCico($entity);
+            }
+        }
 
         $this->entityManager->persist($entity);
         $this->entityManager->flush();

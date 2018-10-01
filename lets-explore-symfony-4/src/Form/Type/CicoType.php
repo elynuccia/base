@@ -51,6 +51,23 @@ class CicoType extends AbstractType
 
         $builder->add('threshold', HiddenType::class);
         $builder->add('tmpData', HiddenType::class);
+
+        $builder
+            ->add('numberOfThresholds', ChoiceType::class, array(
+                //'placeholder' => 'Select the number of Expectations',
+                'choices' => array(
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                ),
+                'mapped'=> false,
+
+            ));
+        $builder->add('cicoThresholds', CollectionType::class, array(
+        'entry_type' => CicoThresholdType::class,
+            'allow_add' => true,
+
+    ));
     }
 
 
