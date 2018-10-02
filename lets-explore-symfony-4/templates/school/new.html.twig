@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ form_start(form) }}
+    {# render the task's only field: description #}
+
+
+
+    <ul class="minorAndMajorBehaviors" data-prototype="{{ form_widget(form.minorAndMajorBehaviors.vars.prototype)|e('html_attr') }}">
+        {# iterate over each existing tag and render its only field: name #}
+        {% for minorAndMajorBehavior in form.minorAndMajorBehaviors %}
+            <li>{{ form_row(minorAndMajorBehavior.name) }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+
+    </script>
+{% endblock %}

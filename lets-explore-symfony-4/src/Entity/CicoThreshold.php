@@ -32,6 +32,14 @@ class CicoThreshold
      */
     private $cico;
 
+    //calcolo delle soglie percentuali in punti
+    public function getThresholdInPoints()
+    {
+        $total = $this->cico->getPeriodNumber() * $this->cico->getMatrix()->getExpectationTags()->count() * 3;
+
+        return $this->threshold * $total / 100;
+    }
+
     public function getId()
     {
         return $this->id;

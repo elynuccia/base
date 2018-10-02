@@ -21,17 +21,18 @@
 
 {% block body %}
 
-
     <h1>CICO</h1>
 
-    <h2>Studente:</h2>
-
+<div class="row">
+    <div class="col"><h2>Studente:</h2></div>
+    <div class="col"><h2>Available Points:</h2><i>{{ cico.calculatePoints }}</i></div>
+</div>
     {% set foo = [] %}
     {% for session in cico.sessions %} {% set foo =  foo|merge([session.total]) %} {% endfor %}
+
    <div id="maxElem" style="display:none" >{{ max(foo) }}</div>
 
 
-    {% for threshold in cico.cicoThresholds %} <div> {{ threshold.threshold }} {{ threshold.value }}</div>{% endfor %}
 
     <div class="row">
                 <div class="col-3 col-sm-8">

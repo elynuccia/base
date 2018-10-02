@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,7 +57,10 @@ class Cico
      */
     private $cicoThresholds;
 
-
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $gainedPoints;
 
     public function __construct()
     {
@@ -193,4 +197,31 @@ class Cico
         return $this;
     }
 
+    //calcolo dei punti al superamento della soglia piu alta
+    public function calculatePoints()
+    {
+        $hasAssignedValues = false;
+        //ordinamento del vettore delle soglie
+        foreach($this->getOrderedThresholds() as $threshold) {
+            foreach($this->getSessions() as $session) {
+                if($session->getTotal() >= $threshold->getThresholdInPoints()) {
+                    $this->gainedPoints += $threshold->getValue();
+                    $hasAssignedValues = true;
+                }
+            }
+
+            if($hasAssignedValues) {
+                return $this->gainedPoints;
+            }
+        }
+
+        return $this->gainedPoints;
+    }
+
+    //ordinamento del vettore delle soglie desc
+    public function getOrderedThresholds() {
+        $criteria = Criteria::create()->orderBy(array('threshold' => Criteria::DESC));
+
+        return $this->cicoThresholds->matching($criteria);
+    }
 }
