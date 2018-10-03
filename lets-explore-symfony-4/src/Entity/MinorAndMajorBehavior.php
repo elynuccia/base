@@ -16,11 +16,7 @@ class MinorAndMajorBehavior
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="minorAndMajorBehaviors", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $school;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -28,26 +24,21 @@ class MinorAndMajorBehavior
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $type;
+    private $isMinorBehavior;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="minorAndMajorBehaviors", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $school;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getSchool(): ?School
-    {
-        return $this->school;
-    }
-
-    public function setSchool(?School $school): self
-    {
-        $this->school = $school;
-
-        return $this;
-    }
 
     public function getName(): ?string
     {
@@ -61,14 +52,26 @@ class MinorAndMajorBehavior
         return $this;
     }
 
-    public function getType(): ?bool
+    public function getIsMinorBehavior(): ?bool
     {
-        return $this->type;
+        return $this->isMinorBehavior;
     }
 
-    public function setType(bool $type): self
+    public function setIsMinorBehavior(bool $isMinorBehavior): self
     {
-        $this->type = $type;
+        $this->isMinorBehavior = $isMinorBehavior;
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
 
         return $this;
     }

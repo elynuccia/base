@@ -19,7 +19,7 @@ class School
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MinorAndMajorBehavior", mappedBy="school", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MinorAndMajorBehavior", mappedBy="school", orphanRemoval=true, cascade={"persist"})
      */
     private $minorAndMajorBehaviors;
 
@@ -27,6 +27,8 @@ class School
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
     }
+
+
 
     public function getId()
     {
@@ -63,4 +65,6 @@ class School
 
         return $this;
     }
+
+
 }

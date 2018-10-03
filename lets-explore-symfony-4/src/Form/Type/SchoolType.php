@@ -33,7 +33,10 @@ class SchoolType extends AbstractType
             'allow_delete' => true,
 
         ));
-        }
+
+        $builder->add('submit', SubmitType::class, array('label'=>'Save'));
+
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {

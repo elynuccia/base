@@ -1,25 +1,26 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Minor Behaviors{% endblock title %}
+{% block title %}Major Behaviors{% endblock title %}
 
 {% block body %}
 
-    <h1>Add Minor Behaviors</h1>
+    <h1>Add Major Behaviors</h1>
     {{ form_start(form) }}
     {# render the task's only field: description #}
 
 
-    <ul class="minorAndMajorBehaviors" data-prototype="{{ form_widget(form.minorAndMajorBehaviors.vars.prototype)|e('html_attr') }}">
+    <ul class="minorAndMajorBehaviors" data-prototype="{{ form_widget(form.minorAndMajorBehaviors.vars.prototype)|e('html_attr') }}" data-index="{{ school.minorAndMajorBehaviors | length  }}">
         {# iterate over each existing tag and render its only field: name #}
-        {% for minorAndMajorBehavior in form.minorAndMajorBehaviors %}
-            <li>{{ form_row(minorAndMajorBehavior.name) }}</li>
-        {% endfor %}
+        {{ form_row(form.minorAndMajorBehaviors[form.minorAndMajorBehaviors | length - 1]) }}
     </ul>
     {#div per minor#}
     {#div per major#}
 
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
-    {{ form_end(form) }}
+
+
+    {{ form_row(form._token)}}
+
+    {{ form_end(form, {'render_rest': false }) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -31,7 +32,6 @@
         var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
-        var $check = jQuery("[id^=school_minorAndMajorBehavior]");
 
         jQuery(document).ready(function() {
             // Get the ul that holds the collection of tags
@@ -49,7 +49,7 @@
 
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
-            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            //$collectionHolder.data('index', $collectionHolder.find(':input').length);
 
             $addTagLink.on('click', function(e) {
                 // prevent the link from creating a "#" on the URL
@@ -65,6 +65,8 @@
 
             // get the new index
             var index = $collectionHolder.data('index');
+
+            console.log(index);
 
             var newForm = prototype;
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
@@ -85,9 +87,9 @@
             var $newFormLi = $('<li></li>').append(newForm);
             $newLinkLi.before($newFormLi);
 
-            $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').prop('checked', true);
+            $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').prop('checked', false);
 
-            console.log($('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior'));
+            //console.log($('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior'));
 
             addTagFormDeleteLink($newFormLi);
 
