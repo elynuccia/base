@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +35,16 @@ class MinorAndMajorBehavior
      * @ORM\JoinColumn(nullable=false)
      */
     private $school;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ODR", mappedBy="minorAndMajorBehaviors")
+     */
+    private $oDRs;
+
+    public function __construct()
+    {
+        $this->oDRs = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -72,6 +84,34 @@ class MinorAndMajorBehavior
     public function setSchool(?School $school): self
     {
         $this->school = $school;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ODR[]
+     */
+    public function getODRs(): Collection
+    {
+        return $this->oDRs;
+    }
+
+    public function addODR(ODR $oDR): self
+    {
+        if (!$this->oDRs->contains($oDR)) {
+            $this->oDRs[] = $oDR;
+            $oDR->addMinorAndMajorBehavior($this);
+        }
+
+        return $this;
+    }
+
+    public function removeODR(ODR $oDR): self
+    {
+        if ($this->oDRs->contains($oDR)) {
+            $this->oDRs->removeElement($oDR);
+            $oDR->removeMinorAndMajorBehavior($this);
+        }
 
         return $this;
     }

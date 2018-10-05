@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ODR{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+{% block body %}
+    <h1>Office Discipline Referral</h1>
+    <h4>Student:</h4>
+
+    {{ form_start(form) }}
+{{ form_row(form.fillInDate) }}
+{{ form_row(form.locations) }}
+{{ form_row(form.minorAndMajorBehaviors) }}
+{{ form_row(form.note) }}
+    <h4>Teacher:</h4>
+
+
+    <div class="col-sm-10">{{ form_row(form.submit)}}</div>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+
+
+        $(document).ready( function() {
+            $("input[id*='fillInDate']").pickadate({
+                format: 'yyyy-mm-dd',
+                today: 'Today',
+                clear: 'Clear selection',
+                close: 'Cancel',
+
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

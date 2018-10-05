@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -28,6 +29,16 @@ class LocationTag
      */
     private $matrix;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ODR", mappedBy="locations")
+     */
+    private $oDRs;
+
+    public function __construct()
+    {
+        $this->oDRs = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -51,6 +62,34 @@ class LocationTag
     public function setMatrix($matrix)
     {
         $this->matrix = $matrix;
+    }
+
+    /**
+     * @return Collection|ODR[]
+     */
+    public function getODRs(): Collection
+    {
+        return $this->oDRs;
+    }
+
+    public function addODR(ODR $oDR): self
+    {
+        if (!$this->oDRs->contains($oDR)) {
+            $this->oDRs[] = $oDR;
+            $oDR->addLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeODR(ODR $oDR): self
+    {
+        if ($this->oDRs->contains($oDR)) {
+            $this->oDRs->removeElement($oDR);
+            $oDR->removeLocation($this);
+        }
+
+        return $this;
     }
 
 
