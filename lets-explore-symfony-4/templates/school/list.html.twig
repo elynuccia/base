@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rewards{% endblock title %}
+{% block title %}List of Minor and Major Behaviors{% endblock title %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -23,7 +23,7 @@
     <div class="row">
         <h3>Minor Behaviors</h3>
         <div class="col">
-        {% for m in minorAndMajor|slice(50,4)%}
+        {% for m in minorAndMajor%}
             {% if  m.isMinorBehavior %}
 
            <div>{{ m.name }}</div>
@@ -34,7 +34,7 @@
 
         <h3>Major Behaviors</h3>
         <div class="col">
-            {% for m in minorAndMajor|slice(50,4)%}
+            {% for m in minorAndMajor%}
                 {% if not m.isMinorBehavior %}
                 <div>{{ m.name }}</div>
             {% endif %}
@@ -42,6 +42,9 @@
         </div>
 
     </div>
+
+
+
 {% endblock %}
 {% block javascripts %}
     {{ parent () }}

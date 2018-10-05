@@ -15,12 +15,18 @@
     {#div per minor#}
     {#div per major#}
 
+    <div id="minorBehaviors" class="d-none">
+        {% for minor in form.minorAndMajorBehaviors %}
+            {{ form_row(minor) }}
+        {% endfor %}
+    </div>
+
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
 
 
     {{ form_row(form._token)}}
 
-    {{ form_end(form, {'render_rest': false }) }}
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -34,6 +40,9 @@
 
 
         jQuery(document).ready(function() {
+            //nascondere gli elementi
+         
+
             // Get the ul that holds the collection of tags
             $collectionHolder = $('ul.minorAndMajorBehaviors');
 

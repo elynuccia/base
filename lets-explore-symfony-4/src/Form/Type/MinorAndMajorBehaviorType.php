@@ -25,7 +25,10 @@ class MinorAndMajorBehaviorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('isMinorBehavior');
+        $builder->add('isMinorBehavior', null, array(
+            'value'=>0
+        )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

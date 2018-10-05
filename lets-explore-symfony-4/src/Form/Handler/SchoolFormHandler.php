@@ -47,8 +47,8 @@ class SchoolFormHandler
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $rewardFormData = $form->getData();
-            $lastId = $this->create($rewardFormData);
+            $schoolFormData = $form->getData();
+            $lastId = $this->create($schoolFormData);
 
             return $lastId;
         }
