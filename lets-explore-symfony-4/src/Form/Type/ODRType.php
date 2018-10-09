@@ -12,6 +12,7 @@ use App\Entity\ODR;
 use App\Entity\LocationTag;
 use App\Entity\MinorAndMajorBehavior;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +30,11 @@ class ODRType extends AbstractType
         $builder->add('minorAndMajorBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MinorAndMajorBehavior::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->where('u.id >90', 'u.id<95')
+                    ->orderBy('u.id', 'ASC');
+            },
 
             // uses the User.username property as the visible option string
             'choice_label' => 'name',
@@ -41,6 +47,11 @@ class ODRType extends AbstractType
         $builder->add('locations', EntityType::class, array(
             // looks for choices from this entity
             'class' => LocationTag::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('l')
+                    ->where('l.id > 422')
+                    ->orderBy('l.id', 'ASC');
+            },
 
             // uses the User.username property as the visible option string
             'choice_label' => 'name',

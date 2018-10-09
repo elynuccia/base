@@ -32,11 +32,35 @@ class ODRController extends AbstractController
         $form = $this->createForm(ODRType::class, $odr);
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('odr'));
+            return $this->redirect($this->generateUrl('odr_list'));
         }
 
         return $this->render('odr/new.html.twig', array(
             'form' => $form->createView(),
-        ));    }
+        ));
+    }
+
+    /**
+     * @Route("/odrlist", name="odr_list")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param ODRFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction() {
+
+
+        $odr = $this->getDoctrine()->getRepository('App\Entity\ODR')->findAll();
+        $odrMinMaj = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
+
+
+        return $this->render('odr/list.html.twig', array(
+
+            'odr' => $odr,
+            'minMaj' => $odrMinMaj
+        ));
+    }
 
 }

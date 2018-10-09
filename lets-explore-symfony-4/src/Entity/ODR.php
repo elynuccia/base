@@ -113,14 +113,14 @@ class ODR
         return $this;
     }
 
-    public function getFillInDate(): ?\DateTimeInterface
+    public function getFillInDate()
     {
-        return ($this->fillInDate instanceof \DateTime) ? $this->fillInDate->format('Y-m-d H:i:s') : null;
+        return ($this->fillInDate instanceof \DateTime) ? $this->fillInDate->format('Y-m-d') : null;
     }
 
     public function setFillInDate($fillInDate)
     {
-        $this->fillInDate = \DateTime::createFromFormat('Y-m-d H:i:s', $fillInDate);
+        $this->fillInDate = \DateTime::createFromFormat('Y-m-d', $fillInDate);
 
         return $this;
     }

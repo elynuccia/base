@@ -19,22 +19,26 @@ class ODRRepository extends ServiceEntityRepository
         parent::__construct($registry, ODR::class);
     }
 
-//    /**
-//     * @return ODR[] Returns an array of ODR objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return ODR[] Returns an array of ODR objects
+     */
+
+    public function countMinorAndMajorBehaviorsById()
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.id) as id, count(minMaj.id) AS countODR, minMaj.name
+          FROM \App\Entity\ODR odr 
+          JOIN odr.minorAndMajorBehaviors minMaj
+          GROUP BY minMaj.id  
+          HAVING countODR >= 1'
+        );
+
+// returns an array of Product objects
+        return $query->execute();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?ODR

@@ -24,13 +24,37 @@
     <h4>Student:</h4>
 
     {{ form_start(form) }}
-{{ form_row(form.fillInDate) }}
-{{ form_row(form.locations) }}
-{{ form_row(form.minorAndMajorBehaviors) }}
-{{ form_row(form.note) }}
-    <h4>Teacher:</h4>
+    <div class="row">
+        {{ form_row(form.fillInDate) }}
+    </div>
+        <div class="row">
+            <div class="col">
+            {{ form_row(form.locations) }}
+            </div>
+            <div class="col">
+            {{ form_row(form.minorAndMajorBehaviors) }}
+            </div>
 
+        </div>
 
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            {{ form_row(form.note) }}
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+             <h4>Teacher:</h4>
+            </div>
+
+    </div>
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
     {{ form_end(form) }}
 

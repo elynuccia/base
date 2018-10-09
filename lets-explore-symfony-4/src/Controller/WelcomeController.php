@@ -41,9 +41,8 @@ class WelcomeController extends AbstractController
 
 
 
-        return $this->render('hello_page.html.twig', [
+        return $this->render('codegenerator/hello_page.html.twig', [
             'person_name' => $name,
-            'form' => $form,
             'form' => $form->createView(),
 
 

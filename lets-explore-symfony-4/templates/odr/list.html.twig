@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of ODRs{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>List of ODRs</h1>
+
+    {% for single_odr in odr %}
+        <b>ODR #{{ single_odr.id }}</b>
+      <div>  {% for minorAndMajor in single_odr.minorAndMajorBehaviors %}
+            {{ minorAndMajor.name}}
+        {% endfor %}
+        {% for location in single_odr.locations %}
+            {{ location.name }}
+        {% endfor %}
+
+        {{ single_odr.note }}
+        {{ single_odr.fillInDate }}
+      </div>
+    {% endfor %}
+
+
+    <canvas id="myChart" style="max-width: 500px;"></canvas>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+
+        var ctx = document.getElementById("myChart").getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+
+                labels: [{% for behavior in minMaj %}"{{ behavior.name }}"{% if loop.index != minMaj | length %},{% endif %}{% endfor %}],
+                datasets: [{
+                    label: '# of ODR',
+                    data: [{% for behavior in minMaj %}"{{ behavior.countODR }}"{% if loop.index != minMaj | length %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+{% endblock %}
