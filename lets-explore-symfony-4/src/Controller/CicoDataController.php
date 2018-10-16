@@ -50,9 +50,9 @@ class CicoDataController extends AbstractController
 
         $cico->addSession($session);
 
-
+        dump($cico);
         $form = $this->createForm(CicoType::class, $cico);
-        //dump($form);
+
 
 
         if ($lastId = $formHandler->handle($form, $request)) {

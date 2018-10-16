@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -27,6 +28,11 @@ class ExpectationTag
      * @ORM\ManyToOne(targetEntity="Matrix", inversedBy="expectationTags")
      */
     private $matrix;
+
+
+    public function __construct()
+    {
+    }
 
     public function __toString()
     {

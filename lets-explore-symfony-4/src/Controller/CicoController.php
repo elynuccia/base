@@ -38,11 +38,11 @@ class CicoController extends AbstractController
 
         $cico->addCicoThreshold($cicoThreshold);
 
+        $cico->setGainedPoints(0);
        /* $cicoThreshold = new CicoThreshold();
         $cicoThreshold->setCico($cico);
 
         $cico->addCicoThreshold($cicoThreshold);*/
-
         $form = $this->createForm(CicoType::class, $cico);
         dump($form);
 

@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of ScreeningTools{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>List of ScreeningTools</h1>
+
+    {% for single_screeningTool in screeningTool|slice(4,4) %}
+        <b>ScreeningTool #{{ single_screeningTool.id }}</b>
+        <div>
+        {% for singleValue in single_screeningTool.screeningToolData %}
+            {{ singleValue.value}}
+        {% endfor %}
+            {% for singleExpectation in single_screeningTool.screeningToolData %}
+                {{ singleExpectation.expectation }}
+            {% endfor %}
+
+        </div>
+          {% endfor %}
+
+
+    <div>
+    {% for key, exp in valueByExp %}
+    <h3>{{ key }}</h3>
+    <canvas id="myChart-{{ key }}" style="max-width: 500px;"></canvas>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+        {% for key, exp in valueByExp %}
+        var ctx = document.getElementById("myChart-{{ key }}").getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+
+                labels: ["value 1","value 2","value 3","value 4","value 5"],
+                datasets: [{
+                    label: '# of Student per value',
+                    //data: [{% for value in valueByExp[key] %}"{{ value.count }}"{% if loop.index != valueByExp[key] | length %},{% endif %}{% endfor %}],
+                    data: [{% for value in valueByExp[key] %}"{{ value.count }}"{% if loop.index != valueByExp[key] | length %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
+        });
+        {% endfor %}
+    </script>
+{% endblock %}

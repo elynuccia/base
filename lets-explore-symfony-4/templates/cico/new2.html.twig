@@ -45,8 +45,7 @@
         </div>
     </div>
 
-    <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2">{{ 3 * ( (cico.matrix.expectationTags | length ) + (cico.periodNumber)) }} </span></h4></div>
-
+    <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2">{{ 3 * ( (cico.matrix.expectationTags | length ) * (cico.periodNumber)) }} </span></h4></div>
 
     {% if(cico.matrix.expectationTags | length ) == 1 %}
         {% set sizeColumn = 4 %}

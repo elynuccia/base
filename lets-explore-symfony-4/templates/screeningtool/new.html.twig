@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ScreeningTool{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Screening Tool</h1>
+
+    <h2>Studente:</h2>
+{{ matrix.motto }}
+
+    {{ form_start(form) }}
+
+
+    {% if(screeningTool.matrix.expectationTags | length ) == 1 %}
+        {% set sizeColumn = 4 %}
+    {% endif %}
+
+    {% if(screeningTool.matrix.expectationTags | length ) == 2 %}
+        {% set sizeColumn = 3 %}
+    {% endif %}
+
+    {% if(screeningTool.matrix.expectationTags | length ) == 3 %}
+        {% set sizeColumn = 3 %}
+    {% endif %}
+
+    {% if(screeningTool.matrix.expectationTags | length ) == 4 %}
+        {% set sizeColumn = 2 %}
+    {% endif %}
+
+    {% if(screeningTool.matrix.expectationTags | length ) == 5 %}
+        {% set sizeColumn = 1 %}
+    {% endif %}
+
+    {% set formDataIndex = 0 %}
+
+    <div class="row">
+        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+            Expectations
+        </div>
+    </div>
+
+
+    {% for key, screeningToolData in form.screeningToolData %}
+        <div class="row">
+            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                {{ matrix.expectationTags[key].name }}
+            </div>
+
+            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                {{ form_widget(screeningToolData.value) }}
+
+                <div class="d-none">
+                    {{ form_widget(screeningToolData.expectation) }}
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+    {% endfor %}
+
+
+
+<div class="row">
+        <div class="col-sm-10">{{ form_row(form.submit)}}</div>
+</div>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+
+
+        $(document).ready( function() {
+
+
+        });
+
+
+
+        function addTagForm($collectionHolder) {
+
+
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            //  console.log(prototype);
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+
+
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            $('#thresholds2').append(newForm);
+
+        }
+
+        //bisogna differenziare il totale di ogni riga
+        /*
+        for(var i=0; i<expectations.length; i++){
+             $('#tabella').on('change', "input[id*='defaultInline"+ i +"']", function(){
+                     console.log($(this).next().text());
+                     $("div[id^='tot"+ i +"']").append($(this).next().text());
+             });
+         }*/
+
+        //totRow = 0;
+        //totCol = 0;
+
+
+
+
+        //console.log(selectorName.substr(selectorName.length - 1, 1));
+        //  $('#col' + selectorName.substr(selectorName.length - 1, 1)).text(totCol);
+
+        //$('#colonna').text(totCol);
+
+
+        /* funziona
+        $('div[id*=tot]').each(function(){
+            partialTotal = parseInt($(this).text());
+
+            totSum = (isNaN(partialTotal)) ? totSum : totSum + partialTotal;
+
+            $('#sumSpan').text(totSum);
+        });*/
+
+
+
+
+    </script>
+
+{% endblock %}

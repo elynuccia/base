@@ -48,12 +48,18 @@ class Matrix
      */
     private $cicos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ScreeningTool", mappedBy="matrix", orphanRemoval=true)
+     */
+    private $screeningTools;
+
     public function __construct()
     {
         $this->expectationTags = new ArrayCollection();
         $this->locationTags = new ArrayCollection();
         $this->behaviorTags = new ArrayCollection();
         $this->cicos = new ArrayCollection();
+        $this->screeningTools = new ArrayCollection();
     }
 
     /**
@@ -178,6 +184,37 @@ class Matrix
             // set the owning side to null (unless already changed)
             if ($cico->getMatrix() === $this) {
                 $cico->setMatrix(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ScreeningTool[]
+     */
+    public function getScreeningTools(): Collection
+    {
+        return $this->screeningTools;
+    }
+
+    public function addScreeningTool(ScreeningTool $screeningTool): self
+    {
+        if (!$this->screeningTools->contains($screeningTool)) {
+            $this->screeningTools[] = $screeningTool;
+            $screeningTool->setMatrix($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScreeningTool(ScreeningTool $screeningTool): self
+    {
+        if ($this->screeningTools->contains($screeningTool)) {
+            $this->screeningTools->removeElement($screeningTool);
+            // set the owning side to null (unless already changed)
+            if ($screeningTool->getMatrix() === $this) {
+                $screeningTool->setMatrix(null);
             }
         }
 

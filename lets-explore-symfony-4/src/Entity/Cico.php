@@ -59,6 +59,7 @@ class Cico
 
     /**
      * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $gainedPoints;
 
@@ -82,6 +83,18 @@ class Cico
     public function setPeriodNumber(int $periodNumber): self
     {
         $this->periodNumber = $periodNumber;
+
+        return $this;
+    }
+
+    public function getGainedPoints(): ?int
+    {
+        return $this->gainedPoints;
+    }
+
+    public function setGainedPoints(int $gainedPoints): self
+    {
+        $this->gainedPoints = $gainedPoints;
 
         return $this;
     }
