@@ -12,6 +12,7 @@ use App\Entity\School;
 use App\Entity\MinorAndMajorBehavior;
 use App\Form\Handler\SchoolFormHandler;
 use App\Form\Type\SchoolType;
+use App\Utility\AccessDataGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -95,4 +96,27 @@ class SchoolController extends AbstractController
             'minorAndMajor' => $minorAndMajor,
         ));
     }
+
+
+    /**
+     * @Route("/generateaccessdata/{number}", name="generate_access_data")
+     * @Template
+     */
+    public function generateAccessDataAction(Request $request, AccessDataGenerator $accessDataGenerator, $number)
+    {
+        $accessData = $accessDataGenerator->generateAccessData($number);
+
+        /*   if ($lastId = $formHandler->handle($form, $request)) {
+               return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
+           }
+
+           return $this->render('school/new.html.twig', array(
+               'form' => $form->createView(),
+           ));    */
+
+        return array(
+            'accessData' => $accessData
+        );
+    }
+
 }

@@ -24,18 +24,44 @@ class Student
     private $nickname;
 
     /**
-     * @ORM\Column(type="string", length=8)
+     * @ORM\Column(type="string", length=8, unique=true)
      */
     private $code;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $qrCode;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cico", mappedBy="student", orphanRemoval=true)
      */
     private $cicos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\SchoolYear", mappedBy="students")
+     */
+    private $schoolYears;
+
+    /**
+     * @ORM\Column(type="string", length=8)
+     */
+    private $personInChargeCode;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogin;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $personInChargeQrCode;
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
+        $this->schoolYears = new ArrayCollection();
     }
 
     public function getId()
@@ -67,6 +93,18 @@ class Student
         return $this;
     }
 
+    public function getQrCode(): ?string
+    {
+        return $this->qrCode;
+    }
+
+    public function setQrCode(string $qrCode): self
+    {
+        $this->qrCode = $qrCode;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Cico[]
      */
@@ -94,6 +132,70 @@ class Student
                 $cico->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchoolYear[]
+     */
+    public function getSchoolYears(): Collection
+    {
+        return $this->schoolYears;
+    }
+
+    public function addSchoolYear(SchoolYear $schoolYear): self
+    {
+        if (!$this->schoolYears->contains($schoolYear)) {
+            $this->schoolYears[] = $schoolYear;
+            $schoolYear->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolYear(SchoolYear $schoolYear): self
+    {
+        if ($this->schoolYears->contains($schoolYear)) {
+            $this->schoolYears->removeElement($schoolYear);
+            $schoolYear->removeStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function getPersonInChargeCode(): ?string
+    {
+        return $this->personInChargeCode;
+    }
+
+    public function setPersonInChargeCode(string $personInChargeCode): self
+    {
+        $this->personInChargeCode = $personInChargeCode;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(\DateTimeInterface $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getPersonInChargeQrCode(): ?string
+    {
+        return $this->personInChargeQrCode;
+    }
+
+    public function setPersonInChargeQrCode(string $personInChargeQrCode): self
+    {
+        $this->personInChargeQrCode = $personInChargeQrCode;
 
         return $this;
     }

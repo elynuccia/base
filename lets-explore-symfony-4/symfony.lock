@@ -2,6 +2,12 @@
     "bacon/bacon-qr-code": {
         "version": "1.0.3"
     },
+    "chillerlan/php-qrcode": {
+        "version": "dev-master"
+    },
+    "chillerlan/php-settings-container": {
+        "version": "1.0.1"
+    },
     "craue/formflow-bundle": {
         "version": "3.0.3"
     },
@@ -47,6 +53,9 @@
             "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
         }
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
@@ -61,6 +70,12 @@
     },
     "doctrine/orm": {
         "version": "v2.6.1"
+    },
+    "doctrine/persistence": {
+        "version": "v1.0.1"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
     },
     "easycorp/easy-log-handler": {
         "version": "1.0",

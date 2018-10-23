@@ -23,9 +23,15 @@ class School
      */
     private $minorAndMajorBehaviors;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SchoolYear", mappedBy="school", orphanRemoval=true)
+     */
+    private $schoolYears;
+
     public function __construct()
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
+        $this->schoolYears = new ArrayCollection();
     }
 
 
@@ -60,6 +66,37 @@ class School
             // set the owning side to null (unless already changed)
             if ($minorAndMajorBehavior->getSchool() === $this) {
                 $minorAndMajorBehavior->setSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchoolYear[]
+     */
+    public function getSchoolYears(): Collection
+    {
+        return $this->schoolYears;
+    }
+
+    public function addSchoolYear(SchoolYear $schoolYear): self
+    {
+        if (!$this->schoolYears->contains($schoolYear)) {
+            $this->schoolYears[] = $schoolYear;
+            $schoolYear->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolYear(SchoolYear $schoolYear): self
+    {
+        if ($this->schoolYears->contains($schoolYear)) {
+            $this->schoolYears->removeElement($schoolYear);
+            // set the owning side to null (unless already changed)
+            if ($schoolYear->getSchool() === $this) {
+                $schoolYear->setSchool(null);
             }
         }
 
