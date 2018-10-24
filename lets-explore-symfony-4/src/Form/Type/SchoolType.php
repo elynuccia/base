@@ -35,7 +35,7 @@ class SchoolType extends AbstractType
         ));
 
         $builder->add('submit', SubmitType::class, array('label'=>'Save'));
-
+        $builder->add('numberOfCodes');
     }
 
     public function configureOptions(OptionsResolver $resolver)

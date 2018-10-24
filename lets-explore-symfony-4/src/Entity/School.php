@@ -28,6 +28,11 @@ class School
      */
     private $schoolYears;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numberOfCodes;
+
     public function __construct()
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
@@ -99,6 +104,18 @@ class School
                 $schoolYear->setSchool(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumberOfCodes(): ?int
+    {
+        return $this->numberOfCodes;
+    }
+
+    public function setNumberOfCodes(?int $numberOfCodes): self
+    {
+        $this->numberOfCodes = $numberOfCodes;
 
         return $this;
     }

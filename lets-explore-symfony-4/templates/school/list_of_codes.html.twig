@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Access Data Generator{% endblock title %}
+{% block title %}Access Data Generated{% endblock title %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -21,19 +21,25 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
-    <div class="row">
-        <h4><b>Insert the number of pairs of codes to generate:</b></h4>
-    </div>
-    <div class="row">
-    {{ form_row(form.numberOfCodes) }}
-    </div>
-    <div class="row">
-    {{ form_row(form.submit) }}
-    </div>
-    {{ form_row(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
-
+    {% for i in  data %}
+        <div class="row">
+            <div class="col">
+                <h4>Student</h4>
+            {{ i.code}}
+{{ i.nickname }}
+            </div>
+            <div class="col">
+    <img src="{{ i.qrCode}}">
+            </div>
+            <div class="col">
+                <h4>Person In Charge</h4>
+                {{ i.personInChargeCode}}
+            </div>
+            <div class="col">
+            <img src="{{ i.personInChargeQrCode}}">
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}
 {% block javascripts %}

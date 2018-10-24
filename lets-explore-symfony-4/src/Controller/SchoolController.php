@@ -14,8 +14,8 @@ use App\Form\Handler\SchoolFormHandler;
 use App\Form\Type\SchoolType;
 use App\Utility\AccessDataGenerator;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Routing\Annotation\Route;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -99,24 +99,55 @@ class SchoolController extends AbstractController
 
 
     /**
-     * @Route("/generateaccessdata/{number}", name="generate_access_data")
+     * @Route("/generateaccessdata/", name="generate_access_data")
      * @Template
      */
-    public function generateAccessDataAction(Request $request, AccessDataGenerator $accessDataGenerator, $number)
+    public function generateAccessDataAction(Request $request, SchoolFormHandler$formHandler, AccessDataGenerator $accessDataGenerator)
+    {
+
+
+        /*   if ($lastId = $formHandler->handle($form, $request)) {
+               return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
+           }
+*/
+        $school = new School();
+
+        $form = $this->createForm(SchoolType::class, $school);
+
+        if ($lastId = $formHandler->handle($form, $request)) {
+            return $this->redirect($this->generateUrl('generate_access_data_number', array('number'=> $form['numberOfCodes'] ->getData())));
+        }
+        return $this->render('school/generate_access_data.html.twig', array(
+            'form' => $form->createView(),
+            'school'=> $school,
+        ));
+
+
+    }
+
+
+    /**
+     * @Route("/generateaccessdata/{number}", name="generate_access_data_number")
+     * @Template
+     */
+    public function generateAccessDataByNumberAction(Request $request, SchoolFormHandler$formHandler, AccessDataGenerator $accessDataGenerator, $number)
     {
         $accessData = $accessDataGenerator->generateAccessData($number);
 
         /*   if ($lastId = $formHandler->handle($form, $request)) {
                return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
            }
+*/
 
-           return $this->render('school/new.html.twig', array(
-               'form' => $form->createView(),
-           ));    */
+        $data = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
 
-        return array(
-            'accessData' => $accessData
-        );
+
+        return $this->render('school/list_of_codes.html.twig', array(
+            'accessData' => $accessData,
+            'data' => $data,
+        ));
+
+
     }
 
 }
