@@ -21,7 +21,7 @@
 
 {% block body %}
 
-    {% for i in  data %}
+    {% for i in  studentdata %}
         <div class="row">
             <div class="col">
                 <h4>Student</h4>
@@ -33,18 +33,23 @@
             </div>
             <div class="col">
                 <h4>Person In Charge</h4>
-                {{ i.personInChargeCode}}
             </div>
             <div class="col">
-            <img src="{{ i.personInChargeQrCode}}">
             </div>
         </div>
     {% endfor %}
 
-{% endblock %}
+    {% for j in  personincharge %}
+        {{ j.code}}
+        <img src="{{ j.qrCode}}">
+
+    {% endfor %}
+
+        {% endblock %}
 {% block javascripts %}
     {{ parent () }}
     <script>
+        $(document).ready( function() {
 
 
 

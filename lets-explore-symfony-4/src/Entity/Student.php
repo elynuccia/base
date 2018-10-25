@@ -44,19 +44,14 @@ class Student
     private $schoolYears;
 
     /**
-     * @ORM\Column(type="string", length=8)
-     */
-    private $personInChargeCode;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastLogin;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\OneToOne(targetEntity="App\Entity\PersonInCharge", mappedBy="student", cascade={"persist", "remove"})
      */
-    private $personInChargeQrCode;
+    private $personInCharge;
 
     public function __construct()
     {
@@ -164,17 +159,6 @@ class Student
         return $this;
     }
 
-    public function getPersonInChargeCode(): ?string
-    {
-        return $this->personInChargeCode;
-    }
-
-    public function setPersonInChargeCode(string $personInChargeCode): self
-    {
-        $this->personInChargeCode = $personInChargeCode;
-
-        return $this;
-    }
 
     public function getLastLogin(): ?\DateTimeInterface
     {
@@ -188,14 +172,20 @@ class Student
         return $this;
     }
 
-    public function getPersonInChargeQrCode(): ?string
+
+    public function getPersonInCharge(): ?PersonInCharge
     {
-        return $this->personInChargeQrCode;
+        return $this->personInCharge;
     }
 
-    public function setPersonInChargeQrCode(string $personInChargeQrCode): self
+    public function setPersonInCharge(PersonInCharge $personInCharge): self
     {
-        $this->personInChargeQrCode = $personInChargeQrCode;
+        $this->personInCharge = $personInCharge;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $personInCharge->getStudent()) {
+            $personInCharge->setStudent($this);
+        }
 
         return $this;
     }

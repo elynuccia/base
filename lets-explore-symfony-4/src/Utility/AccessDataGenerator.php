@@ -8,6 +8,7 @@
 
 namespace App\Utility;
 
+use App\Entity\PersonInCharge;
 use App\Entity\Student;
 use Doctrine\ORM\EntityManagerInterface;
 use chillerlan\QRCode\QRCode;
@@ -256,11 +257,16 @@ class AccessDataGenerator
             $personInChargeCode = $this->generateCode();
 
             $student = new Student();
+            $personInCharge = new PersonInCharge();
+
             $student->setCode($studentCode);
             $student->setNickname($this->generateNickname());
             $student->setQrCode($this->generateQrCode($studentCode));
-            $student->setPersonInChargeCode($personInChargeCode);
-            $student->setPersonInChargeQrCode($this->generateQrCode($personInChargeCode));
+
+            $personInCharge->setCode($personInChargeCode);
+            $personInCharge->setQrCode($this->generateQrCode($personInChargeCode));
+
+            $student->setPersonInCharge($personInCharge);
 
             $this->entityManager->persist($student);
             $this->entityManager->flush();

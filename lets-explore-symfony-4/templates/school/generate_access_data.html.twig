@@ -34,12 +34,44 @@
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 
+    <div class="row">
+    <button id="showButton" class="btn purple-gradient">Show Codes</button>
+    </div>
 
+
+<div id="codes">
+    {% for i in  studentdata %}
+        <div class="row">
+            <div class="col">
+                <h4>Student</h4>
+                {{ i.code}}
+                {{ i.nickname }}
+            </div>
+            <div class="col">
+                <img src="{{ i.qrCode}}">
+            </div>
+            <div class="col">
+                <h4>Person In Charge</h4>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
 {% block javascripts %}
     {{ parent () }}
     <script>
+        $(document).ready( function() {
 
+        $("#showButton").on('click', function()
+        {
+
+            $("#codes").toggle();
+            $(this).text(function(i, text){
+                return text === "Show Codes" ? "Hide Codes" : "Show Codes";
+            })        })
+        });
 
 
     </script>

@@ -117,9 +117,16 @@ class SchoolController extends AbstractController
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('generate_access_data_number', array('number'=> $form['numberOfCodes'] ->getData())));
         }
+
+        $studentData = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
+        $personInChargeData = $this->getDoctrine()->getRepository('App\Entity\PersonInCharge')->findAll();
+
+
         return $this->render('school/generate_access_data.html.twig', array(
             'form' => $form->createView(),
             'school'=> $school,
+            'studentdata' => $studentData,
+            'personincharge' => $personInChargeData,
         ));
 
 
@@ -139,12 +146,13 @@ class SchoolController extends AbstractController
            }
 */
 
-        $data = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
-
+        $studentData = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
+        $personInChargeData = $this->getDoctrine()->getRepository('App\Entity\PersonInCharge')->findAll();
 
         return $this->render('school/list_of_codes.html.twig', array(
             'accessData' => $accessData,
-            'data' => $data,
+            'studentdata' => $studentData,
+            'personincharge' => $personInChargeData,
         ));
 
 
