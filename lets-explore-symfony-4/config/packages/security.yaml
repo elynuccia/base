@@ -1,15 +1,25 @@
 security:
-    encoders:
-        App\Entity\User:
-            algorithm: argon2i
-
+    # encoders:
+    #    App\Entity\Student:
+    #       algorithm: bcrypt
+    #       cost: 12
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Student
                 property: code
+        app_person_in_charge_provider:
+            entity:
+                class: App\Entity\PersonInCharge
+                property: code
+
+        # used to reload user from session & other features (e.g. switch_user)
+        chain_provider:
+            chain:
+                providers: [app_user_provider, app_person_in_charge_provider]
+
+
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
@@ -17,6 +27,14 @@ security:
             security: false
         main:
             anonymous: true
+            provider: chain_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path:   app_logout
+                target: app_login
+
 
             # activate different ways to authenticate
 
@@ -29,5 +47,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/matrix, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
