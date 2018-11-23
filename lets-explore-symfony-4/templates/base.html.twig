@@ -38,11 +38,17 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Student Login</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('matrix') }}">Matr Of Exp</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('student_page') }}">Student</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_page') }}">User</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('minorBehavior') }}">Min& Maj</a>
                     </li>
@@ -74,8 +80,19 @@
                         <a class="nav-link" href="{{ path('bootstrap2') }}">Bootstrap2</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_page') }}">Auth0</a>
+                    </li>
+
                     {% if app.user %}
-                        <a href="{{ path("app_logout") }}">
+
+                       {% if instanceOf(app.user, 'User') %}
+                           {% set logoutPath = 'logout' %}
+                       {% else %}
+                           {% set logoutPath = 'app_logout' %}
+                       {% endif %}
+
+                        <a href="{{ path(logoutPath) }}">
                             <button type="button" class="btn btn-primary btn-sm">Logout</button>
                         </a>
                     {% else %}

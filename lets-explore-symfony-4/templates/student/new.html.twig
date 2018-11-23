@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Student{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+
+{% block body %}
+
+    {{ dump(app.user) }}
+    <h1><b>{{  student.nickname|default("Person In Charge") }}</b>'s personal page</h1>
+    <div class="row">
+        <div class="col">
+            <b>Code: </b> {{ student.code }} <br>
+        </div>
+        <div class="col-4">
+            <img id="profilePicture" src="{{ student.qrcode  }}">
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent () }}
+<script>
+
+</script>
+{% endblock %}
