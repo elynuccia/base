@@ -9,15 +9,18 @@
 namespace App\Form\Type;
 
 use App\Entity\School;
-use App\Entity\MinorAndMajorBehavior;
+use App\Entity\Administrator;
+use App\Form\Type\AdministratorType;
+
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class SchoolType extends AbstractType
 {
@@ -34,8 +37,15 @@ class SchoolType extends AbstractType
 
         ));
 
-        $builder->add('submit', SubmitType::class, array('label'=>'Save'));
+        $builder->add('submit', SubmitType::class, array('label' => 'Save'));
         $builder->add('numberOfCodes');
+        $builder->add('name');
+        $builder->add('address');
+        $builder->add('phoneNumber');
+        $builder->add('email');
+        $builder->add('code');
+        $builder->add('administrator', AdministratorType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

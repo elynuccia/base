@@ -9,6 +9,7 @@
 namespace App\Form\Handler;
 
 use App\Entity\School;
+use App\Utility\SchoolAccessDataGenerator;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Form\FormInterface;
@@ -22,14 +23,18 @@ class SchoolFormHandler
 {
     private $entityManager;
     private $session;
+    private $schoolAccessDataGenerator;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        SessionInterface $session
+        SessionInterface $session,
+        SchoolAccessDataGenerator $schoolAccessDataGenerator
+
     )
     {
         $this->entityManager = $entityManager;
         $this->session = $session;
+        $this->schoolAccessDataGenerator = $schoolAccessDataGenerator;
     }
 
     public function handle(FormInterface $form, Request $request)
@@ -57,6 +62,7 @@ class SchoolFormHandler
 
     public function create(School $entity)
     {
+        $entity->setCode($this->schoolAccessDataGenerator->generateCode());
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
