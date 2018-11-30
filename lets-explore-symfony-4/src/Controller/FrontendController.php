@@ -39,6 +39,9 @@ class FrontendController extends AbstractController
 
         return $this->render('frontend/new.html.twig', array(
             'form' => $form->createView(),
+            'school'=>$school,
+            'admin'=>$school->getAdministrator(),
+            'code' => $school->getCode(),
 
         ));
     }
@@ -48,10 +51,9 @@ class FrontendController extends AbstractController
     /**
      * @Route("/schoolregistration", name="school_registration")
      */
-    public function index(Request $request, SchoolAccessDataGenerator $schoolAccessDataGenerator)
+    public function index(Request $request)
     {
-        //$accessData= $schoolAccessDataGenerator->generateCode();
-        //bisogna aggiungere code su school e generare un codice
+
         return $this->render('frontend/index.html.twig', array(
             // 'accessData'=> $accessData,
         ));
