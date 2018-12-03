@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 use App\Entity\Student;
+use App\Utility\Auth0Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 

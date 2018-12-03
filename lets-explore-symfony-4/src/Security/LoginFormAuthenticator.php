@@ -2,8 +2,10 @@
 
 namespace App\Security;
 
+use App\Entity\Administrator;
 use App\Entity\PersonInCharge;
 use App\Entity\Student;
+use App\Entity\School;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,15 +66,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Student::class)->findOneBy(['code' => $credentials['code']]);
+        $user = $this->entityManager->getRepository(Student::class)->findOneByCode($credentials['code']);
 
         if (!$user) {
-            $user = $this->entityManager->getRepository(PersonInCharge::class)->findOneBy(['code' => $credentials['code']]);
+            $user = $this->entityManager->getRepository(PersonInCharge::class)->findOneByCode($credentials['code']);
 
-            if (!$user) {
-                // fail authentication with a custom error
-                throw new CustomUserMessageAuthenticationException('Code could not be found.');
-            }
+        }
+
+        if (!$user) {
+            $user = $this->entityManager->getRepository(Administrator::class)->findOneBySchoolCode($credentials['code']);
+        }
+
+        if (!$user) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Code could not be found.');
         }
 
         return $user;

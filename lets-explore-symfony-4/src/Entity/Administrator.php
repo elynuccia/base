@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdministratorRepository")
  */
-class Administrator
+class Administrator implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -15,6 +16,8 @@ class Administrator
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    private $schoolCode;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,9 +39,35 @@ class Administrator
      */
     private $school;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    public function __construct()
+    {
+        $this->schoolCode = $this->school->getCode();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSchoolCode()
+    {
+        return $this->schoolCode;
+    }
+
+    /**
+     * @param mixed $schoolCode
+     */
+    public function setSchoolCode($schoolCode): void
+    {
+        $this->schoolCode = $schoolCode;
     }
 
     public function getFirstName(): ?string
@@ -92,5 +121,60 @@ class Administrator
         }
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->school->getCode();
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_PERSON';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword()
+    {
+        // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

@@ -13,14 +13,17 @@ security:
             entity:
                 class: App\Entity\PersonInCharge
                 property: code
-
+        app_administrator_provider:
+            entity:
+                class: App\Entity\Administrator
+                property: schoolCode
         app_hwi:
             id: App\Security\UserProvider
 
         # used to reload user from session & other features (e.g. switch_user)
         chain_provider:
             chain:
-                providers: [app_user_provider, app_person_in_charge_provider, app_hwi]
+                providers: [app_user_provider, app_person_in_charge_provider, app_administrator_provider, app_hwi]
 
 
         # used to reload user from session & other features (e.g. switch_user)

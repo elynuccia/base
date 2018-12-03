@@ -13,6 +13,8 @@ class User implements UserInterface
     protected $lastLogin;
     protected $lastIp;
     protected $loginCount;
+    protected $roles = array('ROLE_USER', 'ROLE_0AUTH_USER');
+
     /**
      * @param mixed $email
      */
@@ -153,13 +155,20 @@ class User implements UserInterface
     {
         return $this->userId;
     }
+
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function getRoles()
     {
-        return array('ROLE_USER', 'ROLE_OAUTH_USER');
+        return $this->roles;
     }
+
     /**
      * {@inheritdoc}
      */

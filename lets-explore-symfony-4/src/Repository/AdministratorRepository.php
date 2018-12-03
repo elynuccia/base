@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Administrator;
+use App\Entity\School;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -36,15 +37,16 @@ class AdministratorRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Administrator
+
+    public function findOneBySchoolCode($code): ?Administrator
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('a.school', 's')
+            ->andWhere('s.code = :code')
+            ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }
