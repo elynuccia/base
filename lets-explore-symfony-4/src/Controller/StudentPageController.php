@@ -12,7 +12,7 @@ use App\Utility\Auth0Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class StudentPage extends AbstractController
+class StudentPageController extends AbstractController
 {
     /**
      * @Route("/studentpage", name="student_page")

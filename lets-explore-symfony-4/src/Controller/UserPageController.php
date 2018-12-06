@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use GuzzleHTTP\Client as GuzzleClient;
 use App\Utility\Auth0Api;
 
-class UserPage extends AbstractController
+class UserPageController extends AbstractController
 {
     /**
      * @Route("/userpage", name="user_page")

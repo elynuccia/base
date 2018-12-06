@@ -26,7 +26,7 @@ class Auth0Api {
         return json_decode($response->getBody()->getContents());
     }
 
-    public function getUsers($query)
+    public function getUsers()
     {
         $response = $this->guzzleClient->request('GET', $this->baseUri . 'users', array(
             'headers' => array (
@@ -34,6 +34,23 @@ class Auth0Api {
             )
         ));
         return json_decode($response->getBody()->getContents());
+    }
+
+    public function getUsersIdAndName()
+    {
+        $usersArray= array();
+
+        $response = $this->guzzleClient->request('GET', $this->baseUri . 'users', array(
+            'headers' => array (
+                'Authorization' => $this->authorizationHeader
+            )
+        ));
+
+        foreach(json_decode($response->getBody()->getContents()) as $user) {
+            $usersArray[$user->name] = $user->user_id;
+        }
+
+        return $usersArray;
     }
 
     public function updateUserMetadata($userId, $role)

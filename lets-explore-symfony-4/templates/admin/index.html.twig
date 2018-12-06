@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+
+{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+
+   <h1>User Roles</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Roles
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                <ul class="dropdown-menu pull-right">
+
+                        <li>
+                            <a data-role="ROLE_USER_PBS_TEAM_MEMBER" href="javascript:;">
+                                PBS team member
+                            </a>
+                            <a data-role="ROLE_USER_TEACHER_COORDINATOR" href="javascript:;">
+                                Teacher coordinator
+                            </a>
+                        </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% for user in users %}
+    <div class="row">
+        <div class="col">
+             {#{ user.name #}
+        </div>
+        <div class="col">
+            {{ form_row(form.check) }}
+        </div>
+    </div>
+    {% endfor %}
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent () }}
+    <script>
+        $('ul.dropdown-menu li a').on('click', function(e) {
+            e.stopPropagation();
+
+            role = $(this).data('role');
+
+            values = [];
+
+            $('.form-check-input:checked').each(function() {
+                id = this.value;
+
+                values.push(id); //console.log(this.value);
+            });
+            $.ajax({
+                url:"{{ path('user_role_save_user_role_data')
+                }}",
+                type:"POST",
+                data: { usersId: values, role: role },
+                success:function(response) {
+                    window.location.replace("{{ path('admin_page')
+                    }}");
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script>
+{% endblock %}

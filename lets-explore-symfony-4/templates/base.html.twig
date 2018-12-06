@@ -89,6 +89,10 @@
                         <a class="nav-link" href="{{ path('user_page') }}">Auth0</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_page') }}">Auth0</a>
+                    </li>
+
                     {% if app.user %}
 
                        {% if instanceOf(app.user, 'User') %}
