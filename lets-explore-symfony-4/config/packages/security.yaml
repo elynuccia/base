@@ -86,5 +86,26 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/userpage, roles: ROLE_USER }
+        - { path: ^/userpage, roles:  ROLE_0AUTH_USER }
+        - { path: /studentpage, roles: [ROLE_STUDENT, ROLE_PERSON] }
+        - { path: /registration, roles: ROLE_ADMIN }
+        - { path: /adminpage, roles: ROLE_ADMIN }
+        - { path: ^/matrix, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
+        - { path: ^/list, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /behaviors, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /minorBehavior, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
+        - { path: ^/majorBehavior, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
+        - { path: /minorandmajorbehaviorlist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER, ROLE_USER] }
+        - { path: ^/screeningtool, roles: [ROLE_0AUTH_USER, ROLE_ADMIN] }
+        - { path: /screeningtoollist, roles: [ROLE_0AUTH_USER, ROLE_ADMIN] }
+        - { path: ^/cico, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
+        - { path: ^/cicodata, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /cicolist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /rewards, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /rewardslist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /odr, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: /odrlist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: ^/generateaccessdata, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER, ROLE_USER_TEACHER_COORDINATOR] }
+
+
         # - { path: ^/profile, roles: ROLE_USER }
