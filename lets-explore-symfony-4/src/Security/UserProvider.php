@@ -15,6 +15,8 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     {
         $auth0User = $this->auth0Api->getUserByUsername($username);
 
+        //dump($auth0User); exit;
+
         $username = (isset($auth0User[0]->username)) ? $auth0User[0]->username : $auth0User[0]->nickname;
         $user = new User();
         $user->setEmail($auth0User[0]->email);
@@ -27,6 +29,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user->setLastIp($auth0User[0]->last_ip);
         $user->setLoginCount($auth0User[0]->logins_count);
         $user->addRole($auth0User[0]->user_metadata->role);
+        $user->setStudents($auth0User[0]->user_metadata->students);
 
         return $user;
     }

@@ -9,13 +9,10 @@
 namespace App\Controller;
 
 use App\Entity\ODR;
-use App\Entity\LocationTag;
-use App\Entity\MinorAndMajorBehavior;
 use App\Form\Handler\ODRFormHandler;
 use App\Form\Type\ODRType;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

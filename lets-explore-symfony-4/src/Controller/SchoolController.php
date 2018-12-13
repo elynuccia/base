@@ -11,7 +11,9 @@ namespace App\Controller;
 use App\Entity\School;
 use App\Entity\MinorAndMajorBehavior;
 use App\Form\Handler\SchoolFormHandler;
+use App\Form\Handler\CodeGeneratorFormHandler;
 use App\Form\Type\SchoolType;
+use App\Form\Type\CodeGeneratorType;
 use App\Utility\AccessDataGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,10 +101,10 @@ class SchoolController extends AbstractController
 
 
     /**
-     * @Route("/generateaccessdata/", name="generate_access_data")
+     * @Route("/generateaccessdata/{id}", name="generate_access_data")
      * @Template
      */
-    public function generateAccessDataAction(Request $request, SchoolFormHandler$formHandler, AccessDataGenerator $accessDataGenerator)
+    public function generateAccessDataAction(Request $request, School $school, CodeGeneratorFormHandler $formHandler, AccessDataGenerator $accessDataGenerator)
     {
 
 
@@ -110,12 +112,13 @@ class SchoolController extends AbstractController
                return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
            }
 */
-        $school = new School();
 
-        $form = $this->createForm(SchoolType::class, $school);
+        $form = $this->createForm(CodeGeneratorType::class);
 
-        if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('generate_access_data_number', array('number'=> $form['numberOfCodes'] ->getData())));
+        if ($lastId = $formHandler->handle($form, $request, $this->getUser())) {
+           // var_dump($this->getUser()->getUserId()); exit;
+            //fare l'update nell'handler
+            return $this->redirect($this->generateUrl('generate_access_data_number'));
         }
 
         $studentData = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
@@ -134,13 +137,12 @@ class SchoolController extends AbstractController
 
 
     /**
-     * @Route("/generateaccessdata/{number}", name="generate_access_data_number")
+     * @Route("/generateaccessdatanumber", name="generate_access_data_number")
      * @Template
      */
-    public function generateAccessDataByNumberAction(Request $request, SchoolFormHandler$formHandler, AccessDataGenerator $accessDataGenerator, $number)
+    public function generateAccessDataByNumberAction(AccessDataGenerator $accessDataGenerator)
     {
-        $accessData = $accessDataGenerator->generateAccessData($number);
-
+        //$accessData = $accessDataGenerator->generateAccessData($number);
         /*   if ($lastId = $formHandler->handle($form, $request)) {
                return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
            }
@@ -150,7 +152,6 @@ class SchoolController extends AbstractController
         $personInChargeData = $this->getDoctrine()->getRepository('App\Entity\PersonInCharge')->findAll();
 
         return $this->render('school/list_of_codes.html.twig', array(
-            'accessData' => $accessData,
             'studentdata' => $studentData,
             'personincharge' => $personInChargeData,
         ));

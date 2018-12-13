@@ -60,6 +60,11 @@ class Student implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $teacherCoordinator;
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
@@ -250,5 +255,17 @@ class Student implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getTeacherCoordinator(): ?string
+    {
+        return $this->teacherCoordinator;
+    }
+
+    public function setTeacherCoordinator(?string $teacherCoordinator): self
+    {
+        $this->teacherCoordinator = $teacherCoordinator;
+
+        return $this;
     }
 }

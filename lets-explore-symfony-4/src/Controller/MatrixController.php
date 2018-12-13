@@ -7,7 +7,7 @@ use App\Entity\ExpectationTag;
 use App\Entity\LocationTag;
 use App\Entity\MatrixBehavior;
 use App\Form\Type\MatrixType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

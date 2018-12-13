@@ -270,13 +270,18 @@ class AccessDataGenerator
 
             $this->entityManager->persist($student);
             $this->entityManager->flush();
+
+            $results[] = $student->getId();
+
             /*
             $results[] = array(
                 'nickname' => $this->generateNickname(),
                 'code' => $code,
                 'qrCode' => $this->generateQrCode($code)
-            );*/
+            );
+            */
         }
+
         return $results;
     }
 

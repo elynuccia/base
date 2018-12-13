@@ -14,6 +14,8 @@ class User implements UserInterface
     protected $lastIp;
     protected $loginCount;
     protected $roles = array('ROLE_USER', 'ROLE_0AUTH_USER');
+    protected $students= array();
+
 
     /**
      * @param mixed $email
@@ -167,6 +169,24 @@ class User implements UserInterface
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStudents()
+    {
+        return json_decode($this->students);
+    }
+
+    public function setStudents($students)
+    {
+        $this->students = $students;
+    }
+
+    public function addStudent(array $student)
+    {
+        $this->students[] = $student;
     }
 
     /**

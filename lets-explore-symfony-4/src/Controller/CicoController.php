@@ -9,7 +9,7 @@
 namespace App\Controller;
 use App\Entity\CicoData;
 use App\Entity\CicoThreshold;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Entity\Cico;
