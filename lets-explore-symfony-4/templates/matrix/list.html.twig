@@ -7,56 +7,133 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
     <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }}>
     <!-- Your custom styles (optional) -->
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
-    <link rel="stylesheet" href={{ asset('css/list.css') }} >
+    <style>
+        ul li {
+            list-style-type: none;
+        }
+    </style>
 
 {% endblock %}
 
-{% block body %}
-
-   <h1> {{ matrix.motto }}</h1>
-    <div id="matrix">
-    <div id='j' class="row">
-
-        <div class="col-6 col-sm-4"><strong>Expectation &Locations</strong></div>
-
-        {% for expectation in matrix.expectationTags %}
-            <div class="col-6 col-sm-4">  {{ expectation.name }} </div>
-        {% endfor %}
-
-    </div>
+{% block main %}
 
 
-    {% for location in matrix.locationTags %}
-    {% for expectation in matrix.expectationTags %}
-           <div class="row">
+    <div class="container-fluid">
 
-               <div class="col-6 col-sm-4"> {{ location.name }} </div>
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
 
-                {{ render(controller(
-                    'App\\Controller\\MatrixController::getBehaviorsByExpectationAndLocationAction',
-                    {
-                        'expectationTag': expectation,
-                        'locationTag': location
-                    }
-                )) }}
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">{{ matrix.motto }}</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
+
+
+                                <div class="row">
+
+                                    {% if(matrix.expectationTags | length ) == 1 %}
+                                        {% set sizeFirstColumn = 8 %}
+                                        {% set sizeColumn = 4 %}
+                                    {% endif %}
+
+                                    {% if(matrix.expectationTags | length ) == 2 %}
+                                        {% set sizeFirstColumn = 6 %}
+                                        {% set sizeColumn = 3 %}
+                                    {% endif %}
+
+                                    {% if(matrix.expectationTags | length ) == 3 %}
+                                        {% set sizeFirstColumn = 3 %}
+                                        {% set sizeColumn = 3 %}
+                                    {% endif %}
+
+                                    {% if(matrix.expectationTags | length ) == 4 %}
+                                        {% set sizeFirstColumn = 4 %}
+                                        {% set sizeColumn = 2 %}
+                                    {% endif %}
+
+                                    {% if(matrix.expectationTags | length ) == 5 %}
+                                        {% set sizeFirstColumn = 7 %}
+                                        {% set sizeColumn = 1 %}
+                                    {% endif %}
+
+                                    <div class="col-{{ sizeFirstColumn }}"><strong>Expectations & Locations</strong></div>
+
+                                    {% for expectation in matrix.expectationTags %}
+                                        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">  {{ expectation.name }} </div>
+                                    {% endfor %}
+
+                                </div>
+
+                                {% for location in matrix.locationTags %}
+                                    <div class="row">
+
+                                        <div class="col-{{ sizeFirstColumn }} col-sm-{{ sizeFirstColumn }}"> {{ location.name }} </div>
+
+                                        {% for expectation in matrix.expectationTags %}
+                                            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                                                {{ render(controller(
+                                                    'App\\Controller\\MatrixController::getBehaviorsByExpectationAndLocationAction',
+                                                    {
+                                                        'expectationTag': expectation,
+                                                        'locationTag': location
+                                                    }
+                                                )) }}
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                {% endfor %}
+
+
+
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
+
+
+                    </div>
+                    <!--Grid row-->
+
+                </section>
+                <!--Section: Chart-->
 
             </div>
+            <!--/.Card-->
 
-        {% endfor %}
+        </section>
+        <!--Section: Analytical panel-->
 
-    {% endfor %}
+
     </div>
 
     {{ form_start(form) }}
 
 
-    <div id="newPage"> </div>
     {{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}
@@ -64,36 +141,39 @@
 {% block javascripts %}
     {{ parent () }}
     <script>
-    $(document).ready( function() {
-        var $numBehavior = jQuery("[id^=matrix_behaviorTags][id $=behavior]").length;
-        var $numExpectation = jQuery("[id^=matrix_expectationTags][id $=name]").length;
-        var $numLocation = jQuery("[id^=matrix_locationTags][id $=name]").length;
+        $(document).ready(function () {
+            var $numBehavior = jQuery("[id^=matrix_behaviorTags][id $=behavior]").length;
+            var $numExpectation = jQuery("[id^=matrix_expectationTags][id $=name]").length;
+            var $numLocation = jQuery("[id^=matrix_locationTags][id $=name]").length;
 
 
-      //  $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
+            //  $('#newPage').append("<h1>" + $('#matrix_motto').val() + "</h1>");
 
-      /*  $('#newPage').append("<div id='j' class=\"row\">\n" +
-            "            <div class=\"col-6 col-sm-4\">Expectation &Locations</div>\n" +
-            "        </div>\n");
+            /*  $('#newPage').append("<div id='j' class=\"row\">\n" +
+                  "            <div class=\"col-6 col-sm-4\">Expectation &Locations</div>\n" +
+                  "        </div>\n");
 
 
 
-        for (j=0; j<$numExpectation;j++) {
-            $('#j').append("<div  class=\"col-6 col-sm-4\">" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
-            //stampa behavior
-            alert($('#matrix_behaviorTags_' + j + '_behavior').val());
-        }
+              for (j=0; j<$numExpectation;j++) {
+                  $('#j').append("<div  class=\"col-6 col-sm-4\">" + $('#matrix_expectationTags_' + j + '_name').val() + "</div>");
+                  //stampa behavior
+                  alert($('#matrix_behaviorTags_' + j + '_behavior').val());
+              }
 
-        for (k=0; k<$numLocation;k++) {
-            $('#newPage').append("<div class=\"row\"><div class=\"col-6 col-sm-4\">" +  $('#matrix_locationTags_' + k + '_name').val() + "</div></div>");
-           // $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
-        } */
-/*
-        for (i=0; i<$numBehavior;i++) {
-            $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
-        }*/
+              for (k=0; k<$numLocation;k++) {
+                  $('#newPage').append("<div class=\"row\"><div class=\"col-6 col-sm-4\">" +  $('#matrix_locationTags_' + k + '_name').val() + "</div></div>");
+                 // $('#newPage').append("<div>" + $('#matrix_locationTags_' + k + '_name').val() + "</div>");
+              } */
+            /*
+                    for (i=0; i<$numBehavior;i++) {
+                        $('#newPage').append("<div>" + $('#matrix_behaviorTags_' + i + '_behavior').val() + "</div>");
+                    }*/
 
-    });
+        });
+
+
     </script>
+
 
 {% endblock %}

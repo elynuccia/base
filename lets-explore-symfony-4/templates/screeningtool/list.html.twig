@@ -19,9 +19,35 @@
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
 
-    <h1>List of ScreeningTools</h1>
+
+    <div class="container-fluid">
+
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">List of ScreeningTools</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
+
 
     {% for single_screeningTool in screeningTool|slice(4,4) %}
         <b>ScreeningTool #{{ single_screeningTool.id }}</b>
@@ -44,6 +70,29 @@
     {% endfor %}
 </div>
 
+
+
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
+
+
+                    </div>
+                    <!--Grid row-->
+
+                </section>
+                <!--Section: Chart-->
+
+            </div>
+            <!--/.Card-->
+
+        </section>
+        <!--Section: Analytical panel-->
+
+
+    </div>
 
 {% endblock %}
 

@@ -2,65 +2,83 @@
 
 {% block title %}Matrix of Expectations{% endblock title %}
 
-{% block body %}
-    <div id="page" class="row">
+{% block main %}
+    <div id="page">
         {{ form_start(form) }}
-        {{ form_row(form.motto)}}
+        <div class="d-none">
+            {{ form_widget(form.motto)}}
+            {{ form_widget(form.locationTags)}}
+            {{ form_widget(form.expectationTags)}}
 
-        <ul class="behaviorTags" data-prototype=" {{ form_widget(form.behaviorTags.vars.prototype)|e }}">
+        </div>
+
+
+        <!-- numero nello stepper sempre 1 -->
+
+        <ul class="stepper parallel" data-behavior-tags-number="{{ form.behaviorTags | length }}" data-prototype=" {{ form_widget(form.behaviorTags.vars.prototype)|e }}">
             {% set i = 0 %}
             {% for formBehaviorTag in form.behaviorTags %}
-
-            <li>
-                <div class="form-group row">
-                    {{ form_label(formBehaviorTag.behavior) }}
-                    {{ form_errors(formBehaviorTag.behavior) }}
-
-
-                    <div class="col-sm-10">
-                        {{ form_widget(formBehaviorTag.behavior) }}
-                        <span class="input-group-btn">
-                                         <button id="plus-{{ i }}" class="btn btn-success btn-add" type="button">
-                                              + <span class="glyphicon glyphicon-plus"></span>
-                                         </button>
-                        </span>
+                <li class="step {{ (loop.index0 == 0) ? 'active' : '' }}">
+                    <div data-step-label="Add a behavior" class="step-title waves-effect waves-dark">
+                        {{ formBehaviorTag.expectation.vars.data.name }} in {{ formBehaviorTag.location.vars.data.name }}
                     </div>
 
+                    <div class="step-new-content">
+                        <div class="row">
+                            <div class="md-form col-8 ml-auto">
+                                {{ form_row(formBehaviorTag.behavior) }}
+                                <div class="d-none">{{ form_row(formBehaviorTag.location) }}</div>
+                                <div class="d-none">{{ form_row(formBehaviorTag.expectation) }}</div>
+                            </div>
+                            <div class="md-form col-4 ml-auto">
+                                <button id="plus-{{ i }}" class="btn btn-success btn-add" data-element-index="{{ i }}" type="button">
+                                    + <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            {% set buttons = '<button class="waves-effect waves-dark btn-sm btn btn-primary next-step">CONTINUE</button>
+                                              <button class="waves-effect waves-dark btn-sm btn btn-secondary previous-step">BACK</button>'
+                            %}
 
-                </div>
+                            {% if(loop.index0 == 0) %}
+                                {% set buttons = '<button class="waves-effect waves-dark btn btn-sm btn-primary next-step">CONTINUE</button>' %}
+                            {% endif %}
+
+                            {% if(loop.index == form.behaviorTags | length) %}
+                                {% set buttons = form_row(form.submit) %}
+                            {% endif %}
+
+                            {{ buttons | raw }}
+                        </div>
+                    </div>
+                </li>
                 {% set i = i + 1 %}
-                {{ form_row(formBehaviorTag.location) }}
-                {{ form_row(formBehaviorTag.expectation) }}
-            </li>
-        {% endfor %}
+            {% endfor %}
         </ul>
+        <div id="newPage" class="cont"></div>
 
-        {{ form_row(form.submit)}}
 
         {{ form_end(form, {'render_rest': true}) }}
     </div>
 
 
 
-    <div id="newPage" class="cont"></div>
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Stepper CSS -->
+<link rel="stylesheet" href={{ asset('css/stepper.min.css') }} >
+
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent () }}
     <script>
-       // var $collectionHolder;
-        //var $collectionHolder2;
-        var $collectionHolder3;
-//<button type="button" class="add_tag_link">Add a tag</button>
-
-       var $addTagButton;
-       var $newLinkLi = $('<li></li>'); //append addTagButton
-
-//cambiare il valore delle select tanto l'input è lo stesso
         $(document).ready( function() {
-         //   $collectionHolder = $('ul.expectationTags');
-           // $collectionHolder2 = $('ul.locationTags');
+
+            /*
             $collectionHolder3 = $('ul.behaviorTags');
 
             $collectionHolder3.find('li').each(function() {
@@ -69,13 +87,7 @@
             var $numButton = $('.btn-success').length;
             for (i=0; i<$numButton; i++) {
                 $addTagButton=$('#plus-'+ i);
-                //$collectionHolder3.append($addTagButton);
                 $collectionHolder3.append($newLinkLi);
-                //  $var= $('#matrix_expectations');
-                //$var2= $('#matrix_locations');
-
-                // $collectionHolder.data('index', $collectionHolder.find(':input').length);
-                //$collectionHolder2.data('index', $collectionHolder2.find(':input').length);
                 $collectionHolder3.data('index', $collectionHolder3.find(':input').length);
 
                 $addTagButton.on('click', function (e) {
@@ -86,80 +98,70 @@
                     // add a new tag form (see next code block)
                     addTagForm($collectionHolder3, $newLinkLi, lastExpectationId, lastLocationId);
                 });
-            }
-            /*  $var.on('change', function(e) {
-                    // alert("onchange event");
-                    $('ul.expectationTags li').remove();
-                    for (var i = 0; i < e.currentTarget.value; i++) {
-                        addTagForm($collectionHolder);
-                    }
-                }
-            );
-            $var2.on('change', function(e) {
-                    // alert("onchange event");
-                    $('ul.locationTags li').remove();
-                    for (var i = 0; i < e.currentTarget.value; i++) {
-                        addTagForm($collectionHolder2);
-                    }
-                }
-            );*/
+            }*/
 
-            //nascondere da jquery expectation e location
 
-            $('#newPage').append("!");
+            $('.btn-add').on('click', function(e){
+
+                formIndex = $(this).data('element-index');
+
+                var lastLocationId = $('#matrix_behaviorTags_' + formIndex + '_location').val();
+                var lastExpectationId = $('#matrix_behaviorTags_' + formIndex + '_expectation').val();
+
+                addTagForm($(this), lastExpectationId, lastLocationId);
+
+            });
+
+            $('.stepper').mdbStepper();
 
 
         });
-       /* function printData()
-        {
-            var divToPrint=document.getElementById("tab");
-            newWin= window.open("");
-            newWin.document.write(divToPrint.outerHTML);
-            newWin.print();
-            newWin.close();
-        }*/
-        function addTagForm($collectionHolder, $newLinkLi, lastExpectationId, lastLocationId) {
-            // Get the data-prototype explained earlier
-            var prototype = $collectionHolder.data('prototype');
-            // get the new index
-            var index = $collectionHolder.data('index');
-            var newForm = prototype;
-            // You need this only if you didn't set 'label' => false in your tags field in TaskType
-            // Replace '__name__label__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            // newForm = newForm.replace(/__name__label__/g, index);
-            // Replace '__name__' in the prototype's HTML to
-            // instead be a number based on how many items we have
 
+        function addTagForm(element, lastExpectationId, lastLocationId)
+        {
+            var prototype = $('ul.stepper').data('prototype');
+            var index = $('ul.stepper').data('behavior-tags-number');
+            var newForm = prototype;
             newForm = newForm.replace(/__name__/g, index);
-            // increase the index with one for the next item
-            $collectionHolder.data('index', index + 1);
-            /*var newFormLi = $('<li></li>').append(newForm);
-            $collectionHolder.append(newFormLi);*/
-            var $newFormLi = $('<li></li>').append(newForm);
-            $newLinkLi.before($newFormLi);
-            addTagFormDeleteLink($newFormLi);
+            $('ul.stepper').data('behavior-tags-number', index + 1);
+
+            var $newFormRow = $('<div class="row">\n' +
+                '                            <div class="md-form col-8 ml-auto">\n' + newForm +
+                '                            </div>\n' +
+                '                        </div>');
+
+            $(element).parent().parent().after($newFormRow);
+            addTagFormDeleteLink(index);
+
+            $('#matrix_behaviorTags_' + index + '_expectation').parent().hide();
+            $('#matrix_behaviorTags_' + index + '_location').parent().hide();
+
 
             $('#matrix_behaviorTags_' + index + '_expectation').val(lastExpectationId);
             $('#matrix_behaviorTags_' + index + '_location').val(lastLocationId);
 
         }
 
-       function addTagFormDeleteLink($tagFormLi) {
-           var $removeFormA = $('<span class="input-group-btn">\n' +
+       function addTagFormDeleteLink(index) {
+           var $removeFormA = $('<div class="md-form col-4 ml-auto"><span class="input-group-btn">\n' +
                '                               <button id="minus" class="btn btn-danger btn-add" type="button">\n' +
                '                                   - <span class="glyphicon glyphicon-plus"></span>\n' +
                '                               </button>\n' +
-               '                           </span>');
-           $tagFormLi.append($removeFormA);
+               '                           </span></div>');
+
+           $('#matrix_behaviorTags_' + index + '_behavior').parent().parent().parent().after($removeFormA);
 
            $removeFormA.on('click', function(e) {
                // prevent the link from creating a "#" on the URL
                e.preventDefault();
 
                // remove the li for the tag form
-               $tagFormLi.remove();
+               $(this).parent().remove();
            });
        }
     </script>
+
+    <!-- Stepper JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/stepper.min.js') }}"></script>
+
 {% endblock %}

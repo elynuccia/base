@@ -97,6 +97,8 @@ class SchoolFormHandler
 
         ;
 
+
+
         $this->mailer->send($message);
 
         return $entity->getId();

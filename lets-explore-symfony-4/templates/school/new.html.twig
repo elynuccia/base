@@ -2,9 +2,19 @@
 
 {% block title %}Minor Behaviors{% endblock title %}
 
-{% block body %}
+{% block main %}
 
-    <h1>Add Minor Behaviors</h1>
+    <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Minor& Major</h1>
+
+
     {{ form_start(form) }}
     {# render the task's only field: description #}
 
@@ -13,13 +23,40 @@
         {# iterate over each existing tag and render its only field: name #}
         {% for minorAndMajorBehavior in form.minorAndMajorBehaviors %}
             <li>{{ form_row(minorAndMajorBehavior.name) }}</li>
+        <div class="d-none">
+            {{ form_row(minorAndMajorBehavior.isMinorBehavior)}}
+        </div>
         {% endfor %}
     </ul>
     {#div per minor#}
     {#div per major#}
 
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
-    {{ form_end(form) }}
+
+            </div>
+        </section>
+    </div>
+
+    <div class="d-none">
+        {{ form_row(form.numberOfCodes)}}
+        {{ form_row(form.name)}}
+        {{ form_row(form.address)}}
+        {{ form_row(form.phoneNumber)}}
+        {{ form_row(form.email)}}
+        {{ form_row(form.code)}}
+        {{ form_row(form.administrator)}}
+    </div>
+
+
+    {{ form_end(form, {'render_rest': true}) }}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        ul li {
+            list-style-type: none;
+        }
+    </style>
 {% endblock %}
 
 {% block javascripts %}
@@ -28,7 +65,7 @@
         var $collectionHolder;
 
         // setup an "add a tag" link
-        var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+        var $addTagLink = $('<a href="#" class="add_tag_link">add</a>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
      //   var $check = jQuery("[id^=school_minorAndMajorBehavior]");
@@ -94,7 +131,7 @@
         }
 
         function addTagFormDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#">delete this tag</a>');
+            var $removeFormA = $('<a href="#">delete</a>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {

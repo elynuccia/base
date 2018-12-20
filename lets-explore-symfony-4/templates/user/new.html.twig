@@ -14,15 +14,51 @@
 
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
+    <style>#profilePicture  {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            width: 150px;
+
+
+        }</style>
 {% endblock %}
 
 
-{% block body %}
-    <h1><b>{{  user.username }}</b>'s personal page</h1>
+{% block main %}
+      <div class="container-fluid">
+
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">User Page</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
+
+
+
+    <h1><b>{{  user.username }}</b></h1>
 <div class="row">
     <div class="col">
+        <br>
     <b>Name: </b> {{ user.name }}<br>
     <b>Email: </b> {{ user.email }}
     </div>
@@ -33,8 +69,32 @@
 
     </div>
     <div class="row">
-    {{  dump(app.user) }}
+    {# dump(app.user)#}
     </div>
+
+
+                        </div>
+                        <!--/.Card content-->
+
+                    </div>
+                    <!--Grid column-->
+
+
+            </div>
+            <!--Grid row-->
+
+        </section>
+          <!--Section: Chart-->
+
+      </div>
+    <!--/.Card-->
+
+    </section>
+    <!--Section: Analytical panel-->
+
+
+    </div>
+
 
 {% endblock %}
 

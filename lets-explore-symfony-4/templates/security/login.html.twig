@@ -2,34 +2,72 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputCode" class="sr-only">Code</label>
-    <input type="text" value="{{ last_username }}" name="code" id="inputCode" class="form-control" placeholder="Code" required autofocus>
+{% block stylesheets %}
+
+{% endblock %}
+{% block main %}
+
+    <br>
+    <section class="mb-5">
+        <h3 id="" class="font-weight-bold dark-grey-text mb-4"><strong>Please Sign In!</strong></h3>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-4">
+
+                <!-- Card -->
+                <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Horizontal/Work/4-col/img%20%2814%29.jpg);">
+
+                    <!-- Content -->
+                    <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+                        <div>
+                            <h6 class="pink-text"><i class="fa fa-pie-chart"></i><strong> Code Login</strong></h6>
+                            <h3 class="card-title pt-4 pb-3 font-weight-bold"><strong>Please insert your personal code</strong></h3>
+                            <form method="post">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                <label for="inputCode" class="sr-only">Code</label>
+                                <input type="text" value="{{ last_username }}" name="code" id="inputCode" class="form-control" placeholder="Code" required autofocus>
 
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}">
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+                                {#
+                                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                                    See https://symfony.com/doc/current/security/remember_me.html
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+                                    <div class="checkbox mb-3">
+                                        <label>
+                                            <input type="checkbox" name="_remember_me"> Remember me
+                                        </label>
+                                    </div>
+                                #}
+
+                                <button class="btn btn-lg btn-primary" type="submit">
+                                    Sign in
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                </div>
+                <!-- Card -->
+
+            </div>
+
         </div>
-    #}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        new WOW().init();
+    </script>
 {% endblock %}

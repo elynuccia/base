@@ -14,22 +14,72 @@
 
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
 {% endblock %}
 
 
-{% block body %}
+{% block main %}
+    <div class="container-fluid">
 
-    {{ dump(app.user) }}
-    <h1><b>{{  student.nickname|default("Person In Charge") }}</b>'s personal page</h1>
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">Personal page</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
+
+
+                            {# dump(app.user) #}
+    <h1><b>{{  student.nickname|default("Person In Charge") }}</b></h1>
     <div class="row">
-        <div class="col">
+        <div class="col-4">
+            <img id="profilePicture" src="{{ student.qrcode  }}">
+
+        </div>
+        <div class="col-4">
             <b>Code: </b> {{ student.code }} <br>
         </div>
         <div class="col-4">
-            <img id="profilePicture" src="{{ student.qrcode  }}">
         </div>
+    </div>
+
+    </div>
+    <!--/.Card content-->
+
+    </div>
+    <!--Grid column-->
+
+
+    </div>
+    <!--Grid row-->
+
+    </section>
+    <!--Section: Chart-->
+
+    </div>
+    <!--/.Card-->
+
+    </section>
+    <!--Section: Analytical panel-->
+
+
     </div>
 {% endblock %}
 

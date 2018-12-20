@@ -19,14 +19,23 @@
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
 
 
+ <div class="container-fluid">
 
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Rewards Menu</h1>
+
+    <h2 class="pb-5">Studente:</h2>
 
     {{ form_start(form) }}
 
-    <h1>Reward Menu</h1>
 <h4>In this section you can add a list of rewards and their corrisponding values.</h4>
     <i><b>Examples:</b>
 
@@ -71,6 +80,9 @@
 
 
 
+            </div>
+        </section>
+ </div>
 
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

@@ -19,7 +19,33 @@
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
+ <div class="container-fluid">
+
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">CICO</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
+
 
     <h1>List of ODRs</h1>
 
@@ -39,7 +65,24 @@
 
 
     <canvas id="myChart" style="max-width: 500px;"></canvas>
+    </div>
+    <!--/.Card content-->
 
+    </div>
+    <!--Grid column-->
+
+
+    </div>
+    <!--Grid row-->
+
+    </section>
+    <!--Section: Chart-->
+
+    </div>
+    <!--/.Card-->
+
+    </section>
+    <!--Section: Analytical panel-->
 {% endblock %}
 
 {% block javascripts %}

@@ -19,12 +19,23 @@
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
+
+    <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Code Generator</h1>
+
+                <h5 class="pb-5">Insert the number of pairs of codes to generate:</h5>
+
 
     {{ form_start(form) }}
-    <div class="row">
-        <h4><b>Insert the number of pairs of codes to generate:</b></h4>
-    </div>
+
     <div class="row">
     {{ form_row(form.numberOfCodes) }}
     </div>
@@ -58,6 +69,10 @@
         </div>
     {% endfor %}
 </div>
+
+            </div>
+        </section>
+    </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent () }}

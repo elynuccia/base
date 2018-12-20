@@ -38,6 +38,9 @@ class CicoType extends AbstractType
                     '5' => '5',
                     '6' => '6',
                 ),
+                'attr' => array(
+                    'class' => 'mdb-select md-form'
+                )
 
             ));
 
@@ -61,6 +64,9 @@ class CicoType extends AbstractType
                     '3' => '3',
                 ),
                 'mapped'=> false,
+                'attr' => array(
+                    'class' => 'mdb-select md-form'
+                )
 
             ));
         $builder->add('cicoThresholds', CollectionType::class, array(

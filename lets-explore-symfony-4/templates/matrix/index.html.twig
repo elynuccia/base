@@ -1,44 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Matrix of Expectations{% endblock title %}
+{% block main %}
 
-{% block body %}
 
-    <!--suppress ALL -->
-    <div id="page" class="row">
-        {{ form_start(form) }}
-        {{ form_row(form.motto)}}
-        {{ form_row(form.expectations)}}
+    <div class="container-fluid">
 
-        <ul id="expectationTag" class="expectationTags" data-prototype="{{ form_widget(form.expectationTags.vars.prototype)|e('html_attr') }}">
-            {% for tag in form.expectationTags %}
-                <li> {{ form_row(tag.name) }}
-                </li>
-            {% endfor %}
-        </ul>
-        {{ form_row(form.locations)}}
-        <ul id="locationTag" class="locationTags" data-prototype="{{ form_widget(form.locationTags.vars.prototype)|e('html_attr') }}">
-            {% for tag in form.locationTags %}
-                <li> {{ form_row(tag.name) }}
-                </li>
-            {% endfor %}
-        </ul>
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
 
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Inputs</h1>
+
+                <h5 class="pb-5">Input fields</h5>
+
+                {{ form_start(form) }}
+
+                <div class="row">
+
+                    <div class="col-md-12 mb-12">
+                        {{ form_row(form.motto, {'class': 'form-control'})}}
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <!--cerca la select sotto-->
+
+                    <div class="col-md-12 mb-12">
+                        {{ form_widget(form.expectations) }}
+                        {{ form_label(form.expectations) }}
+                    </div>
+
+                </div>
+
+                <ul id="expectationTag" class="expectationTags" data-prototype="{{ form_widget(form.expectationTags.vars.prototype)|e('html_attr') }}">
+                    {% for tag in form.expectationTags %}
+                        <li> {{ form_row(tag.name) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="row">
+                     <div class="col-md-12 mb-12">
+                          {{ form_widget(form.locations)}}
+                          {{ form_label(form.locations)}}
+                     </div>
+                </div>
+
+                <ul id="locationTag" class="locationTags" data-prototype="{{ form_widget(form.locationTags.vars.prototype)|e('html_attr') }}">
+                    {% for tag in form.locationTags %}
+                        <li> {{ form_row(tag.name) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </div>
         {{ form_row(form.submit)}}
 
         {{ form_end(form, {'render_rest': false}) }}
-    </div>
-    <div id="newPage" class="cont"></div>
-
-
-<!--  <button id="matrixButton" type= "submit" class="float-right" >Send</button> -->
-
 
 {% endblock %}
 
+{% block stylesheets %}
+    <style>
+        ul li {
+            list-style-type: none;
+        }
+    </style>
+{% endblock %}
+
 {% block javascripts %}
-    {{ parent () }}
     <script>
+        // Material Select Initialization
         var $collectionHolder;
         var $collectionHolder2;
         var $collectionHolder3;
@@ -80,62 +117,62 @@
 
                 $('#page').hide();
 
-               // $('#matrixButton').hide();
-              /*  var nexpectations = document.getElementById("expectationTag").childElementCount;
-                var nlocations= document.getElementById("locationTag").childElementCount;
+                // $('#matrixButton').hide();
+                /*  var nexpectations = document.getElementById("expectationTag").childElementCount;
+                  var nlocations= document.getElementById("locationTag").childElementCount;
 
-                var counter=0;
-                var counter2=0;
+                  var counter=0;
+                  var counter2=0;
 
-                 for (var i=0; i<nexpectations; i++)
-                     $('#newPage').append("<div>" + $('#matrix_expectationTags_'+i+'_name').val() + "</div>");
-                 for (var j=0; j<nlocations; j++)
-                     $('#newPage').append("<div id= '"+j+"'><div>" + $('#matrix_locationTags_'+j+'_name').val()+ "</div>" );
-*/
+                   for (var i=0; i<nexpectations; i++)
+                       $('#newPage').append("<div>" + $('#matrix_expectationTags_'+i+'_name').val() + "</div>");
+                   for (var j=0; j<nlocations; j++)
+                       $('#newPage').append("<div id= '"+j+"'><div>" + $('#matrix_locationTags_'+j+'_name').val()+ "</div>" );
+  */
 
 
-               /*
+                /*
 
-                $('#newPage').append("<div class='row'>"
-                    + "<div id='cont1' class='col-12 col-sm-6 col-lg-8'></div>"
-                    + "<div id='cont2' class='col-6 col-lg-4'></div>"
-                    +"</div>");
-                $('#cont1').append("<div id='behaviorContainer' class='md-form input-group'>"
-                    + "<div class='input-group-prepend'>"
-                    + "<button id='removeBehavior' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
-                    + "</div>"
-                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+0+'_name').val() + "&" + $('#matrix_locationTags_'+0+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
-                    + "<div class='input-group-append'>"
-                    + "<button id= 'addBehavior' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
-                    + "</div>"
-                    + "</div>");
-                document.getElementById("addBehavior").onclick = function () {
-                    counter++;
-                    $('#cont1').append("<input id='text" + counter + "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
-                    );
-                }
-                document.getElementById("removeBehavior").onclick = function () {
-                    $('#text'+ counter).remove();
-                    counter--;
-                }
-                $('#cont2').append("<div id='behaviorContainer2' class='md-form input-group'>"
-                    + "<div class='input-group-prepend'>"
-                    + "<button id='removeBehavior2' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
-                    + "</div>"
-                    + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+1+'_name').val() + "&" + $('#matrix_locationTags_'+1+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
-                    + "<div class='input-group-append'>"
-                    + "<button id= 'addBehavior2' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
-                    + "</div>"
-                    + "</div>");
-                document.getElementById("addBehavior2").onclick = function () {
-                    counter2++;
-                    $('#cont2').append("<input id='text2" + counter2+ "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
-                    );
-                    document.getElementById("removeBehavior2").onclick = function () {
-                        $('#text2'+ counter2).remove();
-                        counter2--;
-                    };
-                }*/
+                 $('#newPage').append("<div class='row'>"
+                     + "<div id='cont1' class='col-12 col-sm-6 col-lg-8'></div>"
+                     + "<div id='cont2' class='col-6 col-lg-4'></div>"
+                     +"</div>");
+                 $('#cont1').append("<div id='behaviorContainer' class='md-form input-group'>"
+                     + "<div class='input-group-prepend'>"
+                     + "<button id='removeBehavior' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
+                     + "</div>"
+                     + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+0+'_name').val() + "&" + $('#matrix_locationTags_'+0+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
+                     + "<div class='input-group-append'>"
+                     + "<button id= 'addBehavior' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
+                     + "</div>"
+                     + "</div>");
+                 document.getElementById("addBehavior").onclick = function () {
+                     counter++;
+                     $('#cont1').append("<input id='text" + counter + "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
+                     );
+                 }
+                 document.getElementById("removeBehavior").onclick = function () {
+                     $('#text'+ counter).remove();
+                     counter--;
+                 }
+                 $('#cont2').append("<div id='behaviorContainer2' class='md-form input-group'>"
+                     + "<div class='input-group-prepend'>"
+                     + "<button id='removeBehavior2' class='btn btn-info waves-effect m-0' type='button'>Remove</button>"
+                     + "</div>"
+                     + "<input type='text' class='form-control' placeholder='Add a "+ $('#matrix_expectationTags_'+1+'_name').val() + "&" + $('#matrix_locationTags_'+1+'_name').val() +" BehaviorTag' aria-label='Recipient username' aria-describedby='basic-addon2'>"
+                     + "<div class='input-group-append'>"
+                     + "<button id= 'addBehavior2' class='btn btn-info waves-effect m-0' type='button'>Add</button>"
+                     + "</div>"
+                     + "</div>");
+                 document.getElementById("addBehavior2").onclick = function () {
+                     counter2++;
+                     $('#cont2').append("<input id='text2" + counter2+ "' type='text' class='form-control' placeholder='' aria-label='' aria-describedby='basic-addon1'>"
+                     );
+                     document.getElementById("removeBehavior2").onclick = function () {
+                         $('#text2'+ counter2).remove();
+                         counter2--;
+                     };
+                 }*/
                 /*
                 var nexpectations = document.getElementById("expectationTag").childElementCount;
                 var nlocations= document.getElementById("locationTag").childElementCount;
@@ -209,5 +246,10 @@
             var newFormLi = $('<li></li>').append(newForm);
             $collectionHolder.append(newFormLi);
         }
+
+        $(document).ready(function () {
+            $('.mdb-select').material_select();
+        });
+
     </script>
 {% endblock %}

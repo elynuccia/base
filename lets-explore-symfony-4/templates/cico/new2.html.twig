@@ -15,14 +15,19 @@
 
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
+ <div class="container-fluid">
 
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
 
-    <h1>CICO</h1>
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">CICO</h1>
 
     <h2>Studente:</h2>
 
@@ -120,11 +125,19 @@
     </div>
 
     <div id="colonna"></div>
+
+    <div class="d-none">
     {{ form_row(form.periodNumber) }}
     {{ form_row(form.threshold) }}
     {{ form_row(form.cicoThresholds) }}
+    </div>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
+
+            </div>
+        </section>
+ </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -132,202 +145,37 @@
     <script>
         var rows;
         $(document).ready( function() {
-
-           // periods = parseInt(document.getElementById("ciao").innerHTML);
-
             $var= $('#cico_periodNumber');
             $exp = document.getElementById("expectations");
-
-//inizio onchange
-
-         //   $totale_massimo=3*expectations.length*periods;
-
-           // $percentage= parseInt($('#customRange1').val());
-          //  console.log($percentage);
-           // $goal = Math.round(($totale_massimo*$percentage)/100);
-            //console.log($goal);
-          //  $('#max').text($totale_massimo);
-          //  $('#goal').text($goal);
-       //     $('#max2').text($totale_massimo);
-          //  $('#cico_threshold').val($goal);
-
             rows=2;
-
-
-
-
-/*
-            document.getElementById("tabella").innerHTML="";
-            for (var i = 0; i < periods; i++) {
-                $str= "  <div class=\"row\">\n" +
-                    "        <div class=\"col-6 col-sm-2\">"+(i+1)+"</div>\n";
-
-                for (var j = 0; j < expectations.length; j++) {
-                    $('#colonna').append("        <div id='col"+ j +"' class=\"col-6 col-sm-2\"></div>\n" +
-                        "    </div>");
-                    $str=$str+
-                        "        <div class=\"col-6 col-sm-2\"><!-- Default inline 1-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"1defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"1defaultInline"+i+j+"\">1</label>\n" +
-                        "</div>\n" +
-                        "\n" +
-                        "<!-- Default inline 2-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"2defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"2defaultInline"+i+j+"\">2</label>\n" +
-                        "</div>\n" +
-                        "\n" +
-                        "<!-- Default inline 3-->\n" +
-                        "<div class=\"custom-control custom-radio custom-control-inline\">\n" +
-                        "  <input type=\"radio\" class=\"custom-control-input\" id=\"3defaultInline"+i+j+"\" name=\"inlineDefaultRadiosExample"+i+j+"\">\n" +
-                        "  <label class=\"custom-control-label\" for=\"3defaultInline"+i+j+"\">3</label>\n" +
-                        "</div></div>\n";
-
-                }
-
-                $str=$str+ "        <div id='tot"+ i +"' class=\"col-6 col-sm-2\"></div>\n" +
-                    "    </div>";
-
-                $('#tabella').append($str);
-            }*/
-
-
         });
 
         lastSessionIndex = $("input[id*='fillInDate']").length - 1;
-
-    //    console.log($("input[id*='fillInDate']").length);
-
-
-        //console.log('#cico_sessions_' + lastSessionIndex + '_fillInDate');
 
         $("input[id*='fillInDate']").pickadate({
             format: 'yyyy-mm-dd',
             today: 'Today',
             clear: 'Clear selection',
-            close: 'Cancel',
-
+            close: 'Cancel'
         });
 
 
-
-
-
-
-        //bisogna differenziare il totale di ogni riga
-        /*
-        for(var i=0; i<expectations.length; i++){
-             $('#tabella').on('change', "input[id*='defaultInline"+ i +"']", function(){
-                     console.log($(this).next().text());
-                     $("div[id^='tot"+ i +"']").append($(this).next().text());
-             });
-         }*/
-
         totRow = 0;
-        //totCol = 0;
 
+        $('input[type=radio]').on('change', function(){
 
-        $('#tabella').on('change', "input[id*='defaultInline']", function(){
-            totSum = 0;
-            $tempTot=0;
-            totCol = [] ;
-            selectorName = $(this).attr('name');
-            //console.log(selectorName);
-            rowSelectorName = selectorName.substr(0, selectorName.length - 1);
-            // console.log(rowSelectorName);
-            colSelectorName1 = selectorName.substr(0, selectorName.length -2);
-            colSelectorName2 = selectorName.substr(selectorName.length -1, selectorName.length);
-            //console.log(colSelectorName1);
-            //console.log(colSelectorName2);
-            colSelectorName= colSelectorName1+colSelectorName2;
-            //  console.log(colSelectorName);
+            total = 0;
 
-            $('input[name*=' + rowSelectorName + ']:checked').each(function() {
-                totRow += parseInt($(this).next().text());
-
-                //console.log($(this));
-                //console.log($(totRow));
-
+            $('input[type=radio]:checked').each(function() {
+                if($(this).is(":visible")) {
+                    total += parseInt($(this).val());
+                }
             });
 
-            colSelectorName = 'inlineDefaultRadiosExample';
-
-            $('input[name*=' + colSelectorName + ']:checked').each(function() {
-
-                totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
-
-                columnValue = parseInt($(this).next().text());
-
-                if(totCol[totIndex] === undefined) {
-                    totCol[totIndex] = 0;
-                }
-
-                totCol[totIndex] += parseInt($(this).next().text());
-
-                /*
-                totIndex = parseInt($(this).attr('id').substr($(this).attr('id').length - 1, 1));
-
-                if(totCol[totIndex] !== void 0) {
-                    totCol[totIndex] = 0;
-                }
-
-                totCol[totIndex] += parseInt($(this).next().text());
-                */
-
-                /*
-                totCol += parseInt($(this).next().text());
-
-                console.log(colSelectorName);
-                */
-                //console.log($(this));
-            });
-
-            console.log(totCol);
-
-            $('#tot' + selectorName.substr(selectorName.length - 2, 1)).text(totRow);
-            //console.log(selectorName.substr(selectorName.length - 1, 1));
-            //  $('#col' + selectorName.substr(selectorName.length - 1, 1)).text(totCol);
-
-            //$('#colonna').text(totCol);
+            $('#sumSpan').text(total);
 
 
-            /* funziona
-            $('div[id*=tot]').each(function(){
-                partialTotal = parseInt($(this).text());
 
-                totSum = (isNaN(partialTotal)) ? totSum : totSum + partialTotal;
-
-                $('#sumSpan').text(totSum);
-            });*/
-
-
-            for (var j=0; j<rows; j++){
-                $tempTot = document.getElementById("tot" + j).innerHTML;
-
-                // console.log($tempTot);
-                totSum = (isNaN(parseInt($tempTot))) ? totSum : totSum + parseInt($tempTot);
-
-
-            }
-
-            $('#cico_total').val(totSum);
-
-            $('#sumSpan').text(totSum);
-
-
-            if (totSum > $goal) {
-
-                $('#success').html("<div class=\"alert alert-success\" role=\"alert\">Success!</div>");
-            }
-
-            else {
-
-                $('#success').html("<div class=\"alert alert-danger\" role=\"alert\">Failed!</div>");
-
-            }
-
-            totRow = 0;
 
         });
     </script>

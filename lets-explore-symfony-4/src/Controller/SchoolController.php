@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\School;
 use App\Entity\MinorAndMajorBehavior;
+use App\Form\Handler\MinorAndMajorFormHandler;
 use App\Form\Handler\SchoolFormHandler;
 use App\Form\Handler\CodeGeneratorFormHandler;
 use App\Form\Type\SchoolType;
@@ -26,17 +27,17 @@ class SchoolController extends AbstractController
 {
 
     /**
-     * @Route("/minorBehavior/", name="minorBehavior")
+     * @Route("/minorBehavior/{id}", name="minorBehavior")
      */
-    public function newMinorBehavior(Request $request, SchoolFormHandler$formHandler)
+    public function newMinorBehavior(School $school, Request $request, MinorAndMajorFormHandler $formHandler)
     {
-        $school = new School();
+        //$school = new School();
 
         $minorAndMajorBehavior = new MinorAndMajorBehavior();
+        $minorAndMajorBehavior->setSchool($school);
         $minorAndMajorBehavior->setName('min1');
         $minorAndMajorBehavior->setIsMinorBehavior('true');
 
-        $minorAndMajorBehavior->setSchool($school);
 
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
 
@@ -56,7 +57,7 @@ class SchoolController extends AbstractController
     /**
      * @Route("/majorBehavior/{id}", name="majorBehavior")
      */
-    public function newMajorBehavior(Request $request, School $school, SchoolFormHandler $formHandler)
+    public function newMajorBehavior(Request $request, School $school, MinorAndMajorFormHandler $formHandler)
     {
 
 

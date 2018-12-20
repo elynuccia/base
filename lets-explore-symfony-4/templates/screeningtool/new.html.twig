@@ -19,12 +19,20 @@
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
 
-    <h1>Screening Tool</h1>
+    <div class="container-fluid">
 
-    <h2>Studente:</h2>
-{{ matrix.motto }}
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Screening Tool</h1>
+
+                <h5 class="pb-5">Please evaluate the student</h5>
+
 
     {{ form_start(form) }}
 
@@ -71,21 +79,15 @@
                     {{ form_widget(screeningToolData.expectation) }}
                 </div>
             </div>
-
-
-
         </div>
-
-
-
-
     {% endfor %}
-
-
 
 <div class="row">
         <div class="col-sm-10">{{ form_row(form.submit)}}</div>
 </div>
+            </div>
+        </section>
+    </div>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}

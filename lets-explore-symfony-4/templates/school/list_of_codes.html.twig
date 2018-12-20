@@ -15,39 +15,82 @@
 
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
 {% endblock %}
 
-{% block body %}
+{% block main %}
+
+    <div class="container-fluid">
+
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">List of Generated Codes</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0">
 
     {% for i in  studentdata %}
         <div class="row">
             <div class="col">
                 <h4>Student</h4>
             {{ i.code}}
-{{ i.nickname }}
+            {{ i.nickname }}
+
             </div>
             <div class="col">
     <img src="{{ i.qrCode}}">
             </div>
             <div class="col">
                 <h4>Person In Charge</h4>
+                {{ i.personInCharge.code }}
             </div>
             <div class="col">
+                <img src="{{ i.personInCharge.qrCode }}">
+
             </div>
         </div>
     {% endfor %}
 
-    {% for j in  personincharge %}
-        {{ j.code}}
-        <img src="{{ j.qrCode}}">
-
-    {% endfor %}
 
 
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
 
 
+                    </div>
+                    <!--Grid row-->
+
+                </section>
+                <!--Section: Chart-->
+
+            </div>
+            <!--/.Card-->
+
+        </section>
+        <!--Section: Analytical panel-->
+
+
+    </div>
         {% endblock %}
 {% block javascripts %}
     {{ parent () }}

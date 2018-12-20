@@ -46,7 +46,7 @@ class Administrator implements UserInterface
 
     public function __construct()
     {
-        $this->schoolCode = $this->school->getCode();
+        $this->schoolCode = ($this->school) ? $this->school->getCode() : null;
     }
 
     public function getId(): ?int

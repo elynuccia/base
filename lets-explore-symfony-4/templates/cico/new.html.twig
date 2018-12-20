@@ -2,57 +2,42 @@
 
 {% block title %}CICO{% endblock title %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
-    <!-- Your custom styles (optional) -->
 
+{% block main %}
+ <div class="container-fluid">
 
-    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
 
-{% endblock %}
+            <div class="card-body">
 
-{% block body %}
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">CICO</h1>
 
-
-<h1>CICO</h1>
-
-    <h2>Studente:</h2>
+    <h2 class="pb-5">Studente:</h2>
 
     <h3>Motto:<i>{{ matrix.motto }}</i> </h3>
 
    <div class="row">
-        <div class="col-6 col-sm-4">  <label for="customRange1">Goal percentage</label>
-            <input type="range" class="custom-range" id="customRange1" value="80"></div>
-       <div id="range">Default Value= 80</div>
-    </div>
-<br>
-    <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
+       <form class="range-field my-4 w-25"><label for="customRange1">Goal percentage</label>
+           <input type="range" id="customRange1" value="80" min="0" max="100" />
+       </form>
+       <div class="col-4 col-sm-4"></div>
+       <div id="goals" class="col-4 col-sm-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
+
+   </div>
 
     {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">
+                {{ form_widget(form.periodNumber) }}
+                {{ form_label(form.periodNumber) }}
+            </div>
+                {{ form_row(form.threshold) }}
+                {{ form_row(form.tmpData) }}
+        </div>
 
-
-
-    <div class="row">
-
-
-    {{ form_row(form.periodNumber) }}
-        {{ form_row(form.threshold) }}
-        {{ form_row(form.tmpData) }}
-
-
-
-
-    </div>
-
-    <div id="header"> <div class="row">
+    <div id="header" class="d-none"> <div class="row">
     <div class="col-6 col-sm-2"> <h4>Periods</h4> </div>
             {% for expectation in matrix.expectationTags %}
      <div id="expectations" class="col-6 col-sm-2"><h4> {{ expectation.name }} </h4></div>
@@ -63,12 +48,15 @@
     <div id="tabella"></div>
 
         <div class="row">
-            {{ form_row(form.numberOfThresholds) }}
+            <div class="col-md-6 mb-6">
+            {{ form_widget(form.numberOfThresholds) }}
+            {{ form_label(form.numberOfThresholds) }}
+            </div>
 
              <div id="threshold" class="thresholds" data-index="0" data-prototype="{{ form_widget(form.cicoThresholds.vars.prototype)|e('html_attr') }}">
              </div>
 
-            <div id="thresholds2">
+            <div id="thresholds2 col-md-6 mb-6">
                     {% for threshold in form.cicoThresholds %}
                     {{ form_row(threshold.threshold) }}
                     {{ form_row(threshold.value) }}
@@ -85,6 +73,10 @@
 
     </div>
 
+            </div>
+        </section>
+ </div>
+
     <div id="colonna"></div>
     {{ form_row(form._token) }}
   {{ form_end(form, {'render_rest': false}) }}
@@ -97,6 +89,7 @@
     var $collectionHolder;
 
     $(document).ready( function() {
+        $('.mdb-select').material_select();
 
             $var= $('#cico_periodNumber');
             $var2= $('#cico_numberOfThresholds');

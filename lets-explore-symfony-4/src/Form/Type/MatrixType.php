@@ -29,6 +29,9 @@ class MatrixType extends AbstractType
                     '5' => '5',
                 ),
                 'mapped' => false,
+                'attr' => array(
+                    'class' => 'mdb-select md-form'
+                )
             ));
 
 $builder->add('expectationTags', CollectionType::class, array(
@@ -50,6 +53,9 @@ $builder->add('expectationTags', CollectionType::class, array(
 
                 ),
                 'mapped' => false,
+                'attr' => array(
+                    'class' => 'mdb-select md-form'
+                )
             ));
 
 

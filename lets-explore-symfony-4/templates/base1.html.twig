@@ -2,58 +2,45 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags always come first -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+
+    <title>{% block title %}BASE Application{% endblock %}</title>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    {% block stylesheets %}{% endblock %}
 
-    <style>
-        body {
-            background-color: #fff;
-        }
-
-        .navbar {
-            background-color: #6f7782;
-        }
-        footer.page-footer {
-            background-color: #6f7782;
-        }
-
-        .form-control {
-            border: none;
-        }
-    </style>
-
+{% block stylesheets %}
+<style>
+    .navbar {
+        background-color: #6f7782;
+    }
+</style>
+{% endblock %}
 </head>
-
 
 <body>
 
-<!--Main Navigation-->
 <header>
-
+    <!--Main Navigation-->
     {{ include('navbar.html.twig') }}
+    <!--Main Navigation-->
 
+    <!--Intro Section-->
+    {% block header %}{% endblock %}
 </header>
-<!--Main Navigation-->
 
-<!--Main Layout-->
 <main>
-
-    <div class="container">
-        {% block main %}{% endblock %}
-    </div>
-
+    {% block main %}{% endblock %}
 </main>
-<!--Main Layout-->
 
-<!--Footer-->
+
+
 <footer class="page-footer pt-0">
 
     <!--Footer Links-->
@@ -99,23 +86,22 @@
     <!--/.Copyright-->
 
 </footer>
-<!--/Footer-->
 
-<!-- SCRIPTS -->
+<!--  SCRIPTS  -->
 <!-- JQuery -->
 <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <!-- Bootstrap tooltips -->
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="{{ asset('js/mdb.min.js') }}"></script>
-{% block javascripts %}{% endblock %}
+
 <script>
     new WOW().init();
 </script>
+{% block javascripts %}
 
-
+{% endblock %}
 </body>
 
 </html>

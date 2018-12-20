@@ -19,19 +19,39 @@
 
 {% endblock %}
 
-{% block body %}
-    <h1>Office Discipline Referral</h1>
-    <h4>Student:</h4>
+{% block main %}
+
+     <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Office Discipline Referral</h1>
+
+
 
     {{ form_start(form) }}
     <div class="row">
-        {{ form_row(form.fillInDate) }}
+        <div class="col-md-6">
+        <h4>Student:</h4>
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.fillInDate) }}
+
+        </div>
     </div>
+
+
         <div class="row">
-            <div class="col">
+            <div class="col-md-6">
             {{ form_row(form.locations) }}
             </div>
-            <div class="col">
+            <div class="col-md-6">
             {{ form_row(form.minorAndMajorBehaviors) }}
             </div>
 
@@ -39,9 +59,10 @@
 
     <div class="row">
         <div class="col">
+            {{ form_row(form.note) }}
+
         </div>
         <div class="col-6">
-            {{ form_row(form.note) }}
         </div>
         <div class="col">
         </div>
@@ -51,13 +72,16 @@
             <div class="col">
             </div>
             <div class="col">
-             <h4>Teacher:</h4>
+            <!-- <h4>Teacher:</h4>-->
             </div>
 
     </div>
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
     {{ form_end(form) }}
 
+     </div>
+    </section>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
