@@ -35,7 +35,7 @@ class SchoolController extends AbstractController
 
         $minorAndMajorBehavior = new MinorAndMajorBehavior();
         $minorAndMajorBehavior->setSchool($school);
-        $minorAndMajorBehavior->setName('min1');
+        $minorAndMajorBehavior->setName('minor');
         $minorAndMajorBehavior->setIsMinorBehavior('true');
 
 
@@ -62,7 +62,7 @@ class SchoolController extends AbstractController
 
 
         $minorAndMajorBehavior = new MinorAndMajorBehavior();
-        $minorAndMajorBehavior->setName('maj1');
+        $minorAndMajorBehavior->setName('major');
 
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
 

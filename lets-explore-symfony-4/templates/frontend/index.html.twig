@@ -14,14 +14,30 @@
 
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/style.css') }} >
 
 {% endblock %}
 
 
 {% block main %}
-    <h1>Thank you for your subscription, you'll receive a mail with your Personal School Code soon!</h1>
-
+    <div class="row">
+<div class="col-md-3"></div>
+    <div class="col-md-6">
+    <div class="card text-center">
+        <div class="card-header">
+            Registration
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">School successfully added!</h5>
+            <p class="card-text">Thank you for your subscription, you'll soon receive a mail with your Personal School Code!</p>
+            <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm">Login</button></a>
+        </div>
+        <div class="card-footer text-muted">
+            Registration
+        </div>
+    </div>
+    </div>
+    <div class="col-md-3"></div>
+    </div>
 {% endblock %}
 
 

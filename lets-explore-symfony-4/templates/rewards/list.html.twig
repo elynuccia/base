@@ -46,47 +46,43 @@
 
                             <!--Card content-->
                             <div class="card-body card-body-cascade pb-0">
+<!-- Card deck -->
 
 
-    <div class="card-group">
-    {% for reward in rewards|slice(17,5) %}
-        <div class="card mb-4">
+<div class="card-deck">
+    {% for reward in rewards|slice(25,5) %}
 
-            <!-- Card image -->
-            <div class="view overlay">
-                <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/48.jpg" alt="Card image cap">
-                <a href="#!">
-                    <div class="mask rgba-white-slight"></div>
-                </a>
-            </div>
+  <!-- Card -->
+  <div class="card mb-4">
 
-            <!-- Card content -->
-            <div class="card-body">
-
-                <!-- Title -->
-                <h4 class="card-title"> {{ reward.name }}</h4>
-                <!-- Text -->
-                <p class="card-text">{{ reward.value }}</p>
-                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-                <button type="button" id="ciao" class="btn btn-primary btn-md">Assign the prize!</button>
-
-            </div>
-            <!-- Card content -->
-
-        </div>
-        <!-- Card -->
-
-      {#      <div class="row">
-                <div class="col">
-
-                </div>
-                 <div class="col">
-                 {{ reward.value }}
-                 </div>
-            </div>
-            #}
-{% endfor %}
+    <!--Card image-->
+    <div class="view overlay">
+      <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/{{ reward | length }}.jpg" alt="Card image cap">
+      <a href="#!">
+        <div class="mask rgba-white-slight"></div>
+      </a>
     </div>
+
+    <!--Card content-->
+    <div class="card-body">
+
+      <!--Title-->
+      <h4 class="card-title"> {{ reward.name }}</h4>
+      <!--Text-->
+      <p class="card-text">{{ reward.value }} points</p>
+      <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+      <button type="button" class="btn btn-light-blue btn-md">Assign it</button>
+
+    </div>
+
+  </div>
+  {% endfor %}
+  <!-- Card -->
+
+  <!-- Card -->
+</div>
+<!-- Card deck -->
+
          </div>
                             <!--/.Card content-->
 

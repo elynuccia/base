@@ -12,7 +12,7 @@
             <div class="card-body">
 
                 <!--Section heading-->
-                <h1 class="text-center my-5 h1">Minor& Major</h1>
+                <h1 class="text-center my-5 h1">Add Minor Behaviors</h1>
 
 
     {{ form_start(form) }}
@@ -23,9 +23,7 @@
         {# iterate over each existing tag and render its only field: name #}
         {% for minorAndMajorBehavior in form.minorAndMajorBehaviors %}
             <li>{{ form_row(minorAndMajorBehavior.name) }}</li>
-        <div class="d-none">
-            {{ form_row(minorAndMajorBehavior.isMinorBehavior)}}
-        </div>
+            <li class="d-none">{{ form_row(minorAndMajorBehavior.isMinorBehavior)}}</li>
         {% endfor %}
     </ul>
     {#div per minor#}
@@ -37,7 +35,7 @@
         </section>
     </div>
 
-    <div class="d-none">
+    <div >
         {{ form_row(form.numberOfCodes)}}
         {{ form_row(form.name)}}
         {{ form_row(form.address)}}
@@ -65,7 +63,9 @@
         var $collectionHolder;
 
         // setup an "add a tag" link
-        var $addTagLink = $('<a href="#" class="add_tag_link">add</a>');
+        var $addTagLink = $('<button id="plus" class="btn btn-success btn-add"  type="button">\n' +
+            '                                    Add <span class="glyphicon glyphicon-plus"></span>\n' +
+            '                                </button>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
      //   var $check = jQuery("[id^=school_minorAndMajorBehavior]");
@@ -76,7 +76,7 @@
 
             // add a delete link to all of the existing tag form li elements
             $collectionHolder.find('li').each(function() {
-                addTagFormDeleteLink($(this));
+                addTagFormDeleteLink($(this), 0);
             });
 
 
@@ -123,15 +123,18 @@
             $newLinkLi.before($newFormLi);
 
             $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').prop('checked', true);
+            $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').parent().parent().hide();
 
-            console.log($('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior'));
-
-            addTagFormDeleteLink($newFormLi);
+            addTagFormDeleteLink($newFormLi, index);
 
         }
 
-        function addTagFormDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#">delete</a>');
+        function addTagFormDeleteLink($tagFormLi, index) {
+            var $removeFormA =  $('<div data-index="' + index + '" class="md-form col-4 ml-auto"><span class="input-group-btn">\n' +
+                '                               <button class="btn btn-danger btn-add" type="button">\n' +
+                '                                   Delete <span class="glyphicon glyphicon-plus"></span>\n' +
+                '                               </button>\n' +
+                '                           </span></div>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {
@@ -140,6 +143,13 @@
 
                 // remove the li for the tag form
                 $tagFormLi.remove();
+
+                console.log($(this));
+
+
+                $('#school_minorAndMajorBehaviors_' + $(this).data('index') + '_isMinorBehavior').parent().parent().remove();
+
+
             });
         }    </script>
 {% endblock %}

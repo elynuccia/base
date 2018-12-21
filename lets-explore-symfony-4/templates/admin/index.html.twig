@@ -19,8 +19,14 @@
 {% endblock %}
 
 
-{% block body %}
+{% block main %}
     {{ form_start(form) }}
+    <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
 
    <h1>User Roles</h1>
 
@@ -57,7 +63,9 @@
         </div>
     </div>
     {% endfor %}
-
+    </div>
+    </section>
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}

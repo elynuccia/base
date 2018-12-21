@@ -1,60 +1,59 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <img src="{{ asset('img/base.png') }}" class="img-fluid" alt="Responsive image" style="width: 170px">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('welcome') }}"><strong>Home</strong></a>
+        <a class="navbar-brand" href="{{ path('welcome') }}"><img src="{{ asset('img/base.png') }}" class="img-fluid" alt="Responsive image" style="width: 170px">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('registration') }}">Registr</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Administration</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('registration') }}">Registration</a>
+                        <a class="dropdown-item" href="{{ path('admin_page') }}">UsersRole</a>
+                    </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('matrix') }}">Matr Of Exp</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Personal Page</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('student_page') }}">Student Page</a>
+                        <a class="dropdown-item" href="{{ path('user_page') }}">User Page</a>
+                    </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('student_page') }}">Student</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">School Tools</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
+                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 108}) }}">Minor& Major</a>
+                        <a class="dropdown-item" href="{{ path('rewards') }}">Rewards Menu</a>
+                        <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 108}) }}">Access Data Generator</a>
+                    </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('user_page') }}">User</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">Measurement Tools</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item"  href="{{ path('screening_tool', {'id': 291}) }}">Screening Tool</a>
+                        <a class="dropdown-item" href="{{ path('cico', {'id': 291}) }}">Cico</a>
+                        <a class="dropdown-item" href="{{ path('odr') }}">Office Discipline Referral</a>
+                    </div>
                 </li>
 
+                {% if not app.user %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('minorBehavior', {'id': 30}) }}">Min& Maj</a>
+                    <a href="{{ path("user_page") }}"><button type="button" class="btn btn-primary btn-sm">Auth0 Login</button></a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('screening_tool', {'id': 291}) }}">ScreenTool</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cico', {'id': 291}) }}">CICO</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('rewards') }}">Rewards</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('odr') }}">ODR</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('generate_access_data', {'id': 108}) }}">GenData</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('user_page') }}">Auth0</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_page') }}">UsersRole</a>
-                </li>
+                {% endif %}
 
                 {% if app.user %}
 
@@ -68,7 +67,7 @@
                         <button type="button" class="btn btn-primary btn-sm">Logout</button>
                     </a>
                 {% else %}
-                    <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm">Login</button></a>
+                    <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm"> Code Login</button></a>
                 {% endif %}
             </ul>
         </div>

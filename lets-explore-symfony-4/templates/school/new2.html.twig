@@ -3,14 +3,26 @@
 
 {% block main %}
 
-    <h1>Add Major Behaviors</h1>
+    <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">Add Major Behaviors</h1>
+
     {{ form_start(form) }}
     {# render the task's only field: description #}
 
 
     <ul class="minorAndMajorBehaviors" data-prototype="{{ form_widget(form.minorAndMajorBehaviors.vars.prototype)|e('html_attr') }}" data-index="{{ school.minorAndMajorBehaviors | length  }}">
         {# iterate over each existing tag and render its only field: name #}
-        {{ form_row(form.minorAndMajorBehaviors[form.minorAndMajorBehaviors | length - 1]) }}
+      <li>  {{ form_row(form.minorAndMajorBehaviors[form.minorAndMajorBehaviors | length - 1].name) }}</li>
+        <li class="d-none"> {{ form_row(form.minorAndMajorBehaviors[form.minorAndMajorBehaviors | length - 1].isMinorBehavior) }}</li>
+
+
     </ul>
     {#div per minor#}
     {#div per major#}
@@ -19,14 +31,36 @@
         {% for minor in form.minorAndMajorBehaviors %}
             {{ form_row(minor) }}
         {% endfor %}
+
     </div>
 
     <div class="col-sm-10">{{ form_row(form.submit)}}</div>
 
+            </div>
+        </section>
+    </div>
+
+    <div class="d-none">
+        {{ form_row(form.numberOfCodes)}}
+        {{ form_row(form.name)}}
+        {{ form_row(form.address)}}
+        {{ form_row(form.phoneNumber)}}
+        {{ form_row(form.email)}}
+        {{ form_row(form.code)}}
+        {{ form_row(form.administrator)}}
+    </div>
 
     {{ form_row(form._token)}}
 
-    {{ form_end(form) }}
+    {{ form_end(form, {'render_rest': true}) }}
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        ul li {
+            list-style-type: none;
+        }
+    </style>
 {% endblock %}
 
 {% block javascripts %}
@@ -35,7 +69,9 @@
         var $collectionHolder;
 
         // setup an "add a tag" link
-        var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+        var $addTagLink = $('<button id="plus" class="btn btn-success btn-add"  type="button">\n' +
+            '                                    Add <span class="glyphicon glyphicon-plus"></span>\n' +
+            '                                </button>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
 
@@ -48,13 +84,14 @@
 
             // add a delete link to all of the existing tag form li elements
             $collectionHolder.find('li').each(function() {
-                addTagFormDeleteLink($(this));
+                addTagFormDeleteLink($(this), 1);
             });
 
 
             // add the "add a tag" anchor and li to the tags ul
             $collectionHolder.append($newLinkLi);
 
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
@@ -97,15 +134,20 @@
             $newLinkLi.before($newFormLi);
 
             $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').prop('checked', false);
+            $('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior').parent().parent().hide();
 
             //console.log($('#school_minorAndMajorBehaviors_' + index + '_isMinorBehavior'));
 
-            addTagFormDeleteLink($newFormLi);
+            addTagFormDeleteLink($newFormLi), index;
 
         }
 
-        function addTagFormDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#">delete this tag</a>');
+        function addTagFormDeleteLink($tagFormLi, index) {
+            var $removeFormA = $('<div data-index="' + index + '" class="md-form col-4 ml-auto"><span class="input-group-btn">\n' +
+                '                               <button id="minus" class="btn btn-danger btn-add" type="button">\n' +
+                '                                   Delete <span class="glyphicon glyphicon-plus"></span>\n' +
+                '                               </button>\n' +
+                '                           </span></div>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {
@@ -114,6 +156,8 @@
 
                 // remove the li for the tag form
                 $tagFormLi.remove();
+                $('#school_minorAndMajorBehaviors_' + $(this).data('index') + '_isMinorBehavior').parent().parent().remove();
+
             });
         }    </script>
 {% endblock %}
