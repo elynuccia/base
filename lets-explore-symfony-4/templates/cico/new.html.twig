@@ -56,7 +56,7 @@
              <div id="threshold" class="thresholds" data-index="0" data-prototype="{{ form_widget(form.cicoThresholds.vars.prototype)|e('html_attr') }}">
              </div>
 
-            <div id="thresholds2 col-md-6 mb-6">
+            <div id="thresholds2" class="col-md-6 mb-6">
                     {% for threshold in form.cicoThresholds %}
                     {{ form_row(threshold.threshold) }}
                     {{ form_row(threshold.value) }}
