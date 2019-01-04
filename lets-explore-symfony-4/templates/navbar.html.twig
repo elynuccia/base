@@ -7,34 +7,52 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
 
+
+            <ul class="navbar-nav mr-auto">
+                {% if not app.user %}
+                <li class="nav-item">
+                    <a href="{{ path("registration") }}"><button type="button" class="btn btn-secondary btn-sm"> School Registration</button></a>
+                </li>
+                {% endif %}
+                {% if app.user %}
+
+                    {% if "ROLE_ADMIN" in app.user.roles %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">Administration</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{ path('registration') }}">Registration</a>
                         <a class="dropdown-item" href="{{ path('admin_page') }}">UsersRole</a>
                     </div>
                 </li>
+                    {% endif %}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">Personal Page</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{ path('student_page') }}">Student Page</a>
+                        {% if ("ROLE_PERSON" in app.user.roles) or ("ROLE_STUDENT" in app.user.roles) %}
+                        <a class="dropdown-item" href="{{ path('student_page') }}">User Page</a>
+                        {% endif %}
+
+                        {% if "ROLE_0AUTH_USER" in app.user.roles %}
                         <a class="dropdown-item" href="{{ path('user_page') }}">User Page</a>
+                        {% endif %}
+
                     </div>
                 </li>
 
+                {% if "ROLE_0AUTH_USER" in app.user.roles %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">School Tools</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
-                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 108}) }}">Minor& Major</a>
+                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 1}) }}">Minor and Major</a>
                         <a class="dropdown-item" href="{{ path('rewards') }}">Rewards Menu</a>
-                        <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 108}) }}">Access Data Generator</a>
+                    {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
+                        <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 1}) }}">Access Data Generator</a>
+                    {% endif %}
                     </div>
                 </li>
 
@@ -43,12 +61,16 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">Measurement Tools</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item"  href="{{ path('screening_tool', {'id': 291}) }}">Screening Tool</a>
-                        <a class="dropdown-item" href="{{ path('cico', {'id': 291}) }}">Cico</a>
-                        <a class="dropdown-item" href="{{ path('odr') }}">Office Discipline Referral</a>
+                        <a class="dropdown-item" href=""><b>Create a custom measure</b></a>
+                        <a class="dropdown-item"  href="{{ path('screening_tool', {'id': 1}) }}">Screening Tool</a>
+                        <a class="dropdown-item" href="{{ path('cico', {'id': 1}) }}">Cico</a>
+                        <a class="dropdown-item" href="{{ path('odr') }}">Office Disciplinary Referral</a>
+                        <a class="dropdown-item" href="">Positive Office Referral</a>
                     </div>
                 </li>
+                {% endif %}
 
+                {% endif %}
                 {% if not app.user %}
                 <li class="nav-item">
                     <a href="{{ path("user_page") }}"><button type="button" class="btn btn-primary btn-sm">Auth0 Login</button></a>

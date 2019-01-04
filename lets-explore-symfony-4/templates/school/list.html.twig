@@ -39,7 +39,7 @@
 
                             <!--Card image-->
                             <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 font-weight-bold">Minor& Major Behaviors List</h4>
+                                <h4 class="h4-responsive mb-0 font-weight-bold">Minor and Major Behaviors List</h4>
                             </div>
                             <!--/Card image-->
 
@@ -47,25 +47,30 @@
                             <div class="card-body card-body-cascade pb-0">
     <div class="row">
         <h3>Minor Behaviors</h3>
-        </div>
-        <div class="row">
+    </div>
+
+    <div class="row">
+        <ul>
         {% for m in minorAndMajor%}
             {% if  m.isMinorBehavior %}
-
-           <div>{{ m.name }}, </div>
+           <li>{{ m.name }}</li>
                 {% endif %}
         {% endfor %}
+        </ul>
+    </div>
 
-        </div>
+
     <div class="row">
         <h3>Major Behaviors</h3>
         </div>
         <div class="row">
+                <ul>
             {% for m in minorAndMajor%}
                 {% if not m.isMinorBehavior %}
-                <div>{{ m.name }}</div>
+                <li>{{ m.name }}</li>
             {% endif %}
         {% endfor %}
+        </ul>
         </div>
 
     </div>

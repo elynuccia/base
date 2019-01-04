@@ -31,7 +31,7 @@
                 <!--Section heading-->
                 <h1 class="text-center my-5 h1">Screening Tool</h1>
 
-                <h5 class="pb-5">Please evaluate the student</h5>
+                <h5 class="pb-5">Please evaluate the student: <i>BBFADD8D</i></h5>
 
 
     {{ form_start(form) }}
@@ -61,10 +61,10 @@
 
     <div class="row">
         <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
-            Expectations
+          <h3><b>Expectations</b></h3>
         </div>
     </div>
-
+<br>
 
     {% for key, screeningToolData in form.screeningToolData %}
         <div class="row">
@@ -80,6 +80,7 @@
                 </div>
             </div>
         </div>
+        <br>
     {% endfor %}
 
 <div class="row">

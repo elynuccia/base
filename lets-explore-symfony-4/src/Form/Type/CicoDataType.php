@@ -36,7 +36,9 @@ class CicoDataType extends AbstractType
                 3 => 3
             ),
             'multiple' => false,
-            'expanded' => true
+            'expanded' => true,
+            'attr' => array ('class'=>'form-check-inline')
+
         ))
             ->add('expectation');
 

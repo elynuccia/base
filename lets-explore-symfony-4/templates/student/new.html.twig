@@ -57,6 +57,9 @@
             <b>Code: </b> {{ student.code }} <br>
         </div>
         <div class="col-4">
+            {% if "ROLE_STUDENT" in app.user.roles %}
+                Dashboard
+{% endif %}
         </div>
     </div>
 

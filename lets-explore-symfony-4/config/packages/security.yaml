@@ -65,7 +65,7 @@ security:
                 resource_owners:
                     auth0: "/auth0/callback"
                 login_path:        /login
-                default_target_path: user_page
+                default_target_path: welcome
                 use_forward:       false
                 failure_path:      /login
 
@@ -97,7 +97,7 @@ security:
         - { path: /minorandmajorbehaviorlist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER, ROLE_USER] }
         - { path: ^/screeningtool, roles: [ROLE_0AUTH_USER, ROLE_ADMIN] }
         - { path: /screeningtoollist, roles: [ROLE_0AUTH_USER, ROLE_ADMIN] }
-        - { path: ^/cico, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
+        - { path: ^/cico, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER, ROLE_USER_TEACHER_COORDINATOR] }
         - { path: ^/cicodata, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /cicolist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /rewards, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }

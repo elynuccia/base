@@ -32,7 +32,7 @@ class ODRType extends AbstractType
             'class' => MinorAndMajorBehavior::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
-                    ->where('u.id >90', 'u.id<95')
+                    ->where('u.id >0', 'u.id<5')
                     ->orderBy('u.id', 'ASC');
             },
 
@@ -49,7 +49,7 @@ class ODRType extends AbstractType
             'class' => LocationTag::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('l')
-                    ->where('l.id > 422')
+                    ->where('l.id > 0', 'l.id<3')
                     ->orderBy('l.id', 'ASC');
             },
 

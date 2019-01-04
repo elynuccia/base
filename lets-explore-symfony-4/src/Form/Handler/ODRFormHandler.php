@@ -48,7 +48,6 @@ class ODRFormHandler
         if ($form->isSubmitted() && $form->isValid()) {
             $ODRFormData = $form->getData();
             $lastId = $this->create($ODRFormData);
-        //    $lastId = $this->create($ODRFormData, $form->get('fillInDate')->getData());
 
 
             return $lastId;
@@ -56,10 +55,8 @@ class ODRFormHandler
 
     }
 
-    public function create(ODR $entity /*, $fillInDate*/)
+    public function create(ODR $entity)
     {
-       // $fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));
-       // $entity->setFillInDate($fillInDateTime);
 
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
