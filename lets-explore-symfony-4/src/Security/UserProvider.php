@@ -28,7 +28,11 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user->setLastLogin($auth0User[0]->last_login);
         $user->setLastIp($auth0User[0]->last_ip);
         $user->setLoginCount($auth0User[0]->logins_count);
-        $user->addRole($auth0User[0]->user_metadata->role);
+
+        foreach($auth0User[0]->user_metadata->role as $role) {
+            $user->addRole($role);
+        }
+
         $user->setStudents($auth0User[0]->user_metadata->students);
 
         return $user;

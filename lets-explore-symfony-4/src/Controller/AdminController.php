@@ -60,7 +60,14 @@ class AdminController extends AbstractController
         }
 
         foreach($request->get('usersId') as $userId) {
-            $auth0Api->updateUserMetadata($userId, $request->get('role'));
+            $user = $auth0Api->getUserByUserId($userId);
+
+            $roles = (isset($user->user_metadata->role) && is_array($user->user_metadata->role)) ? $user->user_metadata->role : array();
+            $roles[] = $request->get('role');
+
+            //return new Response(var_dump(array_unique($roles)));
+
+            $auth0Api->updateUserMetadata($userId, array_unique($roles));
         }
 
         return new Response();
