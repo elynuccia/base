@@ -48,7 +48,7 @@
                        aria-expanded="false">School Tools</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
-                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 1}) }}">Minor and Major</a>
+                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 5}) }}">Minor and Major</a>
                         <a class="dropdown-item" href="{{ path('rewards') }}">Rewards Menu</a>
                     {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
                         <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 1}) }}">Access Data Generator</a>
@@ -73,7 +73,7 @@
                 {% endif %}
                 {% if not app.user %}
                 <li class="nav-item">
-                    <a href="/connect/auth0"><button type="button" class="btn btn-primary btn-sm">Auth0 Login</button></a>
+                    <a href="/connect/auth0"><button type="button" class="btn btn-primary btn-sm">Teacher Login</button></a>
                 </li>
                 {% endif %}
 

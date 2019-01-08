@@ -57,14 +57,18 @@
                 <h4>Student</h4>
                 {{ i.code}}
                 {{ i.nickname }}
+
             </div>
             <div class="col">
                 <img src="{{ i.qrCode}}">
             </div>
             <div class="col">
                 <h4>Person In Charge</h4>
+                {{ i.personInCharge.code }}
             </div>
             <div class="col">
+                <img src="{{ i.personInCharge.qrCode }}">
+
             </div>
         </div>
     {% endfor %}
