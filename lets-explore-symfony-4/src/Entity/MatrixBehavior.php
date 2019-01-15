@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,6 +47,16 @@ class MatrixBehavior
      *@ORM\ManyToOne(targetEntity="LocationTag")
      */
     protected $location;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\POR", mappedBy="positiveBehaviors")
+     */
+    private $pORs;
+
+    public function __construct()
+    {
+        $this->pORs = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -125,6 +136,34 @@ class MatrixBehavior
     public function setLocation($location): void
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return Collection|POR[]
+     */
+    public function getPORs(): Collection
+    {
+        return $this->pORs;
+    }
+
+    public function addPOR(POR $pOR): self
+    {
+        if (!$this->pORs->contains($pOR)) {
+            $this->pORs[] = $pOR;
+            $pOR->addPositiveBehavior($this);
+        }
+
+        return $this;
+    }
+
+    public function removePOR(POR $pOR): self
+    {
+        if ($this->pORs->contains($pOR)) {
+            $this->pORs->removeElement($pOR);
+            $pOR->removePositiveBehavior($this);
+        }
+
+        return $this;
     }
 
 
