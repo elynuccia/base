@@ -9,9 +9,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 {% if not app.user %}
-                <li class="nav-item">
+                <li class="nav-item text-right">
                     <a href="{{ path("registration") }}"><button type="button" class="btn btn-secondary btn-sm"> School Registration</button></a>
                 </li>
                 {% endif %}
@@ -24,6 +24,7 @@
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ path('admin_page') }}">UsersRole</a>
                     </div>
+
                 </li>
                     {% endif %}
 
@@ -38,6 +39,12 @@
                         {% if "ROLE_0AUTH_USER" in app.user.roles %}
                         <a class="dropdown-item" href="{{ path('user_page') }}">User Page</a>
                         {% endif %}
+
+                        {% if "ROLE_ADMIN" in app.user.roles %}
+                            <a class="dropdown-item" href="{{ path('admin_personalpage') }}">Admin Page</a>
+
+                        {% endif %}
+
 
                     </div>
                 </li>

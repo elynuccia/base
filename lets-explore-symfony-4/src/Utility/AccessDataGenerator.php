@@ -185,7 +185,7 @@ class AccessDataGenerator
     }
 
     private function generateQrCode($code) {
-        return $this->qrCode->render($code);
+        return $this->qrCode->render($code, '/welcome');
     }
 
 

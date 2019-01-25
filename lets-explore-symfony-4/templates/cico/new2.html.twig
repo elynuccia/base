@@ -117,7 +117,8 @@
 
     <div class="row">
         <div id="totals" class="col-6 col-sm-4"> <h4>Total:
-                <span id="sumSpan"></span>/{{ 3 * ( (cico.matrix.expectationTags | length ) + (cico.periodNumber)) }}<span id="max"></span></h4>
+                <span id="sumSpan"></span>/{{ (cico.periodNumber) * (cico.matrix.expectationTags | length )*3 }}
+                <span id="max"></span></h4>
         </div>
         <div id="success" class="col-6 col-sm-2"></div>
         <div class="col-sm-10">{{ form_row(form.submit)}}</div>
