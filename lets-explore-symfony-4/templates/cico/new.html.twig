@@ -12,18 +12,26 @@
             <div class="card-body">
 
                 <!--Section heading-->
-                <h1 class="text-center my-5 h1">Check-in/Check-out</h1>
+                <h1 class="text-center my-5 h1" style="color:darkblue">Check-in/Check-out</h1>
 
-    <h2 class="pb-5">Student: BBFADD8D</h2>
+                <h3 class="text-center my-5 h3" style="color:cornflowerblue">Motto:<i>{{ matrix.motto }}</i> </h3>
 
-    <h3>Motto:<i>{{ matrix.motto }}</i> </h3>
+
+                <div class="row">
+                    <div class="col-md-9">
+                <h2 class="pb-5">Student: BBFADD8D</h2>
+                    </div>
+                <div id="goals" class="col-md-3"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
+                </div>
 
    <div class="row">
+       <div class="col-md-9">
+
        <form class="range-field my-4 w-25"><label for="customRange1">Goal percentage</label>
            <input type="range" id="customRange1" value="80" min="0" max="100" />
        </form>
-       <div class="col-4 col-sm-4"></div>
-       <div id="goals" class="col-4 col-sm-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
+       </div>
+       <br>
 
    </div>
 

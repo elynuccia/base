@@ -56,6 +56,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $credentials['code']
         );
 
+
         return $credentials;
     }
 
@@ -67,7 +68,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->entityManager->getRepository(Student::class)->findOneByCode($credentials['code']);
-
         if (!$user) {
             $user = $this->entityManager->getRepository(PersonInCharge::class)->findOneByCode($credentials['code']);
 

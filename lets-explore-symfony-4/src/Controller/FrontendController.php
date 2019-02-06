@@ -8,6 +8,8 @@
 
 namespace App\Controller;
 
+use GuzzleHttp\Exception\ClientException;
+use http\Env\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\School;
@@ -15,11 +17,48 @@ use App\Form\Handler\SchoolFormHandler;
 use App\Form\Type\SchoolType;
 use Symfony\Component\HttpFoundation\Request;
 
-
+use GuzzleHttp\Client as GuzzleClient;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class FrontendController extends AbstractController
 {
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction(Request $request, GuzzleClient $guzzleClient)
+    {
+        $client = new GuzzleClient([
+            'base_uri' => 'http://localhost:8000',
+            'defaults' => [
+                'exceptions' => false
+            ]
+        ]);
+
+        $response = $guzzleClient->post('http://localhost:8000/codelogin', array(
+            'form_params' => array(
+                'code' => '01B8B7D1'
+            ),
+            'verify' => false
+            ));
+
+
+        return $this->redirect($this->generateUrl('welcome'));
+
+           /* $guzzleClient->post($this->generateUrl('app_login', array(), UrlGeneratorInterface::ABSOLUTE_URL), array(
+                'form_params' => array(
+                    'code' => '01B8B7D1'
+                )
+            ));
+
+
+
+
+        return $this->redirect($this->generateUrl('welcome'));
+           */
+    }
+
+
     /**
      * @Route("/registration", name="registration")
      */

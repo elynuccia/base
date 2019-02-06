@@ -12,7 +12,7 @@
             <ul class="navbar-nav ml-auto">
                 {% if not app.user %}
                 <li class="nav-item text-right">
-                    <a href="{{ path("registration") }}"><button type="button" class="btn btn-secondary btn-sm"> School Registration</button></a>
+                    <a href="{{ path("registration") }}"><button type="button" class="btn btn-secondary btn-sm"><b>School Registration</button></a>
                 </li>
                 {% endif %}
                 {% if app.user %}
@@ -20,7 +20,7 @@
                     {% if "ROLE_ADMIN" in app.user.roles %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">Administration</a>
+                       aria-expanded="false"><b>Administration</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{{ path('admin_page') }}">UsersRole</a>
                     </div>
@@ -30,7 +30,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">Personal Page</a>
+                       aria-expanded="false"><b>Personal Page</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         {% if ("ROLE_PERSON" in app.user.roles) or ("ROLE_STUDENT" in app.user.roles) %}
                         <a class="dropdown-item" href="{{ path('student_page') }}">User Page</a>
@@ -52,7 +52,7 @@
                 {% if "ROLE_0AUTH_USER" in app.user.roles %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">School Tools</a>
+                       aria-expanded="false"><b>School Tools</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
                         <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 5}) }}">Minor and Major</a>
@@ -66,7 +66,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">Measurement Tools</a>
+                       aria-expanded="false"><b>Measurement Tools</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href=""><b>Create a custom measure</b></a>
                         <a class="dropdown-item"  href="{{ path('screening_tool', {'id': 1}) }}">Screening Tool</a>

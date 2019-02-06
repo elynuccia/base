@@ -46,7 +46,7 @@
 
                             <!--Card image-->
                             <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 font-weight-bold">User Page</h4>
+                                <h4 class="h4-responsive mb-0 font-weight-bold"><b>{{  user.username }}</b>'s User Page</h4>
                             </div>
                             <!--/Card image-->
 
@@ -55,17 +55,36 @@
 
 
 
-    <h1><b>{{  user.username }}</b></h1>
 <div class="row">
-    <div class="col">
-        <br>
-    <b>Name: </b> {{ user.name }}<br>
-    <b>Email: </b> {{ user.email }}
+    <div class="col-md-4">
+
     </div>
-    <div class="col-4">
-        <img id="profilePicture" src="{{ user.picture  }}">
+    <div class="col-md-4">
+        <br>
+        <div align="center">
+        <b>Name: </b> {{ user.name }}<br>
+        <b>Email: </b> {{ user.email }}
+        </div>
+    </div>
+    <div class="col-md-4">
+
     </div>
 </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <br>
+                                        <div align="center">
+                                            <img id="profilePicture" src="{{ user.picture  }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                </div>
 
     </div>
     <div class="row">
