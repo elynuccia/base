@@ -34,7 +34,7 @@ abstract class Item
     /**
      * @var string $label
      *
-     * @ORM\Column(name="label", type="encrypted_string", length=255)
+     * @ORM\Column(name="label", type="string", length=255)
      */
     protected $label;
 

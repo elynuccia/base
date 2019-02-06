@@ -65,6 +65,11 @@ class Student implements UserInterface
      */
     private $teacherCoordinator;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="student")
+     */
+    private $observations;
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
@@ -265,6 +270,37 @@ class Student implements UserInterface
     public function setTeacherCoordinator(?string $teacherCoordinator): self
     {
         $this->teacherCoordinator = $teacherCoordinator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Observation[]
+     */
+    public function getObservations()
+    {
+        return $this->observations;
+    }
+
+    public function addObservation(Observation $observation)
+    {
+        if (!$this->observations->contains($observation)) {
+            $this->observations[] = $observation;
+            $observation->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservation(Observation $observation)
+    {
+        if ($this->observations->contains($observation)) {
+            $this->observations->removeElement($observation);
+            // set the owning side to null (unless already changed)
+            if ($observation->getStudent() === $this) {
+                $observation->setStudent(null);
+            }
+        }
 
         return $this;
     }

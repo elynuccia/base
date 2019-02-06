@@ -1,0 +1,354 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li>
+        <a href="{{ path('homepage') }}">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a href="{{ path('student_list') }}">Students</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span>{{ observation.student.studentId }}</span>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a href="{{ path('observation_student_list', { 'id': observation.student.id }) }}">Observations</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span>{{ observation.name }}</span>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span>Data analysis</span>
+    </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-directions font-green hide"></i>
+                        <span class="caption-subject bold font-dark uppercase "> Phases to be compared</span>
+                    </div>
+
+                    <div class="btn-group pull-right">
+                        <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Statistical index
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" id="index-action">
+                            <li>
+                                <a data-index-id="1" href="javascript:;">
+                                    <i class="fa fa-map-o"></i> AvsB+trendB-trendA
+                                </a>
+                            </li>
+                            <li>
+                                <a data-index-id="2" href="javascript:;">
+                                    <i class="fa fa-map-o"></i> AvsB+trendB
+                                </a>
+                            </li>
+                            <li>
+                                <a data-index-id="3" href="javascript:;">
+                                    <i class="fa fa-map-o"></i> AvsB
+                                </a>
+                            </li>
+                            <li>
+                                <a data-index-id="4" href="javascript:;">
+                                    <i class="fa fa-map-o"></i> Allison & Gorman
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="mt-element-step">
+                        <div class="row step-thin">
+                            <div class="slider slider-nav">
+                                {% for phase in phases %}
+                                    {% if(phases | length == 1) %}
+                                        {% set indexGrid = 12 %}
+                                    {% endif %}
+
+                                    {% if(phases | length == 2) %}
+                                        {% set indexGrid = 6 %}
+                                    {% endif %}
+
+                                    {% if(phases | length == 3) %}
+                                        {% set indexGrid = 4 %}
+                                    {% endif %}
+
+                                    {% if(phases | length == 4 or phases | length == 5) %}
+                                        {% set indexGrid = 3 %}
+                                    {% endif %}
+
+                                    {% if(phases | length == 6) %}
+                                        {% set indexGrid = 2 %}
+                                    {% endif %}
+
+                                    <div class="col-lg-{{ indexGrid }} bg-grey mt-step-col phase-container" data-phase-name="{{ phase.name }}" data-phase-count="{{ phase.dataIds | length }}" data-phase-ids="{{ phase.dataIds | join(',') }}">
+                                        <div class="mt-step-number first bg-white font-grey">{{ loop.index }}</div>
+                                        <div class="mt-step-title uppercase font-grey-cascade">{{ phase.name }}</div>
+                                        <div class="mt-step-content font-grey-cascade">{{ phase.dataIds | length }}
+                                            observations
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-directions font-green hide"></i>
+                        <span class="caption-subject bold font-dark uppercase "> Item be analyzed</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="mt-element-step">
+                        <div class="row step-thin">
+                            <div class="slider slider-nav">
+                                {% for key, itemValues in items[0] %}
+                                    {% if(items[0] | length == 1) %}
+                                        {% set indexGrid = 12 %}
+                                    {% endif %}
+
+                                    {% if(items[0] | length == 2) %}
+                                        {% set indexGrid = 6 %}
+                                    {% endif %}
+
+                                    {% if(items[0] | length == 3) %}
+                                        {% set indexGrid = 4 %}
+                                    {% endif %}
+
+                                    {% if(items[0] | length == 4 or phases | length == 5) %}
+                                        {% set indexGrid = 3 %}
+                                    {% endif %}
+
+                                    {% if(items[0] | length == 6) %}
+                                        {% set indexGrid = 2 %}
+                                    {% endif %}
+
+                                    <div class="col-lg-{{ indexGrid }} bg-grey mt-step-col item-container" data-item-id="{{ key | split('-') | last }}">
+                                        <div class="mt-step-number first bg-white font-grey">{{ loop.index }}</div>
+                                        <div class="mt-step-title uppercase font-grey-cascade">{{ itemValues.label }}</div>
+                                        <div class="mt-step-content font-grey-cascade"></div>
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="warning-dialog-phase" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Warning</h4>
+                </div>
+                <div class="modal-body"> You can analyze only 2 phases at a time</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="warning-dialog-item" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Warning</h4>
+                </div>
+                <div class="modal-body"> You can select only 1 item at a time</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="warning-dialog-number-observations" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Warning</h4>
+                </div>
+                <div class="modal-body"> You need at least 4 observations to perform the statistical analysis</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="analysis_results"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/vendor/highcharts/6.1.1/highcharts.js') }}"></script>
+    <script src="{{ asset('js/vendor/highcharts/6.1.1/modules/series-label.js') }}"></script>
+    <script src="{{ asset('js/vendor/highcharts/6.1.1/modules/exporting.js') }}"></script>
+    <script src="{{ asset('js/vendor/highcharts/6.1.1/modules/export-data.js') }}"></script>
+
+    <script type="text/javascript">
+        function rotate() {
+            rotateArrow(parseFloat($("#analysis").val()));
+        }
+
+        function rotateArrow(val) {
+            var newAngle = (val * 90) + (270);
+            $("#SvgArrow").attr("transform", "rotate(" + newAngle + ")");
+        }
+    </script>
+
+
+
+    <script>
+        $('#index-action li a').on('click', function(){
+            switch($(this).data('index-id')) {
+                case 1:
+                    $('#speedometer-title').text('Speedometer: ' + 'AvsB+trendB-trendA');
+                    $('#analysis').val($('#r-a-vs-b-trend-b-trend-a').text());
+                    $('#effect-size-value').text($('#r-a-vs-b-trend-b-trend-a').text());
+                    rotateArrow(parseFloat($("#analysis").val()));
+                    $('#alison-gorman-analysis').addClass('hidden');
+                    $('#tau-u-analysis').removeClass('hidden');
+
+                    break;
+
+                case 2:
+                    $('#speedometer-title').text('Speedometer: ' + 'AvsB+trendB');
+                    $('#analysis').val($('#r-a-vs-b-trend-b').text());
+                    $('#effect-size-value').text($('#r-a-vs-b-trend-b').text());
+                    rotateArrow(parseFloat($("#analysis").val()));
+                    $('#alison-gorman-analysis').addClass('hidden');
+                    $('#tau-u-analysis').removeClass('hidden');
+
+                    break;
+
+                case 3:
+                    $('#speedometer-title').text('Speedometer: ' + 'AvsB');
+                    $('#analysis').val($('#r-a-vs-b').text());
+                    $('#effect-size-value').text($('#r-a-vs-b').text());
+                    rotateArrow(parseFloat($("#analysis").val()));
+                    $('#alison-gorman-analysis').addClass('hidden');
+                    $('#tau-u-analysis').removeClass('hidden');
+
+                    break;
+
+                case 4:
+                    $('#speedometer-title').text('Speedometer: ' + 'Allison & Gorman');
+                    $('#analysis').val($('#r-allison-gorman').text());
+                    $('#effect-size-value').text($('#r-allison-gorman').text());
+                    rotateArrow(parseFloat($("#analysis").val()));
+                    $('#alison-gorman-analysis').removeClass('hidden');
+                    $('#tau-u-analysis').addClass('hidden');
+
+                    break;
+            }
+
+
+        });
+
+        $('.phase-container').on('click', function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                if ($('.phase-container.active').length == 2) {
+                    $('#warning-dialog-phase').modal('show');
+                } else {
+
+                    if($(this).data('phase-count') < 4) {
+                        $('#warning-dialog-number-observations').modal('show');
+                    } else {
+                        $(this).addClass('active');
+
+                        if ($('.phase-container.active').length == 2 && $('.item-container.active').length == 1) {
+                            sendDataForAnalysis();
+                        }
+                    }
+                }
+            }
+        });
+
+        $('.item-container').on('click', function () {
+
+                $('.item-container').each(function(){
+                    $(this).removeClass('active');
+                });
+
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                    sendDataForAnalysis();
+                }
+
+        });
+
+        function sendDataForAnalysis() {
+            selectedData = {};
+            selectedData['phases'] = [];
+            selectedData['item-id'] = $('.item-container.active').data('item-id');
+            selectedData['observation-name'] = '{{ observation.name }}';
+
+            $('.phase-container.active').each(function() {
+                selectedData['phases'].push( {
+                        'phase-name': $(this).data('phase-name'),
+                        'phase-count': $(this).data('phase-count'),
+                        'phase-ids': $(this).data('phase-ids')
+                    }
+                );
+            });
+
+            $.ajax({
+                url:"{{ path('data_analysis_results') }}",
+                type:"POST",
+                data: {
+                    selectedData: selectedData
+                },
+                success:function(response) {
+                    $('#analysis_results').html(response);
+
+                    rotate();
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log(error);
+                }
+            });
+
+        }
+    </script>
+
+
+{% endblock %}
+

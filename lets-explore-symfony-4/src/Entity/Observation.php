@@ -31,35 +31,35 @@ class Observation
     /**
      * @var string $name
      *
-     * @ORM\Column(name="name", type="encrypted_string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string $description
      *
-     * @ORM\Column(name="description", type="encrypted_text", length=255)
+     * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
     /**
      * @var string $fillingInstructions
      *
-     * @ORM\Column(name="filling_instructions", type="encrypted_text", length=255)
+     * @ORM\Column(name="filling_instructions", type="string", length=255)
      */
     private $fillingInstructions;
 
     /**
      * @var string $place
      *
-     * @ORM\Column(name="place", type="encrypted_text", length=255, nullable=true)
+     * @ORM\Column(name="place", type="string", length=255, nullable=true)
      */
     private $place;
 
     /**
      * @var string $setting
      *
-     * @ORM\Column(name="setting", type="encrypted_text", length=255, nullable=true)
+     * @ORM\Column(name="setting", type="string", length=255, nullable=true)
      */
     private $setting;
 
@@ -74,17 +74,17 @@ class Observation
     private $observationPhases;
 
     /**
-     * @ORM\Column(name="observer_user_id", type="encrypted_string", length=255)
+     * @ORM\Column(name="observer_user_id", type="string", length=255)
      */
     private $observerUserId;
 
     /**
-     * @ORM\Column(name="observer_username", type="encrypted_string", length=255)
+     * @ORM\Column(name="observer_username", type="string", length=255)
      */
     private $observerUsername;
 
     /**
-     * @ORM\Column(name="creator_user_id", type="encrypted_string", length=255)
+     * @ORM\Column(name="creator_user_id", type="string", length=255)
      */
     private $creatorUserId;
 

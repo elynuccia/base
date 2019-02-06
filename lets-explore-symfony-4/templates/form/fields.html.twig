@@ -325,3 +325,251 @@
         </small>
     {%- endif -%}
 {%- endblock form_help %}
+
+{# custom #}
+{% block direct_observation_item_widget %}
+    {% spaceless %}
+        {% if typology is defined and typology == 'duration' %}
+            {{ block('duration') }}
+
+        {% elseif typology is defined and typology == 'frequency' %}
+            {{ block('frequency') }}
+
+        {% elseif typology is defined and typology != 'duration' and typology != 'frequency' %}
+            {{ block('time_sampling') }}
+
+        {% else %}
+            <div {{ block('widget_container_attributes') }}>
+                {{- block('form_rows') -}}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block duration %}
+    {% if observationLengthInMinutes is defined %}
+        <div class="form-body">
+            <div class="form-group duration-item">
+                <label class="col-md-3 control-label required">
+                    {{ label }}
+                    <span class="spinner"><img src="/icons/spinner.png" width="24px" height="24px"></span>
+                </label>
+                <div class="col-md-9">
+                    <div class="row">
+                        {{ form_widget(form.observationLengthInMinutes) }}
+                        {{ form_widget(form.occurrenceTimestamps) }}
+                        {{ form_widget(form.intervalLengthInSeconds) }}
+
+                        <div class="col-md-6">
+                            <div id="timer-{{ id }}" style="display:none">
+                                {{ observationLengthInMinutes }}
+                            </div>
+
+                            <div id="progressBar-{{ id }}" class="behavioral-recording-progress-bar">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="player-{{ id }}">
+                                <a class="player btn btn-primary btn-lg" data-base-selector-id="{{ id }}" href="" role="button">&#9658;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="duration-item">
+            {{- block('form_rows') -}}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block frequency %}
+    {% spaceless %}
+        {% if observationLengthInMinutes is defined %}
+            <div class="form-body">
+                <div class="form-group frequency-item">
+                    <label class="col-md-3 control-label required">
+                        {{ label }}
+                        <span id="counter-{{ id }}" class="badge badge-success">0</span>
+                    </label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            {{ form_widget(form.observationLengthInMinutes) }}
+                            {{ form_widget(form.occurrenceTimestamps) }}
+                            {{ form_widget(form.counter) }}
+
+                            <div class="col-md-6">
+                                <div id="timer-{{ id }}" style="display:none">
+                                    {{ observationLengthInMinutes }}
+                                </div>
+
+                                <div id="progressBar-{{ id }}" class="behavioral-recording-progress-bar">
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <a id="button-{{ id }}" class="frequency-counter btn btn-primary btn-lg red-button" data-base-selector-id="{{ id }}" href="" role="button">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div {{ block('widget_container_attributes') }}>
+                {{- block('form_rows') -}}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block meter_item_widget %}
+    {% spaceless %}
+        {% if labelMaxY is defined %}
+            <div class="form-body">
+                <div class="form-group square-container">
+                    <label class="col-md-3 control-label required">
+                        {{ label }}
+                    </label>
+
+                    <div class="col-md-9">
+                        <div class="row text-center">
+                            <div class="col-12 col-md-6">
+                                {% for row in 1..11 %}
+                                    {% for column in 1..11 %}
+                                        {% if(row==1 and column==1) %}
+                                            {% set label = labelMaxY %}
+                                            {% set classLabelText = 'rotate-labels' %}
+                                        {% elseif(row==6 and column==1) %}
+                                            {% set label = labelY %}
+                                            {% set classLabelText = 'rotate-labels' %}
+                                        {% elseif(row==10 and column==1) %}
+                                            {% set label = labelMinY %}
+                                            {% set classLabelText = 'rotate-labels' %}
+                                        {% endif %}
+                                        {% if(row==11 and column==2) %}
+                                            {% set label = labelMinX %}
+                                            {% set classLabelText = '' %}
+                                        {% elseif(row==11 and column==6) %}
+                                            {% set label = labelX %}
+                                            {% set classLabelText = '' %}
+                                        {% elseif(row==11 and column==10) %}
+                                            {% set label = labelMaxX %}
+                                            {% set classLabelText = '' %}
+                                        {% endif %}
+
+                                        {% set classAxis = '' %}
+
+                                        {% if row==11 %}
+                                            {% set classAxis = 'x-axis' %}
+                                        {% endif %}
+
+                                        {% if column==1 %}
+                                            {% set classAxis = 'y-axis' %}
+                                        {% endif %}
+
+                                        {% if row==11 and column==1 %}
+                                            {% set classAxis = classAxis ~ ' first-column-row' %}
+                                        {% endif %}
+
+                                        {% if (row==10 and column==6) or
+                                            (row==9 and column==6) or
+                                            (row==8 and column==6) or
+                                            (row==7 and column==6) or
+                                            (row==6 and column==6) or
+                                            (row==5 and column==6) or
+                                            (row==4 and column==6) or
+                                            (row==3 and column==6) or
+                                            (row==2 and column==6) or
+                                            (row==1 and column==6)
+                                        %}
+                                            {% set classAxis = classAxis ~ ' sixth-row' %}
+                                        {% endif %}
+
+                                        {% if (row==6 and column==2) or
+                                            (row==6 and column==3) or
+                                            (row==6 and column==4) or
+                                            (row==6 and column==5) or
+                                            (row==6 and column==6) or
+                                            (row==6 and column==7) or
+                                            (row==6 and column==8) or
+                                            (row==6 and column==9) or
+                                            (row==6 and column==10) or
+                                            (row==6 and column==11)
+                                        %}
+                                            {% set classAxis = classAxis ~ ' sixth-column' %}
+                                        {% endif %}
+
+                                        <div class="square {{ classAxis }}" data-row="{{ row }}" data-column="{{ column }}">
+                                            {% if( ((row==1 or row==6 or row==10) and column==1)
+                                                or ((column==2 or column==6 or column==10) and row==11)
+                                                )
+                                            %}
+                                                <div class="content">
+                                                    <div class="table">
+                                                        <div class="table-cell meter-labels {{ classLabelText }}">
+                                                            {{ label }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {{ form_widget(form.xValue) }}
+                    {{ form_widget(form.yValue) }}
+                </div>
+            </div>
+        {% else %}
+            <div {{ block('widget_container_attributes') }}>
+                {{- block('form_rows') -}}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block time_sampling %}
+    {% if observationLengthInMinutes is defined %}
+        <div class="form-body">
+            <div class="form-group time-sampling-item">
+                <label class="col-md-3 control-label required">{{ label }}</label>
+                <div class="col-md-9">
+                    <div class="row">
+                        {{ form_widget(form.observationLengthInMinutes) }}
+                        {{ form_widget(form.occurrenceTimestamps) }}
+                        {{ form_widget(form.intervalLengthInSeconds) }}
+                        {{ form_widget(form.intervalData) }}
+
+                        <div class="col-md-6">
+                            <div id="timer-{{ id }}" style="display:none">
+                                {{ observationLengthInMinutes }}
+                            </div>
+
+                            <div id="progressBar-{{ id }}" class="behavioral-recording-progress-bar">
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a id="button-{{ id }}" class="counter btn btn-primary btn-lg red-button" data-base-selector-id="{{ id }}" href="" role="button">+</a>
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.typology) }}
+                    {{ form_widget(form.counter) }}
+                    {{ form_widget(form.feedbackForIntervalRecording) }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="time-sampling-item">
+            {{- block('form_rows') -}}
+        </div>
+    {% endif %}
+{% endblock %}

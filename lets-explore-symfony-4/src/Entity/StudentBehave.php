@@ -13,7 +13,7 @@ use App\Validator\Constraints as AppAssert;
  * @AppAssert\IsUserIdUnique
  * @ORM\HasLifecycleCallbacks
  */
-class Student
+class StudentBehave
 {
     /**
      * @ORM\Id()
@@ -23,32 +23,14 @@ class Student
     private $id;
 
     /**
-     * @ORM\Column(name="student_id", type="encrypted_string", length=255)
+     * @ORM\Column(name="student_id", type="string", length=255)
      */
     private $studentId;
 
     /**
-     * @ORM\Column(name="creator_user_id", type="encrypted_string", length=255)
+     * @ORM\Column(name="creator_user_id", type="string", length=255)
      */
     private $creatorUserId;
-
-    /**
-     * @var datetime $createdAt
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="create")
-     *
-     */
-    private $createdAt;
-
-    /**
-     * @var datetime $updatedAt
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="update")
-     *
-     */
-    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="student")

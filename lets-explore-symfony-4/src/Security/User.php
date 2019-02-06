@@ -14,7 +14,7 @@ class User implements UserInterface
     protected $lastIp;
     protected $loginCount;
     protected $roles = array('ROLE_USER', 'ROLE_0AUTH_USER');
-    protected $students= array();
+    protected $students= array('');
 
 
     /**

@@ -27,42 +27,42 @@ class MeterItem extends Item
     /**
      * @var string $labelY
      *
-     * @ORM\Column(name="label_y", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_y", type="string", length=255)
      */
     private $labelY;
 
     /**
      * @var string $labelMaxY
      *
-     * @ORM\Column(name="label_max_y", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_max_y", type="string", length=255)
      */
     private $labelMaxY;
 
     /**
      * @var string $labelMinY
      *
-     * @ORM\Column(name="label_min_y", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_min_y", type="string", length=255)
      */
     private $labelMinY;
 
     /**
      * @var string $labelX
      *
-     * @ORM\Column(name="label_x", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_x", type="string", length=255)
      */
     private $labelX;
 
     /**
      * @var string $labelMaxX
      *
-     * @ORM\Column(name="label_max_x", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_max_x", type="string", length=255)
      */
     private $labelMaxX;
 
     /**
      * @var string $labelMinX
      *
-     * @ORM\Column(name="label_min_x", type="encrypted_string", length=255)
+     * @ORM\Column(name="label_min_x", type="string", length=255)
      */
     private $labelMinX;
     

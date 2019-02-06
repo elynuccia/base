@@ -104,6 +104,7 @@ security:
         - { path: /rewardslist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /odr, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /odrlist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: ^/measure, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: ^/generateaccessdata, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER, ROLE_USER_TEACHER_COORDINATOR] }
 
 

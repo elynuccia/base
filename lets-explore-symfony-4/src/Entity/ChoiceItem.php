@@ -13,7 +13,7 @@ class ChoiceItem extends Item
     /**
      * @var string $emptyValue
      *
-     * @ORM\Column(name="empty_value", type="encrypted_string", nullable=true, length=255)
+     * @ORM\Column(name="empty_value", type="string", nullable=true, length=255)
      */
     private $emptyValue;
 

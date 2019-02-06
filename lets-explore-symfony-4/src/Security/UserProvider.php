@@ -15,7 +15,16 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     {
         $auth0User = $this->auth0Api->getUserByUsername($username);
 
-        //dump($auth0User); exit;
+        if(!isset($auth0User[0]->user_metadata->role) ||
+            !in_array('ROLE_USER', $auth0User[0]->user_metadata->role) ||
+            !in_array('ROLE_0AUTH_USER', $auth0User[0]->user_metadata->role)
+        ) {
+            $this->updateRoles($auth0User[0]->user_id, $auth0User[0]->user_metadata->role);
+
+            $auth0User = $this->auth0Api->getUserByUsername($username);
+        }
+
+       //  dump($auth0User); exit;
 
         $username = (isset($auth0User[0]->username)) ? $auth0User[0]->username : $auth0User[0]->nickname;
         $user = new User();
@@ -29,24 +38,46 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user->setLastIp($auth0User[0]->last_ip);
         $user->setLoginCount($auth0User[0]->logins_count);
 
-        foreach($auth0User[0]->user_metadata->role as $role) {
-            $user->addRole($role);
+        if(isset($auth0User[0]->user_metadata->role)) {
+            foreach ($auth0User[0]->user_metadata->role as $role) {
+                $user->addRole($role);
+            }
         }
 
-        $user->setStudents($auth0User[0]->user_metadata->students);
+        if(isset($auth0User[0]->user_metadata->students)) {
+            $user->setStudents($auth0User[0]->user_metadata->students);
+        }
 
         return $user;
     }
-    public function refreshUser(UserInterface $user)
-    {
-        return $this->loadUserByUsername($user->getUsername());
-    }
-    public function supportsClass($class)
-    {
-        return User::class == $class;
-    }
+
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         return $this->loadUserByUsername($response->getNickname());
     }
+
+    public function refreshUser(UserInterface $user)
+    {
+        return $this->loadUserByUsername($user->getUsername());
+    }
+
+    public function supportsClass($class)
+    {
+        return User::class == $class;
+    }
+
+    public function updateRoles($userId, $roles)
+    {
+        $defaultRoles = array('ROLE_USER', 'ROLE_0AUTH_USER');
+
+        $roles = (is_array($roles)) ? $roles : array();
+
+        foreach($defaultRoles as $role) {
+            $roles[] = $role;
+        }
+
+        $this->auth0Api->updateUserMetadata($userId, array_unique($roles));
+    }
+
+
 }

@@ -2,6 +2,11 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    open_ssl_cypher_method: '%env(OPEN_SSL_CYPHER_METHOD)%'
+    open_ssl_iv: '%env(OPEN_SSL_IV)%'
+    open_ssl_private_key: '%env(OPEN_SSL_PRIVATE_KEY)%'
+    couch_db_url: '%env(COUCH_DB_URL)%'
+    couch_db_database_name: '%env(COUCH_DB_DATABASE_NAME)%'
     auth0_api_base_uri: '%env(AUTH0_API_BASE_URI)%'
     auth0_api_authorization_header: '%env(AUTH0_API_AUTHORIZATION_HEADER)%'
 
@@ -33,6 +38,18 @@ services:
 
     GuzzleHttp\Client:
         public: true
+
+    App\CouchDb\Client:
+        arguments:
+            $guzzle: '@GuzzleHttp\Client'
+            $url: '%couch_db_url%'
+            $databaseName: '%couch_db_database_name%'
+
+    App\Security\Encoder\OpenSslEncoder:
+        arguments:
+            $cypherMethod: '%open_ssl_cypher_method%'
+            $iv: '%open_ssl_iv%'
+            $privateKey: '%open_ssl_private_key%'
 
     App\Utility\Auth0Api:
         arguments:

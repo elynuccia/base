@@ -13,14 +13,14 @@ class TextItem extends Item
     /**
      * @var string $fieldValue
      *
-     * @ORM\Column(name="field_value", type="encrypted_string", length=255)
+     * @ORM\Column(name="field_value", type="string", length=255)
      */
     private $fieldValue;
 
     /**
      * @var string $placeholder
      *
-     * @ORM\Column(type="encrypted_string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $placeholder;
 
