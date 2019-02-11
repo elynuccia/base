@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li>
+        <a href="{{ path('homepage') }}">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <span>Students</span>
+    </li>
+{% endblock %}
+
+{% block pageTitle %}
+    Students
+{% endblock %}
+
+
+{% block main %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% set femaleAvatars = [
+    'avatar-01.png',
+    'avatar-02.png',
+    'avatar-03.png',
+    'avatar-04.png',
+    'avatar-05.png',
+    'avatar-06.png'
+    ]
+    %}
+
+    {% set maleAvatars = [
+    'avatar-07.png',
+    'avatar-08.png',
+    'avatar-09.png',
+    'avatar-10.png',
+    'avatar-11.png',
+    'avatar-12.png'
+    ]
+    %}
+
+    {% set indexMaleAvatar = 0 %}
+    {% set indexFemaleAvatar = 0 %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class=" icon-layers font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">List</span>
+                    </div>
+                    <div class="actions">
+                        <a id="add-button" class="btn btn-circle btn-icon-only btn-default" href="{{ path('student_new') }}">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {% for record in records|batch(6) %}
+                    <div class="mt-element-card mt-card-round mt-element-overlay">
+                        <div class="row">
+                            {% for child in record %}
+                                {% if child.sex == 0 %}
+                                    {% set indexMaleAvatar = indexMaleAvatar + 1 %}
+                                    {% if indexMaleAvatar == 6 %}
+                                        {% set indexMaleAvatar = 0 %}
+                                    {% endif %}
+
+                                {% else %}
+                                    {% set indexFemaleAvatar = indexFemaleAvatar + 1 %}
+                                    {% if indexFemaleAvatar == 6 %}
+                                        {% set indexFemaleAvatar = 0 %}
+                                    {% endif %}
+                                {% endif %}
+
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="mt-card-item">
+                                    <div class="mt-card-avatar mt-overlay-1">
+                                        {% if child.sex == 0 %}
+                                            <img src="{{ asset('images/' ~ cycle(maleAvatars, indexMaleAvatar)) }}">
+                                        {% else %}
+                                            <img src="{{ asset('images/' ~ cycle(femaleAvatars, indexFemaleAvatar)) }}">
+                                        {% endif %}
+                                    </div>
+                                    <div class="mt-card-content">
+                                        <h3 class="mt-card-name">{{ child.studentId }}</h3>
+
+                                        <div class="mt-card-social">
+                                            <ul>
+                                                <li>
+                                                    <a href="{{ path('student_edit', {'id': child.id}) }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="delete" data-toggle="modal" data-url="{{ path('student_delete', {'id': child.id}) }}" href="#basic">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('observation_student_list', {'id': child.id}) }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Warning</h4>
+                </div>
+                <div class="modal-body"> Are you sure you want to delete this student?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                    <button id="confirm-delete" type="button" class="btn red" data-url="">Yes, delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $('.delete').click(function( event ) {
+            $('#confirm-delete').data('url', $(this).data('url'));
+        });
+
+        $('#confirm-delete').click(function( event ) {
+            window.location.href = $('#confirm-delete').data('url');
+        });
+    </script>
+{% endblock %}

@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Observation;
-use App\Entity\Student;
+use App\Entity\StudentBehave;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,11 +14,11 @@ class ObservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Observation::class);
     }
 
-    public function findByStudentAndCreatorUserId(Student $student, $creatorUserId)
+    public function findByStudentAndCreatorUserId(StudentBehave $studentBehave, $creatorUserId)
     {
         return $this->createQueryBuilder('o')
             ->join('o.student', 's')
-            ->where('o.student = :student')->setParameter('student', $student)
+            ->where('o.student = :student')->setParameter('student', $studentBehave)
             ->andWhere('s.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
             ->getQuery()
             ->getResult()

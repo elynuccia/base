@@ -22,7 +22,7 @@
     </li>
 {% endblock %}
 
-{% block body %}
+{% block main %}
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
             {{ flashMessage }}
@@ -56,6 +56,7 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/meter.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css') }}">

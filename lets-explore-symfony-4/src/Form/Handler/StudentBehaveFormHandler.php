@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Entity\Student;
+use App\Entity\StudentBehave;
 
 class StudentBehaveFormHandler {
 
@@ -44,7 +44,7 @@ class StudentBehaveFormHandler {
         return true;
     }
 
-    public function create(Student $entity, $message)
+    public function create(StudentBehave $entity, $message)
     {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();

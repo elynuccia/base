@@ -3,7 +3,7 @@
     {{ title }}
 {% endblock %}
 
-{% block body %}
+{% block main %}
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div>{{ flashMessage }}</div>
     {% endfor %}
@@ -49,4 +49,8 @@
             <a href="{{ path('observation_new') }}">{% trans %}New{% endtrans %}</a>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}

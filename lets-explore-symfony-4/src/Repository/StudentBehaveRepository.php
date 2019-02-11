@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Student;
+use App\Entity\StudentBehave;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Student|null find($id, $lockMode = null, $lockVersion = null)
- * @method Student|null findOneBy(array $criteria, array $orderBy = null)
- * @method Student[]    findAll()
- * @method Student[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method StudentBehave|null find($id, $lockMode = null, $lockVersion = null)
+ * @method StudentBehave|null findOneBy(array $criteria, array $orderBy = null)
+ * @method StudentBehave[]    findAll()
+ * @method StudentBehave[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class StudentBehaveRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Student::class);
+        parent::__construct($registry, StudentBehave::class);
     }
 
 //    /**

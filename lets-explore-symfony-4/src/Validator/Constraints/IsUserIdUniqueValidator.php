@@ -16,7 +16,7 @@ class IsUserIdUniqueValidator extends ConstraintValidator {
 
     public function validate($student, Constraint $constraint)
     {
-        $repository = $this->entityManager->getRepository('App:Student');
+        $repository = $this->entityManager->getRepository('App:StudentBehave');
 
         $existingStudent = $repository->findOneByStudentId($student->getStudentId());
 

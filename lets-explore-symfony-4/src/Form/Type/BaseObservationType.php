@@ -38,6 +38,7 @@ class BaseObservationType extends AbstractType
             ->add('observerUserId', HiddenType::class, array('required' => true))
             ->add('measure', EntityType::class, array(
                     'attr' => array(
+                        'class' => 'mdb-select md-form form-control',
                         'data-live-search' => 'true',
                         'title' => 'Choose one of the following...',
                         'data-size' => 5
@@ -46,8 +47,7 @@ class BaseObservationType extends AbstractType
                     'choice_label' => 'name',
                     'query_builder' => function (EntityRepository $er) use ($options) {
                             return $er->createQueryBuilder('m')
-                                ->where('m.creatorUserId = :creatorUserId')
-                                ->setParameter('creatorUserId', $options['creatorUserId'])
+
                                 ->orderBy('m.name', 'asc')
                                 ;
                         },

@@ -37,7 +37,7 @@
     Data
 {% endblock %}
 
-{% block body %}
+{% block main %}
     {{ form_start(form) }}
 
 <div class="portlet box green">
@@ -66,4 +66,9 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
 {% endblock %}

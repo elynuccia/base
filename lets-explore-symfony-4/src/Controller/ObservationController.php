@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\StudentBehave;
 use App\Form\Handler\CalendarFormHandler;
 use App\Form\Type\CalendarType;
 use App\Security\Encoder\OpenSslEncoder;
@@ -100,16 +101,16 @@ class ObservationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexStudentAction(Student $student, OpenSslEncoder $encoder)
+    public function indexStudentAction(StudentBehave $studentBehave, OpenSslEncoder $encoder)
     {
         $records = $this->getDoctrine()->getRepository('App\Entity\Observation')->findByStudentAndCreatorUserId(
-            $student, $encoder->encrypt($this->getUser()->getUserId())
+            $studentBehave, $encoder->encrypt($this->getUser()->getUserId())
         );
 
         return array(
             'records' => $records,
             'title' => $this->get('translator')->trans(self::INDEX_TITLE),
-            'student' => $student
+            'student' => $studentBehave
         );
     }
 
@@ -163,12 +164,12 @@ class ObservationController extends Controller
     */
     public function newAction(Request $request, Student $student, ObservationFormHandler $formHandler)
     {
-        if($student->getCreatorUserId() != $this->getUser()->getUserId()) {
+       /* if($student->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
             $response->setStatusCode(403);
 
             return $response;
-        }
+        }*/
 
         $entity = new Observation();
         $entity->setStudent($student);

@@ -1,10 +1,10 @@
 <?php
 namespace App\Form\Type;
 
+use App\Entity\StudentBehave;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\Student;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -29,7 +29,7 @@ class StudentBehaveType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Student::class,
+            'data_class' => StudentBehave::class,
         ));
     }
 }

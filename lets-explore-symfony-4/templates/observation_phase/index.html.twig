@@ -34,6 +34,8 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
     <link rel="stylesheet" href="{{ asset('theme/assets/global/css/components.min.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/datatables/datatables.min.css') }}">
     <link rel="stylesheet"
@@ -91,7 +93,7 @@
     </script>
 {% endblock %}
 
-{% block body %}
+{% block main %}
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
             {{ flashMessage }}

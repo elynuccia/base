@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\StudentBehave;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -12,12 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 
 use App\Form\Handler\StudentBehaveFormHandler;
 use App\Form\Type\StudentBehaveType;
-use App\Entity\Student;
 
 /**
  * @Route("/student")
  *
- * Class StudentController
+ * Class StudentBehaveController
  * @package App\Controller
  */
 class StudentBehaveController extends Controller
@@ -39,9 +39,8 @@ class StudentBehaveController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $records = $this->getDoctrine()->getRepository('App\Entity\Student')->findByCreatorUserId(
-            $this->getUser()->getUserId()
-        );
+        $records = $this->getDoctrine()->getRepository('App\Entity\StudentBehave')->findAll();
+
 
         return array(
             'records' => $records,
@@ -54,21 +53,21 @@ class StudentBehaveController extends Controller
     * @Method({"GET", "POST"})  
     *
     * @param Request $request
-    * @param Student $student
-    * @param StudentFormHandler $formHandler
+    * @param StudentBehave $studentBehave
+    * @param StudentBehaveFormHandler $formHandler
     * @return \Symfony\Component\HttpFoundation\Response
     */
-    public function editAction(Request $request, Student $student, StudentBehaveFormHandler $formHandler)
+    public function editAction(Request $request, StudentBehave $studentBehave, StudentBehaveFormHandler $formHandler)
     {
-        $form = $this->createForm(StudentType::class, $student, array(
-            'action' => $this->generateUrl('student_edit', array('id' => $student->getId())),
+        $form = $this->createForm(StudentBehaveType::class, $studentBehave, array(
+            'action' => $this->generateUrl('student_edit', array('id' => $studentBehave->getId())),
         ));
 
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::EDIT_SUCCESS_STRING))) {
             return $this->redirect($this->generateUrl('student_list'));
         }
 
-        return $this->render('student/new.html.twig',
+        return $this->render('student_behave/new.html.twig',
             array(
                 'form' => $form->createView(),
                 'title' => $this->get('translator')->trans(self::EDIT_TITLE),
@@ -88,10 +87,10 @@ class StudentBehaveController extends Controller
     */
     public function newAction(Request $request, StudentBehaveFormHandler $formHandler)
     {
-        $entity = new Student();
+        $entity = new StudentBehave();
         $entity->setCreatorUserId($this->getUser()->getUserId());
 
-        $form = $this->createForm(StudentType::class, $entity, array(
+        $form = $this->createForm(StudentBehaveType::class, $entity, array(
             'action' => $this->generateUrl('student_new')
         ));
 
@@ -112,10 +111,10 @@ class StudentBehaveController extends Controller
     * @Method({"GET"})
     *
     * @param Request $request
-    * @param Student $entity
+    * @param StudentBehave $entity
     * @return \Symfony\Component\HttpFoundation\Response
     */
-    public function deleteAction(Request $request, Student $entity)
+    public function deleteAction(Request $request, StudentBehave $entity)
     {
         $em = $this->getDoctrine()->getManager();
 

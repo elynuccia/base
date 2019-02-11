@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use App\Validator\Constraints as AppAssert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StudentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\StudentBehaveRepository")
  * @AppAssert\IsUserIdUnique
  * @ORM\HasLifecycleCallbacks
  */
