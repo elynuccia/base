@@ -41,6 +41,7 @@
 
     <script>
         $( "#observation_base_observation_observerUsername" ).autocomplete({
+            source: "{{ path('user_search') }}",
             minLength: 2,
             select: function( event, ui ) {
                 event.preventDefault();

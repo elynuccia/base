@@ -377,8 +377,8 @@
             }
 
             if(type == 'direct-observation') {
-                $('#measure_directObservationItems_' + newIndex + '_intervalLengthInSeconds').parent().parent().hide();
-                $('#measure_directObservationItems_' + newIndex + '_feedbackForIntervalRecording').parent().parent().hide();
+                $('#measure_directObservationItems_' + newIndex + '_intervalLengthInSeconds').parent().hide();
+                $('#measure_directObservationItems_' + newIndex + '_feedbackForIntervalRecording').parent().hide();
             }
         }
 
@@ -390,16 +390,16 @@
             switch($(element).val()) {
                 case 'duration':
                 case 'frequency':
-                    $('#' + intervalLengthInSecondsId).parent().parent().hide();
-                    $('#' + feedbackForIntervalRecordingId).parent().parent().hide();
+                    $('#' + intervalLengthInSecondsId).parent().hide();
+                    $('#' + feedbackForIntervalRecordingId).parent().hide();
                     console.log($('#' + intervalLengthInSecondsId));
                     break;
 
                 case 'whole-interval':
                 case 'partial-interval':
                 case 'momentary-time-sampling':
-                    $('#' + intervalLengthInSecondsId).parent().parent().show();
-                    $('#' + feedbackForIntervalRecordingId).parent().parent().show();
+                    $('#' + intervalLengthInSecondsId).parent().show();
+                    $('#' + feedbackForIntervalRecordingId).parent().show();
                     console.log($('#' + intervalLengthInSecondsId));
                     break;
             }

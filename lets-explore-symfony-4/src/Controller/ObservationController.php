@@ -101,12 +101,13 @@ class ObservationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexStudentAction(StudentBehave $studentBehave, OpenSslEncoder $encoder)
+    public function indexStudentAction(StudentBehave $studentBehave)
     {
         $records = $this->getDoctrine()->getRepository('App\Entity\Observation')->findByStudentAndCreatorUserId(
-            $studentBehave, $encoder->encrypt($this->getUser()->getUserId())
+            $studentBehave, $this->getUser()->getUserId()
         );
 
+        dump($records);
         return array(
             'records' => $records,
             'title' => $this->get('translator')->trans(self::INDEX_TITLE),
@@ -162,7 +163,7 @@ class ObservationController extends Controller
     * @param ObservationFormHandler $formHandler
     * @return \Symfony\Component\HttpFoundation\Response
     */
-    public function newAction(Request $request, Student $student, ObservationFormHandler $formHandler)
+    public function newAction(Request $request, StudentBehave $studentBehave, ObservationFormHandler $formHandler)
     {
        /* if($student->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
@@ -172,23 +173,23 @@ class ObservationController extends Controller
         }*/
 
         $entity = new Observation();
-        $entity->setStudent($student);
+        $entity->setStudent($studentBehave);
         $entity->setCreatorUserId($this->getUser()->getUserId());
 
         $form = $this->createForm(ObservationType::class, $entity, array(
-            'action' => $this->generateUrl('observation_new', array('id' => $student->getId())),
+            'action' => $this->generateUrl('observation_new', array('id' => $studentBehave->getId())),
             'creatorUserId' => $this->getUser()->getUserId()
         ));
 
         
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING))) {
-            return $this->redirect($this->generateUrl('observation_student_list', array('id' => $student->getId())));
+            return $this->redirect($this->generateUrl('observation_student_list', array('id' => $studentBehave->getId())));
         }
 
         return array(
             'form' => $form->createView(),
             'title' => $this->get('translator')->trans(self::NEW_TITLE),
-            'student' => $student
+            'student' => $studentBehave
         );
 
     }
@@ -203,6 +204,8 @@ class ObservationController extends Controller
     */
     public function numberAction(Observation $observation, CouchDbClient $couchDbClient)
     {
+        return new Response('DA SISTEMARE');
+
         $observationData = $couchDbClient->getObservationsById($observation->getId());
 
         return new Response(count(json_decode($observationData->getContents())->rows));
@@ -217,7 +220,7 @@ class ObservationController extends Controller
     * @param Observation $entity
     * @return \Symfony\Component\HttpFoundation\Response
     */
-    public function deleteAction(Request $request, Student $student)
+    public function deleteAction(Request $request, StudentBehave $studentBehave)
     {
         $ids = json_decode($request->get('ids'), true);
 
@@ -239,7 +242,7 @@ class ObservationController extends Controller
 
         $this->get('session')->getFlashbag()->add('success', $this->get('translator')->trans(self::DELETE_SUCCESS_STRING));
 
-        return $this->redirect($this->generateUrl('observation_student_list', array('id' => $student->getId())));
+        return $this->redirect($this->generateUrl('observation_student_list', array('id' => $studentBehave->getId())));
     }
 
     /**
@@ -250,7 +253,7 @@ class ObservationController extends Controller
      * @param Observation $entity
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function enableDisableAction(Request $request, Student $student, \Swift_Mailer $mailer, Auth0Api $auth0Api)
+    public function enableDisableAction(Request $request, StudentBehave $studentBehave, \Swift_Mailer $mailer, Auth0Api $auth0Api)
     {
         $ids = json_decode($request->get('ids'), true);
 
@@ -310,7 +313,7 @@ class ObservationController extends Controller
 
         $this->get('session')->getFlashbag()->add('success', 'Observation(s) update with success');
 
-        return $this->redirect($this->generateUrl('observation_student_list', array('id' => $student->getId())));
+        return $this->redirect($this->generateUrl('observation_student_list', array('id' => $studentBehave->getId())));
     }
 
     /**
