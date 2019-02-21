@@ -19,7 +19,7 @@ class ObservationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->join('o.student', 's')
             ->where('o.student = :student')->setParameter('student', $studentBehave)
-            ->andWhere('s.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
+            //->andWhere('s.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
             ->getQuery()
             ->getResult()
             ;

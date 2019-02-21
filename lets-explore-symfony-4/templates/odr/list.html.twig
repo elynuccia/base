@@ -38,19 +38,20 @@
 
                             <!--Card image-->
                             <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 font-weight-bold">ODR</h4>
+                                <h4 class="h4-responsive mb-0 font-weight-bold">ODRs List</h4>
                             </div>
                             <!--/Card image-->
 
                             <!--Card content-->
-                            <div class="card-body card-body-cascade pb-0">
+                            <div class="card-body card-body-cascade pb-0 ">
 
-
-    <h1>List of ODRs</h1>
 
     {% for single_odr in odr %}
+         <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
         <b>ODR #{{ single_odr.id }}</b>
-      <div>  {% for minorAndMajor in single_odr.minorAndMajorBehaviors %}
+     {% for minorAndMajor in single_odr.minorAndMajorBehaviors %}
             {{ minorAndMajor.name}}
         {% endfor %}
         {% for location in single_odr.locations %}
@@ -59,11 +60,19 @@
 
         {{ single_odr.note }}
         {{ single_odr.fillInDate }}
+        </div>
+          <div class="col-md-1"></div>
       </div>
     {% endfor %}
 
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+    <canvas id="myChart"></canvas>
+        </div>
+    <div class="col-md-1"></div>
 
-    <canvas id="myChart" style="max-width: 500px;"></canvas>
+</div>
     </div>
     <!--/.Card content-->
 

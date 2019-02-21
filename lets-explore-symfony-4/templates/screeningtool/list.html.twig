@@ -50,25 +50,35 @@
 
 
     {% for single_screeningTool in screeningTool|slice(4,4) %}
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
         <b>ScreeningTool #{{ single_screeningTool.id }}</b>
-        <div>
         {% for singleValue in single_screeningTool.screeningToolData %}
             {{ singleValue.value}}
         {% endfor %}
             {% for singleExpectation in single_screeningTool.screeningToolData %}
                 {{ singleExpectation.expectation }}
             {% endfor %}
+            </div>
+            <div class="col-md-1"></div>
 
         </div>
           {% endfor %}
+<br>
 
 
-    <div>
     {% for key, exp in valueByExp %}
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
     <h3>{{ key }}</h3>
     <canvas id="myChart-{{ key }}" style="max-width: 500px;"></canvas>
+      </div>
+        <div class="col-md-1"></div>
+    </div>
     {% endfor %}
-</div>
+
 
 
 

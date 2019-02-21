@@ -17,4 +17,5 @@ return [
     Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
     Http\HttplugBundle\HttplugBundle::class => ['all' => true],
     HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
+    Ob\HighchartsBundle\ObHighchartsBundle::class => ['all' => true],
 ];

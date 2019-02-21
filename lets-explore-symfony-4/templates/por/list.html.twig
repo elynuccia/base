@@ -38,7 +38,7 @@
 
                             <!--Card image-->
                             <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 font-weight-bold">ODR</h4>
+                                <h4 class="h4-responsive mb-0 font-weight-bold">PORs List</h4>
                             </div>
                             <!--/Card image-->
 
@@ -49,6 +49,9 @@
     <h1>List of PORs</h1>
 
     {% for single_por in por %}
+       <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
         <b>ODR #{{ single_por.id }}</b>
       <div>  {% for positiveBehavior in single_por.positiveBehaviors %}
             {{ positiveBehavior.behavior}}
@@ -59,12 +62,21 @@
 
         {{ single_por.note }}
         {{ single_por.fillInDate }}
+                </div>
+          <div class="col-md-1"></div>
       </div>
+</div>
     {% endfor %}
 
-
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
     <canvas id="myChart" style="max-width: 500px;"></canvas>
     </div>
+
+    <div class="col-md-1"></div>
+
+</div>
     <!--/.Card content-->
 
     </div>
@@ -73,7 +85,7 @@
 
     </div>
     <!--Grid row-->
-
+</div>
     </section>
     <!--Section: Chart-->
 

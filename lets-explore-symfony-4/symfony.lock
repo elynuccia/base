@@ -134,6 +134,9 @@
     "nikic/php-parser": {
         "version": "v4.0.1"
     },
+    "ob/highcharts-bundle": {
+        "version": "1.6"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
@@ -493,5 +496,8 @@
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"
+    },
+    "zendframework/zend-json": {
+        "version": "3.1.x-dev"
     }
 }

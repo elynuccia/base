@@ -204,8 +204,6 @@ class ObservationController extends Controller
     */
     public function numberAction(Observation $observation, CouchDbClient $couchDbClient)
     {
-        return new Response('DA SISTEMARE');
-
         $observationData = $couchDbClient->getObservationsById($observation->getId());
 
         return new Response(count(json_decode($observationData->getContents())->rows));

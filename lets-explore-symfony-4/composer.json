@@ -10,6 +10,7 @@
         "craue/formflow-bundle": "~3.0",
         "endroid/qr-code": "^3.2",
         "hwi/oauth-bundle": "^0.6.1",
+        "ob/highcharts-bundle": "^1.6",
         "php-http/curl-client": "^1.7",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/httplug-bundle": "^1.9",
@@ -34,7 +35,8 @@
         "symfony/web-link": "^4.0",
         "symfony/web-server-bundle": "^4.0",
         "symfony/webpack-encore-pack": "*",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "zendframework/zend-json": "dev-master"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.0",
