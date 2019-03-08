@@ -12,20 +12,19 @@
     <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
     <!-- Your custom styles (optional) -->
 
-
     <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+
 
 {% endblock %}
 
 {% block main %}
 
-     <div class="container-fluid">
+     <div class="container-fluid" >
 
         <!--Section: Inputs-->
         <section class="section card mb-5">
 
-            <div class="card-body">
+            <div class="card-body" >
 
                 <!--Section heading-->
                 <h1 class="text-center my-5 h1">Office Disciplinary Referral</h1>
@@ -33,9 +32,12 @@
 
 
     {{ form_start(form) }}
+
     <div class="row">
         <div class="col-md-6">
-        <h4>Student: BBFADD8D</h4>
+        <h4>Student: {{ form_row(form.student) }}
+        </h4>
+
         </div>
         <div class="col-md-3">
         </div>

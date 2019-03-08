@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>BASE Application</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
@@ -40,8 +40,23 @@
 
     <style>
         body {
-            background-color: #fff;
+            background-color: #dedee3;
         }
+        main {
+            background-color: #dedee3;
+        }
+
+      
+        div .card{
+
+            padding: 50px;
+
+        }
+        select
+        {    display: inline !important;
+
+        }
+
 
         .navbar {
             background-color: #6f7782;
@@ -71,7 +86,7 @@
 <!--Main Layout-->
 <main>
 
-    <div class="container">
+    <div class="container" style="padding: 25px">
 
         {% block main %}{% endblock %}
     </div>

@@ -4,7 +4,7 @@
 
 
 {% block main %}
- <div class="container-fluid">
+ <div class="container-fluid" >
 
         <!--Section: Inputs-->
         <section class="section card mb-5">
@@ -12,14 +12,15 @@
             <div class="card-body">
 
                 <!--Section heading-->
-                <h1 class="text-center my-5 h1" style="color:darkblue">Check-in/Check-out</h1>
+                <h1 class=" text-center font-weight-bold mb-3" style="color: #714275;" >Check-in/Check-out</h1>
 
-                <h3 class="text-center my-5 h3" style="color:cornflowerblue">Motto:<i>{{ matrix.motto }}</i> </h3>
+                <h6 class="text-center my-5 h3" style="color:#4d87ec">{{ matrix.motto }} </h6>
 
-
+                {{ form_start(form) }}
                 <div class="row">
                     <div class="col-md-9">
-                <h2 class="pb-5">Student: BBFADD8D</h2>
+                <h2 class="pb-5">Student:{{ form_row(form.student) }}
+                </h2>
                     </div>
                 <div id="goals" class="col-md-3"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
                 </div>
@@ -35,7 +36,7 @@
 
    </div>
 
-    {{ form_start(form) }}
+
         <div class="row">
             <div class="col-6">
                 {{ form_widget(form.periodNumber) }}

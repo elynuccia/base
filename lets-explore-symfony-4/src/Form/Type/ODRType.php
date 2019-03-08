@@ -9,6 +9,7 @@
 namespace App\Form\Type;
 
 use App\Entity\ODR;
+use App\Entity\Student;
 use App\Entity\LocationTag;
 use App\Entity\MinorAndMajorBehavior;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -60,6 +61,21 @@ class ODRType extends AbstractType
              'multiple' => true,
              'expanded' => true,
         ));
+
+        $builder->add('student', EntityType::class, [
+            // looks for choices from this entity
+            'class' => Student::class,
+
+            // uses the User.username property as the visible option string
+            'choice_label' => 'code',
+            'attr' => array(
+                'class' => 'custom-select custom-select-md'),
+            //non si vede il bordo
+            // used to render a select box, check boxes or radios
+            // 'multiple' => true,
+            // 'expanded' => true,
+            'label'=>false,
+        ]);
 
 
         $builder->add('fillInDate', TextType::class);

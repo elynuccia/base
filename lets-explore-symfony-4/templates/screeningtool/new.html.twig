@@ -31,13 +31,22 @@
                 <!--Section heading-->
                 <h1 class="text-center my-5 h1">SWPBS Expectations Screening Tool </h1>
 
-                <h5 class="pb-5">Please evaluate the student: <i>BBFADD8D</i></h5>
+                {{ form_start(form) }}
+
+                <div class="row">
+                    <div class="col-md-6">
+         Please evaluate the student:
+                    </div>
+                </div>
+                    <div class="row">
+
+                    <div class="col-md-6">
+                        {{ form_row(form.student) }}
+                    </div>
+                </div>
 
 
-    {{ form_start(form) }}
-
-
-    {% if(screeningTool.matrix.expectationTags | length ) == 1 %}
+                {% if(screeningTool.matrix.expectationTags | length ) == 1 %}
         {% set sizeColumn = 4 %}
     {% endif %}
 
@@ -59,7 +68,7 @@
 
     {% set formDataIndex = 0 %}
 
-    <div class="row">
+    <div class="row" style="padding-left: 25px">
         <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
           <h3><b>Expectations</b></h3>
         </div>
@@ -67,7 +76,7 @@
 <br>
 
     {% for key, screeningToolData in form.screeningToolData %}
-        <div class="row">
+        <div class="row" style="padding-left: 25px">
             <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
                 {{ matrix.expectationTags[key].name }}
             </div>
@@ -85,6 +94,7 @@
 
 <div class="row">
         <div class="col-sm-10">{{ form_row(form.submit)}}</div>
+
 </div>
             </div>
         </section>

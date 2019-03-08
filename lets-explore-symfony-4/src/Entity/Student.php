@@ -70,10 +70,28 @@ class Student implements UserInterface
      */
     private $observations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ScreeningTool", mappedBy="student")
+     */
+    private $screeningTools;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ODR", mappedBy="student")
+     */
+    private $oDRs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\POR", mappedBy="student")
+     */
+    private $pORs;
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
         $this->schoolYears = new ArrayCollection();
+        $this->screeningTools = new ArrayCollection();
+        $this->oDRs = new ArrayCollection();
+        $this->pORs = new ArrayCollection();
     }
 
     public function getId()
@@ -299,6 +317,99 @@ class Student implements UserInterface
             // set the owning side to null (unless already changed)
             if ($observation->getStudent() === $this) {
                 $observation->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ScreeningTool[]
+     */
+    public function getScreeningTools(): Collection
+    {
+        return $this->screeningTools;
+    }
+
+    public function addScreeningTool(ScreeningTool $screeningTool): self
+    {
+        if (!$this->screeningTools->contains($screeningTool)) {
+            $this->screeningTools[] = $screeningTool;
+            $screeningTool->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScreeningTool(ScreeningTool $screeningTool): self
+    {
+        if ($this->screeningTools->contains($screeningTool)) {
+            $this->screeningTools->removeElement($screeningTool);
+            // set the owning side to null (unless already changed)
+            if ($screeningTool->getStudent() === $this) {
+                $screeningTool->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ODR[]
+     */
+    public function getODRs(): Collection
+    {
+        return $this->oDRs;
+    }
+
+    public function addODR(ODR $oDR): self
+    {
+        if (!$this->oDRs->contains($oDR)) {
+            $this->oDRs[] = $oDR;
+            $oDR->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeODR(ODR $oDR): self
+    {
+        if ($this->oDRs->contains($oDR)) {
+            $this->oDRs->removeElement($oDR);
+            // set the owning side to null (unless already changed)
+            if ($oDR->getStudent() === $this) {
+                $oDR->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|POR[]
+     */
+    public function getPORs(): Collection
+    {
+        return $this->pORs;
+    }
+
+    public function addPOR(POR $pOR): self
+    {
+        if (!$this->pORs->contains($pOR)) {
+            $this->pORs[] = $pOR;
+            $pOR->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePOR(POR $pOR): self
+    {
+        if ($this->pORs->contains($pOR)) {
+            $this->pORs->removeElement($pOR);
+            // set the owning side to null (unless already changed)
+            if ($pOR->getStudent() === $this) {
+                $pOR->setStudent(null);
             }
         }
 

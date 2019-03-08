@@ -29,6 +29,11 @@ class ScreeningTool
      */
     private $screeningToolData;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="screeningTools")
+     */
+    private $student;
+
     public function __construct()
     {
         $this->screeningToolData = new ArrayCollection();
@@ -79,6 +84,18 @@ class ScreeningTool
                 $screeningToolData->setScreeningTool(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }

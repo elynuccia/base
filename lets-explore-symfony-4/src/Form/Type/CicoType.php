@@ -9,12 +9,13 @@
 namespace App\Form\Type;
 
 use App\Entity\Cico;
-use App\Entity\CicoData;
+use App\Entity\Student;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\AbstractType;
 
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -43,6 +44,21 @@ class CicoType extends AbstractType
                 )
 
             ));
+
+        $builder->add('student', EntityType::class, [
+            // looks for choices from this entity
+            'class' => Student::class,
+
+            // uses the User.username property as the visible option string
+            'choice_label' => 'code',
+            'attr' => array(
+                'class' => 'custom-select custom-select-md'),
+            //non si vede il bordo
+            // used to render a select box, check boxes or radios
+            // 'multiple' => true,
+            // 'expanded' => true,
+            'label'=>false,
+        ]);
 
 
         $builder->add('sessions', CollectionType::class, array(
@@ -75,6 +91,7 @@ class CicoType extends AbstractType
 
     ));
     }
+
 
 
 

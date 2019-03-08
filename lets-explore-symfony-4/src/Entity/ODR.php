@@ -38,6 +38,11 @@ class ODR
      */
     private $fillInDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="oDRs")
+     */
+    private $student;
+
     public function __construct()
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
@@ -121,6 +126,18 @@ class ODR
     public function setFillInDate($fillInDate)
     {
         $this->fillInDate = \DateTime::createFromFormat('Y-m-d', $fillInDate);
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }

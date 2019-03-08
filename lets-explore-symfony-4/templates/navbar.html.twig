@@ -11,7 +11,7 @@
 
             <ul class="navbar-nav ml-auto">
                 {% if not app.user %}
-                <li class="nav-item text-right">
+                <li class="nav-item text-right ">
                     <a href="{{ path("registration") }}"><button type="button" class="btn btn-secondary btn-sm"><b>School Registration</button></a>
                 </li>
                 {% endif %}
@@ -92,12 +92,16 @@
                     {% else %}
                         {% set logoutPath = 'app_logout' %}
                     {% endif %}
-
+                <li class="nav-item text-right">
                     <a href="{{ path(logoutPath) }}">
                         <button type="button" class="btn btn-primary btn-sm">Logout</button>
                     </a>
+                </li>
+
                 {% else %}
-                    <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm"> Code Login</button></a>
+                    <li class="nav-item text-right">
+                    <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm "> Code Login</button></a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

@@ -9,6 +9,7 @@
 namespace App\Form\Type;
 
 use App\Entity\POR;
+use App\Entity\Student;
 use App\Entity\LocationTag;
 use App\Entity\MatrixBehavior;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,6 +24,23 @@ class PORType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $builder->add('student', EntityType::class, [
+            // looks for choices from this entity
+            'class' => Student::class,
+
+            // uses the User.username property as the visible option string
+            'choice_label' => 'code',
+            'attr' => array(
+                'class' => 'custom-select custom-select-md'),
+            //non si vede il bordo
+            // used to render a select box, check boxes or radios
+            // 'multiple' => true,
+            // 'expanded' => true,
+            'label'=>false,
+
+        ]);
+
         $builder->add('positiveBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MatrixBehavior::class,
