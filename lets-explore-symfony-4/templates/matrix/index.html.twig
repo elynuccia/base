@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% block main %}
 
 
@@ -66,10 +68,22 @@
 {% endblock %}
 
 {% block stylesheets %}
+
+        {{ parent() }}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href={{ asset('css/addons-pro/bootstrap.min.css') }} >
+        <link rel="stylesheet" href={{ asset('css/addons-pro/mdb.min.css') }} >
+
+
+
     <style>
-        ul li {
-            list-style-type: none;
+
+
+        select {
+            display:none !important;
         }
+
     </style>
 {% endblock %}
 

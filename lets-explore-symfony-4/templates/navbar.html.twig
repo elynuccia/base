@@ -55,7 +55,7 @@
                        aria-expanded="false"><b>School Tools</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
-                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 5}) }}">Minor and Major</a>
+                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 7}) }}">Minor and Major</a>
                         <a class="dropdown-item" href="{{ path('rewards') }}">Rewards Menu</a>
                     {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
                         <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 1}) }}">Access Data Generator</a>
@@ -81,27 +81,36 @@
                 {% endif %}
                 {% if not app.user %}
                 <li class="nav-item">
-                    <a href="/connect/auth0"><button type="button" class="btn btn-primary btn-sm">Teacher Login</button></a>
+                    <div class="dropdown">
+
+                        <!--Trigger-->
+                        <a class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Login</a>
+
+
+                        <!--Menu-->
+                        <div class="dropdown-menu dropdown-primary">
+                            <a class="dropdown-item" href="/connect/auth0">Teacher Login</a>
+                            <a class="dropdown-item" href="{{ path("app_login") }}">Code Login</a>
+
+                        </div>
+                    </div>
+                    <!--/Dropdown primary-->
+
                 </li>
-                {% endif %}
 
-                {% if app.user %}
-
+                {% else  %}
                     {% if instanceOf(app.user, 'User') %}
                         {% set logoutPath = 'logout' %}
                     {% else %}
                         {% set logoutPath = 'app_logout' %}
                     {% endif %}
-                <li class="nav-item text-right">
-                    <a href="{{ path(logoutPath) }}">
-                        <button type="button" class="btn btn-primary btn-sm">Logout</button>
-                    </a>
-                </li>
-
-                {% else %}
                     <li class="nav-item text-right">
-                    <a href="{{ path("app_login") }}"><button type="button" class="btn btn-primary btn-sm "> Code Login</button></a>
+                        <a href="{{ path(logoutPath) }}">
+                            <button type="button" class="btn btn-primary btn-sm">Logout</button>
+                        </a>
                     </li>
+
                 {% endif %}
             </ul>
         </div>

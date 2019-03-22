@@ -14,6 +14,11 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     public function loadUserByUsername($username)
     {
         $auth0User = $this->auth0Api->getUserByUsername($username);
+        //dump($auth0User); exit;
+
+        if(!isset($auth0User[0]->user_metadata)) {
+            $this->auth0Api->initUserMetadata($username);
+        }
 
         if(!isset($auth0User[0]->user_metadata->role) ||
             !in_array('ROLE_USER', $auth0User[0]->user_metadata->role) ||
@@ -24,7 +29,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $auth0User = $this->auth0Api->getUserByUsername($username);
         }
 
-       //  dump($auth0User); exit;
 
         $username = (isset($auth0User[0]->username)) ? $auth0User[0]->username : $auth0User[0]->nickname;
         $user = new User();

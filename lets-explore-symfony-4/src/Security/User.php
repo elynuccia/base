@@ -176,6 +176,7 @@ class User implements UserInterface
      */
     public function getStudents()
     {
+        //dump($this->students); exit;
         return json_decode($this->students);
     }
 

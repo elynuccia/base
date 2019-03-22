@@ -4,17 +4,13 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Font Awesome -->
+
+    {{ parent() }}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
-    <!-- Your custom styles (optional) -->
 
+    <link rel="stylesheet" href={{ asset('css/addons-pro/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/addons-pro/mdb.min.css') }} >
 
-    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
-    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
 
 {% endblock %}
 
@@ -49,14 +45,15 @@
 
 
 <div class="card-deck">
-    {% for reward in rewards|slice(1,6) %}
+    {% for reward in rewards|slice(1,3) %}
 
   <!-- Card -->
   <div class="card mb-4">
 
     <!--Card image-->
     <div class="view overlay">
-      <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/{{ reward | length }}.jpg" alt="Card image cap">
+
+      <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/56.jpg" alt="Card image cap">
       <a href="#!">
         <div class="mask rgba-white-slight"></div>
       </a>
@@ -70,7 +67,7 @@
       <!--Text-->
       <p class="card-text">{{ reward.value }} points</p>
       <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
-      <button type="button" class="btn btn-light-blue btn-md">Assign it</button>
+      <button type="button" id="assign" class="btn btn-light-blue btn-md">Assign it</button>
 
     </div>
 
@@ -110,6 +107,10 @@
         $(document).ready( function() {
             $('#ciao').on('click', function() {
               alert();
+            });
+
+             $('#assign').on('click', function() {
+              alert("Successfully assigned!");
             });
         });
 

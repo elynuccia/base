@@ -63,6 +63,22 @@ class Auth0Api {
         return $usersArray;
     }
 
+    public function initUserMetadata($userId)
+    {
+        $response = $this->guzzleClient->patch($this->baseUri . 'users/' . $userId, array(
+            'headers' => array (
+                'Authorization' => $this->authorizationHeader
+            ),
+            'form_params' => [
+                'user_metadata' => '{}'
+            ],
+        ));
+        //student
+
+        return json_decode($response->getBody()->getContents());
+
+    }
+
     public function updateUserMetadata($userId, $role)
     {
         $response = $this->guzzleClient->patch($this->baseUri . 'users/' . $userId, array(

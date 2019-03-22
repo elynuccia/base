@@ -52,7 +52,7 @@ class CicoType extends AbstractType
             // uses the User.username property as the visible option string
             'choice_label' => 'code',
             'attr' => array(
-                'class' => 'custom-select custom-select-md'),
+                'class' => 'mdb-select md-form'),
             //non si vede il bordo
             // used to render a select box, check boxes or radios
             // 'multiple' => true,

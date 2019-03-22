@@ -83,11 +83,14 @@
 
                                                 </div>
                                             </div>
+                                            <div class="row"><div class="col-md-12"><br></div></div>
                                             <!--/.Card Data-->
 
                                             <!--Card content-->
                                             <canvas id="doughnutChart"></canvas>
-
+                                            <div class="row"><div class="col-md-12"><br></div></div>
+                                            <div class="row"><div class="col-md-12"><br></div></div>
+                                            <div class="row"><div class="col-md-12"><br></div></div>
 
                                             <!--/.Card content-->
 
@@ -229,7 +232,11 @@
                                                         <td>Dress Code Violation</td>
                                                         <td>1</td>
                                                     </tr>
-
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Noisy</td>
+                                                        <td>1</td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -349,10 +356,10 @@
                                         </table>
                                         <!-- Table  -->
                                         <div class="text-right">
-                                        Available Points: 30
+                                        Available Points: <span id="points">30</span>
                                         </div>
                                         <div class="text-right">
-                                        <button class="btn green">Assign it
+                                        <button class="btn green" id="assign">Assign it
                                         </button>
                                         </div>
                                     </div>
@@ -398,6 +405,12 @@
     {{ parent () }}
     <script>
         $(".button-collapse").sideNav();
+
+        $('#assign').on('click', function() {
+            alert("Successfully assigned!");
+            $('#points').html("20");
+
+        });
 
         var container = document.querySelector('.custom-scrollbar');
         Ps.initialize(container, {
@@ -474,7 +487,7 @@
                 "labels": ["Be On Time", "Keep the classroom tidy", "Wait your turn", "Throw paper into the bin"],
                 "datasets": [{
                     "label": "PORs",
-                    "data": [22, 33, 55, 12],
+                    "data": [10, 8, 4, 1],
                     "fill": false,
                     "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
                         "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)"
@@ -503,15 +516,15 @@
         new Chart(document.getElementById("horizontalBar2"), {
             "type": "horizontalBar",
             "data": {
-                "labels": ["Tardy", "Inappropriate Language", "Dress Code Violation"],
+                "labels": ["Tardy", "Inappropriate Language", "Dress Code Violation", "Noisy"],
                 "datasets": [{
                     "label": "ODRs",
-                    "data": [22, 33, 55],
+                    "data": [5, 3, 1, 1],
                     "fill": false,
                     "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-                        "rgba(255, 205, 86, 0.2)"
+                        "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)"
                     ],
-                    "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)"
+                    "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)","rgb(75, 192, 192)"
                     ],
                     "borderWidth": 1
                 }]

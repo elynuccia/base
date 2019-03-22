@@ -4,12 +4,10 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
     <!-- Your custom styles (optional) -->
 
 
@@ -92,6 +90,8 @@
 
 
         $(document).ready( function() {
+            $('.mdb-select').material_select();
+
             $("input[id*='fillInDate']").pickadate({
                 format: 'yyyy-mm-dd',
                 today: 'Today',
