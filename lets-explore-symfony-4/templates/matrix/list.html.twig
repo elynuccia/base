@@ -77,10 +77,10 @@
                                         {% set sizeColumn = 1 %}
                                     {% endif %}
 
-                                    <div class="col-{{ sizeFirstColumn }}"><strong>Expectations & Locations</strong></div>
+                                    <div class="col-{{ sizeFirstColumn }}"><h4 class="font-weight-bold black-text"> Expectations & Locations</h4></div>
 
                                     {% for expectation in matrix.expectationTags %}
-                                        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">  {{ expectation.name }} </div>
+                                        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}"> <h8 class="font-weight-bold dark-grey-text"> {{ expectation.name }}</h8> </div>
                                     {% endfor %}
 
                                 </div>
@@ -88,10 +88,10 @@
                                 {% for location in matrix.locationTags %}
                                     <div class="row">
 
-                                        <div class="col-{{ sizeFirstColumn }} col-sm-{{ sizeFirstColumn }}"> {{ location.name }} </div>
+                                        <div class="col-{{ sizeFirstColumn }} col-sm-{{ sizeFirstColumn }}"> <h8 class="font-weight-bold dark-grey-text">{{ location.name }}</h8> </div>
 
                                         {% for expectation in matrix.expectationTags %}
-                                            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+                                            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}" style="font-size: large" >
                                                 {{ render(controller(
                                                     'App\\Controller\\MatrixController::getBehaviorsByExpectationAndLocationAction',
                                                     {

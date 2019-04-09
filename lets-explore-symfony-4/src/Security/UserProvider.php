@@ -11,14 +11,61 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     {
         $this->auth0Api = $auth0Api;
     }
+
+
+    public function loadUserByUserId($userId)
+    {
+        $auth0User = $this->auth0Api->getUserByUserId($userId);
+
+        //var_dump($auth0User->user_metadata); exit;
+
+        if(!isset($auth0User->user_metadata)) {
+            $auth0User->user_metadata  = new \stdClass();
+            $auth0User->user_metadata->role = [];
+        }
+
+        if(!isset($auth0User->user_metadata->role) ||
+            !in_array('ROLE_USER', $auth0User->user_metadata->role) ||
+            !in_array('ROLE_0AUTH_USER', $auth0User->user_metadata->role)
+        ) {
+            //dump($auth0User); exit;
+            $this->updateRoles($auth0User->user_id, $auth0User->user_metadata->role);
+
+            $auth0User = $this->auth0Api->getUserByUserId($userId);
+        }
+
+
+        $username = (isset($auth0User->username)) ? $auth0User->username : $auth0User->nickname;
+        $user = new User();
+        $user->setEmail($auth0User->email);
+        $user->setName($auth0User->name);
+        $user->setGivenName($auth0User->given_name);
+        $user->setPicture($auth0User->picture);
+        $user->setUserId($auth0User->user_id);
+        $user->setUsername($username);
+        $user->setLastLogin($auth0User->last_login);
+        $user->setLastIp($auth0User->last_ip);
+        $user->setLoginCount($auth0User->logins_count);
+
+        if(isset($auth0User->user_metadata->role)) {
+            foreach ($auth0User->user_metadata->role as $role) {
+                $user->addRole($role);
+            }
+        }
+
+        if(isset($auth0User->user_metadata->students)) {
+            $user->setStudents($auth0User->user_metadata->students);
+        }
+
+        return $user;
+    }
+
     public function loadUserByUsername($username)
     {
         $auth0User = $this->auth0Api->getUserByUsername($username);
         //dump($auth0User); exit;
 
-        if(!isset($auth0User[0]->user_metadata)) {
-            $this->auth0Api->initUserMetadata($username);
-        }
+        
 
         if(!isset($auth0User[0]->user_metadata->role) ||
             !in_array('ROLE_USER', $auth0User[0]->user_metadata->role) ||
@@ -57,7 +104,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        return $this->loadUserByUsername($response->getNickname());
+        return $this->loadUserByUserId($response->getData()['sub']);
     }
 
     public function refreshUser(UserInterface $user)

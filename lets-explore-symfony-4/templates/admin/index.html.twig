@@ -23,9 +23,9 @@
    <h1>User Roles</h1>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="btn-group pull-right">
-                <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-primary btn-outline " data-toggle="dropdown" aria-expanded="false">
                     Roles
                     <i class="fa fa-angle-down"></i>
                 </button>
@@ -43,14 +43,14 @@
                 </ul>
             </div>
         </div>
-    </div>
+        <div class="col-md-4">
+
+        </div>
 
 {% for user in users %}
     <div class="row">
-        <div class="col">
-             {#{ user.name #}
-        </div>
-        <div class="col">
+
+        <div class="col-md-12">
             {{ form_row(form.check) }}
         </div>
     </div>

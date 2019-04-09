@@ -70,7 +70,7 @@
 
         // setup an "add a tag" link
         var $addTagLink = $('<button id="plus" class="btn btn-success btn-add"  type="button">\n' +
-            '                                    Add <span class="glyphicon glyphicon-plus"></span>\n' +
+            '                                    Add ' +
             '                                </button>');
         var $newLinkLi = $('<li></li>').append($addTagLink);
 
@@ -145,7 +145,7 @@
         function addTagFormDeleteLink($tagFormLi, index) {
             var $removeFormA = $('<div data-index="' + index + '" class="md-form col-4 ml-auto"><span class="input-group-btn">\n' +
                 '                               <button id="minus" class="btn btn-danger btn-add" type="button">\n' +
-                '                                   Delete <span class="glyphicon glyphicon-plus"></span>\n' +
+                '                                   Delete ' +
                 '                               </button>\n' +
                 '                           </span></div>');
             $tagFormLi.append($removeFormA);

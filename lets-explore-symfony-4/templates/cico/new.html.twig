@@ -27,15 +27,16 @@
 
                 {{ form_start(form) }}
                 <div class="row">
-                    <div class="col-md-9">
-                <h2 class="pb-5">Student:{{ form_row(form.student) }}
-                </h2>
+                    <div class="col-md-4">
+                <h5>Student:{{ form_row(form.student) }}
+                </h5>
                     </div>
-                <div id="goals" class="col-md-3"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
+                    <div class="col-md-4"></div>
+                <div id="goals" class="col-md-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
                 </div>
 
    <div class="row">
-       <div class="col-md-9">
+       <div class="col-md-6">
 
     <label for="customRange1">Goal percentage</label>
            <input type="range" id="customRange1" value="80" min="0" max="100" />
