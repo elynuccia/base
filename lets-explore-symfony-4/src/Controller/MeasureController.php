@@ -1,25 +1,19 @@
 <?php
-
 namespace App\Controller;
-
 use App\Form\Handler\CalendarFormHandler;
 use App\Form\Type\CalendarType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
-
 use App\Entity\Measure;
 use App\Entity\Observation;
 use App\Form\Handler\MeasureFormHandler;
 use App\Form\Type\MeasureType;
-
 use App\Form\Builder\FormBuilder;
 use App\Form\Handler\ItemFormHandler;
-
 /**
  * @Route("/measure")
  *
@@ -37,7 +31,6 @@ class MeasureController extends Controller
     CONST NEW_TITLE = 'Insert new observation';
     CONST EDIT_TITLE = 'Edit observation';
     CONST INDEX_TITLE = 'List of observations';
-
     /**
      * @Route("/list", name="measure_list")
      * @Method({"GET"})
@@ -51,13 +44,11 @@ class MeasureController extends Controller
         $records = $this->getDoctrine()->getRepository('App\Entity\Measure')->findByCreatorUserId(
             $this->getUser()->getUserId()
         );
-
         return array(
             'records' => $records,
             'title' => $this->get('translator')->trans(self::INDEX_TITLE)
         );
     }
-
     /**
      * @Route("/edit/{id}", name="measure_edit")
      * @Method({"GET", "POST"})
@@ -75,15 +66,12 @@ class MeasureController extends Controller
         $formHandler->setOriginalMeterItems($measure->getMeterItems());
         $formHandler->setOriginalRangeItems($measure->getRangeItems());
         $formHandler->setOriginalTextItems($measure->getTextItems());
-
         $form = $this->createForm(MeasureType::class, $measure, array(
             'action' => $this->generateUrl('measure_edit', array('id' => $measure->getId())),
         ));
-
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::EDIT_SUCCESS_STRING))) {
             return $this->redirect($this->generateUrl('measure_list'));
         }
-
         return $this->render('measure/new.html.twig',
             array(
                 'form' => $form->createView(),
@@ -93,7 +81,6 @@ class MeasureController extends Controller
             )
         );
     }
-
     /**
      * @Route("/new", name="measure_new")
      * @Method({"GET", "POST"})
@@ -107,29 +94,22 @@ class MeasureController extends Controller
     {
         $entity = new Measure();
         $entity->setCreatorUserId($this->getUser()->getUserId());
-
         $form = $this->createForm(MeasureType::class, $entity, array(
             'action' => $this->generateUrl('measure_new')
         ));
-
-
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING))) {
             return $this->redirect($this->generateUrl('measure_list'));
         }
-
         $numberOfItems = $form->get('choiceItems')->count() + $form->get('directObservationItems')->count() +
             $form->get('integerItems')->count() + $form->get('meterItems')->count() +
             $form->get('rangeItems')->count() + $form->get('textItems')->count();
-
         return array(
             'form' => $form->createView(),
             'title' => $this->get('translator')->trans(self::NEW_TITLE),
             'actionName' => 'New',
             'numberOfItems' => $numberOfItems
         );
-
     }
-
     /**
      * @Route("/delete/{ids}", name="measure_delete")
      * @Method({"GET"})
@@ -141,24 +121,17 @@ class MeasureController extends Controller
     public function deleteAction(Request $request)
     {
         $ids = json_decode($request->get('ids'), true);
-
         $em = $this->getDoctrine()->getManager();
-
         foreach($ids as $id) {
             $measure = $em->getRepository('App\Entity\Measure')->find($id);
-
             $em->remove($measure);
             $em->flush();
         }
-
         $this->get('session')->getFlashbag()->add('success', $this->get('translator')->trans(self::DELETE_SUCCESS_STRING));
-
         return $this->redirect($this->generateUrl('measure_list'));
-
     }
-
     /**
-     * @Route("/{id}", name="measure")
+     * @Route("/{id}/{token}", name="measure")
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -172,42 +145,35 @@ class MeasureController extends Controller
     public function createFormAction(Request $request,
                                      FormBuilder $formBuilder,
                                      Observation $observation,
-                                     ItemFormHandler $formHandler)
+                                     ItemFormHandler $formHandler,
+                                     $token)
     {
         $em = $this->getDoctrine()->getManager();
         $items = $em->getRepository('App\Entity\Item')->findItemsByMeasure($observation->getMeasure());
-
-        if(!$observation->getIsEnabled() || $observation->getObserverUserId() != $this->getUser()->getUserId()
-            || !$observation->isDateIncluded(new \DateTime())) {
-
-
-            $nextDate = ($observation->getObserverUserId() == $this->getUser()->getUserId()) ?
-                $em->getRepository('App\Entity\ObservationDate')->findNextObservationDate($observation) :
-                null;
-
+        if(!$observation->getIsEnabled() ||
+            !$observation->isDateIncluded(new \DateTime()) ||
+            $observation->getToken() != $token) {
+            $nextDate = $em->getRepository('App\Entity\ObservationDate')->findNextObservationDate($observation);
             return $this->render('measure/not_allowed.html.twig', array(
-                'nextDate' => $nextDate
+                'nextDate' => $nextDate,
+                'observation' => $observation
             ));
         }
-
         $formBuilder->addItems($items);
         $formBuilder->setAction($observation);
         $formBuilder->setObservationId($observation->getId());
         $formBuilder->setUserId($this->getUser()->getUserId());
-
         $form = $formBuilder->getForm()->getForm();
-
         if ($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_COMPLETE_SUCCESS_STRING))) {
-            return $this->redirect($this->generateUrl('measure', array('id' => $observation->getId())));
+            return $this->redirect($this->generateUrl('measure', array(
+                'id' => $observation->getId(),
+                'token' => $observation->getToken()
+            )));
         }
-
         return array(
             'form' => $form->createView(),
             'title' => 'Data gathering',
             'observation' => $observation
         );
-
     }
-
-
 }

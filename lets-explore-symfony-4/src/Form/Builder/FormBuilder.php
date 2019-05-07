@@ -1,14 +1,10 @@
 <?php
-
 namespace App\Form\Builder;
-
-use App\Entity\BehavioralRecordingItem;
 use App\Entity\DirectObservationItem;
 use App\Entity\IntegerItem;
 use App\Entity\MeterItem;
 use App\Entity\Observation;
 use App\Entity\RangeItem;
-use App\Form\Widget\BehavioralRecordingWidget;
 use App\Form\Widget\DirectObservationWidget;
 use App\Form\Widget\ChoiceWidget;
 use App\Form\Widget\IntegerWidget;
@@ -22,14 +18,11 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-
 class FormBuilder {
-
     private $form;
     private $formFactory;
     private $translator;
     private $urlGenerator;
-
     public function __construct(FormFactoryInterface $formFactoryInterface,
                                 UrlGeneratorInterface $urlGeneratorInterface,
                                 TranslatorInterface $translator)
@@ -37,11 +30,10 @@ class FormBuilder {
         $this->urlGenerator = $urlGeneratorInterface;
         $this->formFactory = $formFactoryInterface;
         $this->form = $this->formFactory->createBuilder()
-                    ->setMethod('POST')
+            ->setMethod('POST')
         ;
         $this->translator = $translator;
     }
-
     /**
      * @return \Symfony\Component\Form\FormBuilderInterface
      */
@@ -49,7 +41,6 @@ class FormBuilder {
     {
         return $this->form;
     }
-
     public function addItems($items)
     {
         foreach($items as $key => $item) {
@@ -74,34 +65,32 @@ class FormBuilder {
                     break;
             }
         }
-
         $this->form->add('submit', SubmitType::class);
     }
-
     public function setAction(Observation $observation)
     {
         $this->form->setAction(
             $this->urlGenerator->generate(
                 'measure',
-                array('id' => $observation->getId())
+                array(
+                    'id' => $observation->getId(),
+                    'token' => $observation->getToken()
+                )
             )
         );
     }
-
     public function setObservationId($observationId)
     {
         $this->form->add('observationId', HiddenType::class, array(
             'data' => $observationId,
         ));
     }
-
     public function setUserId($userId)
     {
         $this->form->add('userId', HiddenType::class, array(
             'data' => $userId,
         ));
     }
-
     private function addChoiceWidget(ChoiceItem $item)
     {
         $choiceWidget = new ChoiceWidget($this->translator);
@@ -110,10 +99,8 @@ class FormBuilder {
         $choiceWidget->setIsExpanded($item->getIsExpanded());
         $choiceWidget->setIsMultiple($item->getIsMultiple());
         $choiceWidget->setOptions(array_flip(explode(',', $item->getOptions())));
-
         $this->form = $choiceWidget->addField($this->form, 'item-' . $item->getId());
     }
-
     private function addDirectObservationWidget(DirectObservationItem $item)
     {
         $directObservationWidget = new DirectObservationWidget($this->translator);
@@ -122,20 +109,15 @@ class FormBuilder {
         $directObservationWidget->setIntervalLengthInSeconds($item->getIntervalLengthInSeconds());
         $directObservationWidget->setFeedbackForIntervalRecording($item->getFeedbackForIntervalRecording());
         $directObservationWidget->setTypology($item->getTypology());
-
         $this->form = $directObservationWidget->addField($this->form, 'item-' . $item->getId());
-
     }
-
     private function addIntegerWidget(IntegerItem $item)
     {
         $integerWidget = new IntegerWidget($this->translator);
         $integerWidget->setLabel($item->getLabel());
         $integerWidget->setValue($item->getFieldValue());
-
         $this->form = $integerWidget->addField($this->form, 'item-' . $item->getId());
     }
-
     private function addMeterWidget(MeterItem $item)
     {
         $meterWidget = new MeterWidget($this->translator);
@@ -149,10 +131,8 @@ class FormBuilder {
         $meterWidget->setLabelY($item->getLabelY());
         $meterWidget->setLabelMinY($item->getLabelMinY());
         $meterWidget->setLabelMaxY($item->getLabelMaxY());
-
         $this->form = $meterWidget->addField($this->form, 'item-' . $item->getId());
     }
-
     private function addRangeWidget(RangeItem $item)
     {
         $rangeWidget = new RangeWidget($this->translator);
@@ -160,18 +140,14 @@ class FormBuilder {
         $rangeWidget->setMax($item->getMax());
         $rangeWidget->setMin($item->getMin());
         $rangeWidget->setStep($item->getStep());
-
         $this->form = $rangeWidget->addField($this->form, 'item-' . $item->getId());
     }
-
     private function addTextWidget(TextItem $item)
     {
         $textWidget = new TextWidget($this->translator);
         $textWidget->setLabel($item->getLabel());
         $textWidget->setPlaceholder($item->getPlaceholder());
         $textWidget->setValue($item->getFieldValue());
-
         $this->form = $textWidget->addField($this->form, 'item-' . $item->getId());
     }
-
 }

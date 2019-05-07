@@ -1,6 +1,5 @@
 <?php
 namespace App\Form\Type\Custom;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
@@ -9,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Regex;
-
 class DirectObservationItemType extends AbstractType
 {
     /**
@@ -18,7 +16,6 @@ class DirectObservationItemType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-
         $view->vars = array_merge($view->vars, array(
             'observationLengthInMinutes' => str_pad($options['observation_length_in_minutes'], 2, '0', STR_PAD_LEFT) . ':00',
             'typology' => $options['typology'],
@@ -26,16 +23,15 @@ class DirectObservationItemType extends AbstractType
             'label' => $options['label']
         ));
     }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('observationLengthInMinutes', HiddenType::class, array(
-                    'data' => $options['observation_length_in_minutes']
-                )
+                'data' => $options['observation_length_in_minutes']
             )
+        )
             ->add('intervalLengthInSeconds', HiddenType::class, array(
                     'data' => $options['interval_length_in_seconds']
                 )
@@ -73,7 +69,6 @@ class DirectObservationItemType extends AbstractType
             )
         ;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -81,17 +76,15 @@ class DirectObservationItemType extends AbstractType
     {
         $defaults = array(
             'compound' => true,
-            'counter_value' => 0,
+            'counter_value' => -1,
             'interval_length_in_seconds' => null,
             'feedback_for_interval_recording' => null,
             'label' => '',
             'observation_length_in_minutes' => null,
             'typology' => null,
         );
-
         $resolver->setDefaults($defaults);
     }
-
     public function getParent()
     {
         return HiddenType::class;

@@ -42,7 +42,6 @@ class ScreeningToolType extends AbstractType
             ]);
 
 
-
         $builder->add('submit', SubmitType::class, array('label'=>'Save'));
         //  $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
 

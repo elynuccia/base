@@ -174,6 +174,9 @@ var AppCalendar = function() {
                         $(this).remove();
                     }
                 },
+                eventClick: function(calEvent, jsEvent, view) {
+                    window.location.assign('/measure/' + $('#calendar').data('observation-id') + '/' + $('#calendar').data('observation-token'));
+                },
                 eventDrop: function(event, delta, revertFunc) {
                     updateEvents();
                 },
@@ -182,14 +185,12 @@ var AppCalendar = function() {
                     updateEvents();
                 },
                 events: scheduledDates,
-
                 viewRender: function( view, element ) {
 
                     /*
                     y = '2018';
                     m = '09';
                     d = '01';
-
                     events = [{
                         title: 'All Day Event',
                         start: new Date(y, m, 1),
@@ -264,6 +265,6 @@ var AppCalendar = function() {
 
 }();
 
-jQuery(document).ready(function() {    
-   AppCalendar.init(); 
+jQuery(document).ready(function() {
+    AppCalendar.init();
 });

@@ -50,7 +50,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 coming-soon-header">
-            <a class="brand" href="{{ path('welcome') }}">
+            <a class="brand" href="{{ path('homepage') }}">
                 <img src="{{ asset('theme/assets/layouts/layout/img/logo.svg') }}" alt="logo" /> </a>
         </div>
     </div>
@@ -58,16 +58,20 @@
         <div class="col-md-6 coming-soon-content">
             {% block body %}
             <h1>You shall not pass!</h1>
-            {% if nextDate %}
-                <p>Your observation will start in...</p>
+            {% if observation.isEnabled %}
+                {% if nextDate %}
+                    <p>Your observation will start in...</p>
+                {% else %}
+                    <p> You are now allowed to access this page.</p>
+                {% endif %}
             {% else %}
-            <p> You are now allowed to access this page.</p>
+                The observation is not enabled
             {% endif %}
         </div>
         {% if nextDate %}
-        <div class="col-md-6 coming-soon-countdown">
-            <div id="defaultCountdown"> </div>
-        </div>
+            <div class="col-md-6 coming-soon-countdown">
+                <div id="defaultCountdown"> </div>
+            </div>
         {% endif %}
         {% endblock %}
     </div>
@@ -105,7 +109,6 @@
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script>
     var dateString = '';
-
     {% if nextDate %}
     var dateString = '{{ nextDate[0].startDateTimestamp | date('c') }}';
     {% endif %}

@@ -31,11 +31,10 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/datatables/datatables.min.css') }}">
     <link rel="stylesheet"
           href="{{ asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
 {% endblock %}
 
 {% block main %}
@@ -59,14 +58,14 @@
                         <a id="add-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
                             <i class="fa fa-plus"></i>
                         </a>
-                        <a id="enable-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                            <i class="fa fa-power-off"></i>
-                        </a>
                         <a id="data-analysis-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
                             <i class="fa fa-calendar"></i>
                         </a>
                         <a id="phase-list-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
                             <i class="fa fa-list-ol"></i>
+                        </a>
+                        <a id="share-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
+                            <i class="fa fa-share-square-o"></i>
                         </a>
                         <a id="edit-button" class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
                             <i class="fa fa-edit"></i>
@@ -93,7 +92,6 @@
                             <th> Name</th>
                             <th> Description</th>
                             <th> Enabled</th>
-                            <th> Observer</th>
                             <th> Categorized data</th>
                         </tr>
                         </thead>
@@ -103,7 +101,7 @@
                             <tr class="odd gradeX">
                                 <td>
                                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" class="checkboxes" value="{{ record.id }}"/>
+                                        <input type="checkbox" class="checkboxes" value="{{ record.id }}" data-token="{{ record.token }}"/>
                                         <span></span>
                                     </label>
                                 </td>
@@ -113,78 +111,38 @@
                                 </td>
                                 <td>
                                     {% if(record.isEnabled == '1') %}
-                                        {% set classname = 'label-success' %}
+                                        {% set imageName = asset('/icons/power-on.png') %}
                                     {% else %}
-                                        {% set classname = 'label-warning' %}
+                                        {% set imageName = asset('/icons/power-off.png') %}
                                     {% endif %}
-                                    <span class="label label-sm {{ classname }}">
-                                {{ record.slugIsEnabled }}
-                            </span>
+
+                                    <a href="{{ path('observation_enable_disable', { 'id': record.id }) }}"><img src="{{ imageName }}" width="30%"></a>
                                 </td>
-                                <td>{{ record.observerUsername }}</td>
                                 <td>
                                     {% set numberOfObservations = render(controller(
-                                    'App\\Controller\\ObservationController::numberAction',
-                                    { 'id': record.id }
-                                    )) %}
+                                        'App\\Controller\\ObservationController::numberAction',
+                                        { 'id': record.id }
+                                        )) %}
 
                                     {% set percentage = (numberOfObservations != 0) ?
-                                    record.countCategorizedData / numberOfObservations * 100 :
-                                    0
+                                        record.countCategorizedData / numberOfObservations * 100 :
+                                        0
                                     %}
 
                                     <div class="dashboard-stat2">
                                         <div class="progress-info">
                                             <div class="status">
                                                 <div class="status-title"> 0 </div>
-                                                <div class="status-number"> {{ percentage }}% ({{ record.CountCategorizedData }}/{{ numberOfObservations }})</div>
+                                                <div class="status-number"> {{ percentage | number_format(2) }}% ({{ record.CountCategorizedData }}/{{ numberOfObservations }})</div>
                                             </div>
 
                                             <div class="progress">
                                                 <span style="width: {{ percentage }}%; background-color: #36c6d3" class="progress-bar progress-bar-success">
-                                                    <span class="sr-only">{{ percentage }}% change</span>
+                                                    <span class="sr-only">{{ percentage | number_format(2) }}%</span>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-
-
-
-                                    <!--
-                                    <div class="row">
-                                        <div class="dashboard-stat2">
-                                            <div class="display">
-                                                <div class="number">
-                                                    <h3 class="font-blue-sharp">
-                                                        {% set numberOfObservations = render(controller(
-                                                            'App\\Controller\\ObservationController::numberAction',
-                                                            { 'id': record.id }
-                                                        )) %}
-
-                                                        {% set percentage = (numberOfObservations != 0) ?
-                                                        record.countCategorizedData / numberOfObservations * 100 :
-                                                        0
-                                                        %}
-
-                                                        <span data-counter="counterup" data-value="{{ numberOfObservations }}">
-                                                            {{ record.countCategorizedData }} / {{ numberOfObservations }}
-                                                        </span>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="progress-info">
-                                                <div class="progress">
-                                                <span style="width: {{ percentage }}%;" class="progress-bar progress-bar-success blue-sharp">
-                                                    <span class="sr-only">{{ percentage }}% change</span>
-                                                </span>
-                                                </div>
-                                                <div class="status">
-                                                    <div class="status-title"> 0 </div>
-                                                    <div class="status-number"> {{ percentage }}% </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
                                 </td>
                             </tr>
                         {% endfor %}
@@ -212,6 +170,77 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="share" tabindex="-1" role="basic" aria-hidden="true" style="display: none;" data-observation-id="">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Share</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Assign the observation to the observers sharing the following url:
+                                </div>
+                            </div>
+
+                            <div class="row top5">
+                                <div class="col-md-9">
+                                    <input id="observation-url" class="form-control col-lg-9" type="text" value="">
+                                </div>
+                                <div class="col-md-3">
+                                    <a id="copy-link-button" class="btn btn-icon-only btn-default" data-clipboard-text="">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                    <span id="copy-url-text">Copy url</span>
+                                </div>
+                            </div>
+
+                            <div class="row top5">
+                                <div class="col-md-12">
+                                    Insert the email addresses of the observers (press enter to add every new entry):
+                                </div>
+                            </div>
+
+                            <div class="row top5">
+                                <div class="col-md-12" style="color: red;">
+                                    <ul id="messages"></ul>
+                                </div>
+
+                                <div class="col-md-12">
+                                    {{ form_start(form) }}
+
+                                    {{ form_widget(form.notificationEmails) }}
+                                    {{ form_row(form.observationId) }}
+                                    {{ form_row(form._token) }}
+                                </div>
+                            </div>
+
+                            <div class="row top5">
+                                <div class="col-md-12">
+                                    <h4>Observers' list</h4>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <ul id="notified-users" class="list-group">
+
+                                </ul>
+                            </div>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -224,84 +253,165 @@
     <script src="{{ asset('theme/assets/pages/scripts/table-datatables-managed.js') }}"></script>
     <script src="{{ asset('theme/assets/global/plugins/jquery-bootpag/jquery.bootpag.min.js') }}"></script>
     <script src="{{ asset('theme/assets/pages/scripts/ui-general.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/clipboard.js/dist/clipboard.js') }}"></script>
+    <script src="{{ asset('theme/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
 
     <script>
         $( document ).ready(function() {
             $('#edit-button').addClass('opaque');
             $('#delete-button').addClass('opaque');
             $('#data-analysis-button').addClass('opaque');
-            $('#enable-button').addClass('opaque');
+            $('#share-button').addClass('opaque');
             $('#download-button').addClass('opaque');
             $('#phase-list-button').addClass('opaque');
         });
-
         $('#add-button').on('click', function(){
             if(!$(this).hasClass('opaque')) {
                 location.assign('{{ path('observation_new', { 'id': student.id }) }}');
             }
         });
-
         $('#edit-button').on('click', function(e){
             e.preventDefault();
-
             if(!$(this).hasClass('opaque')) {
                 location.assign('/observation/edit/' + $("#observation-datatable :checked").val());
             }
         });
-
         $('#data-analysis-button').on('click', function(){
             if(!$(this).hasClass('opaque')) {
                 location.assign('/calendar/' + $("#observation-datatable :checked").val());
             }
         });
-
         $('#delete-button').on('click', function(e){
             e.preventDefault();
-
             if(!$(this).hasClass('opaque')) {
                 ids = [];
-
                 $('.checkboxes').each(function() {
                     if($(this).is(':checked')) {
                         ids.push($(this).val());
                     }
                 });
-
                 if(ids.length > 0) {
                     $('#basic').modal('show');
-
                     $('#confirm-delete').data('url', '/observation/delete/{{ student.id }}/' + encodeURIComponent(JSON.stringify(ids)));
                 }
             }
         });
-
         $('#confirm-delete').click(function( event ) {
             window.location.href = $('#confirm-delete').data('url');
         });
-
-        $('#enable-button').on('click', function(){
-            ids = [];
-
-            $('.checkboxes').each(function() {
-                if($(this).is(':checked')) {
-                    ids.push($(this).val());
-                }
-            });
-
-            location.assign('/observation/enableDisable/{{ student.id }}/' + encodeURIComponent(JSON.stringify(ids)));
-        });
-
         $('#download-button').on('click', function() {
             if(!$(this).hasClass('opaque')) {
                 location.assign('/observation/download-data/' + $("#observation-datatable :checked").val());
             }
         });
-
         $('#phase-list-button').on('click', function() {
             if(!$(this).hasClass('opaque')) {
                 location.assign('/observation-phase/list/' + $("#observation-datatable :checked").val());
             }
         });
-
+        $('#notified-users').on('click', '.remove-email', function() {
+            ids = [];
+            $('.checkboxes').each(function() {
+                if($(this).is(':checked')) {
+                    ids.push($(this).val());
+                }
+            });
+            emailListElement = $(this).parent();
+            $.ajax({
+                url:"{{ path('observation_delete_notification_email') }}",
+                type:"GET",
+                data: {
+                    'email' : $(this).parent().text(),
+                    'observationId' : ids[0]
+                },
+                success: function(response) {
+                    $(emailListElement).remove();
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log(error);
+                }
+            });
+        });
+        $('#share-button').on('click', function() {
+            if(!$(this).hasClass('opaque')) {
+                $('#copy-url-text').html('Copy url');
+                $('#notified-users').empty();
+                $('#messages').empty();
+                ids = [];
+                tokens = [];
+                $('.checkboxes').each(function() {
+                    if($(this).is(':checked')) {
+                        ids.push($(this).val());
+                        tokens.push($(this).data('token'));
+                    }
+                });
+                $.ajax({
+                    url:"{{ path('observation_get_notification_emails') }}",
+                    type:"GET",
+                    data: {
+                        'observationId' : ids[0]
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#notified-users').append(
+                            response
+                        );
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                        console.log(error);
+                    }
+                });
+                $('#share').modal('show');
+                $('#share').data('observation-id', ids[0]);
+                $('#observation_notification_emails_observationId').val(ids[0]);
+                $('#observation_notification_emails_notificationEmails').tagsinput('removeAll');
+                observationUrl = '{{ baseUrl }}/measure/' + ids[0] + '/' + tokens[0];
+                $('#observation-url').val(observationUrl);
+                var clipboard = new ClipboardJS('.btn', {
+                    container: document.getElementById('share')
+                });
+                clipboard.on('success', function(e) {
+                    $('#observation-url').select();
+                    $('#copy-url-text').html('COPIED!');
+                    console.log(e);
+                });
+                clipboard.on('error', function(e) {
+                    console.log(e);
+                });
+                document.querySelector('#copy-link-button').addEventListener('click', function(){
+                    var copyButton = document.querySelector('#copy-link-button');
+                    copyButton.setAttribute('data-clipboard-text', observationUrl);
+                    copyButton.click();
+                });
+            }
+        });
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url:"{{ path('observation_save_notification_emails') }}",
+                type:"POST",
+                data: $( this ).serialize(),
+                success: function(response) {
+                    emails = $.parseJSON(response);
+                    $.each(emails, function(i, email) {
+                        $('#notified-users').append(
+                            '<li class="list-group-item">' + email + '<a name="Click here to remove the address" class="fa fa-trash remove-email"></a></li>'
+                        );
+                    });
+                    $('#share').modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    messages = $.parseJSON(xhr.responseText);
+                    $('#messages').empty();
+                    $.each(messages, function(i, message) {
+                        $('#messages').append('<li>' + message + '</li>');
+                    });
+                    console.log(xhr.responseText);
+                    console.log(error);
+                }
+            });
+        });
     </script>
 {% endblock %}

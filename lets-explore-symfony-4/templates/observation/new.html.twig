@@ -23,6 +23,12 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <style>
+            .form-control
+        {    display: block !important;
+
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -38,52 +44,31 @@
     <script src="{{ asset('theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('theme/assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/moment-with-locales-min.js') }}"></script>
-
     <script>
-        $( "#observation_base_observation_observerUsername" ).autocomplete({
-            source: "{{ path('user_search') }}",
-            minLength: 2,
-            select: function( event, ui ) {
-                event.preventDefault();
-                $('#observation_base_observation_observerUsername').val(jQuery(ui.item.label).text());
-                $('#observation_base_observation_observerUserId').val(ui.item.value);
-            },
-            focus: function(event, ui) {
-                event.preventDefault();
-                $("#observation_base_observation_observerUsername").val(jQuery(ui.item.label).text());
-            }
-        }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-                return $( "<li>" )
-                        .attr( "data-value", item.value )
-                        .append(item.label).html(item.label)
-                        .appendTo( ul );
-            };
-
-
         $( document ).ready(function() {
             showHideScheduler();
             //showHideTime();
             showHideRepeatOptions();
             showHideRepeatEndOptions();
-
             isSingleCaseDesign = ($("#observation_edit_base_observation_isSingleCaseDesign").is(':checked')) ? true : false;
-
             $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('state', isSingleCaseDesign);
             $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('size', 'small');
-
+            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('onText', 'Yes');
+            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('offText', 'No');
             $('#observation_observationScheduler_hasDates').bootstrapSwitch();
-
             moment.locale("en-GB");
-
             var $range = $(".js-range-slider");
-            var start = moment("2016-10-02 00:00", "YYYY-MM-DD HH:mm");
-            var end = moment("2016-10-03 00:00", "YYYY-MM-DD HH:mm");
-
+            var min = moment("2016-10-02 00:00", "YYYY-MM-DD HH:mm");
+            var max = moment("2016-10-03 00:00", "YYYY-MM-DD HH:mm");
+            var from = moment("2016-10-02 " + $('#observation_observationScheduler_timeRangeStartTime_hour').val() + ":" + $('#observation_observationScheduler_timeRangeStartTime_minute').val(), "YYYY-MM-DD HH:mm");
+            var to = moment("2016-10-03 " + $('#observation_observationScheduler_timeRangeEndTime_hour').val() + ":" + $('#observation_observationScheduler_timeRangeEndTime_hour').val(), "YYYY-MM-DD HH:mm");
             $range.ionRangeSlider({
                 type: "double",
                 grid: true,
-                min: start.format("x"),
-                max: end.format("x"),
+                min: min.format("x"),
+                max: max.format("x"),
+                from: from.format("x"),
+                to: to.format("x"),
                 step: 1800000,                // 30 minutes in ms
                 prettify: function (num) {
                     return moment(num, 'x').format("h:mm A");
@@ -91,17 +76,13 @@
                 onChange: changeTimeRangeValues,
                 onFinish: changeTimeRangeValues
             });
-
             function changeTimeRangeValues()
             {
                 slider = $range.data("ionRangeSlider");
-
                 fromHour = moment(slider.result.from).format('H');
                 fromMinutes = moment(slider.result.from).format('mm');
-
                 toHour = moment(slider.result.to).format('H');
                 toMinutes = moment(slider.result.to).format('mm');
-
                 if(slider.result.from == slider.result.to) {
                     $('#observation_observationScheduler_timeOption').val(2);
                     $('#observation_observationScheduler_exactTime_hour').val(fromHour);
@@ -112,45 +93,36 @@
                     $('#observation_observationScheduler_timeRangeStartTime_minute').val(fromMinutes);
                     $('#observation_observationScheduler_timeRangeEndTime_hour').val(toHour);
                     $('#observation_observationScheduler_timeRangeEndTime_minute').val(toMinutes);
-
                     if(isAllDay($range.data("ionRangeSlider"))) {
                         $('#observation_observationScheduler_timeOption').val(0);
                     }
                 }
             }
-
             function isAllDay(data)
             {
                 if(data.result.min == data.result.from && data.result.max == data.result.to) {
                     return true;
                 };
-
                 return false;
             }
         });
-
         $('#observation_observationScheduler_startDate').datepicker({
             format: 'yyyy-mm-dd',
             todayHighlight: true
         });
-
         $('#observation_observationScheduler_repeatEndDate').datepicker({
             format: 'yyyy-mm-dd',
             todayHighlight: true
         });
-
         $("#observation_observationScheduler_hasDates").bootstrapSwitch('onSwitchChange', function() {
             showHideScheduler();
         });
-
         $('#observation_observationScheduler_repeatOption').change(function() {
-           showHideRepeatOptions();
+            showHideRepeatOptions();
         });
-
         $('#observation_observationScheduler_repeatEndOption').change(function() {
-           showHideRepeatEndOptions();
+            showHideRepeatEndOptions();
         });
-
         function showHideRepeatOptions() {
             switch ($('#observation_observationScheduler_repeatOption').val()) {
                 case '0':
@@ -159,37 +131,32 @@
                     $('#observation_observationScheduler_repeatEndOption').parent().parent().hide();
                     $('#observation_observationScheduler_repeatEndAfterNumberOfOccurrences').parent().parent().hide();
                     $('#observation_observationScheduler_repeatEndDate').parent().parent().hide();
-
                     break;
-
                 case '1':
                     $('#observation_observationScheduler_weeklyNumberOfWeeks').parent().parent().show();
                     $('#observation_observationScheduler_weeklyDaysOfWeek').parent().parent().show();
                     $('#observation_observationScheduler_repeatEndOption').parent().parent().show();
                     $('#observation_observationScheduler_repeatEndAfterNumberOfOccurrences').parent().parent().show();
-
                     break;
             }
         }
-
         function showHideRepeatEndOptions() {
             if($('#observation_observationScheduler_repeatEndOption').is(":visible")) {
                 switch ($('#observation_observationScheduler_repeatEndOption').val()) {
                     case '0':
                         $('#observation_observationScheduler_repeatEndAfterNumberOfOccurrences').parent().parent().show();
                         $('#observation_observationScheduler_repeatEndDate').parent().parent().hide();
-
                         break;
-
                     case '1':
                         $('#observation_observationScheduler_repeatEndAfterNumberOfOccurrences').parent().parent().hide();
                         $('#observation_observationScheduler_repeatEndDate').parent().parent().show();
-
                         break;
+                    case '2':
+                        $('#observation_observationScheduler_repeatEndAfterNumberOfOccurrences').parent().parent().hide();
+                        $('#observation_observationScheduler_repeatEndDate').parent().parent().hide();
                 }
             }
         }
-
         function showHideScheduler() {
             if ($('#observation_observationScheduler_hasDates').prop("checked")) {
                 $('#scheduler').show();
@@ -222,8 +189,6 @@
         {{ form_row(form.base_observation.place) }}
         {{ form_row(form.base_observation.setting) }}
         {{ form_row(form.base_observation.measure) }}
-        {{ form_row(form.base_observation.observerUsername) }}
-        {{ form_row(form.base_observation.observerUserId) }}
         {{ form_row(form.base_observation.fillingInstructions) }}
 
         <div class="form-group">
@@ -232,6 +197,13 @@
                 {{ form_widget(form.observationScheduler.hasDates ) }}
             </div>
         </div>
+
+        {% if observation.id %}
+            <div class="note note-info">
+                <h4 class="block">Be careful!</h4>
+                <p> The dates already planned following today will be deleted to be replaced with the new ones. </p>
+            </div>
+        {% endif %}
 
         <div id="scheduler">
             {{ form_row(form.observationScheduler.startDate) }}
@@ -254,7 +226,7 @@
 
             {{ form_row(form.observationScheduler.repeatOption) }}
             {{ form_row(form.observationScheduler.weeklyNumberOfWeeks) }}
-            
+
             <div class="form-body">
                 <div class="form-group" style="display: block;">
                     <label class="col-md-3 control-label">Weekly days of week</label>
@@ -262,48 +234,62 @@
                     <div id="observation_observationScheduler_weeklyDaysOfWeek" class="col-md-9">
                         <div class="btn-group" data-toggle="buttons">
 
-                                <label class="btn btn-default active" for="observation_observationScheduler_weeklyDaysOfWeek_0"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_0"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="0"
-                                                type="checkbox"> Sun</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_1"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_1"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="1"
-                                                type="checkbox"> Mon</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_2"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_2"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="2"
-                                                type="checkbox"> Tue</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_3"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_3"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="3"
-                                                type="checkbox"> Wed</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_4"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_4"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="4"
-                                                type="checkbox"> Thu</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_5"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_5"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="5"
-                                                type="checkbox"> Fri</label>
-                                <label class="btn btn-default" for="observation_observationScheduler_weeklyDaysOfWeek_6"
-                                                             class=""><input
-                                                class="toggle"
-                                                id="observation_observationScheduler_weeklyDaysOfWeek_6"
-                                                name="observation[observationScheduler][weeklyDaysOfWeek][]" value="6"
-                                                type="checkbox"> Sat</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '0' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_0"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_0"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="0"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '0' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Sun</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '1' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_1"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_1"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="1"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '1' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Mon</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '2' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_2"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_2"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="2"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '2' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Tue</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '3' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_3"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_3"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="3"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '3' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Wed</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '4' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_4"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_4"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="4"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '4' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Thu</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '5' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_5"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_5"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="5"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '5' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Fri</label>
+                            <label class="btn btn-default {% if observation.observationScheduler and '6' in observation.observationScheduler.weeklyDaysOfWeek %}active{% endif %}" for="observation_observationScheduler_weeklyDaysOfWeek_6"
+                                   class=""><input
+                                        class="toggle"
+                                        id="observation_observationScheduler_weeklyDaysOfWeek_6"
+                                        name="observation[observationScheduler][weeklyDaysOfWeek][]" value="6"
+                                        type="checkbox"
+                                        {% if observation.observationScheduler and '6' in observation.observationScheduler.weeklyDaysOfWeek %}checked{% endif %}
+                                > Sat</label>
 
                         </div>
                     </div>
@@ -320,7 +306,7 @@
 
             {{ form_end(form, {'render_rest': false}) }}
 
-    </div>
+        </div>
 
         <div class="form-actions">
             <div class="row">

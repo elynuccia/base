@@ -1,15 +1,9 @@
 <?php
 namespace App\Form\Type\Custom;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Validator\Constraints\Regex;
-
 class IntervalRecordingItemType extends AbstractType
 {
     /**
@@ -21,7 +15,6 @@ class IntervalRecordingItemType extends AbstractType
             ->add('isBehaviorOccurred', HiddenType::class)
         ;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -30,12 +23,6 @@ class IntervalRecordingItemType extends AbstractType
         $defaults = array(
             'compound' => true
         );
-
         $resolver->setDefaults($defaults);
-    }
-
-    public function getParent()
-    {
-        return HiddenType::class;
     }
 }

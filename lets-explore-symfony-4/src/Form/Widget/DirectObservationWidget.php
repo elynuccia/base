@@ -1,16 +1,11 @@
 <?php
-
 namespace App\Form\Widget;
-
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\Type\Custom\DirectObservationItemType;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-
 class DirectObservationWidget implements WidgetInterface {
-
     CONST ITEM_TYPOLOGY = 'direct-observation';
-
     private $label;
     private $observationLengthInMinutes;
     private $intervalLengthInSeconds;
@@ -18,12 +13,10 @@ class DirectObservationWidget implements WidgetInterface {
     private $typology;
     private $translator;
     private $value;
-
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
-
     public function addField(FormBuilderInterface $formBuilderInterface, $name)
     {
         $formBuilderInterface->add(
@@ -33,7 +26,7 @@ class DirectObservationWidget implements WidgetInterface {
                 'attr' => array(
                     'value' => $this->value
                 ),
-                'counter_value' => 0, //to be removed
+                'counter_value' => -1, //to be removed
                 'label' => $this->label,
                 'observation_length_in_minutes' => $this->observationLengthInMinutes,
                 'interval_length_in_seconds' => $this->intervalLengthInSeconds,
@@ -41,7 +34,6 @@ class DirectObservationWidget implements WidgetInterface {
                 'typology' => $this->typology
             )
         );
-
         $formBuilderInterface->add(
             $name . '-typology',
             HiddenType::class,
@@ -50,7 +42,6 @@ class DirectObservationWidget implements WidgetInterface {
                     'value' => self::ITEM_TYPOLOGY
                 )
             ));
-
         $formBuilderInterface->add(
             $name . '-label',
             HiddenType::class,
@@ -59,11 +50,8 @@ class DirectObservationWidget implements WidgetInterface {
                     'value' => $this->label
                 )
             ));
-
-
         return $formBuilderInterface;
     }
-
     /**
      * @return mixed
      */
@@ -71,7 +59,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->label;
     }
-
     /**
      * @param mixed $label
      */
@@ -79,7 +66,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->label = $label;
     }
-
     /**
      * @param mixed $intervalLengthInSeconds
      */
@@ -87,7 +73,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->intervalLengthInSeconds = $intervalLengthInSeconds;
     }
-
     /**
      * @return mixed
      */
@@ -95,7 +80,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->intervalLengthInSeconds;
     }
-
     /**
      * @return mixed
      */
@@ -103,7 +87,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->placeholder;
     }
-
     /**
      * @param mixed $placeholder
      */
@@ -111,7 +94,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->placeholder = $placeholder;
     }
-
     /**
      * @param mixed $typology
      */
@@ -119,7 +101,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->typology = $typology;
     }
-
     /**
      * @return mixed
      */
@@ -127,7 +108,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->typology;
     }
-
     /**
      * @return mixed
      */
@@ -135,7 +115,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->observationLengthInMinutes;
     }
-
     /**
      * @param mixed $observationLengthInMinutes
      */
@@ -143,7 +122,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->observationLengthInMinutes = $observationLengthInMinutes;
     }
-
     /**
      * @param mixed $feedbackForIntervalRecording
      */
@@ -151,7 +129,6 @@ class DirectObservationWidget implements WidgetInterface {
     {
         $this->feedbackForIntervalRecording = $feedbackForIntervalRecording;
     }
-
     /**
      * @return mixed
      */
@@ -159,6 +136,4 @@ class DirectObservationWidget implements WidgetInterface {
     {
         return $this->feedbackForIntervalRecording;
     }
-
-
 }

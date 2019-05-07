@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li>
+        <a href="{{ path('homepage') }}">Home</a>
+    </li>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/fullcalendar/fullcalendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme/assets/global/css/components.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+    <script src="{{ asset('theme/assets/global/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('theme/assets/apps/scripts/calendar-dashboard.js') }}"></script>
+    <script src="{{ asset('theme/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}"></script>
+
+
+    <script>
+        {% set backgroundColors = [
+            'red',
+            'yellow',
+            'purple',
+            'green',
+            'grey',
+            'blue'
+        ]
+        %}
+        {% set backgroundColorsWithoutDates = [
+            '#093145',
+            '#107896',
+            '#829356',
+            '#BCA136',
+            '#C2571A',
+            '#9A2617'
+        ]
+        %}
+        AppCalendar.setScheduledDates(
+            [
+                {% if((observationDates | length) > 0) %}
+                {% for observationDate in observationDates %}
+                {
+                    {% if (observationDate.startDateTimestamp | date('H:i:s')) == '00:00:00' and observationDate.endDateTimestamp | date('H:i:s') == '23:59:59' %}
+                    {% set allDay = 'true' %}
+                    {% else %}
+                    {% set allDay = 'false' %}
+                    {% endif %}
+                    {% if(loop.index0 != 0) %}
+                    {% if(observationDate.observation.id != observationDates[loop.index0 - 1].observation.id) %}
+                    {% set indexBackgroundColor = indexBackgroundColor + 1 %}
+                    {% endif %}
+                    {% else %}
+                    {% set indexBackgroundColor = 0 %}
+                    {% endif %}
+                    title: '{{ observationDate.observation.student.studentId | upper }}\n{{ observationDate.observation.name }}',
+                    start: new Date({{ observationDate.startDateTimestamp | date('Y') }}, {{ observationDate.startDateTimestamp | date('n') - 1 }}, {{ observationDate.startDateTimestamp | date('j') }}, {{ observationDate.startDateTimestamp | date('H') }}, {{ observationDate.startDateTimestamp | date('i') }}),
+                    end: new Date({{ observationDate.endDateTimestamp | date('Y') }}, {{ observationDate.endDateTimestamp | date('n') - 1 }}, {{ observationDate.endDateTimestamp | date('j') }}, {{ observationDate.endDateTimestamp | date('H') }}, {{ observationDate.endDateTimestamp | date('i') }}),
+                    allDay: {{ allDay }},
+                    backgroundColor: App.getBrandColor('{{ cycle(backgroundColors, indexBackgroundColor) }}'),
+                    observationId: '{{ observationDate.observation.id }}',
+                    observationToken: '{{ observationDate.observation.token }}'
+                }{% if loop.index != observationDates | length %},
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            ]
+        );
+        AppCalendar.setObservationsWithoutDates(
+            [
+                {% if((observationsWithoutDates | length) > 0) %}
+                {% for observationWithoutDate in observationsWithoutDates %}
+                {
+                    title: '{{ observationWithoutDate.student.studentId | upper }}\n{{ observationWithoutDate.name }}',
+                    backgroundColor: '{{ cycle(backgroundColorsWithoutDates, loop.index0) }}',
+                    observationId: '{{ observationWithoutDate.id }}',
+                    observationToken: '{{ observationWithoutDate.token }}'
+                }{% if loop.index != observationsWithoutDates | length %},
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            ]
+        );
+        $('.easy-pie-chart .number.transactions').easyPieChart({
+            animate: 1000,
+            size: 75,
+            lineWidth: 3,
+            barColor: App.getBrandColor('yellow')
+        });
+        $('.easy-pie-chart .number.visits').easyPieChart({
+            animate: 1000,
+            size: 75,
+            lineWidth: 3,
+            barColor: App.getBrandColor('green')
+        });
+        $('.easy-pie-chart .number.bounce').easyPieChart({
+            animate: 1000,
+            size: 75,
+            lineWidth: 3,
+            barColor: App.getBrandColor('red')
+        });
+        $('.easy-pie-chart-reload').click(function() {
+            $('.easy-pie-chart .number').each(function() {
+                var newValue = Math.floor(100 * Math.random());
+                $(this).data('easyPieChart').update(newValue);
+                $('span', this).text(newValue);
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    {% for message in app.flashes('success') %}
+        <div>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-xs-12 col-sm-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-cursor font-dark hide"></i>
+                        <span class="caption-subject font-dark bold uppercase">General Stats</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>{{ numberOfStudents }}</span>
+                                    </div>
+                                    <div class="desc"> Nr. of students </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="easy-pie-chart">
+                                <div class="number transactions" data-percent="{{ percentageCategorizedData }}">
+                                    <span>{{ percentageCategorizedData  }}</span>% </div>
+                                Categorized data
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-bottom-10 visible-sm"> </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-bar-chart-o"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>{{ numberOfMeasures }}</span>
+                                    </div>
+                                    <div class="desc"> Nr. of measures </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="portlet light portlet-fit bordered calendar">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class=" icon-layers font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase">Calendar</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div id="calendar" class="has-toolbar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet light portlet-fit bordered calendar">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-layers font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase">Data to be categorized</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-advance table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <i class="fa fa-user"></i> Student Id
+                                </th>
+                                <th class="hidden-xs">
+                                    <i class="fa fa-eye"></i> Observation name
+                                </th>
+                                <th class="hidden-xs">
+                                    <i class="fa fa-list-alt"></i> Description
+                                </th>
+                                <th>
+                                    <i class="fa fa-folder-open"></i> Uncategorized data
+                                </th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for data in dataToBeCategorized %}
+                                <tr>
+                                    <td class="highlight">
+                                        <div class="success"></div>
+                                        <a href="{{ path('observation_student_list', { 'id' : data.student.id } ) }}"> {{ data.student.studentId }} </a>
+                                    </td>
+                                    <td class="hidden-xs"> {{ data.observation.name }} </td>
+                                    <td class="hidden-xs"> {{ data.observation.description }} </td>
+                                    <td> {{ data.numberOfUncategorizedData }} </td>
+                                    <td>
+                                        <a href="{{ path('observation_phase_list', { 'id' : data.observation.id }) }}"
+                                           class="btn btn-outline btn-circle btn-sm dark black">
+                                            <i class="fa fa-search"></i> View </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

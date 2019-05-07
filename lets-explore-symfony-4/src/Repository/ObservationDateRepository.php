@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\ObservationDate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\Observation;
 
 /**
  * @method ObservationDate|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,19 @@ class ObservationDateRepository extends ServiceEntityRepository
         parent::__construct($registry, ObservationDate::class);
     }
 
+    public function deleteFromTomorrow(Observation $observation)
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder('o')
+            ->delete()
+            ->where('o.observation = :observation')
+            ->andWhere('o.startDateTimestamp >= :startDate')
+            ->setParameter('observation', $observation)
+            ->setParameter('startDate', $now->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->execute()
+            ;
+    }
     public function findByObservationIdAndDate()
     {
         return $this->createQueryBuilder('o')
@@ -31,23 +45,31 @@ class ObservationDateRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
     public function findIncomingObservations($numberOfHours)
     {
         $now = new \DateTime();
         $now->add(new \DateInterval('PT' . $numberOfHours . 'H'));
-
         return $this->createQueryBuilder('od')
             ->where('od.startDateTimestamp = :startDate')->setParameter('startDate', $now->format('Y-m-d H:i') . ':00')
             ->getQuery()
             ->getResult()
             ;
     }
-
+    public function findFutureObservations($creatorUserId)
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder('od')
+            ->join('od.observation', 'o')
+            ->where('od.startDateTimestamp >= :startDate')->setParameter('startDate', $now->format('U'))
+            ->andWhere('o.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
+            ->andWhere('o.isEnabled = 1')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     public function findNextObservationDate($observation)
     {
         $now = new \DateTime();
-
         return $this->createQueryBuilder('od')
             ->where('od.startDateTimestamp >= :now')->setParameter('now', $now->format('Y-m-d H:i') . ':00')
             ->andWhere('od.observation = :observation')->setParameter('observation', $observation)
@@ -56,34 +78,4 @@ class ObservationDateRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
-//    /**
-//     * @return ObservationDate[] Returns an array of ObservationDate objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ObservationDate
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

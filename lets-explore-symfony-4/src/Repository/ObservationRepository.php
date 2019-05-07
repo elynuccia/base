@@ -14,12 +14,34 @@ class ObservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Observation::class);
     }
 
+    public function findActiveObservationsByCreatorUserId($creatorUserId)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.isEnabled = 1')
+            ->andWhere('o.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findByStudentAndCreatorUserId(StudentBehave $studentBehave, $creatorUserId)
     {
         return $this->createQueryBuilder('o')
             ->join('o.student', 's')
             ->where('o.student = :student')->setParameter('student', $studentBehave)
             //->andWhere('s.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findWithoutDatesByCreatorUserId($creatorUserId)
+    {
+        return $this->createQueryBuilder('o')
+            ->join('o.observationScheduler', 'os')
+            ->where('o.isEnabled = 1')
+            ->andWhere('o.creatorUserId = :creatorUserId')->setParameter('creatorUserId', $creatorUserId)
+            ->andWhere('os.hasDates = 0')
             ->getQuery()
             ->getResult()
             ;

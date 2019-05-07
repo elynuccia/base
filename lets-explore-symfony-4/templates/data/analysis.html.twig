@@ -29,7 +29,7 @@
     </li>
 {% endblock %}
 
-{% block main %}
+{% block body %}
 
     <div class="row">
         <div class="col-md-12 col-sm-12">
@@ -116,7 +116,7 @@
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-directions font-green hide"></i>
-                        <span class="caption-subject bold font-dark uppercase "> Item be analyzed</span>
+                        <span class="caption-subject bold font-dark uppercase "> Items to be analyzed</span>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -146,12 +146,57 @@
 
                                     <div class="col-lg-{{ indexGrid }} bg-grey mt-step-col item-container" data-item-id="{{ key | split('-') | last }}">
                                         <div class="mt-step-number first bg-white font-grey">{{ loop.index }}</div>
-                                        <div class="mt-step-title uppercase font-grey-cascade">{{ itemValues.label }}</div>
-                                        <div class="mt-step-content font-grey-cascade"></div>
+                                        <div class="mt-step-title uppercase font-grey-cascade">
+                                            {{ itemValues.label }}
+
+                                            {% if('choice' in itemValues.typology) %}
+                                                <div class="pull-right">
+                                                    <input id="reverse-item-{{ key | split('-') | last }}" type="checkbox" name="reverse-item" >
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="mt-step-content font-grey-cascade">
+                                            {% if('choice' in itemValues.typology) %}
+                                                Click on the switch to analyze item reverse score.
+                                            {% endif %}
+                                        </div>
                                     </div>
 
                                 {% endfor %}
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="operations" class="row" style="display:none;">
+        <div class="col-md-12 col-sm-12">
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-directions font-green hide"></i>
+                        <span class="caption-subject bold font-dark uppercase "> Operations</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="mt-element-step">
+                        <div class="row step-thin">
+                            <div class="slider slider-nav">
+                                <div class="col-lg-6 bg-grey mt-step-col operation-container" data-operation="sum">
+                                    <div class="mt-step-number first bg-white font-grey">1</div>
+                                    <div class="mt-step-title uppercase font-grey-cascade">Sum</div>
+                                    <div class="mt-step-content font-grey-cascade">The selected items will be aggregated adding their raw data.</div>
+                                </div>
+
+                                <div class="col-lg-6 bg-grey mt-step-col operation-container" data-operation="mean">
+                                    <div class="mt-step-number first bg-white font-grey">2</div>
+                                    <div class="mt-step-title uppercase font-grey-cascade">Mean</div>
+                                    <div class="mt-step-content font-grey-cascade">The selected items will be aggregated calculting their mean.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -207,11 +252,22 @@
         </div>
     </div>
 
-    <div id="analysis_results"></div>
-{% endblock %}
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <div class="modal fade" id="warning-dialog-number-items" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Warning</h4>
+                </div>
+                <div class="modal-body"> You need to select at least 2 items to aggregate data</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id="analysis_results"></div>
 {% endblock %}
 
 {% block javascripts %}
@@ -226,7 +282,6 @@
         function rotate() {
             rotateArrow(parseFloat($("#analysis").val()));
         }
-
         function rotateArrow(val) {
             var newAngle = (val * 90) + (270);
             $("#SvgArrow").attr("transform", "rotate(" + newAngle + ")");
@@ -236,6 +291,31 @@
 
 
     <script>
+        function isReadyForAnalysis()
+        {
+            if ($('.phase-container.active').length == 2) {
+                if($('.item-container.active').length == 1) {
+                    return true;
+                }
+                if($('.item-container.active').length > 1 && $('.operation-container.active').length == 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        $("[name='reverse-item']").bootstrapSwitch();
+        $("[name='reverse-item']").bootstrapSwitch('onText', 'Yes');
+        $("[name='reverse-item']").bootstrapSwitch('offText', 'No');
+        $("[name='reverse-item']").on('switchChange.bootstrapSwitch', function (e, data) {
+            dataItemId = e.target.id.split('-').pop();
+            item = $(".item-container[data-item-id=" + dataItemId + "]");
+            if ($("[name='reverse-item']").bootstrapSwitch('state') === true && !$(item).hasClass('active')) {
+                $(item).addClass('active');
+            }
+            if(isReadyForAnalysis()) {
+                sendDataForAnalysis();
+            }
+        });
         $('#index-action li a').on('click', function(){
             switch($(this).data('index-id')) {
                 case 1:
@@ -245,9 +325,7 @@
                     rotateArrow(parseFloat($("#analysis").val()));
                     $('#alison-gorman-analysis').addClass('hidden');
                     $('#tau-u-analysis').removeClass('hidden');
-
                     break;
-
                 case 2:
                     $('#speedometer-title').text('Speedometer: ' + 'AvsB+trendB');
                     $('#analysis').val($('#r-a-vs-b-trend-b').text());
@@ -255,9 +333,7 @@
                     rotateArrow(parseFloat($("#analysis").val()));
                     $('#alison-gorman-analysis').addClass('hidden');
                     $('#tau-u-analysis').removeClass('hidden');
-
                     break;
-
                 case 3:
                     $('#speedometer-title').text('Speedometer: ' + 'AvsB');
                     $('#analysis').val($('#r-a-vs-b').text());
@@ -265,9 +341,7 @@
                     rotateArrow(parseFloat($("#analysis").val()));
                     $('#alison-gorman-analysis').addClass('hidden');
                     $('#tau-u-analysis').removeClass('hidden');
-
                     break;
-
                 case 4:
                     $('#speedometer-title').text('Speedometer: ' + 'Allison & Gorman');
                     $('#analysis').val($('#r-allison-gorman').text());
@@ -275,13 +349,9 @@
                     rotateArrow(parseFloat($("#analysis").val()));
                     $('#alison-gorman-analysis').removeClass('hidden');
                     $('#tau-u-analysis').addClass('hidden');
-
                     break;
             }
-
-
         });
-
         $('.phase-container').on('click', function () {
             if ($(this).hasClass('active')) {
                 $(this).removeClass('active');
@@ -289,41 +359,55 @@
                 if ($('.phase-container.active').length == 2) {
                     $('#warning-dialog-phase').modal('show');
                 } else {
-
                     if($(this).data('phase-count') < 4) {
                         $('#warning-dialog-number-observations').modal('show');
                     } else {
                         $(this).addClass('active');
-
-                        if ($('.phase-container.active').length == 2 && $('.item-container.active').length == 1) {
+                        if(isReadyForAnalysis()) {
                             sendDataForAnalysis();
                         }
                     }
                 }
             }
         });
-
         $('.item-container').on('click', function () {
-
-                $('.item-container').each(function(){
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+                if(isReadyForAnalysis()) {
+                    sendDataForAnalysis();
+                }
+            }
+            if ($('.item-container.active').length == 1) {
+                $('#operations').hide();
+            }
+            if ($('.item-container.active').length > 1) {
+                $('#operations').show();
+            }
+        });
+        $('.operation-container').on('click', function () {
+            if( ($(this).data('operation') == 'sum' || $(this).data('operation') == 'mean') && $('.item-container.active').length == 1) {
+                $('#warning-dialog-number-items').modal('show');
+            } else {
+                $('.operation-container').each(function(){
                     $(this).removeClass('active');
                 });
-
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active');
                 } else {
                     $(this).addClass('active');
                     sendDataForAnalysis();
                 }
-
+            }
         });
-
         function sendDataForAnalysis() {
+            operation = ($('.operation-container.active').data('operation')) ? $('.operation-container.active').data('operation') : 'none';
             selectedData = {};
             selectedData['phases'] = [];
-            selectedData['item-id'] = $('.item-container.active').data('item-id');
+            selectedData['items'] = [];
+            selectedData['operation'] = operation;
             selectedData['observation-name'] = '{{ observation.name }}';
-
             $('.phase-container.active').each(function() {
                 selectedData['phases'].push( {
                         'phase-name': $(this).data('phase-name'),
@@ -332,7 +416,14 @@
                     }
                 );
             });
-
+            $('.item-container.active').each(function() {
+                reverseScore = ($('#reverse-item-' + $(this).data('item-id')).prop('checked')) ? $('#reverse-item-' + $(this).data('item-id')).prop('checked') : false;
+                selectedData['items'].push( {
+                        'item-id': $(this).data('item-id'),
+                        'reverse-score': reverseScore
+                    }
+                );
+            });
             $.ajax({
                 url:"{{ path('data_analysis_results') }}",
                 type:"POST",
@@ -341,7 +432,6 @@
                 },
                 success:function(response) {
                     $('#analysis_results').html(response);
-
                     rotate();
                 },
                 error: function(xhr, status, error) {
@@ -349,10 +439,6 @@
                     console.log(error);
                 }
             });
-
         }
     </script>
-
-
 {% endblock %}
-

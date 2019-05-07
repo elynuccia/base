@@ -1,21 +1,15 @@
 <?php
 namespace App\Form\Type;
-
 use App\Entity\ObservationScheduler;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Symfony\Component\Form\CallbackTransformer;
-
 class ObservationSchedulerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,7 +20,7 @@ class ObservationSchedulerType extends AbstractType
             ))
             ->add('startDate', TextType::class, array(
                 'required' => false
-        ))
+            ))
             ->add('timeOption', ChoiceType::class, array(
                 'required' => false,
                 'placeholder' => false,
@@ -91,7 +85,8 @@ class ObservationSchedulerType extends AbstractType
                     'placeholder' => false,
                     'choices' => array(
                         'After' => 0,
-                        'On date' => 1
+                        'On date' => 1,
+                        '3 years' => 2
                     )
                 )
             )
@@ -105,7 +100,6 @@ class ObservationSchedulerType extends AbstractType
                 )
             )
         ;
-
         $builder->get('startDate')
             ->addModelTransformer(new CallbackTransformer(
                 function ($dateTimeToString) {
@@ -115,7 +109,6 @@ class ObservationSchedulerType extends AbstractType
                     return ($stringToDatetime) ? \DateTime::createFromFormat('Y-m-d', $stringToDatetime) : null;
                 }
             ));
-
         $builder->get('repeatEndDate')
             ->addModelTransformer(new CallbackTransformer(
                 function ($dateTimeToString) {
@@ -126,10 +119,7 @@ class ObservationSchedulerType extends AbstractType
                 }
             ))
         ;
-
-
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

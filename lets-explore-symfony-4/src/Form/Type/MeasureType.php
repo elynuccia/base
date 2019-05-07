@@ -1,22 +1,18 @@
 <?php
 namespace App\Form\Type;
-
 use App\Entity\Measure;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-
 use App\Form\Type\ChoiceItemType;
 use App\Form\Type\DirectObservationItemType;
 use App\Form\Type\IntegerItemType;
 use App\Form\Type\MeterItemType;
 use App\Form\Type\RangeItemType;
 use App\Form\Type\TextItemType;
-
 class MeasureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -36,7 +32,9 @@ class MeasureType extends AbstractType
                 'entry_type' => ChoiceItemType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'attr' => array(
+                    'class' => 'md-form')
             ))
             ->add('directObservationItems', CollectionType::class, array(
                 'entry_type' => DirectObservationItemType::class,
@@ -70,7 +68,6 @@ class MeasureType extends AbstractType
             ))
             ->add('submit', SubmitType::class);;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

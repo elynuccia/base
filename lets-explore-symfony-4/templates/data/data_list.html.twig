@@ -34,21 +34,12 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-          type="text/css"/>
-
-
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/slick/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/slick/slick/slick-theme.css') }}">
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
-
-
 
     <script src="{{ asset('theme/assets/global/plugins/slick/slick/slick.min.js') }}"></script>
     <script src="{{ asset('js/vendor/highcharts/6.1.1/highcharts.js') }}"></script>
@@ -65,7 +56,6 @@
             asNavFor: '.slider-nav'
         });
         $('.slider-nav').on('init', function(slick){
-
             slickCurrent = $('.col-lg-4.bg-grey.mt-step-col.slick-current');
             $(slickCurrent).addClass('active');
         });
@@ -77,12 +67,10 @@
             centerMode: true,
             focusOnSelect: true,
         });
-
         $('.slider-nav').on('afterChange', function(slick, currentSlide){
             currentSlide.$slideTrack.prevObject.each(function(){
                 $(this).removeClass('active');
             });
-
             $(currentSlide.$slideTrack.prevObject[currentSlide.currentSlide]).addClass('active');
         });
     </script>
@@ -93,17 +81,15 @@
 {% endblock %}
 
     {% block main %}
-
-
         {% if phaseData | length == 0 %}
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="note note-info">
-                    <h4 class="block">No data gathered!</h4>
-                    <p> When you'll get data, this section will show the raw data and a scatter plot for the item with a numeric reply.</p>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="note note-info">
+                        <h4 class="block">No data gathered!</h4>
+                        <p> When you'll get data, this section will show the raw data and a scatter plot for the item with a numeric reply.</p>
+                    </div>
                 </div>
             </div>
-        </div>
         {% else %}
             <div class="row">
                 <div class="col-md-6 col-sm-6">

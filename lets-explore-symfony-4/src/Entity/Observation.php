@@ -74,16 +74,6 @@ class Observation
     private $observationPhases;
 
     /**
-     * @ORM\Column(name="observer_user_id", type="string", length=255)
-     */
-    private $observerUserId;
-
-    /**
-     * @ORM\Column(name="observer_username", type="string", length=255)
-     */
-    private $observerUsername;
-
-    /**
      * @ORM\Column(name="creator_user_id", type="string", length=255)
      */
     private $creatorUserId;
@@ -109,6 +99,15 @@ class Observation
      * @ORM\Column(type="boolean")
      */
     private $isSingleCaseDesign;
+
+    /**
+     * @ORM\Column(type="string", length=40, unique=true)
+     */
+    private $token;
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $notificationEmails;
 
     public function __construct()
     {
@@ -352,22 +351,6 @@ class Observation
     }
 
     /**
-     * @param mixed $observerUsername
-     */
-    public function setObserverUsername($observerUsername)
-    {
-        $this->observerUsername = $observerUsername;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getObserverUsername()
-    {
-        return $this->observerUsername;
-    }
-
-    /**
      * @param mixed $creatorUserId
      */
     public function setCreatorUserId($creatorUserId)
@@ -421,6 +404,32 @@ class Observation
     {
         $this->isSingleCaseDesign = $isSingleCaseDesign;
 
+        return $this;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+    public function setToken(string $token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+    public function getNotificationEmails()
+    {
+        return $this->notificationEmails;
+    }
+    public function setNotificationEmails($notificationEmails)
+    {
+        $this->notificationEmails = $notificationEmails;
+        return $this;
+    }
+    public function deleteNotificationEmail($email)
+    {
+        if (($key = array_search(trim($email), $this->getNotificationEmails())) !== false) {
+            unset($this->notificationEmails[$key]);
+        }
         return $this;
     }
 }
