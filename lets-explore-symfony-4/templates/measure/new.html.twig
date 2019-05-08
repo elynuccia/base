@@ -243,6 +243,7 @@
     {    display: block !important;
 
     }
+
     </style>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
@@ -345,8 +346,8 @@
                 $ ('input[id*="options"]').tagsinput('refresh');
             }
             if(type == 'direct-observation') {
-                $('#measure_directObservationItems_' + newIndex + '_intervalLengthInSeconds').parent().parent().hide();
-                $('#measure_directObservationItems_' + newIndex + '_feedbackForIntervalRecording').parent().parent().hide();
+                $('#measure_directObservationItems_' + newIndex + '_intervalLengthInSeconds').parent().hide();
+                $('#measure_directObservationItems_' + newIndex + '_feedbackForIntervalRecording').parent().hide();
             }
         }
         function hideShowIntervalFeedback(element)
@@ -356,15 +357,15 @@
             switch($(element).val()) {
                 case 'duration':
                 case 'frequency':
-                    $('#' + intervalLengthInSecondsId).parent().parent().hide();
-                    $('#' + feedbackForIntervalRecordingId).parent().parent().hide();
+                    $('#' + intervalLengthInSecondsId).parent().hide();
+                    $('#' + feedbackForIntervalRecordingId).parent().hide();
                     console.log($('#' + intervalLengthInSecondsId));
                     break;
                 case 'whole-interval':
                 case 'partial-interval':
                 case 'momentary-time-sampling':
-                    $('#' + intervalLengthInSecondsId).parent().parent().show();
-                    $('#' + feedbackForIntervalRecordingId).parent().parent().show();
+                    $('#' + intervalLengthInSecondsId).parent().show();
+                    $('#' + feedbackForIntervalRecordingId).parent().show();
                     console.log($('#' + intervalLengthInSecondsId));
                     break;
             }

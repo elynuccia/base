@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <div class="mt-element-step">
+                            <div class="mt-element-step" > {#di metronic, non si vede correttamente#}
                                 <div class="row step-thin">
                                     <div class="slider slider-nav">
                                         {% for data in phaseData %}
@@ -128,6 +128,10 @@
                                                                 <li class="mt-list-item">
                                                                     {% if item.typology == 'choice-checkboxes' %}
                                                                         {% set itemValue = item.value | join(', ') %}
+                                                                    {% endif %}
+
+                                                                    {% if item.typology == 'choice-dropdown' %}
+                                                                        {% set itemValue = item.value %}
                                                                     {% endif %}
 
                                                                     {% if item.typology == 'choice-radio' %}

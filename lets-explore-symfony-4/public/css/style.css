@@ -36,6 +36,12 @@ select
 
 }
 
+
+.form-control
+{    display: block !important;
+
+}
+
 .md-form label{
 
     position: relative !important;
