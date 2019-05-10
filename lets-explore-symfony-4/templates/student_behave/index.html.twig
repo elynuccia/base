@@ -25,7 +25,7 @@
         </div>
     {% endfor %}
 
-    {% set femaleAvatars = [
+    {#% set femaleAvatars = [
     'avatar-01.png',
     'avatar-02.png',
     'avatar-03.png',
@@ -33,20 +33,13 @@
     'avatar-05.png',
     'avatar-06.png'
     ]
-    %}
+    %}#}
 
-    {% set maleAvatars = [
-    'avatar-07.png',
-    'avatar-08.png',
-    'avatar-09.png',
-    'avatar-10.png',
-    'avatar-11.png',
-    'avatar-12.png'
-    ]
-    %}
 
-    {% set indexMaleAvatar = 0 %}
-    {% set indexFemaleAvatar = 0 %}
+
+    {#% set indexMaleAvatar = 0 %}#}
+
+
 
     <div class="row">
         <div class="col-md-12">
@@ -56,18 +49,19 @@
                         <i class=" icon-layers font-dark"></i>
                         <span class="caption-subject font-dark bold uppercase">List</span>
                     </div>
-                    <div class="actions">
+                   {# <div class="actions">
                         <a id="add-button" class="btn btn-circle btn-icon-only btn-default" href="{{ path('student_new') }}">
                             <i class="fa fa-plus"></i>
                         </a>
-                    </div>
+                    </div>#}
                 </div>
                 <div class="portlet-body">
                     {% for record in records|batch(6) %}
                     <div class="mt-element-card mt-card-round mt-element-overlay">
                         <div class="row">
                             {% for child in record %}
-                                {% if child.sex == 0 %}
+
+                                {#% if child.sex == 0 %}
                                     {% set indexMaleAvatar = indexMaleAvatar + 1 %}
                                     {% if indexMaleAvatar == 6 %}
                                         {% set indexMaleAvatar = 0 %}
@@ -79,31 +73,27 @@
                                         {% set indexFemaleAvatar = 0 %}
                                     {% endif %}
                                 {% endif %}
+                                #}
 
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
                                     <div class="mt-card-item">
                                     <div class="mt-card-avatar mt-overlay-1">
+                                        <img  src="{{ asset('img/monster.png') }}" class="img-fluid" alt="Responsive image" style="width: 170px">
+                                        {#
                                         {% if child.sex == 0 %}
                                             <img src="{{ asset('images/' ~ cycle(maleAvatars, indexMaleAvatar)) }}">
                                         {% else %}
                                             <img src="{{ asset('images/' ~ cycle(femaleAvatars, indexFemaleAvatar)) }}">
                                         {% endif %}
+                                        #}
                                     </div>
-                                    <div class="mt-card-content">
-                                        <h3 class="mt-card-name">{{ child.studentId }}</h3>
+
+                                        <div class="mt-card-content">
+                                        <h3 class="mt-card-name">{{ child.nickname }}</h3>
 
                                         <div class="mt-card-social">
                                             <ul>
-                                                <li>
-                                                    <a href="{{ path('student_edit', {'id': child.id}) }}">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="delete" data-toggle="modal" data-url="{{ path('student_delete', {'id': child.id}) }}" href="#basic">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
+
                                                 <li>
                                                     <a href="{{ path('observation_student_list', {'id': child.id}) }}">
                                                         <i class="fa fa-eye"></i>

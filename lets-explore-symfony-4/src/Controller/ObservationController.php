@@ -90,17 +90,17 @@ class ObservationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexStudentAction(StudentBehave $studentBehave, Request $request)
+    public function indexStudentAction(Student $student, Request $request)
     {
-        $records = $this->getDoctrine()->getRepository('App\Entity\Observation')->findByStudentAndCreatorUserId(
-            $studentBehave,$this->getUser()->getUserId()
+        $records = $this->getDoctrine()->getRepository('App\Entity\Observation')->findByStudent(
+            $student
         );
         $form = $this->createForm(ObservationNotificationEmailsType::class, null, array());
         return array(
             'form' => $form->createView(),
             'records' => $records,
             'title' => $this->get('translator')->trans(self::INDEX_TITLE),
-            'student' => $studentBehave,
+            'student' => $student,
             'baseUrl' => $request->server->get('HTTP_HOST')
         );
     }
@@ -148,29 +148,25 @@ class ObservationController extends Controller
      * @param ObservationFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request, StudentBehave $studentBehave, ObservationFormHandler $formHandler)
+    public function newAction(Request $request, Student $student, ObservationFormHandler $formHandler)
     {
-        if($studentBehave->getCreatorUserId() != $this->getUser()->getUserId()) {
-            $response = new Response('not allowed');
-            $response->setStatusCode(403);
-            return $response;
-        }
+
         $entity = new Observation();
-        $entity->setStudent($studentBehave);
+        $entity->setStudent($student);
         $entity->setCreatorUserId($this->getUser()->getUserId());
         $form = $this->createForm(ObservationType::class, $entity, array(
-            'action' => $this->generateUrl('observation_new', array('id' => $studentBehave->getId())),
+            'action' => $this->generateUrl('observation_new', array('id' => $student->getId())),
             'creatorUserId' => $this->getUser()->getUserId()
         ));
 
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING))) {
-            return $this->redirect($this->generateUrl('observation_student_list', array('id' => $studentBehave->getId())));
+            return $this->redirect($this->generateUrl('observation_student_list', array('id' => $student->getId())));
         }
         return array(
             'observation' => $entity,
             'form' => $form->createView(),
             'title' => $this->get('translator')->trans(self::NEW_TITLE),
-            'student' => $studentBehave
+            'student' => $student
         );
     }
     /**

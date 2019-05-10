@@ -39,7 +39,7 @@ class StudentBehaveController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $records = $this->getDoctrine()->getRepository('App\Entity\StudentBehave')->findAll();
+        $records = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
 
 
         return array(

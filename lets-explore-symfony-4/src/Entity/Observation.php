@@ -79,7 +79,7 @@ class Observation
     private $creatorUserId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\StudentBehave", inversedBy="observations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="observations")
      */
     private $student;
 
