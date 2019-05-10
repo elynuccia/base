@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\School;
+use App\Utility\Auth0Api;
 use App\Entity\MinorAndMajorBehavior;
 use App\Form\Handler\MinorAndMajorFormHandler;
 use App\Form\Handler\SchoolFormHandler;
@@ -105,7 +106,7 @@ class SchoolController extends AbstractController
      * @Route("/generateaccessdata/{id}", name="generate_access_data")
      * @Template
      */
-    public function generateAccessDataAction(Request $request, School $school, CodeGeneratorFormHandler $formHandler, AccessDataGenerator $accessDataGenerator)
+    public function generateAccessDataAction(Request $request, School $school, Auth0Api $auth0Api, CodeGeneratorFormHandler $formHandler, AccessDataGenerator $accessDataGenerator)
     {
 
 
@@ -113,6 +114,7 @@ class SchoolController extends AbstractController
                return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
            }
 */
+       $user = $this->getUser();
 
         $form = $this->createForm(CodeGeneratorType::class);
 
@@ -131,6 +133,7 @@ class SchoolController extends AbstractController
             'school'=> $school,
             'studentdata' => $studentData,
             'personincharge' => $personInChargeData,
+            'user' => $user,
         ));
 
 

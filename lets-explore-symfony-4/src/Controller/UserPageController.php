@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Student;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Utility\Auth0Api;
@@ -30,6 +31,24 @@ class UserPageController extends AbstractController
         return $this->render('user/new.html.twig', array(
             'user'=>$user,
         ));
+    }
+
+    /**
+     * @Route("/studentdashboard/{id}", name="student_dashboard")
+     */
+    public function indexAction(Auth0Api $auth0Api, Student $student)
+    {
+
+        $user = $this->getUser();
+
+        // dump($auth0Api->getUsers(''));exit;
+        //dump($student);exit;
+
+        return $this->render('user/userdashboard.html.twig', array(
+            'user'=>$user,
+            'studentCode'=>$student->getCode()
+
+    ));
     }
 
     /**

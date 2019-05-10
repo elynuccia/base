@@ -13,6 +13,7 @@ use App\Entity\Student;
 use Doctrine\ORM\EntityManagerInterface;
 use chillerlan\QRCode\QRCode;
 
+
 class AccessDataGenerator
 {
     const ANIMALS = [
@@ -132,9 +133,11 @@ class AccessDataGenerator
         $this->qrCode = $QRCode;
     }
 
-    public function generateAccessData($number)
+    public function generateAccessData($number, $teacherUsername)
     {
+
         $results = array();
+
 
         for($i=1; $i<=$number; $i++) {
             $studentCode = $this->generateCode();
@@ -146,6 +149,7 @@ class AccessDataGenerator
             $student->setCode($studentCode);
             $student->setNickname($this->generateNickname());
             $student->setQrCode($this->generateQrCode($studentCode));
+            $student->setTeacherCoordinator($teacherUsername);
 
             $personInCharge->setCode($personInChargeCode);
             $personInCharge->setQrCode($this->generateQrCode($personInChargeCode));
