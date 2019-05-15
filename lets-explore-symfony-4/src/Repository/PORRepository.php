@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\POR;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -35,6 +36,40 @@ class PORRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countPORByStudent(Student $student)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+          FROM \App\Entity\POR por 
+          JOIN por.positiveBehaviors posBehavior
+          WHERE por.student = :student
+          GROUP BY posBehavior.id  
+          HAVING countPOR >= 1'
+        )->setParameter('student', $student);
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function countBestPORByStudent(Student $student)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+          FROM \App\Entity\POR por 
+          JOIN por.positiveBehaviors posBehavior
+          WHERE por.student = :student
+          GROUP BY posBehavior.id 
+          HAVING countPOR <= 3
+          ORDER BY countPOR DESC'
+        )->setParameter('student', $student);
+
+// returns an array of Product objects
+        return $query->execute();
+    }
     /*
     public function findOneBySomeField($value): ?POR
     {

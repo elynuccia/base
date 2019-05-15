@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ODR;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -34,6 +35,41 @@ class ODRRepository extends ServiceEntityRepository
           GROUP BY minMaj.id  
           HAVING countODR >= 1'
         );
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function countOdrByStudent(Student $student)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.id) as id, count(minMaj.id) AS countODR, minMaj.name
+          FROM \App\Entity\ODR odr 
+          JOIN odr.minorAndMajorBehaviors minMaj
+          WHERE odr.student = :student
+          GROUP BY minMaj.id  
+          HAVING countODR >= 1'
+        )->setParameter('student', $student);
+
+        // returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function countBestODRByStudent(Student $student)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.id) as id, count(minMaj.id) AS countODR, minMaj.name
+          FROM \App\Entity\ODR odr 
+          JOIN odr.minorAndMajorBehaviors minMaj
+          WHERE odr.student = :student
+          GROUP BY minMaj.id 
+          HAVING countODR <= 3
+          ORDER BY countODR DESC'
+        )->setParameter('student', $student);
 
 // returns an array of Product objects
         return $query->execute();

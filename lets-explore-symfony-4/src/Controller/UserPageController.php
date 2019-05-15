@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Entity\Rewards;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Utility\Auth0Api;
@@ -39,14 +40,26 @@ class UserPageController extends AbstractController
     public function indexAction(Auth0Api $auth0Api, Student $student)
     {
 
+        $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
+        $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
+        $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);
+        $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRByStudent($student);
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findAll();
+
+
         $user = $this->getUser();
 
         // dump($auth0Api->getUsers(''));exit;
-        //dump($student);exit;
+       // dump($odrs);exit;
 
         return $this->render('user/userdashboard.html.twig', array(
             'user'=>$user,
-            'studentCode'=>$student->getCode()
+            'studentCode'=>$student->getCode(),
+            'odrs' => $odrs,
+            'pors' => $pors,
+            'bestPors' => $bestPors,
+            'bestOdrs' => $bestOdrs,
+            'rewards' => $rewards
 
     ));
     }

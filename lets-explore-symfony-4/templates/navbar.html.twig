@@ -37,7 +37,7 @@
                         {% endif %}
 
                         {% if "ROLE_0AUTH_USER" in app.user.roles %}
-                        <a class="dropdown-item" href="{{ path('user_page') }}">User Page</a>
+                        <a class="dropdown-item" href="{{ path('student_dashboard', {'id': 1}) }}">User Page</a>
                         {% endif %}
 
                         {% if "ROLE_ADMIN" in app.user.roles %}

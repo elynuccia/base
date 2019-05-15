@@ -72,6 +72,7 @@ class CouchDbDataTransformer {
                         case 'choice-checkboxes':
                             break;
 
+                        case 'choice-dropdown':
                         case 'choice-radio':
                             if(is_int($value)) {
                                 $results['item-' . $itemNumber][] = (float) $value;
