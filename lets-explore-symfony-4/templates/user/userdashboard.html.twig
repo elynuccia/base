@@ -97,6 +97,7 @@
 
 
 {% block main %}
+
     <div class="container-fluid">
         {% if "ROLE_USER_PBS_TEAM_MEMBER" in app.user.roles %}
 
@@ -113,6 +114,8 @@
                             <h4 class="h4-responsive mb-0 ">Select a student</h4>
                         </div>
                        #}
+
+
                         <div id="aaa">
 
                         <!--Grid row-->
@@ -144,24 +147,24 @@
 
                                             <!-- Avatar -->
                                             <div class="avatar mx-auto white">
-                                                <img id="profilePicture" src="{{ user.picture  }}">
+                                                <img id="profilePicture" src="{{ student.qrCode  }}">
 
                                             </div>
 
                                             <!-- Content -->
                                             <div class="card-body">
                                                 <!-- Name -->
-                                                <h4 class="card-title"><b>{{ user.name }}</b></h4>
+                                                <h4 class="card-title"><b>{{ student.nickname }}</b></h4>
                                                 <hr>
                                                 <!-- Quotation -->
-                                                {% if 'ROLE_USER_PBS_TEAM_MEMBER' in user.roles %}
+                                                {#% if 'ROLE_USER_PBS_TEAM_MEMBER' in user.roles %}
                                                     <p><i class="fas"></i><b>Role: </b> PBS TEAM MEMBER {% if 'ROLE_USER_TEACHER_COORDINATOR' in user.roles %} AND TEACHER COORDINATOR  {% endif %}</p>
                                                 {% else %}
                                                     <p><i class="fas"></i><b>Role: </b> Teacher</p>
                                                 {% endif %}
+                                                #}
 
-
-                                                <p><i class="fas"></i><b>Email: </b> {{ user.email }}</p>
+                                                <p><i class="fas"></i><b>Cico Points: </b> {{ student.points }}</p>
                                             </div>
 
                                         </div>
@@ -175,11 +178,13 @@
                                                 <!--Card Data-->
                                                 <div class="admin-up">
                                                     <div class="data">
+
                                                         {% set sumOdr = 0%}{% for behavior in odrs %}{% set sumOdr= sumOdr + behavior.countODR %}{% endfor %}
                                                         {% set sumPor = 0%}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}
-
-                                                        <h4 class="section-heading mb-4 bold text-center"> {{ (sumOdr/(sumOdr+sumPor))*100 }}% ODRs and  {{ (sumPor/(sumOdr+sumPor))*100 }}% PORs </h4>
-
+                                                        {% if (sumOdr+sumPor) == 0 %}<h4 class="section-heading mb-4 bold text-center">No available data</h4>
+                                                        {% else %}
+                                                            <h4 class="section-heading mb-4 bold text-center">{{ ((sumOdr/(sumOdr+sumPor))*100)|round(2,'ceil')}}% ODRs and  {{ ((sumPor/(sumOdr+sumPor))*100)|round(2,'ceil') }}% PORs</h4>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="row"><div class="col-md-12"><br></div></div>
@@ -413,8 +418,8 @@
                                                     <th scope="row">
                                                         <!-- Material unchecked -->
                                                         <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="tableMaterialCheck2">
-                                                            <label class="form-check-label" for="tableMaterialCheck2"></label>
+                                                            <input type="checkbox" value="{{ reward.value }}" class="form-check-input" id="tableMaterialCheck{{ reward.id }}">
+                                                            <label class="form-check-label" for="tableMaterialCheck{{ reward.id }}"></label>
                                                         </div>
                                                     </th>
                                                     <td>{{ reward.name }}</td>
@@ -426,7 +431,7 @@
                                             </table>
                                             <!-- Table  -->
                                             <div class="text-right">
-                                                Available Points: <span id="points">30</span>
+                                                Available Points: <span id="points">{{ student.points }}</span>
                                             </div>
                                             <div class="text-right">
                                                 <button class="btn green" id="assign">Assign it
@@ -709,8 +714,7 @@
                                                 <div class="row"><div class="col-md-12"><br></div></div>
 
                                                 <div class="row"><canvas id="horizontalBar2"></canvas></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
+
 
                                                 <div class="text-center"><a class="rotate-btn" data-card="card-2"><button type="button" class="btn btn-outline-primary btn-rounded waves-effect">Table View</button> </a>
                                                 </div>
@@ -855,16 +859,23 @@
 
         $(document).ready( function() {
             $('#aa').hide();
+                $('#assign').on('click', function() {
+                    $totalPoints =0;
+
+                    $('input[type=checkbox]:checked').each(function() {
+
+
+                    });
+                });
+
+
+
         });
     </script>
     <script>
         $(".button-collapse").sideNav();
 
-        $('#assign').on('click', function() {
-            alert("Successfully assigned!");
-            $('#points').html("20");
 
-        });
 
         var container = document.querySelector('.custom-scrollbar');
         Ps.initialize(container, {
@@ -881,7 +892,7 @@
         var myLineChart = new Chart(ctxD, {
             type: 'doughnut',
             data: {
-                labels: ["ODR", "POR"],
+                labels: ["%ODR", "%POR"],
                 datasets: [{
                     data: [{% set sumOdr = 0 %}{% for behavior in odrs %}{% set sumOdr= sumOdr + behavior.countODR %}{% endfor %}{{ sumOdr }}
                         , {% set sumPor = 0 %}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}{{ sumPor }}],
@@ -902,10 +913,10 @@
         var myLineChart = new Chart(ctxL, {
             type: 'line',
             data: {
-                labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                labels: [{% for cico in cicos %}"{{ cico.fillInDate | date('Y-m-d') }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                 datasets: [{
                     label: "Line Goal",
-                    data: [80, 80, 80, 80, 80, 80],
+                    data: [{% for cico in cicos %}"{{ cico.threshold }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                     backgroundColor: [
                         'rgba(105, 0, 132, .2)',
                     ],
@@ -916,7 +927,7 @@
                 },
                     {
                         label: "Data",
-                        data: [65, 59, 80, 81, 56, 90],
+                        data: [{% for cico in cicos %}"{{ cico.sumDatas }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                         backgroundColor: [
                             'rgba(0, 137, 132, .2)',
                         ],

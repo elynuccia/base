@@ -36,6 +36,24 @@ class PORRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countBestPORById()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+          FROM \App\Entity\POR por 
+          JOIN por.positiveBehaviors posBehavior
+          GROUP BY posBehavior.id 
+          HAVING countPOR >=1
+          ORDER BY countPOR DESC
+          '
+        )->setMaxResults(3 );
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
     public function countPORByStudent(Student $student)
     {
         $entityManager = $this->getEntityManager();
@@ -63,9 +81,10 @@ class PORRepository extends ServiceEntityRepository
           JOIN por.positiveBehaviors posBehavior
           WHERE por.student = :student
           GROUP BY posBehavior.id 
-          HAVING countPOR <= 3
+          HAVING countPOR >=1
           ORDER BY countPOR DESC'
-        )->setParameter('student', $student);
+        )->setParameter('student', $student)
+            ->setMaxResults(3 );
 
 // returns an array of Product objects
         return $query->execute();

@@ -37,8 +37,8 @@ class CicoController extends AbstractController
         $cicoThreshold->setCico($cico);
 
         $cico->addCicoThreshold($cicoThreshold);
-
-        $cico->setGainedPoints(0);
+        //$gainedPoints=$cico->getGainedPoints();
+        $cico->setGainedPoints($cico->calculatePoints());
        /* $cicoThreshold = new CicoThreshold();
         $cicoThreshold->setCico($cico);
 

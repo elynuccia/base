@@ -85,6 +85,11 @@ class Student implements UserInterface
      */
     private $pORs;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $points;
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
@@ -412,6 +417,42 @@ class Student implements UserInterface
                 $pOR->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(?int $points): self
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    public function addPoints(?int $points): self
+    {
+        dump($points);
+        dump($this->points);
+
+        $this->points += $points;
+
+        dump($this->points);
+
+        return $this;
+    }
+
+    public function subPoints(?int $points): self
+    {
+        dump($points);
+        dump($this->points);
+
+        $this->points -= $points;
+
+        dump($this->points);
 
         return $this;
     }

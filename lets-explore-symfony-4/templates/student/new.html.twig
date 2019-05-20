@@ -9,6 +9,91 @@
     <link rel="stylesheet" href={{ asset('css/addons-pro/mdb.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/addons-pro/cards-extended.min.css') }} >
 
+    <style>.scrollbar-deep-purple::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-deep-purple::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-deep-purple::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #512da8; }
+
+        .scrollbar-cyan::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-cyan::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-cyan::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #00bcd4; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(330deg, #d4fc79 0%, #96e6a1 100%);
+            background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(330deg, #f093fb 0%, #f5576c 100%);
+            background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); }
+
+        .bordered-deep-purple::-webkit-scrollbar-track {
+            -webkit-box-shadow: none;
+            border: 1px solid #512da8; }
+
+        .bordered-deep-purple::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: none; }
+
+        .bordered-cyan::-webkit-scrollbar-track {
+            -webkit-box-shadow: none;
+            border: 1px solid #00bcd4; }
+
+        .bordered-cyan::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: none; }
+
+        .square::-webkit-scrollbar-track {
+            border-radius: 0 !important; }
+
+        .square::-webkit-scrollbar-thumb {
+            border-radius: 0 !important; }
+
+        .thin::-webkit-scrollbar {
+            width: 6px; }
+
+        .example-1 {
+            position: relative;
+            overflow-y: scroll;
+            height: 400px; }</style>
 {% endblock %}
 
 
@@ -64,7 +149,7 @@
                                          <hr>
                                          <!-- Quotation -->
                                          <p><b>My personal code: </b> {{ student.code }} <br></p>
-                                         <p></i><b>Points gained: </b> 20 <br></p>
+                                         <p></i><b>Points gained: </b> {{ student.points }} <br></p>
                                      </div>
 
                                  </div>
@@ -78,8 +163,12 @@
                                          <!--Card Data-->
                                          <div class="admin-up">
                                              <div class="data">
-                                                 <h4 class="section-heading mb-4 bold text-center">63% ODRs and  37% PORs </h4>
-
+                                                 {% set sumOdr = 0%}{% for behavior in odrs %}{% set sumOdr= sumOdr + behavior.countODR %}{% endfor %}
+                                                 {% set sumPor = 0%}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}
+                                                    {% if (sumOdr+sumPor) == 0 %}<h4 class="section-heading mb-4 bold text-center">No available data</h4>
+                                                    {% else %}
+                                                 <h4 class="section-heading mb-4 bold text-center">{{ (sumOdr/(sumOdr+sumPor))*100 }}% ODRs and  {{ (sumPor/(sumOdr+sumPor))*100 }}% PORs</h4>
+                                                    {% endif %}
                                              </div>
                                          </div>
                                          <div class="row"><div class="col-md-12"><br></div></div>
@@ -146,26 +235,23 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr class="success-color">
+                                                        {#<tr class="success-color">
                                                             <td>1</td>
                                                             <td>Be On Time</td>
                                                             <td>10</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Keep the classroom tidy</td>
-                                                            <td>8</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Wait your turn</td>
-                                                            <td>4</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>Throw paper into the bin</td>
-                                                            <td>1</td>
-                                                        </tr>
+                                                        </tr>#}
+                                                        {% for behavior in bestPors %}
+                                                            {%  if loop.index == 1 %}
+                                                                <tr class="success-color">
+                                                            {%  else  %}
+                                                                <tr>
+                                                            {% endif %}
+                                                            <td>{{ loop.index }}</td>
+                                                            <td> {{ behavior.behavior }}</td>
+                                                            <td>{{ behavior.countPOR }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -182,11 +268,9 @@
 
                                                 <!-- Content -->
                                                 <h4 class="section-heading mb-4 bold text-center"> PORs </h4>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
 
-                                                <div class="row"><canvas id="horizontalBar"></canvas></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
+                                                <div class="row" style="width: 300px"><canvas id="horizontalBar"></canvas></div>
+
 
                                                 <div class="text-center"><a class="rotate-btn" data-card="card-1"><button type="button" class="btn btn-outline-primary btn-rounded waves-effect">Table View</button> </a>
                                                 </div>
@@ -223,26 +307,22 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr class="warning-color">
+                                                        {#<tr class="warning-color">
                                                             <td>1</td>
                                                             <td>Tardy</td>
                                                             <td>5</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Inappropriate Language</td>
-                                                            <td>3</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Dress Code Violation</td>
-                                                            <td>1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>Noisy</td>
-                                                            <td>1</td>
-                                                        </tr>
+                                                        </tr>#}
+                                                        {% for behavior in bestOdrs %}
+                                                            {%  if loop.index == 1 %}
+                                                                <tr class="warning-color">
+                                                            {%  else  %}
+                                                                <tr>
+                                                            {% endif %}
+                                                            <td>{{ loop.index }}</td>
+                                                            <td> {{ behavior.name }}</td>
+                                                            <td>{{ behavior.countODR }}</td>
+                                                            </tr>
+                                                        {% endfor %}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -259,11 +339,8 @@
 
                                                 <!-- Content -->
                                                 <h4 class="section-heading mb-4 bold text-center"> ODRs </h4>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
 
-                                                <div class="row"><canvas id="horizontalBar2"></canvas></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
-                                                <div class="row"><div class="col-md-12"><br></div></div>
+                                                <div class="row" style="width: 300px"><canvas id="horizontalBar2"></canvas></div>
 
                                                 <div class="text-center"><a class="rotate-btn" data-card="card-2"><button type="button" class="btn btn-outline-primary btn-rounded waves-effect">Table View</button> </a>
                                                 </div>
@@ -301,7 +378,8 @@
 
 
                             <div class="col-md-6">
-                                <div class="card card-cascade cascading-admin-card">
+
+                                <div class="card card-cascade cascading-admin-card example-1 scrollbar-ripe-malinka">
 
                                     <div class="card-body">
                                         <h4 class="section-heading mb-4 bold text-center">List of Rewards </h4>
@@ -318,26 +396,13 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td><span class="badge green">Available</span></td>
-                                                    <td>New Pen</td>
-                                                    <td>10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="badge green">Available</span></td>
-                                                    <td>Candy</td>
-                                                    <td>20</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="badge grey">Unavailable</span></td>
-                                                    <td>Movie Time</td>
-                                                    <td>30</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="badge grey">Unavailable</span></td>
-                                                    <td>Trip</td>
-                                                    <td>40</td>
-                                                </tr>
+                                                {% for reward in rewards%}
+                                                    <tr>
+                                                        <td>{% if student.points >= reward.value %}<span class="badge green">Available</span>{% else %}<span class="badge grey">Unvailable</span>{% endif %}</td>
+                                                        <td>{{ reward.name }}</td>
+                                                        <td>{{ reward.value }}</td>
+                                                    </tr>
+                                                {% endfor %}
                                                 </tbody>
                                             </table>
 
@@ -397,7 +462,8 @@
             data: {
                 labels: ["ODR", "POR"],
                 datasets: [{
-                    data: [25, 75],
+                    data: [{% set sumOdr = 0 %}{% for behavior in odrs %}{% set sumOdr= sumOdr + behavior.countODR %}{% endfor %}{{ sumOdr }}
+                        , {% set sumPor = 0 %}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}{{ sumPor }}],
                     backgroundColor: ["#F7464A", "#5cbf8e"],
                     hoverBackgroundColor: ["#FF5A5E", "#5cbf8e"]
                 }]
@@ -415,10 +481,10 @@
         var myLineChart = new Chart(ctxL, {
             type: 'line',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: [{% for cico in cicos %}"{{ cico.fillInDate | date('Y-m-d') }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                 datasets: [{
                     label: "Line Goal",
-                    data: [80, 80, 80, 80, 80, 80, 80],
+                    data: [{% for cico in cicos %}"{{ cico.threshold }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                     backgroundColor: [
                         'rgba(105, 0, 132, .2)',
                     ],
@@ -429,7 +495,7 @@
                 },
                     {
                         label: "Data",
-                        data: [65, 59, 80, 81, 56, 55, 40],
+                        data: [{% for cico in cicos %}"{{ cico.sumDatas }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
                         backgroundColor: [
                             'rgba(0, 137, 132, .2)',
                         ],
@@ -451,18 +517,27 @@
         new Chart(document.getElementById("horizontalBar"), {
             "type": "horizontalBar",
             "data": {
-                "labels": ["Be On Time", "Keep the classroom tidy", "Wait your turn", "Throw paper into the bin"],
-                "datasets": [{
-                    "label": "PORs",
-                    "data": [10, 8, 4, 1],
-                    "fill": false,
-                    "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-                        "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)"
+                labels: [{% for behavior in pors %}"{{ behavior.behavior }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
+                datasets: [{
+                    label: '# of POR',
+                    data: [{% for behavior in pors %}"{{ behavior.countPOR }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
                     ],
-                    "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)",
-                        "rgb(75, 192, 192)"
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
                     ],
-                    "borderWidth": 1
+                    borderWidth: 1
                 }]
             },
             "options": {
@@ -481,19 +556,30 @@
         new Chart(document.getElementById("horizontalBar2"), {
             "type": "horizontalBar",
             "data": {
-                "labels": ["Tardy", "Inappropriate Language", "Dress Code Violation", "Noisy"],
-                "datasets": [{
-                    "label": "ODRs",
-                    "data": [5, 3, 1, 1],
-                    "fill": false,
-                    "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-                        "rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)"
+                labels: [{% for behavior in odrs %}"{{ behavior.name }}"{% if loop.index != odrs | length %},{% endif %}{% endfor %}],
+                datasets: [{
+                    label: '# of ODR',
+                    data: [{% for behavior in odrs %}"{{ behavior.countODR }}"{% if loop.index != odrs | length %},{% endif %}{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
                     ],
-                    "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)"
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
                     ],
-                    "borderWidth": 1
+                    borderWidth: 1
                 }]
             },
+
             "options": {
                 "scales": {
                     "xAxes": [{

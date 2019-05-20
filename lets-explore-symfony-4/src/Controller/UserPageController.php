@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Entity\Rewards;
+use Symfony\Component\Form\Util\StringUtil;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Utility\Auth0Api;
@@ -23,7 +24,12 @@ class UserPageController extends AbstractController
      */
     public function index(Auth0Api $auth0Api)
     {
-
+        $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
+        $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
+        $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRById();
+        $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORById();
+        $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsById();
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
         $user = $this->getUser();
 
        // dump($auth0Api->getUsers(''));exit;
@@ -31,6 +37,13 @@ class UserPageController extends AbstractController
 
         return $this->render('user/new.html.twig', array(
             'user'=>$user,
+            'students' =>$students,
+            'odrs' => $odrs,
+            'pors' => $pors,
+            'bestOdrs' => $bestOdrs,
+            'bestPors' => $bestPors,
+            'rewards' => $rewards
+
         ));
     }
 
@@ -44,7 +57,9 @@ class UserPageController extends AbstractController
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRByStudent($student);
-        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findAll();
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
+        $cicos = $this->getDoctrine()->getRepository('App\Entity\Cico')->findByStudent($student);
+
 
 
         $user = $this->getUser();
@@ -54,12 +69,14 @@ class UserPageController extends AbstractController
 
         return $this->render('user/userdashboard.html.twig', array(
             'user'=>$user,
+            'student' => $student,
             'studentCode'=>$student->getCode(),
             'odrs' => $odrs,
             'pors' => $pors,
             'bestPors' => $bestPors,
             'bestOdrs' => $bestOdrs,
-            'rewards' => $rewards
+            'rewards' => $rewards,
+            'cicos' => $cicos
 
     ));
     }

@@ -9,6 +9,7 @@
 namespace App\Controller;
 use App\Entity\CicoData;
 use App\Entity\CicoSession;
+use App\Entity\Student;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -76,7 +77,7 @@ class CicoDataController extends AbstractController
 
 
     /**
-     * @Route("/cicolist/{id}", name="cico_list")
+     * @Route("/cicolist/{id}/", name="cico_list")
      * @Method({"GET", "POST"})
      * @Template
      *
@@ -84,23 +85,24 @@ class CicoDataController extends AbstractController
      * @param CicoFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
-     public function listAction(Cico $cico) {
+     public function listAction(Cico $cico  /*,Student $student*/) {
 
-         /*
+
+         dump($cico);
+                  /*
          $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
          $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
          $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
          */
 
-         /*
-         return $this->render('cico/list.html.twig', array(
-             'cicoData'=>$cicoData,
-             'cicoSession'=>$cicoSession,
+
+         return $this->render('cico_data/list.html.twig', array(
              'cico'=>$cico,
 
-         ));*/
+             //'student' =>$student
+         ));
 
-         return array('cico' => $cico);
+      //   return array('cico' => $cico);
      }
 
 

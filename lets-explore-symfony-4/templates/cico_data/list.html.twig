@@ -20,7 +20,8 @@
 {% endblock %}
 
 {% block main %}
-
+    {{ dump(cico.calculatePoints) }}
+    {{ dump(cico.student.points) }}
     <div class="container-fluid">
 
         <!--Section: Analytical panel-->
@@ -49,7 +50,7 @@
 
 
 <div class="row">
-    <div class="col"><h2>Student: BBFADD8D</h2></div>
+    <div class="col"><h2>Student: {{ cico.student.code }} </h2></div>
     <div class="col"><h2>Earned Points:</h2><i>{{ cico.calculatePoints }}</i></div>
 </div>
     {% set foo = [] %}

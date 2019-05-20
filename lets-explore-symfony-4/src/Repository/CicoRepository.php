@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cico;
+use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,24 @@ class CicoRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Cico::class);
+    }
+
+    public function findByStudent(Student $student)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT cico.id as id, sessions.id as session, sessions.fillInDate, cico.threshold as threshold, sum(data.value) as sumDatas
+          FROM \App\Entity\Cico cico
+          JOIN cico.sessions sessions 
+          JOIN sessions.data data
+          WHERE cico.student = :student and cico.id = 29
+          GROUP BY sessions.id
+          ORDER BY cico.id DESC' //Sistema il piu recente
+        )->setParameter('student', $student);
+
+// returns an array of Product objects
+        return $query->execute();
     }
 
 //    /**

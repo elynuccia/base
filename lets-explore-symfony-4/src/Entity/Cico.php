@@ -38,7 +38,7 @@ class Cico
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="cicos")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $student;
 
@@ -59,7 +59,6 @@ class Cico
 
     /**
      * @ORM\Column(type="integer")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $gainedPoints;
 
@@ -215,6 +214,7 @@ class Cico
     {
         $hasAssignedValues = false;
         //ordinamento del vettore delle soglie
+        $this->gainedPoints=0;
         foreach($this->getOrderedThresholds() as $threshold) {
             foreach($this->getSessions() as $session) {
                 if($session->getTotal() >= $threshold->getThresholdInPoints()) {
@@ -229,6 +229,28 @@ class Cico
         }
 
         return $this->gainedPoints;
+    }
+
+    public function calculateLastSessionPoints()
+    {
+        $hasAssignedValues = false;
+
+        $points = 0;
+
+        foreach($this->getOrderedThresholds() as $threshold) {
+            $session = $this->getSessions()->last();
+
+            if($session && $session->getTotal() >= $threshold->getThresholdInPoints()) {
+                $points += $threshold->getValue();
+                $hasAssignedValues = true;
+            }
+
+            if($hasAssignedValues) {
+                return $points;
+            }
+        }
+
+        return $points;
     }
 
     //ordinamento del vettore delle soglie desc

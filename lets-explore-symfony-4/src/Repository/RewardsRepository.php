@@ -19,7 +19,19 @@ class RewardsRepository extends ServiceEntityRepository
         parent::__construct($registry, Rewards::class);
     }
 
+    public function findDistinct()
+    {
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(rewards.name) as name, rewards.value as value, rewards.id as id
+          FROM \App\Entity\Rewards rewards
+          ORDER BY rewards.value ASC'
+        );
+
+// returns an array of Product objects
+        return $query->execute();
+    }
 
 //    /**
 //     * @return Rewards[] Returns an array of Rewards objects
