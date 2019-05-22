@@ -50,8 +50,9 @@ class UserPageController extends AbstractController
     /**
      * @Route("/studentdashboard/{id}", name="student_dashboard")
      */
-    public function indexAction(Auth0Api $auth0Api, Student $student)
+    public function indexAction(Auth0Api $auth0Api, Request $request, Student $student)
     {
+
 
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
@@ -80,6 +81,30 @@ class UserPageController extends AbstractController
 
     ));
     }
+
+    /**
+     * @Route("/assignRewards/{id}", name="assign_rewards")
+     */
+    public function assignRewardsAction(Auth0Api $auth0Api, Request $request, Student $student)
+    {
+        if(!$request->isXmlHttpRequest()) {
+            $response = new Response('not allowed');
+            $response->setStatusCode(403);
+
+            return $response;
+        }
+
+        foreach ($request->get('rewardPoints') as $rewardPoints) {
+            $student->subPoints($rewardPoints);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($student);
+        $entityManager->flush();
+
+        return new Response($student->getPoints());
+    }
+
 
     /**
      * @Route("/search", name="user_search")

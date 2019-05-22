@@ -857,16 +857,51 @@
     {{ parent () }}
     <script>
 
+        $('#assign').on('click', function() {
+
+            points = [];
+
+            $('input[type=checkbox]:checked').each(function() {
+                points.push($(this).parent().parent().next().next().html());
+
+            });
+
+
+            $.ajax({
+                url:"{{ path('assign_rewards', {
+                    'id': student.id
+                })
+                }}",
+                type:"POST",
+                data: { rewardPoints: points },
+                success:function(response) {
+
+                    $('input[type=checkbox]:checked').trigger('click');
+
+                    /*
+                    $('input[type=checkbox]:checked').each(function() {
+                        console.log($(this));
+
+                        $(this).attr('checked', '');
+                    });*/
+
+
+                   $('#points').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+
+        });
+
+
+
+
         $(document).ready( function() {
             $('#aa').hide();
-                $('#assign').on('click', function() {
-                    $totalPoints =0;
 
-                    $('input[type=checkbox]:checked').each(function() {
-
-
-                    });
-                });
 
 
 
