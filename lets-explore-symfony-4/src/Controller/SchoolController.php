@@ -51,6 +51,8 @@ class SchoolController extends AbstractController
 
         return $this->render('school/new.html.twig', array(
             'form' => $form->createView(),
+            'school' => $school,
+            'minorAndMajor' => $minorAndMajorBehavior,
         ));    }
 
 
@@ -77,6 +79,7 @@ class SchoolController extends AbstractController
         return $this->render('school/new2.html.twig', array(
             'form' => $form->createView(),
             'school' => $school,
+            'minorAndMajor' => $minorAndMajorBehavior,
         ));
     }
 
@@ -100,6 +103,24 @@ class SchoolController extends AbstractController
             'minorAndMajor' => $minorAndMajor,
         ));
     }
+
+    /**
+     * @Route("/deletebehavior/{id}", name="behavior_delete")
+     * @Method({"GET"})
+     *
+     * @param Request $request
+     * @param MinorAndMajorBehavior $entity
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteMinorAction(Request $request, MinorAndMajorBehavior $entity)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($entity);
+        $em->flush();
+        $this->get('session')->getFlashbag()->add('success', 'Deleted');
+        return $this->redirect($this->generateUrl('minorandmajorbehavior_list'));
+    }
+
 
 
     /**

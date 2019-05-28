@@ -30,16 +30,16 @@ class Matrix
      */
     protected $motto;
     /**
-     * @ORM\OneToMany(targetEntity="ExpectationTag", mappedBy="matrix", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ExpectationTag", mappedBy="matrix", cascade={"persist", "remove"})
      */
     protected $expectationTags;
     /**
-     *@ORM\OneToMany(targetEntity="LocationTag", mappedBy="matrix", cascade={"persist"})
+     *@ORM\OneToMany(targetEntity="LocationTag", mappedBy="matrix", cascade={"persist", "remove"})
      */
     protected $locationTags;
 
     /**
-     *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix", cascade={"persist"})
+     *@ORM\OneToMany(targetEntity="MatrixBehavior", mappedBy="matrix", cascade={"persist", "remove"})
      */
     protected $behaviorTags;
 

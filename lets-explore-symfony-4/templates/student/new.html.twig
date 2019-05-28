@@ -167,7 +167,7 @@
                                                  {% set sumPor = 0%}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}
                                                     {% if (sumOdr+sumPor) == 0 %}<h4 class="section-heading mb-4 bold text-center">No available data</h4>
                                                     {% else %}
-                                                 <h4 class="section-heading mb-4 bold text-center">{{ (sumOdr/(sumOdr+sumPor))*100 }}% ODRs and  {{ (sumPor/(sumOdr+sumPor))*100 }}% PORs</h4>
+                                                 <h4 class="section-heading mb-4 bold text-center">{{ ((sumOdr/(sumOdr+sumPor))*100)|round(2,'ceil')}}% ODRs and  {{ ((sumPor/(sumOdr+sumPor))*100)|round(2,'ceil') }}% PORs</h4>
                                                     {% endif %}
                                              </div>
                                          </div>

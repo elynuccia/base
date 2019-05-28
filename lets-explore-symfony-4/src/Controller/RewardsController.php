@@ -68,4 +68,24 @@ class RewardsController extends AbstractController
             'rewards' => $rewards,
         ));
     }
+
+
+
+    /**
+     * @Route("/deletereward/{id}", name="reward_delete")
+     * @Method({"GET"})
+     *
+     * @param Request $request
+     * @param Rewards $entity
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteMatrixAction(Request $request, Rewards $entity)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($entity);
+        $em->flush();
+        $this->get('session')->getFlashbag()->add('success', 'Deleted');
+        return $this->redirect($this->generateUrl('rewards_list'));
+    }
+
 }

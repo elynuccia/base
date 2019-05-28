@@ -170,7 +170,7 @@ class MatrixController extends AbstractController
     }
 
     /**
-     * @Route("/list/{id}", name="matrix_list")
+     * @Route("matrixlist/{id}", name="matrix_list")
      * @Method({"GET", "POST"})
      * @Template
      *
@@ -189,6 +189,40 @@ class MatrixController extends AbstractController
             'form' => $form->createView(),
             'matrix' => $matrix,
         ));
+    }
+
+    /**
+     * @Route("allmatrix/", name="all_matrix")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listMatrixAction() {
+
+        $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findAll();
+
+        return $this->render('matrix/allList.html.twig', array(
+            'matrix' => $matrix,
+        ));
+    }
+
+    /**
+     * @Route("/deletematrix/{id}", name="matrix_delete")
+     * @Method({"GET"})
+     *
+     * @param Request $request
+     * @param Matrix $entity
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteMatrixAction(Request $request, Matrix $entity)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($entity);
+        $em->flush();
+        $this->get('session')->getFlashbag()->add('success', 'Deleted');
+        return $this->redirect($this->generateUrl('all_matrix'));
     }
 
     /**

@@ -32,8 +32,10 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"><b>Personal Page</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        {% if ("ROLE_PERSON" in app.user.roles) or ("ROLE_STUDENT" in app.user.roles) %}
+                        {% if ("ROLE_STUDENT" in app.user.roles) %}
                         <a class="dropdown-item" href="{{ path('student_page') }}">User Page</a>
+                            {% elseif  ("ROLE_PERSON" in app.user.roles)  %}
+                                <a class="dropdown-item" href="{{ path('personincharge_page') }}">User Page</a>
                         {% endif %}
 
                         {% if "ROLE_0AUTH_USER" in app.user.roles %}
@@ -54,9 +56,9 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"><b>School Tools</b></a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item"  href="{{ path('matrix') }}">Expectation Matrix</a>
-                        <a class="dropdown-item" href="{{ path('minorBehavior', {'id': 7}) }}">Minor and Major</a>
-                        <a class="dropdown-item" href="{{ path('rewards') }}">Rewards Menu</a>
+                        <a class="dropdown-item"  href="{{ path('all_matrix') }}">Expectation Matrix</a>
+                        <a class="dropdown-item" href="{{ path('minorandmajorbehavior_list')}}">Minor and Major</a>
+                        <a class="dropdown-item" href="{{ path('rewards_list') }}">Rewards Menu</a>
                     {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
                         <a class="dropdown-item" href="{{ path('generate_access_data', {'id': 1}) }}">Access Data Generator</a>
                     {% endif %}
