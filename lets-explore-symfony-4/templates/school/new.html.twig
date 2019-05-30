@@ -24,7 +24,7 @@
     <ul class="minorAndMajorBehaviors" data-prototype="{{ form_widget(form.minorAndMajorBehaviors.vars.prototype)|e('html_attr') }}">
         {# iterate over each existing tag and render its only field: name #}
         {% for minorAndMajorBehavior in form.minorAndMajorBehaviors %}
-            <li>{{ form_row(minorAndMajorBehavior.name) }}</li>
+            <li class="d-none">{{ form_row(minorAndMajorBehavior.name) }}</li>
             <li class="d-none">{{ form_row(minorAndMajorBehavior.isMinorBehavior)}}</li>
         {% endfor %}
     </ul>
@@ -89,6 +89,8 @@
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
             $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            addTagForm($collectionHolder, $newLinkLi);
 
             $addTagLink.on('click', function(e) {
                 // prevent the link from creating a "#" on the URL

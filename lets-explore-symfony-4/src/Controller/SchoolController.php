@@ -34,13 +34,15 @@ class SchoolController extends AbstractController
     {
         //$school = new School();
 
+        /*
         $minorAndMajorBehavior = new MinorAndMajorBehavior();
         $minorAndMajorBehavior->setSchool($school);
-        $minorAndMajorBehavior->setName('minor');
+        $minorAndMajorBehavior->setName('');
         $minorAndMajorBehavior->setIsMinorBehavior('true');
 
 
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
+        */
 
         $form = $this->createForm(SchoolType::class, $school);
 
@@ -52,8 +54,10 @@ class SchoolController extends AbstractController
         return $this->render('school/new.html.twig', array(
             'form' => $form->createView(),
             'school' => $school,
-            'minorAndMajor' => $minorAndMajorBehavior,
-        ));    }
+            //'minorAndMajor' => $minorAndMajorBehavior,
+            'minorNumber' => $school->countMinorBehaviors()
+        ));
+    }
 
 
 
@@ -65,7 +69,7 @@ class SchoolController extends AbstractController
 
 
         $minorAndMajorBehavior = new MinorAndMajorBehavior();
-        $minorAndMajorBehavior->setName('major');
+        $minorAndMajorBehavior->setName('');
 
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
 

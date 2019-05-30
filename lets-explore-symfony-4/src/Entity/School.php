@@ -76,6 +76,15 @@ class School
         return $this->id;
     }
 
+    public function countMinorBehaviors()
+    {
+        $minorBehaviors = $this->minorAndMajorBehaviors->filter(function($minor) {
+            return $minor->getIsMinorBehavior();
+        });
+
+        return count($minorBehaviors);
+    }
+
     /**
      * @return Collection|MinorAndMajorBehavior[]
      */
