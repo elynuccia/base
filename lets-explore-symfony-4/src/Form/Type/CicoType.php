@@ -65,8 +65,8 @@ class CicoType extends AbstractType
             'entry_type' => CicoSessionType::class,
 
         ));
-        $builder->add('submit', SubmitType::class, array('label'=>'Save'));
-        $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
+        $builder->add('submit', SubmitType::class, array('label'=>'Save and Exit'));
+        $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and add another Cico'));
 
         $builder->add('threshold', HiddenType::class);
         $builder->add('tmpData', HiddenType::class);

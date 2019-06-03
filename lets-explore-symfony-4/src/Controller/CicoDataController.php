@@ -29,7 +29,7 @@ class CicoDataController extends AbstractController
      * @Route("/cicodata/{id}", name="cico_data")
      * @Method({"GET", "POST"})
      */
-    public function index(Cico $cico, Request $request, CicoFormHandler $formHandler)
+    public function index(Cico $cico, Student $student, Request $request, CicoFormHandler $formHandler)
     {
         //per ciascun periodo
         // per ciascuna aspettativa
@@ -70,6 +70,7 @@ class CicoDataController extends AbstractController
             'matrix' => $cico->getMatrix(),
             'id' => $cico->getId(),
             'cico' => $cico,
+            'student'=>$student
         ));
 
     }
@@ -87,7 +88,6 @@ class CicoDataController extends AbstractController
      */
      public function listAction(Cico $cico  /*,Student $student*/) {
 
-
          dump($cico);
                   /*
          $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
@@ -98,14 +98,37 @@ class CicoDataController extends AbstractController
 
          return $this->render('cico_data/list.html.twig', array(
              'cico'=>$cico,
-
              //'student' =>$student
          ));
 
       //   return array('cico' => $cico);
      }
 
+    /**
+     * @Route("/allcicos", name="all_cicos")
+     * @Method({"GET", "POST"})
+     * @Template
+     *
+     * @param Request $request
+     * @param CicoFormHandler $formHandler
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAllAction() {
 
+        $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
+    $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
+    $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
+    $cicoId = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findDistinct();
+
+
+
+        return $this->render('cico_data/allList.html.twig', array(
+            'session' => $cicoSession,
+            'cicoId' => $cicoId,
+        ));
+
+        //   return array('cico' => $cico);
+    }
     /**
      * @Route("/cicodata_new/{id}", name="cicodata_new")
      * @Method({"GET", "POST"})

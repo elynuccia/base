@@ -6,10 +6,7 @@
     {{ parent() }}
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+
     <!-- Your custom styles (optional) -->
 
 
@@ -29,9 +26,8 @@
                 <!--Section heading-->
                 <h1 class="text-center my-5 h1">Check-In/Check-out</h1>
 
-    <h2>Student: </h2>
+    <h5>Student:{{ student.code }} </h5>
 
-    <h3>Motto:<i>{{ matrix.motto }}</i> </h3>
 
 
     {{ form_start(form) }}
@@ -121,11 +117,16 @@
                 <span id="max"></span></h4>
         </div>
         <div id="success" class="col-6 col-sm-2"></div>
-        <div class="col-sm-10">{{ form_row(form.submit)}}</div>
-        <div class="col-sm-10">{{ form_row(form.submitAndAdd)}}</div>
-    </div>
 
+    </div>
+<div class="row">
+    <div class="col-md-2"></div>
+                <div class="col-md-5">{{ form_row(form.submitAndAdd)}}</div>
+                <div class="col-md-5">{{ form_row(form.submit)}}</div>
+</div>
     <div id="colonna"></div>
+
+
 
     <div class="d-none">
     {{ form_row(form.periodNumber) }}

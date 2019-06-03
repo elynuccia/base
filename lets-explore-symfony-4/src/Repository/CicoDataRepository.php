@@ -19,6 +19,25 @@ class CicoDataRepository extends ServiceEntityRepository
         parent::__construct($registry, CicoData::class);
     }
 
+
+    public function findDistinct()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(cico.id) as id, cicoSession.fillInDate, student.code
+          FROM \App\Entity\CicoSession cicoSession 
+          JOIN cicoSession.cico cico
+          JOIN cico.student student
+          GROUP BY cico.id, cicoSession.fillInDate, student.code'
+        );
+
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+
 //    /**
 //     * @return CicoData[] Returns an array of CicoData objects
 //     */

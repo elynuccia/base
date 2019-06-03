@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of Matrix{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href={{ asset('css/mdb.css') }} >
+    <!-- Your custom styles (optional) -->
+
+
+    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+
+        <!--Section: Analytical panel-->
+        <section class="mb-5">
+
+            <!--Card-->
+
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 font-weight-bold">All Cico List</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0 ">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2 "><p class="font-weight-bold">Cico Model ID</p></div>
+                                    <div class="col-md-4 "><p class="font-weight-bold">Date</p></div>
+                                    <div class="col-md-4 "><p class="font-weight-bold">Student Code</p></div>
+                                </div>
+
+
+                                    {% for c in cicoId %}
+
+
+                                    {% if loop.index != 0 %}
+
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-2 "># {{ c.id }}</div>
+                                            <div class="col-md-4 ">{{ c.fillInDate|date("m/d/Y") }}</div>
+                                            <div class="col-md-3 ">{{ c.code }}</div>
+                                            <a href="{{ path('cico_data', {'id': c.id}) }}">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+
+
+
+                                        </div>
+                                    {% else %}
+                                        No Cico created
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
+
+
+                    </div>
+                    <!--Grid row-->
+
+                </section>
+                <!--Section: fChart
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6 "><a href="">
+
+                            <button type="button" class="btn btn-default">Create a New Matrix</button>
+                        </a>
+                    </div>
+                    <div class="col-md-2 "></div>
+                </div>
+                -->
+            </div>
+            <!--/.Card-->
+
+        </section>
+    </div>
+
+
+    <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body"> Are you sure you want to delete this matrix?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                    <button id="confirm-delete" type="button" class="btn red" data-url="">Yes, delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent () }}
+
+    <script>
+        $('.delete').click(function( event ) {
+            $('#confirm-delete').data('url', $(this).data('url'));
+        });
+        $('#confirm-delete').click(function( event ) {
+            window.location.href = $('#confirm-delete').data('url');
+        });
+    </script>
+
+{% endblock %}
