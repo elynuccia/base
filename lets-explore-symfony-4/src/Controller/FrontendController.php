@@ -10,11 +10,14 @@ namespace App\Controller;
 
 use GuzzleHttp\Exception\ClientException;
 use http\Env\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\School;
 use App\Form\Handler\SchoolFormHandler;
+use App\Form\Handler\SchoolCodeFormHandler;
 use App\Form\Type\SchoolType;
+use App\Form\Type\SchoolCodeType;
 use Symfony\Component\HttpFoundation\Request;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -91,6 +94,24 @@ class FrontendController extends AbstractController
 
         return $this->render('frontend/index.html.twig', array(
             // 'accessData'=> $accessData,
+        ));
+
+    }
+
+
+    /**
+     * @Route("/schoolcode", name="school_code")
+     * @Method({"GET", "POST"})
+     */
+    public function schoolCodeIndex(Request $request, SchoolCodeFormHandler $formHandler)
+    {
+
+        $form = $this->createForm(SchoolCodeType::class);
+        if ($formHandler->handle($form, $request, $this->getUser()->getUserId())) {
+            return $this->redirect($this->generateUrl('welcome'));
+        }
+        return $this->render('frontend/schoolCodeIndex.html.twig', array(
+            'form' => $form->createView(),
         ));
 
     }

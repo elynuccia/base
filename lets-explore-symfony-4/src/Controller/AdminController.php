@@ -29,17 +29,19 @@ class AdminController extends AbstractController
     {
 
         $user = $this->getUser();
+        $schoolCode=$user->getSchool()->getSchoolCode();
 
-         $users= $auth0Api->getUsers();
-         dump($users);
         $form = $this->createForm(AdminType::class, null, array(
-            'users_id'=> $auth0Api->getUsersIdAndName()
+            'users_id'=> $auth0Api->getUsersBySchoolCode($schoolCode)
         ));
+
+        $usersInSchool = $auth0Api->getUsersBySchoolCode($schoolCode);
+        dump($usersInSchool);
 
 
         return $this->render('admin/index.html.twig', array(
             'user'=>$user,
-            'users'=>$users,
+            'usersInSchool'=> $usersInSchool,
             'form'=>$form->createView(),
         ));
     }
@@ -67,7 +69,7 @@ class AdminController extends AbstractController
 
             //return new Response(var_dump(array_unique($roles)));
 
-            $auth0Api->updateUserMetadata($userId, array_unique($roles));
+            $auth0Api->updateRoleUserMetadata($userId, array_unique($roles));
         }
 
         return new Response();

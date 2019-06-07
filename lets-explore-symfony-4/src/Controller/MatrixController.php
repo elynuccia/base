@@ -6,6 +6,7 @@ use App\Entity\BehaviorTag;
 use App\Entity\ExpectationTag;
 use App\Entity\LocationTag;
 use App\Entity\MatrixBehavior;
+use App\Entity\School;
 use App\Form\Type\MatrixType;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -13,22 +14,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Entity\Task;
+
 use App\Entity\Matrix;
 use App\Form\Handler\MatrixFormHandler;
-use App\Form\Type\TaskType;
-use Doctrine\Common\Collections\ArrayCollection;
+
 
 class MatrixController extends AbstractController
 {
     /**
-     * @Route("/matrix", name="matrix")
+     * @Route("/matrix/{schoolCode}", name="matrix")
      * @Method({"GET", "POST"})
      */
-    public function index(Request $request, MatrixFormHandler $formHandler)
+    public function index(Request $request, School $school, MatrixFormHandler $formHandler)
     {
         $matrix = new Matrix();
+        $matrix->setSchool($school);
 
         /* $tag1 = new BehaviorTag();
 
@@ -146,7 +146,6 @@ class MatrixController extends AbstractController
 
         }
 
-
         dump($matrix);
 
         $form = $this->createForm(MatrixType::class, $matrix, array(
@@ -180,28 +179,30 @@ class MatrixController extends AbstractController
      */
     public function listAction(Request $request, Matrix $matrix, MatrixFormHandler $formHandler) {
 
-        $form = $this->createForm(MatrixType::class, $matrix, array(
+       /* $form = $this->createForm(MatrixType::class, $matrix, array(
             'matrix' => $matrix,
             ));
-
+*/
 
         return $this->render('matrix/list.html.twig', array(
-            'form' => $form->createView(),
+           // 'form' => $form->createView(),
             'matrix' => $matrix,
         ));
     }
 
     /**
-     * @Route("allmatrix/", name="all_matrix")
+     * @Route("allmatrix/{schoolCode}", name="all_matrix")
      * @Method({"GET", "POST"})
      * @Template
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listMatrixAction() {
+    public function listMatrixAction(School $school) {
 
-        $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findAll();
+        dump($school);
+        $schoolCode= $school->getSchoolCode();
+        $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
 
         return $this->render('matrix/allList.html.twig', array(
             'matrix' => $matrix,
@@ -216,13 +217,14 @@ class MatrixController extends AbstractController
      * @param Matrix $entity
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteMatrixAction(Request $request, Matrix $entity)
+    public function deleteMatrixAction(Request $request, School $school, Matrix $entity)
     {
+        $schoolCode=$this->getUser()->getSchoolCode();
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
         $this->get('session')->getFlashbag()->add('success', 'Deleted');
-        return $this->redirect($this->generateUrl('all_matrix'));
+        return $this->redirect($this->generateUrl('all_matrix', array ('schoolCode' => $schoolCode)));
     }
 
     /**

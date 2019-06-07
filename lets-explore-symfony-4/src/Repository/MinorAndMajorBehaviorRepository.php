@@ -19,6 +19,23 @@ class MinorAndMajorBehaviorRepository extends ServiceEntityRepository
         parent::__construct($registry, MinorAndMajorBehavior::class);
     }
 
+
+    public function findMinMajBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.name) as name, minMaj.id as id,  minMaj.isMinorBehavior as isMinorBehavior
+          FROM \App\Entity\MinorAndMajorBehavior minMaj 
+          JOIN minMaj.school school
+          WHERE school.schoolCode = :schoolCode
+          GROUP BY minMaj.name, minMaj.id, minMaj.isMinorBehavior '
+        )->setParameter('schoolCode', $schoolCode);
+
+
+// returns an array of Product objects
+        return $query->execute();
+    }
 //    /**
 //     * @return MinorAndMajorBehavior[] Returns an array of MinorAndMajorBehavior objects
 //     */
@@ -47,4 +64,6 @@ class MinorAndMajorBehaviorRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
 }

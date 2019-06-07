@@ -36,6 +36,24 @@ class Auth0Api {
         return json_decode($response->getBody()->getContents());
     }
 
+    public function getUsersBySchoolCode($schoolCode)
+    {
+        $usersArray= array();
+
+        $response = $this->guzzleClient->request('GET', $this->baseUri . 'users', array(
+            'headers' => array (
+                'Authorization' => $this->authorizationHeader
+            ),
+            'query' => array(
+                'q' => 'user_metadata.schoolCode=' . $schoolCode
+            )
+        ));
+        foreach(json_decode($response->getBody()->getContents()) as $user) {
+            $usersArray[$user->name] = $user->user_id;
+        }
+
+        return $usersArray;    }
+
     public function getUsers()
     {
         $response = $this->guzzleClient->request('GET', $this->baseUri . 'users', array(
@@ -63,6 +81,7 @@ class Auth0Api {
         return $usersArray;
     }
 
+
     public function initUserMetadata($userId)
     {
         $response = $this->guzzleClient->patch($this->baseUri . 'users/' . $userId, array(
@@ -79,7 +98,7 @@ class Auth0Api {
 
     }
 
-    public function updateUserMetadata($userId, $role)
+    public function updateRoleUserMetadata($userId, $role)
     {
         $response = $this->guzzleClient->patch($this->baseUri . 'users/' . $userId, array(
             'headers' => array (
@@ -90,6 +109,21 @@ class Auth0Api {
             ],
         ));
         //student
+
+        return json_decode($response->getBody()->getContents());
+    }
+
+    public function updateSchoolCodeUserMetadata($userId, $schoolCode)
+    {
+        $response = $this->guzzleClient->patch($this->baseUri . 'users/' . $userId, array(
+            'headers' => array (
+                'Authorization' => $this->authorizationHeader
+            ),
+            'form_params' => [
+                'user_metadata' => ['schoolCode' => $schoolCode]
+            ],
+        ));
+
 
         return json_decode($response->getBody()->getContents());
     }

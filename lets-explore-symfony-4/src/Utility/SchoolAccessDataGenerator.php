@@ -19,8 +19,8 @@ class SchoolAccessDataGenerator
         $this->entityManager = $entityManager;
     }
 
-    public function generateCode() {
-        $code = random_bytes(4);
+    public function generateCode($number) {
+        $code = random_bytes($number);
         $code = strtoupper(bin2hex($code));
 
         if($this->entityManager->getRepository('App\Entity\School')->findOneByCode($code)) {

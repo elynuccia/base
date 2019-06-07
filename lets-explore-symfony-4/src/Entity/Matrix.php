@@ -13,7 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\MatrixRepository")
+ *
  */
 class Matrix
 {
@@ -52,6 +53,11 @@ class Matrix
      * @ORM\OneToMany(targetEntity="App\Entity\ScreeningTool", mappedBy="matrix", orphanRemoval=true)
      */
     private $screeningTools;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="matrixes",  cascade={"persist"})
+     */
+    private $school;
 
     public function __construct()
     {
@@ -217,6 +223,18 @@ class Matrix
                 $screeningTool->setMatrix(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
 
         return $this;
     }

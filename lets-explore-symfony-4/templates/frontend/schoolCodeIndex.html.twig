@@ -6,8 +6,39 @@
 
 {% block main %}
     <!--Section: Blog v.4-->
+    {{ dump(app.user) }}
     <section class="section section-blog-fw mt-5 pb-3 wow fadeIn">
+        {{ form_start(form) }}
 
+
+        <!-- Card -->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+            <div class="card">
+                <h3 class="blue-text pb-2 bold text-center">Before you start, insert your school code!</h3>
+
+            <!-- Content -->
+
+                <div class="row">
+                     <div class="col-md-3"></div>
+                    <div class="col-md-6">{{ form_row(form.schoolCode) }}
+                       {{ form_row(form.submit) }}
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <!-- Card -->
+
+
+
+        {{ form_row(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
         <!--Grid row-->
         <div class="row">
             <div class="col-md-1"></div>
@@ -30,7 +61,7 @@
                         <p class="lead">The <b>BASE Application</b> is an evidence-based tool to promote the Positive Behaviour Support at school. <br>
                             It aimed at response to the European requirement of reforming the whole scholastic disciplinary system to offer students the opportunity to experience the school context as socially predictable, consistent, safe and positive where norm-violating behaviour is minimized, and prosocial behaviour is promoted. <br>
 
-                           The Base application is an output of the BASE project aimed to implement and to disseminate a PBS school program, to support gathering of comparable data from school of different countries; comparing intervention effects at the three different levels: school-wide, classroom, and single student; experimenting standards for procedures and data structures; constructing and sustaining communities of people involved in the spread of the PBS approach. <br>
+                            The Base application is an output of the BASE project aimed to implement and to disseminate a PBS school program, to support gathering of comparable data from school of different countries; comparing intervention effects at the three different levels: school-wide, classroom, and single student; experimenting standards for procedures and data structures; constructing and sustaining communities of people involved in the spread of the PBS approach. <br>
                         <p class="blue-grey-text"> <br> <i> Partners contributing to BASE application: University of Palermo; University College Dublin; Instituto Politecnico do Porto; STICHTING VU.</i></p>
 
                         <!--Social shares-->

@@ -42,13 +42,13 @@ class ObservationPhaseController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Observation $observation, CouchDbClient $couchDbClient)
-    {
+    {/*
         if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
             $response->setStatusCode(403);
 
             return $response;
-        }
+        }*/
 
         $observationData = $couchDbClient->getObservationsById($observation->getId());
 

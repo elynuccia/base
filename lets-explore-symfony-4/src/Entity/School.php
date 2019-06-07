@@ -5,9 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SchoolRepository")
+ * @UniqueEntity(
+ *      fields={"code", "schoolCode"},
+ *      message = "This value is already used"
+ * )
  */
 class School
 {
@@ -63,12 +68,22 @@ class School
      */
     private $code;
 
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $schoolCode;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Matrix", mappedBy="school", orphanRemoval=true, cascade={"persist"})
+     */
+    private $matrixes;
+
     public function __construct()
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
         $this->schoolYears = new ArrayCollection();
+        $this->matrixes = new ArrayCollection();
     }
-
 
 
     public function getId()
@@ -227,6 +242,49 @@ class School
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getSchoolCode(): ?string
+    {
+        return $this->schoolCode;
+    }
+
+    public function setSchoolCode(string $schoolCode): self
+    {
+        $this->schoolCode = $schoolCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Matrix[]
+     */
+    public function getMatrixes(): Collection
+    {
+        return $this->matrixes;
+    }
+
+    public function addMatrix(Matrix $matrix): self
+    {
+        if (!$this->matrixes->contains($matrix)) {
+            $this->matrixes[] = $matrix;
+            $matrix->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatrix(Matrix $matrix): self
+    {
+        if ($this->matrixes->contains($matrix)) {
+            $this->matrixes->removeElement($matrix);
+            // set the owning side to null (unless already changed)
+            if ($matrix->getSchool() === $this) {
+                $matrix->setSchool(null);
+            }
+        }
 
         return $this;
     }

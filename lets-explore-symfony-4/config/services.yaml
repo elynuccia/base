@@ -39,6 +39,11 @@ services:
     GuzzleHttp\Client:
         public: true
 
+    App\Listener\SchoolCodeListener:
+        arguments: ["@security.token_storage", "@router", "@security.authorization_checker"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+
     App\CouchDb\Client:
         arguments:
             $guzzle: '@GuzzleHttp\Client'

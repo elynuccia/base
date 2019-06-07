@@ -69,7 +69,9 @@ class SchoolFormHandler
 
     public function create(School $entity)
     {
-        $entity->setCode($this->schoolAccessDataGenerator->generateCode());
+        $entity->setCode($this->schoolAccessDataGenerator->generateCode(4));
+        $entity->setSchoolCode($this->schoolAccessDataGenerator->generateCode(3));
+
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 
@@ -81,7 +83,9 @@ class SchoolFormHandler
                 // templates/emails/registration.html.twig
                     'email/registration.html.twig',
                     array(
-                        'code' => $entity->getCode()
+                        'code' => $entity->getCode(),
+                        'schoolCode'=> $entity->getSchoolCode()
+
                     )
                 ),
                 'text/html'

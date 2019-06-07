@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\School;
+use App\Form\Handler\SchoolCodeFormHandler;
 use App\Utility\Auth0Api;
 use App\Entity\MinorAndMajorBehavior;
 use App\Form\Handler\MinorAndMajorFormHandler;
@@ -28,7 +29,7 @@ class SchoolController extends AbstractController
 {
 
     /**
-     * @Route("/minorBehavior/{id}", name="minorBehavior")
+     * @Route("/minorBehavior/{schoolCode}", name="minorBehavior")
      */
     public function newMinorBehavior(School $school, Request $request, MinorAndMajorFormHandler $formHandler)
     {
@@ -44,16 +45,18 @@ class SchoolController extends AbstractController
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
         */
 
+        $schoolCode=$school->getSchoolCode();
         $form = $this->createForm(SchoolType::class, $school);
 
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('majorBehavior', array ('id' => $lastId)));
+            return $this->redirect($this->generateUrl('majorBehavior', array ('schoolCode' => $schoolCode)));
         }
 
         return $this->render('school/new.html.twig', array(
             'form' => $form->createView(),
             'school' => $school,
+            'schoolCode'=> $schoolCode,
             //'minorAndMajor' => $minorAndMajorBehavior,
             'minorNumber' => $school->countMinorBehaviors()
         ));
@@ -62,7 +65,7 @@ class SchoolController extends AbstractController
 
 
     /**
-     * @Route("/majorBehavior/{id}", name="majorBehavior")
+     * @Route("/majorBehavior/{schoolCode}", name="majorBehavior")
      */
     public function newMajorBehavior(Request $request, School $school, MinorAndMajorFormHandler $formHandler)
     {
@@ -72,12 +75,13 @@ class SchoolController extends AbstractController
         $minorAndMajorBehavior->setName('');
 
         $school->addMinorAndMajorBehavior($minorAndMajorBehavior);
+        $schoolCode=$school->getSchoolCode();
 
         $form = $this->createForm(SchoolType::class, $school);
 
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            return $this->redirect($this->generateUrl('minorandmajorbehavior_list'));
+            return $this->redirect($this->generateUrl('minorandmajorbehavior_list', array ('schoolCode' => $schoolCode)));
         }
 
         return $this->render('school/new2.html.twig', array(
@@ -88,7 +92,7 @@ class SchoolController extends AbstractController
     }
 
     /**
-     * @Route("/minorandmajorbehaviorlist", name="minorandmajorbehavior_list")
+     * @Route("/minorandmajorbehaviorlist/{schoolCode}", name="minorandmajorbehavior_list")
      * @Method({"GET", "POST"})
      * @Template
      *
@@ -96,11 +100,11 @@ class SchoolController extends AbstractController
      * @param SchoolFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction() {
+    public function listAction(School $school) {
 
-
-        $minorAndMajor = $this->getDoctrine()->getRepository('App\Entity\MinorAndMajorBehavior')->findAll();
-
+     $schoolCode= $school->getSchoolCode();
+        $minorAndMajor = $this->getDoctrine()->getRepository('App\Entity\MinorAndMajorBehavior')->findMinMajBySchoolCode($schoolCode);
+        dump($school);
 
         return $this->render('school/list.html.twig', array(
 

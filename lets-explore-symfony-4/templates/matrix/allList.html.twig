@@ -77,7 +77,7 @@
                 <!--Section: fChart-->
                 <div class="row">
                     <div class="col-md-4"></div>
-                    <div class="col-md-6 "><a href="{{ path('matrix') }}">
+                    <div class="col-md-6 "><a href="{{ path('matrix', {'schoolCode': app.user.schoolCode}) }}">
 
                             <button type="button" class="btn btn-default">Create a New Matrix</button>
                         </a>

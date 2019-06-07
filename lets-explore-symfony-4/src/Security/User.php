@@ -15,6 +15,7 @@ class User implements UserInterface
     protected $loginCount;
     protected $roles = array('ROLE_USER', 'ROLE_0AUTH_USER');
     protected $students= array('');
+    protected $schoolCode;
 
 
     /**
@@ -143,6 +144,23 @@ class User implements UserInterface
     {
         return $this->username;
     }
+
+    /**
+     * @param mixed $schoolCode
+     */
+    public function setSchoolCode($schoolCode)
+    {
+        $this->schoolCode = $schoolCode;
+    }
+    /**
+     * @return mixed
+     */
+    public function getSchoolCode()
+    {
+        return $this->schoolCode;
+    }
+
+
     /**
      * @param mixed $userId
      */

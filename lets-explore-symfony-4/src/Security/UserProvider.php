@@ -22,6 +22,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         if(!isset($auth0User->user_metadata)) {
             $auth0User->user_metadata  = new \stdClass();
             $auth0User->user_metadata->role = [];
+            $auth0User->user_metadata->schoolCode = '';
         }
 
         if(!isset($auth0User->user_metadata->role) ||
@@ -46,6 +47,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user->setLastLogin($auth0User->last_login);
         $user->setLastIp($auth0User->last_ip);
         $user->setLoginCount($auth0User->logins_count);
+        $user->setSchoolCode($auth0User->user_metadata->schoolCode);
 
         if(isset($auth0User->user_metadata->role)) {
             foreach ($auth0User->user_metadata->role as $role) {
@@ -88,6 +90,8 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user->setLastLogin($auth0User[0]->last_login);
         $user->setLastIp($auth0User[0]->last_ip);
         $user->setLoginCount($auth0User[0]->logins_count);
+        $user->setSchoolCode($auth0User[0]->user_metadata->schoolCode);
+
 
         if(isset($auth0User[0]->user_metadata->role)) {
             foreach ($auth0User[0]->user_metadata->role as $role) {
@@ -127,7 +131,13 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $roles[] = $role;
         }
 
-        $this->auth0Api->updateUserMetadata($userId, array_unique($roles));
+        $this->auth0Api->updateRoleUserMetadata($userId, array_unique($roles));
+    }
+
+    public function updateSchoolCode($userId, $schoolCode)
+    {
+
+        $this->auth0Api->updateSchoolCodeUserMetadata($userId, $schoolCode);
     }
 
 
