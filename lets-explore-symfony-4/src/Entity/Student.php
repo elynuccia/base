@@ -90,6 +90,13 @@ class Student implements UserInterface
      */
     private $points;
 
+    /**
+     * @ORM\Column(type="string", length=128, nullable=true)
+     */
+    private $schoolCode;
+
+
+
     public function __construct()
     {
         $this->cicos = new ArrayCollection();
@@ -456,4 +463,18 @@ class Student implements UserInterface
 
         return $this;
     }
+
+    public function getSchoolCode(): ?string
+    {
+        return $this->schoolCode;
+    }
+
+    public function setSchoolCode(?string $schoolCode): self
+    {
+        $this->schoolCode = $schoolCode;
+
+        return $this;
+    }
+
+
 }

@@ -16,12 +16,12 @@ class WelcomeController extends AbstractController
     public function index()
     {
         $user = $this->getUser();
-        $schoolCode= $user->getSchoolCode();
+       // $schoolCode= $user->getSchoolCode();
         dump($user);
 
         return $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',
-            'schoolCode' => $schoolCode
+            //'schoolCode' => $schoolCode
 
         ]);
     }

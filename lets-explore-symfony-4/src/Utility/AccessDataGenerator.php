@@ -133,7 +133,7 @@ class AccessDataGenerator
         $this->qrCode = $QRCode;
     }
 
-    public function generateAccessData($number, $teacherUsername)
+    public function generateAccessData($number, $teacherUsername, $schoolCode)
     {
 
         $results = array();
@@ -150,6 +150,8 @@ class AccessDataGenerator
             $student->setNickname($this->generateNickname());
             $student->setQrCode($this->generateQrCode($studentCode));
             $student->setTeacherCoordinator($teacherUsername);
+            $student->setSchoolCode($schoolCode);
+
 
             $personInCharge->setCode($personInChargeCode);
             $personInCharge->setQrCode($this->generateQrCode($personInChargeCode));

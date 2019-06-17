@@ -18,6 +18,38 @@ class StudentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Student::class);
     }
+
+
+    public function findStudentsByTeacherCoordinator( $teacherCoordinator)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(stud.id) as id, stud.teacherCoordinator, stud.code
+          FROM \App\Entity\Student stud 
+          WHERE stud.teacherCoordinator = :teacherCoordinator
+          GROUP BY stud.id, stud.teacherCoordinator, stud.code  '
+        )->setParameter('teacherCoordinator', $teacherCoordinator);
+
+        // returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function findStudentsBySchoolCode( $schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT stud
+          FROM \App\Entity\Student stud 
+          JOIN stud.personInCharge personInCharge
+          WHERE stud.schoolCode = :schoolCode
+          GROUP BY stud.id, stud.nickname, stud.code, stud.qrCode  '
+        )->setParameter('schoolCode', $schoolCode);
+
+        // returns an array of Product objects
+        return $query->execute();
+    }
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */

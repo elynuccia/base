@@ -26,8 +26,9 @@ class PORController extends AbstractController
     public function newOdr(Request $request, PORFormHandler$formHandler)
     {
         $por = new POR();
+        $userId = $this->getUser()->getUserId();
 
-        $form = $this->createForm(PORType::class, $por);
+        $form = $this->createForm(PORType::class, $por,  array( 'teacherCoordinator' => $userId));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('por_list'));

@@ -28,6 +28,8 @@ class ODRType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $teacherCoordinator = $options['teacherCoordinator'];
+
         $builder->add('minorAndMajorBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MinorAndMajorBehavior::class,
@@ -70,6 +72,15 @@ class ODRType extends AbstractType
             'choice_label' => 'code',
             'attr' => array(
                 'class' => 'mdb-select md-form'),
+            'query_builder' => function (EntityRepository $er) use ($teacherCoordinator) {
+                // here you can use the $country variable in your anonymous function.
+                return $er->createQueryBuilder('c')
+                    ->where('c.teacherCoordinator = ?1')
+                    ->setParameter(1, $teacherCoordinator);
+
+            },
+
+
             //non si vede il bordo
             // used to render a select box, check boxes or radios
             // 'multiple' => true,
@@ -89,6 +100,7 @@ class ODRType extends AbstractType
         $resolver->setDefaults([
 
             'data_class' => ODR::class,
+            'teacherCoordinator' => null,
         ]);
     }
 

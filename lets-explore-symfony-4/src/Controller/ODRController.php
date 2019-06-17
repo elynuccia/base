@@ -25,8 +25,10 @@ class ODRController extends AbstractController
     public function newOdr(Request $request, ODRFormHandler$formHandler)
     {
         $odr = new ODR();
-
-        $form = $this->createForm(ODRType::class, $odr);
+        $userId = $this->getUser()->getUserId();
+        //$student = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator($userId);
+        //dump($student);
+        $form = $this->createForm(ODRType::class, $odr, array( 'teacherCoordinator' => $userId));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('odr_list'));

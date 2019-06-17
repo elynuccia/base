@@ -78,11 +78,14 @@ class School
      */
     private $matrixes;
 
+
+
     public function __construct()
     {
         $this->minorAndMajorBehaviors = new ArrayCollection();
         $this->schoolYears = new ArrayCollection();
         $this->matrixes = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
 
@@ -288,6 +291,7 @@ class School
 
         return $this;
     }
+
 
 
 }

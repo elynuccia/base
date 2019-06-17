@@ -25,6 +25,9 @@ class PORType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+        $teacherCoordinator = $options['teacherCoordinator'];
+
+
         $builder->add('student', EntityType::class, [
             // looks for choices from this entity
             'class' => Student::class,
@@ -33,6 +36,13 @@ class PORType extends AbstractType
             'choice_label' => 'code',
             'attr' => array(
                 'class' => 'mdb-select md-form'),
+            'query_builder' => function (EntityRepository $er) use ($teacherCoordinator) {
+                // here you can use the $country variable in your anonymous function.
+                return $er->createQueryBuilder('c')
+                    ->where('c.teacherCoordinator = ?1')
+                    ->setParameter(1, $teacherCoordinator);
+
+            },
             //non si vede il bordo
             // used to render a select box, check boxes or radios
             // 'multiple' => true,
@@ -87,6 +97,8 @@ class PORType extends AbstractType
         $resolver->setDefaults([
 
             'data_class' => POR::class,
+            'teacherCoordinator' => null,
+
         ]);
     }
 

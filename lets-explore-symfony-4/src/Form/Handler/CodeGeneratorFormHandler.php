@@ -54,7 +54,7 @@ class CodeGeneratorFormHandler
 
         if ($form->isSubmitted() && $form->isValid()) {
             $studentIds = $this->accessDataGenerator->generateAccessData($request->get('code_generator')['numberOfCodes'],
-                $user->getUserId());
+                $user->getUserId(), $user->getSchoolCode());
 
             $students = array_merge($user->getStudents(), $studentIds);
 

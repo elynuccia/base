@@ -40,13 +40,15 @@
     {{ form_row(form.numberOfCodes) }}
     </div>
     <div class="row">
-    {{ form_row(form.submit) }}
+        <div class="col-md-3">{{ form_row(form.submit) }}</div>
+        <div class="col-md-3"></div>
+
+        <div class="col-md-4"><button id="showButton" class="btn">Show Inserted Codes</button></div>
     </div>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 
     <div class="row">
-    <button id="showButton" class="btn purple-gradient">Show Codes</button>
     </div>
 
 
@@ -88,7 +90,7 @@
 
             $("#codes").toggle();
             $(this).text(function(i, text){
-                return text === "Show Codes" ? "Hide Codes" : "Show Codes";
+                return text === "Show Inserted Codes" ? "Hide Codes" : "Show Inserted Codes";
             })        })
         });
 
