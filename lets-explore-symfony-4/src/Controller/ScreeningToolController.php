@@ -24,12 +24,15 @@ class ScreeningToolController extends AbstractController
 {
 
     /**
-     * @Route("/screeningtool/{id}", name="screening_tool")
+     * @Route("/screeningtool/", name="screening_tool")
      * @Method({"GET", "POST"})
      */
-    public function newScreeningTool(Request $request, Matrix $matrix, ScreeningToolFormHandler $formHandler)
+    public function newScreeningTool(Request $request, ScreeningToolFormHandler $formHandler)
     {
+        $schoolCode=$this->getUser()->getSchoolCode();
 
+        $mat = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
+dump($mat);
         //per ciascun periodo
         // per ciascuna aspettativa
         //$cicoData = new CicoData();
@@ -37,7 +40,7 @@ class ScreeningToolController extends AbstractController
         //$cico->addData($cicoData);
 
         $screeningTool = new ScreeningTool();
-        $screeningTool->setMatrix($matrix);
+        $screeningTool->setMatrix($mat[0]);
 
         foreach ($screeningTool->getMatrix()->getExpectationTags() as $expectation) {
             $screeningToolData = new ScreeningToolData();
@@ -57,7 +60,7 @@ class ScreeningToolController extends AbstractController
 
         if ($lastId = $formHandler->handle($form, $request)) {
             dump($lastId);
-            return $this->redirect($this->generateUrl('screeningtool_list', array ('id' => $lastId)));
+            return $this->redirect($this->generateUrl('screeningtool_list'));
         }
 
         return $this->render('screeningtool/new.html.twig', array(

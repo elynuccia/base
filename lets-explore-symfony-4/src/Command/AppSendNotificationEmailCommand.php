@@ -21,8 +21,8 @@ class AppSendNotificationEmailCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
         $numberOfHours = $input->getArgument('numberOfHours');
-        $auth0Api = $this->getContainer()
-            ->get('App\Utility\Auth0Api');
+       /* $auth0Api = $this->getContainer()
+            ->get('App\Utility\Auth0Api');*/
         $mailer = $this->getContainer()->get('mailer');
         $templating = $this->getContainer()->get('twig');
         $observationDates = $this->getContainer()
@@ -42,7 +42,7 @@ class AppSendNotificationEmailCommand extends ContainerAwareCommand
                         $templating->render(
                             'emails/observation-notification.html.twig',
                             array(
-                                'givenName' => $auth0Api->getUserByUsername($observation->getObserverUsername())[0]->given_name,
+                               // 'givenName' => $auth0Api->getUserByUsername($observation->getObserverUsername())[0]->given_name,
                                 'student' => $observation->getStudent(),
                                 'behaviour' => $observation->getName(),
                                 'observationStartDate' => $observationDate->getStartDateTimestamp(),

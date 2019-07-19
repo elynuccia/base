@@ -25,11 +25,12 @@ class MatrixRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(m.id) as id, m.motto as motto
+            'SELECT DISTINCT m
           FROM \App\Entity\Matrix m 
           JOIN m.school school
           WHERE school.schoolCode = :schoolCode
-          GROUP BY m.motto, m.id '
+          GROUP BY m.motto, m.id 
+          ORDER BY m.id DESC'
         )->setParameter('schoolCode', $schoolCode);
 
 

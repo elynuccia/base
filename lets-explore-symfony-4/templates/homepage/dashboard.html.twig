@@ -60,7 +60,7 @@
                     {% else %}
                     {% set indexBackgroundColor = 0 %}
                     {% endif %}
-                    title: '{{ observationDate.observation.student.studentId | upper }}\n{{ observationDate.observation.name }}',
+                    title: '{{ observationDate.observation.student.id | upper }}\n{{ observationDate.observation.name }}',
                     start: new Date({{ observationDate.startDateTimestamp | date('Y') }}, {{ observationDate.startDateTimestamp | date('n') - 1 }}, {{ observationDate.startDateTimestamp | date('j') }}, {{ observationDate.startDateTimestamp | date('H') }}, {{ observationDate.startDateTimestamp | date('i') }}),
                     end: new Date({{ observationDate.endDateTimestamp | date('Y') }}, {{ observationDate.endDateTimestamp | date('n') - 1 }}, {{ observationDate.endDateTimestamp | date('j') }}, {{ observationDate.endDateTimestamp | date('H') }}, {{ observationDate.endDateTimestamp | date('i') }}),
                     allDay: {{ allDay }},
@@ -78,7 +78,7 @@
                 {% if((observationsWithoutDates | length) > 0) %}
                 {% for observationWithoutDate in observationsWithoutDates %}
                 {
-                    title: '{{ observationWithoutDate.student.studentId | upper }}\n{{ observationWithoutDate.name }}',
+                    title: '{{ observationWithoutDate.student.id | upper }}\n{{ observationWithoutDate.name }}',
                     backgroundColor: '{{ cycle(backgroundColorsWithoutDates, loop.index0) }}',
                     observationId: '{{ observationWithoutDate.id }}',
                     observationToken: '{{ observationWithoutDate.token }}'
@@ -235,7 +235,7 @@
                                 <tr>
                                     <td class="highlight">
                                         <div class="success"></div>
-                                        <a href="{{ path('observation_student_list', { 'id' : data.student.id } ) }}"> {{ data.student.studentId }} </a>
+                                        <a href="{{ path('observation_student_list', { 'id' : data.student.id } ) }}"> {{ data.student.id }} </a>
                                     </td>
                                     <td class="hidden-xs"> {{ data.observation.name }} </td>
                                     <td class="hidden-xs"> {{ data.observation.description }} </td>

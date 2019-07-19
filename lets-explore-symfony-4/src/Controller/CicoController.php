@@ -25,14 +25,20 @@ use Symfony\Component\HttpFoundation\Request;
 class CicoController extends AbstractController
 {
     /**
-     * @Route("/cico/{id}", name="cico")
+     * @Route("/cico", name="cico")
      * @Method({"GET", "POST"})
      */
-    public function index(Matrix $matrix, Request $request , CicoFormHandler $formHandler)
+    public function index( Request $request , CicoFormHandler $formHandler)
     {
 
         $cico = new Cico();
-        $cico->setMatrix($matrix);
+
+        $schoolCode=$this->getUser()->getSchoolCode();
+
+        $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
+        dump($matrix);
+
+        $cico->setMatrix($matrix[0]);
 
         $cicoThreshold = new CicoThreshold();
         $cicoThreshold->setCico($cico);
@@ -53,7 +59,7 @@ class CicoController extends AbstractController
 
         return $this->render('cico/new.html.twig', array(
             'form' => $form->createView(),
-            'matrix' => $matrix,
+            'matrix' => $matrix[0],
             'id' => $cico->getId(),
             'cico' => $cico,
         ));

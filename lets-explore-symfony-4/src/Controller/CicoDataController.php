@@ -29,7 +29,7 @@ class CicoDataController extends AbstractController
      * @Route("/cicodata/{id}", name="cico_data")
      * @Method({"GET", "POST"})
      */
-    public function index(Cico $cico, Student $student, Request $request, CicoFormHandler $formHandler)
+    public function index(Cico $cico, Request $request, CicoFormHandler $formHandler)
     {
         //per ciascun periodo
         // per ciascuna aspettativa
@@ -38,7 +38,8 @@ class CicoDataController extends AbstractController
         //$cico->addData($cicoData);
         $session = new CicoSession();
         $session->setCico($cico);
-
+        $student= $cico->getStudent();
+        dump($student);
         for ($i = 1; $i <= $cico->getPeriodNumber(); $i++) {
             foreach ($cico->getMatrix()->getExpectationTags() as $expectation) {
                 $cicoData = new CicoData();
@@ -70,7 +71,8 @@ class CicoDataController extends AbstractController
             'matrix' => $cico->getMatrix(),
             'id' => $cico->getId(),
             'cico' => $cico,
-            'student'=>$student
+            'student' => $student
+
         ));
 
     }
