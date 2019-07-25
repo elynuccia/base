@@ -29,13 +29,16 @@ class ODRType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $teacherCoordinator = $options['teacherCoordinator'];
+        $schoolId = $options['schoolId'];
 
         $builder->add('minorAndMajorBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MinorAndMajorBehavior::class,
-            'query_builder' => function (EntityRepository $er) {
+            'query_builder' => function (EntityRepository $er) use ($schoolId) {
                 return $er->createQueryBuilder('u')
-                    ->where('u.id >0', 'u.id<5')
+                    ->join('u.school', 's')
+                    ->where('s.id = :schoolId')
+                    ->setParameter('schoolId', $schoolId)
                     ->orderBy('u.id', 'ASC');
             },
 
@@ -50,9 +53,12 @@ class ODRType extends AbstractType
         $builder->add('locations', EntityType::class, array(
             // looks for choices from this entity
             'class' => LocationTag::class,
-            'query_builder' => function (EntityRepository $er) {
+            'query_builder' => function (EntityRepository $er) use ($schoolId) {
                 return $er->createQueryBuilder('l')
-                    ->where('l.id > 0', 'l.id<3')
+                    ->join('l.matrix', 'm')
+                    ->join('m.school', 's')
+                    ->where('s.id = :schoolId')
+                    ->setParameter('schoolId', $schoolId)
                     ->orderBy('l.id', 'ASC');
             },
 
@@ -101,6 +107,7 @@ class ODRType extends AbstractType
 
             'data_class' => ODR::class,
             'teacherCoordinator' => null,
+            'schoolId' => null,
         ]);
     }
 

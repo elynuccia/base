@@ -17,7 +17,6 @@ class WelcomeController extends AbstractController
     {
         $user = $this->getUser();
        // $schoolCode= $user->getSchoolCode();
-        dump($user);
 
         return $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',

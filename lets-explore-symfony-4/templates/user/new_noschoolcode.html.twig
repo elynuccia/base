@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+{% block title %}User{% endblock title %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href={{ asset('css/addons-pro/bootstrap.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/addons-pro/mdb.min.css') }} >
+    <link rel="stylesheet" href={{ asset('css/addons-pro/cards-extended.min.css') }} >
+
+
+    <style>.scrollbar-deep-purple::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-deep-purple::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-deep-purple::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #512da8; }
+
+        .scrollbar-cyan::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-cyan::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-cyan::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #00bcd4; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-dusty-grass::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(330deg, #d4fc79 0%, #96e6a1 100%);
+            background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px; }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(330deg, #f093fb 0%, #f5576c 100%);
+            background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); }
+
+        .bordered-deep-purple::-webkit-scrollbar-track {
+            -webkit-box-shadow: none;
+            border: 1px solid #512da8; }
+
+        .bordered-deep-purple::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: none; }
+
+        .bordered-cyan::-webkit-scrollbar-track {
+            -webkit-box-shadow: none;
+            border: 1px solid #00bcd4; }
+
+        .bordered-cyan::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: none; }
+
+        .square::-webkit-scrollbar-track {
+            border-radius: 0 !important; }
+
+        .square::-webkit-scrollbar-thumb {
+            border-radius: 0 !important; }
+
+        .thin::-webkit-scrollbar {
+            width: 6px; }
+
+        .example-1 {
+            position: relative;
+            overflow-y: scroll;
+            height: 400px; }</style>
+{% endblock %}
+
+
+{% block main %}
+
+    <div class="container-fluid">
+
+        <section class="mb-5">
+
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 ">Personal Page and School Report</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body card-body-cascade pb-0 ">
+
+                                <div class="col-md-6 card testimonial-card">
+
+                                    <!-- Background color -->
+                                    <div class="card-up blue lighten-1"></div>
+
+                                    <!-- Avatar -->
+                                    <div class="avatar mx-auto white">
+                                        <img id="profilePicture" src="{{ user.picture  }}">
+
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="card-body">
+                                        <!-- Name -->
+                                        <h4 class="card-title"><b>{{ user.name }}</b></h4>
+                                        <hr>
+                                        <!-- Quotation -->
+                                        {% if 'ROLE_USER_PBS_TEAM_MEMBER' in user.roles %}
+                                            <p><i class="fas"></i><b>Role: </b> PBS TEAM MEMBER {% if 'ROLE_USER_TEACHER_COORDINATOR' in user.roles %} AND TEACHER COORDINATOR  {% endif %}</p>
+                                        {% else %}
+                                            <p><i class="fas"></i><b>Role: </b> Teacher</p>
+                                        {% endif %}
+
+
+                                        <p><i class="fas"></i><b>Email: </b> {{ user.email }}</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
+
+
+                    </div>
+                    <!--Grid row-->
+
+
+
+                </section>
+                <!--Section: Chart-->
+
+
+
+
+            </div>
+            <!--/.Card-->
+
+        </section>
+
+
+
+
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent () }}
+{% endblock %}

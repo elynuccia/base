@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block main %}
-
-    <div class="container-fluid">
+    {% if screeningTool.matrix is not empty %}
+        <div class="container-fluid">
 
         <!--Section: Inputs-->
         <section class="section card mb-5">
@@ -90,6 +90,23 @@
     </div>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
+
+{% else %}
+                <div class="container-fluid">
+
+        <!--Section: Inputs-->
+        <section class="section card mb-5">
+
+            <div class="card-body">
+
+                <!--Section heading-->
+                <h1 class="text-center my-5 h1">SWPBS Expectations Screening Tool </h1>
+                <h4 class="text-center my-5 h1">Expectations Matrix not defined </h4>
+
+                </div>
+                </section>
+                </div>
+{% endif %}
 {% endblock %}
 
 {% block javascripts %}

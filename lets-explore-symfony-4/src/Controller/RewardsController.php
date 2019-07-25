@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Entity\Rewards;
-use App\Entity\RewardTag;
+use App\Entity\School;
 use App\Form\Handler\RewardFormHandler;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +23,15 @@ class RewardsController extends AbstractController
 
 {
     /**
-     * @Route("/rewards", name="rewards")
+     * @Route("/rewards/{schoolCode}", name="rewards")
      * @Method({"GET", "POST"})
      */
-    public function index(/*Matrix $matrix,*/ Request $request , RewardFormHandler $formHandler)
+    public function index(/*Matrix $matrix,*/ Request $request ,School $school, RewardFormHandler $formHandler)
     {
         $rewards = new Rewards();
+        $rewards->setSchool($school);
+
+        $schoolCode=$school->getSchoolCode();
 
         $form = $this->createForm(RewardsType::class, $rewards);
         dump($form);
@@ -39,7 +42,7 @@ class RewardsController extends AbstractController
                 ? 'rewards'
                 : 'rewards_list';
 
-            return $this->redirect($this->generateUrl($nextAction, array('id' => $lastId)));
+            return $this->redirect($this->generateUrl($nextAction , array ('schoolCode' => $schoolCode)));
         }
 
         return $this->render('rewards/new.html.twig', array(
@@ -49,7 +52,7 @@ class RewardsController extends AbstractController
     }
 
     /**
-     * @Route("/rewardslist", name="rewards_list")
+     * @Route("/rewardslist/{schoolCode}", name="rewards_list")
      * @Method({"GET", "POST"})
      * @Template
      *
@@ -57,10 +60,9 @@ class RewardsController extends AbstractController
      * @param RewardFormHandler $formHandler
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction() {
-
-
-       $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findAll();
+    public function listAction(School $school) {
+        $schoolCode= $school->getSchoolCode();
+       $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
 
 
         return $this->render('rewards/list.html.twig', array(

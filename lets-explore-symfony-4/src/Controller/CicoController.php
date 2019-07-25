@@ -35,21 +35,21 @@ class CicoController extends AbstractController
 
         $schoolCode=$this->getUser()->getSchoolCode();
 
+
         $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
         dump($matrix);
 
-        $cico->setMatrix($matrix[0]);
+        if(isset($matrix[0])) {
+            $cico->setMatrix($matrix[0]);
 
-        $cicoThreshold = new CicoThreshold();
-        $cicoThreshold->setCico($cico);
+            $cicoThreshold = new CicoThreshold();
+            $cicoThreshold->setCico($cico);
+            $cico->addCicoThreshold($cicoThreshold);
+            $cico->setGainedPoints($cico->calculatePoints());
 
-        $cico->addCicoThreshold($cicoThreshold);
-        //$gainedPoints=$cico->getGainedPoints();
-        $cico->setGainedPoints($cico->calculatePoints());
-       /* $cicoThreshold = new CicoThreshold();
-        $cicoThreshold->setCico($cico);
+            $matrix = $cico->getMatrix();
 
-        $cico->addCicoThreshold($cicoThreshold);*/
+        }
         $form = $this->createForm(CicoType::class, $cico);
         dump($form);
 
@@ -59,7 +59,7 @@ class CicoController extends AbstractController
 
         return $this->render('cico/new.html.twig', array(
             'form' => $form->createView(),
-            'matrix' => $matrix[0],
+            'matrix' => $matrix,
             'id' => $cico->getId(),
             'cico' => $cico,
         ));

@@ -33,6 +33,23 @@ class RewardsRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findRewardsBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT rewards
+          FROM \App\Entity\Rewards rewards 
+          JOIN rewards.school school
+          WHERE school.schoolCode = :schoolCode
+          '
+        )->setParameter('schoolCode', $schoolCode);
+
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Rewards[] Returns an array of Rewards objects
 //     */

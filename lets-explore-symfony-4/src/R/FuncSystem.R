@@ -1,26 +1,33 @@
+#setwd("/var/www/html/whaamproject/app/data/R/assessment/")
+# data = c(9,10,18,31,17,4,6,8,15,10,1,5,8,3,1,0,0,4,2,3,3,0,5,4,0,1,3,3,0,0,9,9,4,8,3,2,2,4,2,3,3,2,0,3,1,3,2,1,0,0,1,2,1,2,1,2,1,1,1)
+#fase = c("A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B","B")
+
+# data= c(7,4,3,5,4,4,4,4)
+# fase = c("A","A","A","A","B","B","B","B")
+
+# data= c(1,2,3,4,10,9,8,7,6,5,4,3)
+# fase = c("A","A","A","A","B","B","B","B","B","B","B","B")
+
+# data= c(1,2,3,4,5,6,6,5,4,3,2,1)
+# fase = c("A","A","A","A","A","A","B","B","B","B","B","B")
+
 data <- as.numeric(unlist(strsplit(GET$data,",")))
 fase <- unlist(strsplit(GET$fase,","))
 nomifase <- unlist(strsplit(GET$nomifase,","))
 
-
 IndicesSystem<-function(){
-  # args <- commandArgs(trailingOnly = TRUE)
+  #args <- commandArgs(trailingOnly = TRUE) 
 
   require("Kendall")
   require("RJSONIO")
   require("mblm")
-  # source(args)
+  #source(args)
 
   nameTime = "TIME"
   namePhase = "DUMMYPHASE"
   nameDV = "DV"
   Aphase = 0
   Bphase = 1
-
-  # qui trosformo i nomi fase in A e B
-  fase[which(fase %in% nomifase[1])]="A"
-  fase[which(fase %in% nomifase[2])]="B"
-
 
   data1<-matrix(,ncol = 2,nrow=length(data))
   data1<-as.data.frame(data1)
@@ -37,21 +44,17 @@ IndicesSystem<-function(){
     n <- length(actual)
     denom_i <- rep(0,(n-1))
     for (j in 2:n)
-      denom_i[j-1] <- abs(actual[j]-actual[j-1])
+    denom_i[j-1] <- abs(actual[j]-actual[j-1])
     denom <- sum(denom_i)
 
     error_t <- rep(0,n)
-
-   if(sum(denom)==0){
+    if(sum(denom)==0){
       mase=0
     }else{
-    for (j in 1:n)
+      for (j in 1:n)
       error_t[j] <- abs( (actual[j]-predicted[j]) / ( denom/(n-1)) )
-    mase <- mean(error_t)
+      mase <- mean(error_t)
     }
-    # for (j in 1:n)
-    #  error_t[j] <- abs( (actual[j]-predicted[j]) / ( denom/(n-1)) )
-    # mase <- mean(error_t)
     return(mase)
   }
   Na= length(which(data1$DUMMYPHASE==0))  # N A phase
@@ -64,11 +67,11 @@ IndicesSystem<-function(){
   TAUAM=kepA$tau[[1]] # TAU A phase
   kepB <- Kendall(BX, BY)
   TAUBM=kepB$tau[[1]] # TAU B phase
-  regi=lm(AY ~ AX)
-  R2A=summary(regi)
-  RA=sqrt(R2A$r.squared) # R A phase
+  # regi=lm(AY ~ AX)
+  # R2A=summary(regi)
+  # RA=sqrt(R2A$r.squared) # R A phase
 
-  maseRA =mase(AY,predict.lm(regi)) # mase A PHASE
+  #maseRA =mase(AY,predict.lm(regi)) # mase A PHASE
 
   regi1A=mblm(AY ~ AX)
   maseTheilSenRA =mase(AY,as.numeric(regi1A$fitted.values)) # maseTheil  A PHASE
@@ -77,8 +80,8 @@ IndicesSystem<-function(){
   maseTheilSenRB =mase(BY,as.numeric(regi1B$fitted.values)) # maseTheil  B PHASE
 
 
-  RBIASA= -0.8457 + 0.1021*Na + 1.3879*RA -2.8350*maseRA
-  RBIASA=exp(RBIASA)/(1+exp(RBIASA))
+  # RBIASA= -0.8457 + 0.1021*Na + 1.3879*RA -2.8350*maseRA
+  # RBIASA=exp(RBIASA)/(1+exp(RBIASA))
 
   TAUBIASA= -2.76968 + 0.08801*Na + 4.19067*abs(TAUAM) -0.87414*maseTheilSenRA
   TAUBIASA=exp(TAUBIASA)/(1+exp(TAUBIASA))
@@ -86,10 +89,11 @@ IndicesSystem<-function(){
   TAUBIASB= -2.76968 + 0.08801*Nb + 4.19067*abs(TAUBM) -0.87414*maseTheilSenRB
   TAUBIASB=exp(TAUBIASB)/(1+exp(TAUBIASB))
 
-  outMonte=NA # 1 prob che bias < .10
-  if(RBIASA >.5){
-    outMonte="Allison & Gorman"
-  }else if(TAUBIASB>.5){
+
+  outMonte=NA # 1 prob che bias < .10 
+
+
+  if(TAUBIASB>.5){
 
     if(TAUBIASA >.5){
       outMonte="AvsB+trendB-trendA"
@@ -101,9 +105,9 @@ IndicesSystem<-function(){
 
 
 
-#############################
-#           TAU
-############################
+  #############################
+  #           TAU
+  ############################
 
   #Matrix preparation
   dime <- dim(data1)[1]
@@ -155,9 +159,9 @@ IndicesSystem<-function(){
       sasa <- c(ro, colo)
       ke <- Kendall(c(ro, colo), c(ze, un))
       kefu <- c(ro, colo)
-      #	print(kefu)
+      #	print(kefu) 
       kefu <- Kendall(kefu, 1:length(kefu))
-      #	print(kefu)
+      #	print(kefu) 
       varsf <- kefu[[5]]
       pcf <- kefu[[2]]
 
@@ -198,16 +202,16 @@ IndicesSystem<-function(){
 
 
           if ((i == (dim(matriAB)[2] - k + 1)) && is.na(matriAB[i,
-                                                                k]) == FALSE) {
+          k]) == FALSE) {
             zero = zero + 1
           }
           if ((matriAB[i, k] > 0) == TRUE && is.na(matriAB[i,
-                                                           k]) == FALSE) {
+          k]) == FALSE) {
             nposAB = nposAB + 1
 
           }
           if (matriAB[i, k] < 0 && is.na(matriAB[i, k]) ==
-              FALSE) {
+          FALSE) {
             nnegAB = nnegAB + 1
           }
           if (is.na(matriAB[i, k]) == FALSE) {
@@ -237,7 +241,7 @@ IndicesSystem<-function(){
     pz <- 2 * pnorm(-abs(z))
 
     dd <- c(npairsAB, nposAB, nnegAB, S, Tau, SDs, vars,
-            z, pz, pco, varsf, pcf, varsA1, pcA1, varsA2, pcA2)
+    z, pz, pco, varsf, pcf, varsA1, pcA1, varsA2, pcA2)
 
     return(dd)
   }
@@ -266,14 +270,14 @@ IndicesSystem<-function(){
   TAU_U_Analysis <- matrix(, nrow = 11, ncol = 2)
 
   rownames(PartitionsOfMatrix) <- c("n_pairs", "n_pos", "n_neg",
-                                    "S", "Tau", "SDs", "VARs", "Z", "p_Z_based", "p_exact","r_effect_size")
+  "S", "Tau", "SDs", "VARs", "Z", "p_Z_based", "p_exact","r_effect_size")
   colnames(PartitionsOfMatrix) <- c("AvsB", "TrendA", "TrendB")
 
   rownames(FullMatrix) <- c("n_pairs", "n_pos", "n_neg", "S",
-                            "Tau", "SDs", "VARs", "Z", "p_Z_based)", "p_exact","r_effect_size")
+  "Tau", "SDs", "VARs", "Z", "p_Z_based)", "p_exact","r_effect_size")
 
   rownames(TAU_U_Analysis) <- c("n_pairs", "n_pos", "n_neg",
-                                "S", "Tau", "SDs", "VARs", "Z", "p_Z based", "p_exact","r_effect_size")
+  "S", "Tau", "SDs", "VARs", "Z", "p_Z based", "p_exact","r_effect_size")
   colnames(TAU_U_Analysis) <- c("AvsBTrendB", "AvsBTrendBTrendA")
 
   PartitionsOfMatrix[1:10, 1] <- round(ABpart, 3)
@@ -283,7 +287,7 @@ IndicesSystem<-function(){
 
 
   FullMatrix[1:4, 1] <- apply(PartitionsOfMatrix[1:4, ], 1,
-                              sum)
+  sum)
   Tauf <- FullMatrix[4, 1]/FullMatrix[1, 1]
   SDf <- sqrt(vf)
   zf = FullMatrix[4, 1]/SDf
@@ -293,7 +297,7 @@ IndicesSystem<-function(){
 
   zz <- function(k) k[1] + k[3]
   TAU_U_Analysis[1:4, 1] <- apply(PartitionsOfMatrix[1:4, ],
-                                  1, zz)
+  1, zz)
   Taua1 <- TAU_U_Analysis[4, 1]/TAU_U_Analysis[1, 1]
 
   TAU_U_Analysis[1, 2] <- PartitionsOfMatrix[1, 1] + PartitionsOfMatrix[1,  2] + PartitionsOfMatrix[1, 3]
@@ -315,131 +319,10 @@ IndicesSystem<-function(){
   FullMatrix[11, ] <- sin(.5*pi*FullMatrix["Tau",])
   TAU_U_Analysis[11, ] <- sin(.5*pi*TAU_U_Analysis["Tau",])
 
-  ###############################################
-  #                  Allison & Gorman           #
-  ###############################################
-  slopes=TRUE
-  nameTime="TIME"
-  namePhase="DUMMYPHASE"
-  nameDV="DV"
-  nameint="TIMEna"
-  miny= "-inf"
-  maxy= "+inf"
-  Aphase=0
-  Bphase=1
+  ###################################################################
 
-  minB<-min(data1[data1[,"DUMMYPHASE"]==Bphase,"TIME"])
-
-  na=0
-  for(i in 1:dim(data1)[1]){
-
-    if(  (data1[i,"TIME"])< minB && data1[i,"DUMMYPHASE"]==Aphase){
-
-      na=na+1
-
-    }
-  }
-
-  fTimeNa<-function(Timeserie){tna<- Timeserie-na
-  return(tna)}
-  TIMEna<-sapply(data1[,"TIME"],fTimeNa)
-  data1<-cbind(data1,TIMEna)
-
-
-  data2<-data1[data1[,"DUMMYPHASE"] == 0, ]
-
-
-  DV0=data2[,"DV"]
-  TIME0=data2[,"TIME"]
-  TIMEna0<-data2[,"TIMEna"]
-
-  DV=data1[,"DV"]
-  TIME=data1[,"TIME"]
-  TIMEna<-data1[,"TIMEna"]
-  DUMMYPHASE<-data1[,"DUMMYPHASE"]
-
-  regr1 <- lm(DV0 ~ TIME0) #Step1
-  coe <- coefficients(regr1)
-
-
-  pred<-rep(NA,dim(data1)[1])
-  diffe<-rep(NA,dim(data1)[1])
-  int<-rep(NA,dim(data1)[1])
-  data1<-cbind(data1,pred,diffe,int)
-
-  for (i in 1:dim(data1)[1]) {
-
-
-    data1[i, "pred"] <-  coe[1] + coe[2] * data1[i, "TIME"] # steps 2 3 4
-
-    if(miny!= "-inf"){
-      if(data1[i, "pred"] < miny){data1[i, "pred"]=miny}}
-    if(maxy!= "+inf"){
-      if(data1[i, "pred"] > maxy){data1[i, "pred"]=maxy}}
-
-    data1[i, "diffe"] <- data1[i, "DV"] - data1[i, "pred"] # steps 2 3 4
-    data1[i, "diffe"]<-round(data1[i, "diffe"],11)#tentativo di eliminare .machine eps (fare meglio)
-
-    data1[i, "int"]<-data1[i, "DUMMYPHASE"]*data1[i, "TIMEna"]	# steps 5
-  }
-
-  pred=data1[,"pred"]
-  diffe=data1[,"diffe"]
-  int=data1[,"int"]
-
-  rsdum<-lm(diffe ~ DUMMYPHASE)# steps 5
-  rsint<-lm(diffe ~ int)# steps 5
-  produ<-coefficients(rsdum)[[2]]*coefficients(rsint)[[2]]# steps 5
-
-  if (slopes==TRUE) {
-    method="ALLISONMT";method1="levels and slopes"
-    if(produ>=0){
-
-      regrAL <- lm(diffe ~ DUMMYPHASE + DUMMYPHASE:TIMEna)# step6
-
-
-      redata<-(summary(regrAL))# step7
-
-      Fdata<-redata[[10]]# step7
-
-      denF<-Fdata[3]# step7
-      numF<-Fdata[2]# step7
-      valF<-Fdata[1]# step7
-      dConNum<- 2*((valF*numF/denF)^(.5))# step8
-      #dSenzaNum<- 2*((valF/denF)^(.5))# step8
-
-      if(coefficients(rsdum)[[2]]>0){# step9
-        dConNum=dConNum # step9
-        #dSenzaNum=dSenzaNum # step9
-      }else{ # step9
-        dConNum=-dConNum # step9
-        #dSenzaNum=-dSenzaNum # step9
-      } # step9
-
-      #print(paste("Method Used: ALLISON_MT, produ = ",produ))
-
-    }else{
-
-      slopes=FALSE
-      method="ALLISONM"
-
-    }
-
-  }
-
-  if(sum(diffe[is.na(diffe)==FALSE]==rep(0,length(diffe[is.na(diffe)==FALSE])))==length(diffe[is.na(diffe)==FALSE])){dConNum=0}
-
-  if(abs(dConNum)>=134217728){
-    R<-sign(dConNum)*1}else{
-      R<- dConNum/((4+dConNum^2)^.5)}
-
-
-  ################################################
   cmd = list(outMonte=outMonte, PartitionsOfMatrix = PartitionsOfMatrix, FullMatrix = FullMatrix,
-             TAU_U_Analysis = TAU_U_Analysis,
-             regression=redata,database=data1,regcoefficients=coe,
-             method=method,cohen_d_ConNum=dConNum,product=produ,R=R,miny=miny,maxy=maxy,smethod=method1
-             )#, matri = mat1)
+  TAU_U_Analysis = TAU_U_Analysis)#, matri = mat1)
   cmd=toJSON(cmd, collapse=" ", )
   cmd=gsub("\n", "", cmd)
   return(cmd)
@@ -448,4 +331,3 @@ IndicesSystem<-function(){
 }
 
 writeLines(IndicesSystem())
-# print(Sys.time())

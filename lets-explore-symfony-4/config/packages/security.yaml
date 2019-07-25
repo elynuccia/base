@@ -86,7 +86,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/userpage, roles:  ROLE_0AUTH_USER }
+        #- { path: ^/userpage, roles:  ROLE_0AUTH_USER }
         - { path: /studentpage, roles: [ROLE_STUDENT, ROLE_PERSON] }
         - { path: /adminpage, roles: ROLE_ADMIN }
         - { path: ^/matrix, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
@@ -100,8 +100,8 @@ security:
         - { path: ^/cico, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER, ROLE_USER_TEACHER_COORDINATOR] }
         - { path: ^/cicodata, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /cicolist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
-        - { path: /rewards, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
-        - { path: /rewardslist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: ^/rewards, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
+        - { path: ^/rewardslist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /odr, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: /odrlist, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }
         - { path: ^/measure, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }

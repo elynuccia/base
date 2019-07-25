@@ -32,6 +32,28 @@ class PORRepository extends ServiceEntityRepository
           HAVING countPOR >= 1'
         );
 
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+
+    public function countPositiveBehaviorsBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+          FROM \App\Entity\POR por 
+          JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.matrix matrix
+          JOIN matrix.school school
+          WHERE school.schoolCode = :schoolCode
+          GROUP BY posBehavior.id  
+          HAVING countPOR >= 1'
+        )->setParameter('schoolCode', $schoolCode);
+
+
 // returns an array of Product objects
         return $query->execute();
     }
@@ -49,6 +71,27 @@ class PORRepository extends ServiceEntityRepository
           ORDER BY countPOR DESC
           '
         )->setMaxResults(3 );
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function countBestPORBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+          FROM \App\Entity\POR por 
+          JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.matrix matrix
+          JOIN matrix.school school
+          WHERE school.schoolCode = :schoolCode
+          GROUP BY posBehavior.id 
+          HAVING countPOR >=1
+          ORDER BY countPOR DESC
+          '
+        )->setMaxResults(3 )->setParameter('schoolCode', $schoolCode);
 
 // returns an array of Product objects
         return $query->execute();
@@ -89,6 +132,8 @@ class PORRepository extends ServiceEntityRepository
 // returns an array of Product objects
         return $query->execute();
     }
+
+
     /*
     public function findOneBySomeField($value): ?POR
     {

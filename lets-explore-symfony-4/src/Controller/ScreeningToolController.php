@@ -32,41 +32,36 @@ class ScreeningToolController extends AbstractController
         $schoolCode=$this->getUser()->getSchoolCode();
 
         $mat = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
-dump($mat);
-        //per ciascun periodo
-        // per ciascuna aspettativa
-        //$cicoData = new CicoData();
-        //$cicoData->setExpectation($blabla);
-        //$cico->addData($cicoData);
+
+        $matrix = null;
 
         $screeningTool = new ScreeningTool();
-        $screeningTool->setMatrix($mat[0]);
 
-        foreach ($screeningTool->getMatrix()->getExpectationTags() as $expectation) {
-            $screeningToolData = new ScreeningToolData();
-            $screeningToolData->setExpectation($expectation);
-            $screeningTool->addScreeningToolData($screeningToolData);
-          //  dump($screeningToolData);
 
-           /* $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($screeningToolData);
-            $entityManager->flush();
+        if(isset($mat[0])) {
+            $screeningTool->setMatrix($mat[0]);
 
-           fa l'insert ma value non ha valore
-*/
+            foreach ($screeningTool->getMatrix()->getExpectationTags() as $expectation) {
+                $screeningToolData = new ScreeningToolData();
+                $screeningToolData->setExpectation($expectation);
+                $screeningTool->addScreeningToolData($screeningToolData);
+            }
+
+            $matrix = $screeningTool->getMatrix();
         }
+
 
         $form = $this->createForm(ScreeningToolType::class, $screeningTool);
 
         if ($lastId = $formHandler->handle($form, $request)) {
-            dump($lastId);
+            //dump($lastId);
             return $this->redirect($this->generateUrl('screeningtool_list'));
         }
 
         return $this->render('screeningtool/new.html.twig', array(
             'form' => $form->createView(),
-            'matrix'=> $screeningTool->getMatrix(),
-            'screeningTool' =>$screeningTool,
+            'matrix'=> $matrix,
+            'screeningTool' => $screeningTool,
         ));
     }
 

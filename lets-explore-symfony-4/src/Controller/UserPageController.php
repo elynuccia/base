@@ -9,7 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
-use App\Entity\Rewards;
+use App\Entity\School;
 use Symfony\Component\Form\Util\StringUtil;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,45 +20,72 @@ use Symfony\Component\HttpFoundation\Request;
 class UserPageController extends AbstractController
 {
     /**
-     * @Route("/userpage", name="user_page")
+     * @Route("/userpage/{schoolCode}", name="user_page")
      */
-    public function index(Auth0Api $auth0Api)
+    public function index(Auth0Api $auth0Api, School $school)
     {
+
+        $schoolCode= $school->getSchoolCode();
+
         $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
+        $students_ = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode( $schoolCode);
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
+        $odrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRById();
+        $bestOdrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRBySchoolCode($schoolCode);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORById();
+        $bestPors_ = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORBySchoolCode($schoolCode);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsById();
-        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
+        $pors_ = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsBySchoolCode($schoolCode);
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $user = $this->getUser();
 
-       // dump($auth0Api->getUsers(''));exit;
+        dump($bestOdrs_);
+
 
 
         return $this->render('user/new.html.twig', array(
             'user'=>$user,
-            'students' =>$students,
-            'odrs' => $odrs,
-            'pors' => $pors,
-            'bestOdrs' => $bestOdrs,
-            'bestPors' => $bestPors,
+            'students' =>$students_,
+            'odrs' => $odrs_,
+            'pors' => $pors_,
+            'bestOdrs' => $bestOdrs_,
+            'bestPors' => $bestPors_,
             'rewards' => $rewards
 
         ));
     }
 
     /**
+     * @Route("/userpage_noschoolcode/", name="user_page_noschoolcode")
+     */
+    public function index2()
+    {
+
+        $user = $this->getUser();
+
+
+        return $this->render('user/new_noschoolcode.html.twig', array(
+            'user'=>$user,
+
+
+        ));
+    }
+
+
+
+    /**
      * @Route("/studentdashboard/{id}", name="student_dashboard")
      */
     public function indexAction(Auth0Api $auth0Api, Request $request, Student $student)
     {
-
+        $schoolCode=$student->getSchoolCode();
 
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRByStudent($student);
-        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $cicos = $this->getDoctrine()->getRepository('App\Entity\Cico')->findByStudent($student);
 
 

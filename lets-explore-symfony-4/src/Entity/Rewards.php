@@ -29,6 +29,11 @@ class Rewards
      */
     private $value;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="rewards")
+     */
+    private $school;
+
 
 
     public function getId()
@@ -56,6 +61,18 @@ class Rewards
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
 
         return $this;
     }

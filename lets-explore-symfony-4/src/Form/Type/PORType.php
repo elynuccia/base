@@ -26,7 +26,7 @@ class PORType extends AbstractType
     {
 
         $teacherCoordinator = $options['teacherCoordinator'];
-
+        $schoolId = $options['schoolId'];
 
         $builder->add('student', EntityType::class, [
             // looks for choices from this entity
@@ -54,9 +54,12 @@ class PORType extends AbstractType
         $builder->add('positiveBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MatrixBehavior::class,
-            'query_builder' => function (EntityRepository $er) {
+            'query_builder' => function (EntityRepository $er) use ($schoolId) {
                 return $er->createQueryBuilder('u')
-                    ->where('u.id >0', 'u.id<5')
+                    ->join('u.matrix', 'm')
+                    ->join('m.school', 's')
+                    ->where('s.id = :schoolId')
+                    ->setParameter('schoolId', $schoolId)
                     ->orderBy('u.id', 'ASC');
             },
 
@@ -71,9 +74,12 @@ class PORType extends AbstractType
         $builder->add('locations', EntityType::class, array(
             // looks for choices from this entity
             'class' => LocationTag::class,
-            'query_builder' => function (EntityRepository $er) {
+            'query_builder' => function (EntityRepository $er) use ($schoolId) {
                 return $er->createQueryBuilder('l')
-                    ->where('l.id > 0', 'l.id<3')
+                    ->join('l.matrix', 'm')
+                    ->join('m.school', 's')
+                    ->where('s.id = :schoolId')
+                    ->setParameter('schoolId', $schoolId)
                     ->orderBy('l.id', 'ASC');
             },
 
@@ -98,6 +104,7 @@ class PORType extends AbstractType
 
             'data_class' => POR::class,
             'teacherCoordinator' => null,
+            'schoolId' => null,
 
         ]);
     }

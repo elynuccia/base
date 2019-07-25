@@ -78,6 +78,11 @@ class School
      */
     private $matrixes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Rewards", mappedBy="school")
+     */
+    private $rewards;
+
 
 
     public function __construct()
@@ -86,6 +91,7 @@ class School
         $this->schoolYears = new ArrayCollection();
         $this->matrixes = new ArrayCollection();
         $this->students = new ArrayCollection();
+        $this->rewards = new ArrayCollection();
     }
 
 
@@ -286,6 +292,37 @@ class School
             // set the owning side to null (unless already changed)
             if ($matrix->getSchool() === $this) {
                 $matrix->setSchool(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rewards[]
+     */
+    public function getRewards(): Collection
+    {
+        return $this->rewards;
+    }
+
+    public function addReward(Rewards $reward): self
+    {
+        if (!$this->rewards->contains($reward)) {
+            $this->rewards[] = $reward;
+            $reward->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReward(Rewards $reward): self
+    {
+        if ($this->rewards->contains($reward)) {
+            $this->rewards->removeElement($reward);
+            // set the owning side to null (unless already changed)
+            if ($reward->getSchool() === $this) {
+                $reward->setSchool(null);
             }
         }
 

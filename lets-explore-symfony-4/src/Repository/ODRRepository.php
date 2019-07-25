@@ -40,6 +40,24 @@ class ODRRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countMinorAndMajorBehaviorsBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.id) as id, count(minMaj.id) AS countODR, minMaj.name
+          FROM \App\Entity\ODR odr 
+          JOIN odr.minorAndMajorBehaviors minMaj
+          JOIN minMaj.school school
+          WHERE school.schoolCode = :schoolCode
+          GROUP BY minMaj.id  
+          HAVING countODR >= 1'
+        )->setParameter('schoolCode', $schoolCode);
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
     public function countBestODRById()
     {
         $entityManager = $this->getEntityManager();
@@ -53,6 +71,26 @@ class ODRRepository extends ServiceEntityRepository
           ORDER BY countODR DESC
           '
         )->setMaxResults(3 );
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
+    public function countBestODRBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT(minMaj.id) as id, count(minMaj.id) AS countODR, minMaj.name
+          FROM \App\Entity\ODR odr 
+          JOIN odr.minorAndMajorBehaviors minMaj
+          JOIN minMaj.school school
+          WHERE school.schoolCode = :schoolCode
+          GROUP BY minMaj.id 
+          HAVING countODR >= 1
+          ORDER BY countODR DESC
+          '
+        )->setMaxResults(3 )->setParameter('schoolCode', $schoolCode);
 
 // returns an array of Product objects
         return $query->execute();

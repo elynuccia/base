@@ -38,6 +38,24 @@ class CicoRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findCicoBySchoolCode( $schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT cico
+          FROM \App\Entity\Cico cico 
+          JOIN cico.matrix mat
+          JOIN mat.school school
+          
+          WHERE school.schoolCode = :schoolCode
+         '
+        )->setParameter('schoolCode', $schoolCode);
+
+        // returns an array of Product objects
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Cico[] Returns an array of Cico objects
 //     */

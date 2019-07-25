@@ -117,16 +117,14 @@ class CicoDataController extends AbstractController
      */
     public function listAllAction() {
 
-        $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
-    $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();
-    $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
-    $cicoId = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findDistinct();
-
+        $schoolCode= $this->getUser()->getSchoolCode();
+       // $cicoSession = $this->getDoctrine()->getRepository('App\Entity\CicoSession')->findAll();
+        $cicos = $this->getDoctrine()->getRepository('App\Entity\Cico')->findCicoBySchoolCode( $schoolCode);
 
 
         return $this->render('cico_data/allList.html.twig', array(
-            'session' => $cicoSession,
-            'cicoId' => $cicoId,
+            //'session' => $cicoSession,
+            'cicos' => $cicos,
         ));
 
         //   return array('cico' => $cico);
