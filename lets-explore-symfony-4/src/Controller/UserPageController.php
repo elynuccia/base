@@ -24,11 +24,17 @@ class UserPageController extends AbstractController
      */
     public function index(Auth0Api $auth0Api, School $school)
     {
+       // dump($this->getUser()->getRoles());
 
+        foreach ($this->getUser()->getRoles() as $role) {
+           if ($role == 'ROLE_USER_TEACHER_COORDINATOR')
+               $teacherCoordinator=$this->getUser()->getUserid();
+        }
         $schoolCode= $school->getSchoolCode();
 
         $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
         $students_ = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode( $schoolCode);
+        $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
         $odrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRById();
@@ -47,6 +53,7 @@ class UserPageController extends AbstractController
         return $this->render('user/new.html.twig', array(
             'user'=>$user,
             'students' =>$students_,
+            'students_byteacher' =>$students_byteacher,
             'odrs' => $odrs_,
             'pors' => $pors_,
             'bestOdrs' => $bestOdrs_,

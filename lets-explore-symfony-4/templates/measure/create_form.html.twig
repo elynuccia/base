@@ -30,30 +30,124 @@
         </div>
     {% endfor %}
 
-    <div class="portlet box green">
+
+    <div class="container-fluid">
+
+        <section class="mb-5">
+
+
+            <!--Card-->
+            <div class="card card-cascade narrower">
+
+                <!--Section: Chart-->
+                <section>
+
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-12 mr-0 ">
+
+                            <!--Card image-->
+                            <div class="view view-cascade gradient-card-header primary-color">
+                                <h4 class="h4-responsive mb-0 ">Observation: {{ observation.name }}</h4>
+                            </div>
+                            <!--/Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body ">
+                                <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6 card testimonial-card ">
+
+                                    <!-- Background color -->
+
+                                    <!-- Avatar -->
+                                    {{ form_start(form) }}
+
+                                    {% for key, field in form.children %}
+                                        {% if key != 'submit' %}
+                                            {{ form_row(field) }}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <!-- Content -->
+                                    <div class="card-body">
+                                        <!--a Name -->
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
+                                                    <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{ form_end(form) }}
+                                    </div>
+
+                                </div>
+                                </div>
+
+                            </div>
+                            <!--/.Card content-->
+
+                        </div>
+                        <!--Grid column-->
+
+
+                    </div>
+                    <!--Grid row-->
+
+
+
+                </section>
+                <!--Section: Chart-->
+
+
+
+
+            </div>
+            <!--/.Card-->
+
+        </section>
+
+
+
+
+    </div>
+
+
+
+
+ <!-- <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>{{ observation.name }}</div>
+                <i class="fa fa-gift"></i>{#{{ observation.name }}#}</div>
         </div>
         <div class="portlet-body form">
-            {{ form_start(form) }}
+           {# {{ form_start(form) }}
 
             {% for key, field in form.children %}
             {% if key != 'submit' %}
                 {{ form_row(field) }}
             {% endif %}
         {% endfor %}
-
+#}
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-offset-3 col-md-9">
-                    {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
+                 {#   {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}#}
                     <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                 </div>
             </div>
         </div>
-        {{ form_end(form) }}
+      {#  {{ form_end(form) }}#}
     </div>
+-->
+
+
 {% endblock %}
 
 {% block stylesheets %}

@@ -19,6 +19,7 @@ class StudentPageController extends AbstractController
     public function index() {
 
         $student = $this->getUser();
+        dump($student);
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);

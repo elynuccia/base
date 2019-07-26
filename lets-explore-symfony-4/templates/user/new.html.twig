@@ -98,6 +98,8 @@
 
 {% block main %}
 
+
+
     <div class="container-fluid">
 
         <section class="mb-5">
@@ -129,9 +131,8 @@
                                 <div class="row mt-lg-5">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-6">
-                                        Select a student
+                                        Select a student from School
                                         <select onchange="document.location.href=this.value" class="browser-default custom-select custom-select-lg mb-3">
-
                                             <option selected>Open this select menu</option>
                                             {% for student in students %}
                                             <option value="http://localhost:8000/studentdashboard/{{ student.id }}">{{student.code }}</option>
@@ -140,7 +141,25 @@
                                     <div class="col-md-3"></div>
 
                                 </div>
+
+
+                                {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
+
                                 <div class="row mt-lg-5">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        Select a student from your Classroom
+                                        <select onchange="document.location.href=this.value" class="browser-default custom-select custom-select-lg mb-3">
+                                            <option selected>Open this select menu</option>
+                                             {% for stud in students_byteacher %}
+                                                 <option value="http://localhost:8000/studentdashboard/{{ stud.id }}">{{stud.code }}</option>
+                                             {% endfor %}
+                                        </select></div>
+                                    <div class="col-md-3"></div>
+                                    </div>
+                                {% endif %}
+
+                                    <div class="row mt-lg-5">
 
 
 

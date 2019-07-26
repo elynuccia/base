@@ -77,13 +77,13 @@ class CalendarController extends Controller
      */
     public function calendarViewAction(Observation $observation)
     {
-        if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
+      /*  if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
             $response->setStatusCode(403);
 
             return $response;
         }
-
+*/
         return array(
             'title' => self::CALENDAR_VIEW_TITLE,
             'observation' => $observation
