@@ -76,7 +76,7 @@ class SchoolFormHandler
         $this->entityManager->flush();
 
         $message = (new \Swift_Message('BASE APP: Your Personal Code'))
-            ->setFrom('eleonoramariscalco@gmail.com')
+            ->setFrom('noreply@baseproj.eu')
             ->setTo($entity->getAdministrator()->getPersonalMail())
             ->setBody(
                 $this->engineInterface->render(
