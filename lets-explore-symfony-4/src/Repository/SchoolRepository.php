@@ -19,6 +19,21 @@ class SchoolRepository extends ServiceEntityRepository
         parent::__construct($registry, School::class);
     }
 
+
+    public function findSchoolIdByTeacherCode($teacherCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT school.id schoolId
+          FROM \App\Entity\School school 
+          WHERE school.schoolCode = :teacherCode'
+        )->setParameter('teacherCode', $teacherCode);
+
+
+// returns an array of Product objects
+        return $query->execute();
+    }
 //    /**
 //     * @return School[] Returns an array of School objects
 //     */

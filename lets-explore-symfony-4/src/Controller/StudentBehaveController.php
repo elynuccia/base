@@ -39,7 +39,8 @@ class StudentBehaveController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $records = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
+        $schoolCode = $this->getUser()->getSchoolCode();
+        $records = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode( $schoolCode);
 
 
         return array(

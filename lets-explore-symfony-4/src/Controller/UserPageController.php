@@ -27,14 +27,19 @@ class UserPageController extends AbstractController
        // dump($this->getUser()->getRoles());
 
         foreach ($this->getUser()->getRoles() as $role) {
-           if ($role == 'ROLE_USER_TEACHER_COORDINATOR')
+           if ($role == 'ROLE_USER_TEACHER_COORDINATOR'){
                $teacherCoordinator=$this->getUser()->getUserid();
+                $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
+           }
+           else
+           {
+               $students_byteacher='';
+           }
         }
         $schoolCode= $school->getSchoolCode();
 
         $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
         $students_ = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode( $schoolCode);
-        $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
         $odrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRById();
@@ -45,8 +50,6 @@ class UserPageController extends AbstractController
         $pors_ = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsBySchoolCode($schoolCode);
         $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $user = $this->getUser();
-
-        dump($bestOdrs_);
 
 
 

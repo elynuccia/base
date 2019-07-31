@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\ODR;
+use App\Entity\School;
 use App\Form\Handler\ODRFormHandler;
 use App\Form\Type\ODRType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +25,13 @@ class ODRController extends AbstractController
      */
     public function newOdr(Request $request, ODRFormHandler$formHandler)
     {
+
         $odr = new ODR();
         $userId = $this->getUser()->getUserId();
-        //$student = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator($userId);
-        //dump($student);
-        $form = $this->createForm(ODRType::class, $odr, array( 'teacherCoordinator' => $userId));
+        $schoolCode = $this->getUser()->getSchoolCode();
+        //$schoolId=findSchoolIdByTeacherCode($teacherCode);
+        $schoolId = $this->getDoctrine()->getRepository('App\Entity\School')->findSchoolIdByTeacherCode($schoolCode);
+        $form = $this->createForm(ODRType::class, $odr, array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('odr_list'));

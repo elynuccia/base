@@ -21,11 +21,12 @@ class PersonInChargeController extends AbstractController
 
         $parent = $this->getUser();
         $student= $parent->getStudent();
+        $schoolCode= $student->getSchoolCode();
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRByStudent($student);
-        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $cicos = $this->getDoctrine()->getRepository('App\Entity\Cico')->findByStudent($student);
 
         return $this->render('person_in_charge/new.html.twig', array(

@@ -22,6 +22,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $auth0User->user_metadata  = new \stdClass();
             $auth0User->user_metadata->role = [];
             $auth0User->user_metadata->schoolCode = '';
+            //$auth0User->user_metadata->students = '';
 
 
         }
@@ -33,6 +34,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             //dump($auth0User); exit;
             $this->updateRoles($auth0User->user_id, $auth0User->user_metadata->role);
             $this->updateSchoolCode($auth0User->user_id, $auth0User->user_metadata->schoolCode);
+            //$this->auth0Api->updateStudentUserMetadata($auth0User->user_id, $auth0User->user_metadata->students);
 
             $auth0User = $this->auth0Api->getUserByUserId($userId);
         }

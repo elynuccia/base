@@ -11,6 +11,7 @@ namespace App\Form\Type;
 use App\Entity\Cico;
 use App\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\Form\AbstractType;
 
@@ -27,6 +28,9 @@ class CicoType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $schoolCode = $options['schoolCode'];
+
         $builder
             ->add('periodNumber', ChoiceType::class, array(
                 //'placeholder' => 'Select the number of Expectations',
@@ -58,6 +62,13 @@ class CicoType extends AbstractType
             // 'multiple' => true,
             // 'expanded' => true,
             'label'=>false,
+            'query_builder' => function (EntityRepository $er) use ($schoolCode) {
+                // here you can use the $country variable in your anonymous function.
+                return $er->createQueryBuilder('c')
+                    ->where('c.schoolCode = ?1')
+                    ->setParameter(1, $schoolCode);
+
+            },
         ]);
 
 
@@ -100,6 +111,8 @@ class CicoType extends AbstractType
         $resolver->setDefaults([
 
             'data_class' => Cico::class,
+            'schoolCode' => null,
+
         ]);
     }
 

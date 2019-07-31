@@ -195,7 +195,7 @@ class User implements UserInterface
     public function getStudents()
     {
         //dump($this->students); exit;
-        return json_decode($this->students);
+        return (!is_array($this->students)) ? json_decode($this->students) : [];
     }
 
     public function setStudents($students)

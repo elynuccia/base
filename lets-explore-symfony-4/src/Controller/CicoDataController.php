@@ -31,15 +31,13 @@ class CicoDataController extends AbstractController
      */
     public function index(Cico $cico, Request $request, CicoFormHandler $formHandler)
     {
-        //per ciascun periodo
-        // per ciascuna aspettativa
-        //$cicoData = new CicoData();
-        //$cicoData->setExpectation($blabla);
-        //$cico->addData($cicoData);
+
+        $schoolCode=$this->getUser()->getSchoolCode();
+
         $session = new CicoSession();
         $session->setCico($cico);
         $student= $cico->getStudent();
-        dump($student);
+        //dump($student);
         for ($i = 1; $i <= $cico->getPeriodNumber(); $i++) {
             foreach ($cico->getMatrix()->getExpectationTags() as $expectation) {
                 $cicoData = new CicoData();
@@ -52,8 +50,7 @@ class CicoDataController extends AbstractController
 
         $cico->addSession($session);
 
-        dump($cico);
-        $form = $this->createForm(CicoType::class, $cico);
+        $form = $this->createForm(CicoType::class, $cico, array( 'schoolCode'=> $schoolCode));
 
 
 

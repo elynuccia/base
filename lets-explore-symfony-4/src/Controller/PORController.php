@@ -9,7 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\POR;
-use App\Entity\Student;
+use App\Entity\School;
 use App\Form\Handler\PORFormHandler;
 use App\Form\Type\PORType;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +27,10 @@ class PORController extends AbstractController
     {
         $por = new POR();
         $userId = $this->getUser()->getUserId();
+        $schoolCode = $this->getUser()->getSchoolCode();
+        $schoolId = $this->getDoctrine()->getRepository('App\Entity\School')->findSchoolIdByTeacherCode($schoolCode);
 
-        $form = $this->createForm(PORType::class, $por,  array( 'teacherCoordinator' => $userId));
+        $form = $this->createForm(PORType::class, $por,  array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('por_list'));

@@ -37,7 +37,6 @@ class CicoController extends AbstractController
 
 
         $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
-        dump($matrix);
 
         if(isset($matrix[0])) {
             $cico->setMatrix($matrix[0]);
@@ -50,8 +49,8 @@ class CicoController extends AbstractController
             $matrix = $cico->getMatrix();
 
         }
-        $form = $this->createForm(CicoType::class, $cico);
-        dump($form);
+        $form = $this->createForm(CicoType::class, $cico, array( 'schoolCode'=> $schoolCode));
+        //dump($form);
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('cico_data', array('id' => $lastId)));

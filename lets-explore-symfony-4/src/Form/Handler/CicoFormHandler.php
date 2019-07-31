@@ -68,7 +68,8 @@ class CicoFormHandler
             }
         }
 
-        //dump($entity->calculatePoints()); exit;
+
+        //dump($entity);
 
         $entity->getStudent()->addPoints($entity->calculateLastSessionPoints());
 

@@ -19,12 +19,12 @@ class StudentPageController extends AbstractController
     public function index() {
 
         $student = $this->getUser();
-        dump($student);
+        $schoolCode = $this->getUser()->getSchoolCode();
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countOdrByStudent($student);
         $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPorByStudent($student);
         $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORByStudent($student);
         $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRByStudent($student);
-        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findDistinct();
+        $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $cicos = $this->getDoctrine()->getRepository('App\Entity\Cico')->findByStudent($student);
 
         return $this->render('student/new.html.twig', array(
