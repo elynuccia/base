@@ -35,7 +35,9 @@ class TaskController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
-            dump($contactFormData);        }
+            //dump($contactFormData);
+            //
+              }
 
         return $this->render('task/new.html.twig', array(
             'form' => $form->createView(),

@@ -5,13 +5,14 @@
 {% endblock %}
 
 {% block main %}
+
     <!--Section: Blog v.4-->
     <section class="section section-blog-fw mt-5 pb-3 wow fadeIn">
 
         <!--Grid row-->
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-10 col-sm-12"> <!--più piccola-->
+            <div class="col-md-10 col-12"> <!--più piccola-->
                 <!--Featured image-->
                 <div class="card card-cascade wider reverse">
                     <div class="view view-cascade overlay" style=" padding-left: 0px !important;" >
@@ -24,8 +25,8 @@
 
                     <!--Post data-->
                     <div class="card-body card-body-cascade text-justify">
-                        <div class="col-sm-12 col-12">
-                        <h1 class="text-center"><strong>Welcome to BASE Application</strong></h1>
+                        <div class="col-12 col-md-12">
+                        <h2 class="text-center"><strong>Welcome to BASE Application</strong></h2>
 
 
                         <p class="lead">The <b>BASE Application</b> is an evidence-based tool to promote the Positive Behaviour Support at school. <br>
@@ -56,4 +57,17 @@
 
     </section>
     <!--Section: Blog v.4-->
+{% endblock %}
+{% block javascripts %}
+<script>
+    // Bind an event to window.orientationchange that, when the device is turned,
+    // gets the orientation and displays it to on screen.
+    $( window ).on( "orientationchange", function( event ) {
+        $( "#orientation" ).text( "This device is in " + event.orientation + " mode!" );
+    });
+
+    // You can also manually force this event to fire.
+    $( window ).orientationchange();
+</script>
+
 {% endblock %}

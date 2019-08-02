@@ -51,7 +51,7 @@ class ScreeningToolController extends AbstractController
         }
 
 
-        $form = $this->createForm(ScreeningToolType::class, $screeningTool);
+        $form = $this->createForm(ScreeningToolType::class, $screeningTool, array( 'schoolCode'=> $schoolCode));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             //dump($lastId);

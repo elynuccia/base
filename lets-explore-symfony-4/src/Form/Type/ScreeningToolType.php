@@ -8,19 +8,23 @@
 
 namespace App\Form\Type;
 
+use App\Entity\ScreeningTool;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Student;
+use Doctrine\ORM\EntityRepository;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ScreeningToolType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $schoolCode = $options['schoolCode'];
 
         $builder->add('screeningToolData', CollectionType::class, array(
             'entry_type' => ScreeningToolDataType::class,
@@ -39,14 +43,29 @@ class ScreeningToolType extends AbstractType
                 // 'multiple' => true,
                 // 'expanded' => true,
                 'label'=>false,
+                'query_builder' => function (EntityRepository $er) use ($schoolCode) {
+                    // here you can use the $country variable in your anonymous function.
+                    return $er->createQueryBuilder('c')
+                        ->where('c.schoolCode = ?1')
+                        ->setParameter(1, $schoolCode);
+
+                },
             ]);
 
 
         $builder->add('submit', SubmitType::class, array('label'=>'Save'));
         //  $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
 
+    }
 
 
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
 
+            'data_class' => ScreeningTool::class,
+            'schoolCode' => null,
+
+        ]);
     }
 }

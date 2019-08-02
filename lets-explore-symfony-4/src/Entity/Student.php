@@ -442,24 +442,24 @@ class Student implements UserInterface
 
     public function addPoints(?int $points): self
     {
-        dump($points);
-        dump($this->points);
+       // dump($points);
+        //dump($this->points);
 
         $this->points += $points;
 
-        dump($this->points);
+        //dump($this->points);
 
         return $this;
     }
 
     public function subPoints(?int $points): self
     {
-        dump($points);
-        dump($this->points);
+        //dump($points);
+        //dump($this->points);
 
-        $this->points -= $points;
+        //$this->points -= $points;
 
-        dump($this->points);
+        //dump($this->points);
 
         return $this;
     }

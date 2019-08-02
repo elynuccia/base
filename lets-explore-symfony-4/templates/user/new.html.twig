@@ -116,7 +116,7 @@
                     <div class="row">
 
                         <!--Grid column-->
-                        <div class="col-12 mr-0">
+                        <div class="col-12 col-sm-12 mr-0">
 
                             <!--Card image-->
                             <div class="view view-cascade gradient-card-header primary-color">
@@ -135,7 +135,7 @@
                                         <select onchange="document.location.href=this.value" class="browser-default custom-select custom-select-lg mb-3">
                                             <option selected>Open this select menu</option>
                                             {% for student in students %}
-                                            <option value="http://localhost:8000/studentdashboard/{{ student.id }}">{{student.code }}</option>
+                                            <option value="{{ path('student_dashboard', {'id': student.id}) }}">{{student.code }}</option>
                                             {% endfor %}
                                         </select></div>
                                     <div class="col-md-3"></div>
@@ -144,15 +144,16 @@
 
 
                                 {% if "ROLE_USER_TEACHER_COORDINATOR" in app.user.roles %}
-
                                 <div class="row mt-lg-5">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-6">
                                         Select a student from your Classroom
                                         <select onchange="document.location.href=this.value" class="browser-default custom-select custom-select-lg mb-3">
                                             <option selected>Open this select menu</option>
+
                                              {% for stud in students_byteacher %}
-                                                 <option value="http://localhost:8000/studentdashboard/{{ stud.id }}">{{stud.code }}</option>
+
+                                                 <option value="{{ path('student_dashboard', {'id': stud.id}) }}">{{stud.code }}</option>
                                              {% endfor %}
                                         </select></div>
                                     <div class="col-md-3"></div>
@@ -204,8 +205,10 @@
                                                 <div class="data">
                                                     {% set sumOdr = 1%}{% for behavior in odrs %}{% set sumOdr= sumOdr + behavior.countODR %}{% endfor %}
                                                     {% set sumPor = 1%}{% for behavior in pors %}{% set sumPor= sumPor + behavior.countPOR %}{% endfor %}
-                                                    <h4 class="section-heading mb-4 bold text-center">{{ ((sumOdr/(sumOdr+sumPor))*100)|round(2,'ceil')}}% ODRs and  {{ ((sumPor/(sumOdr+sumPor))*100)|round(2,'ceil') }}% PORs</h4>
-
+                                                    {% if (sumOdr+sumPor) == 2 %}<h4 class="section-heading mb-4 bold text-center">No available data</h4>
+                                                    {% else %}
+                                                        <h4 class="section-heading mb-4 bold text-center">{{ ((sumOdr/(sumOdr+sumPor))*100)|round(2,'ceil')}}% ODRs and  {{ ((sumPor/(sumOdr+sumPor))*100)|round(2,'ceil') }}% PORs</h4>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="row"><div class="col-md-12"><br></div></div>

@@ -47,9 +47,9 @@
                             <div class="card-body card-body-cascade pb-0 ">
                                 <div class="row">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-2 "><p class="font-weight-bold">Cico Model ID</p></div>
-                                    <div class="col-md-4 "><p class="font-weight-bold">Date</p></div>
-                                    <div class="col-md-4 "><p class="font-weight-bold">Student Code</p></div>
+                                    <div class="col-md-2 col-sm-4 "><p class="font-weight-bold">Cico Model ID</p></div>
+                                    <div class="col-md-4 col-sm-3"><p class="font-weight-bold">Date</p></div>
+                                    <div class="col-md-4 col-sm-4"><p class="font-weight-bold">Student Code</p></div>
                                 </div>
 
 
@@ -61,9 +61,9 @@
 
                                         <div class="row">
                                             <div class="col-md-2"></div>
-                                            <div class="col-md-2 "># {{ c.id }}</div>
-                                            <div class="col-md-4 ">{{ s.fillInDate|date("m/d/Y") }}</div>
-                                            <div class="col-md-3 ">{{ c.student.code }}</div>
+                                            <div class="col-md-2 col-sm-3"># {{ c.id }}</div>
+                                            <div class="col-md-4 col-sm-4">{{ s.fillInDate|date("m/d/y") }}</div>
+                                            <div class="col-md-3 col-sm-4">{{ c.student.code }}</div>
                                             <a href="{{ path('cico_data', {'id': c.id}) }}">
                                                 <i class="fa fa-eye"></i>
                                             </a>

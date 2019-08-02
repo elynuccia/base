@@ -36,7 +36,7 @@ class AdminController extends AbstractController
         ));
 
         $usersInSchool = $auth0Api->getUsersBySchoolCode($schoolCode);
-        dump($usersInSchool);
+        //dump($usersInSchool);
 
 
         return $this->render('admin/index.html.twig', array(

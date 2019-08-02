@@ -26,16 +26,16 @@ class UserPageController extends AbstractController
     {
        // dump($this->getUser()->getRoles());
 
-        foreach ($this->getUser()->getRoles() as $role) {
-           if ($role == 'ROLE_USER_TEACHER_COORDINATOR'){
-               $teacherCoordinator=$this->getUser()->getUserid();
-                $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
-           }
-           else
-           {
-               $students_byteacher='';
-           }
+        if(in_array('ROLE_USER_TEACHER_COORDINATOR', $this->getUser()->getRoles())) {
+
+            $teacherCoordinator=$this->getUser()->getUserid();
+            $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
         }
+        else
+        {
+            $students_byteacher='';
+        }
+
         $schoolCode= $school->getSchoolCode();
 
         $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
@@ -87,7 +87,7 @@ class UserPageController extends AbstractController
     /**
      * @Route("/studentdashboard/{id}", name="student_dashboard")
      */
-    public function indexAction(Auth0Api $auth0Api, Request $request, Student $student)
+    public function indexAction(Student $student)
     {
         $schoolCode=$student->getSchoolCode();
 

@@ -87,7 +87,7 @@ class CicoDataController extends AbstractController
      */
      public function listAction(Cico $cico  /*,Student $student*/) {
 
-         dump($cico);
+         //dump($cico);
                   /*
          $cico = $this->getDoctrine()->getRepository('App\Entity\Cico')->findAll();
          $cicoData = $this->getDoctrine()->getRepository('App\Entity\CicoData')->findAll();

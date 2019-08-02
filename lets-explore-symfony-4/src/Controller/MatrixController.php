@@ -146,7 +146,7 @@ class MatrixController extends AbstractController
 
         }
 
-        dump($matrix);
+        //dump($matrix);
 
         $form = $this->createForm(MatrixType::class, $matrix, array(
             'matrix' => $matrix,
@@ -154,7 +154,7 @@ class MatrixController extends AbstractController
                 'id' => $matrix->getId()
             ))
         ));
-        dump($form);
+       // dump($form);
 
         // per la visualizzazione
         if ($lastId = $formHandler->handle($form, $request)) {
@@ -200,7 +200,7 @@ class MatrixController extends AbstractController
      */
     public function listMatrixAction(School $school) {
 
-        dump($school);
+        //dump($school);
         $schoolCode= $school->getSchoolCode();
         $matrix = $this->getDoctrine()->getRepository('App\Entity\Matrix')->findMBySchoolCode($schoolCode);
 

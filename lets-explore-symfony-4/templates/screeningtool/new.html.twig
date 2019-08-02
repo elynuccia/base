@@ -58,19 +58,19 @@
     {% set formDataIndex = 0 %}
 
     <div class="row" style="padding-left: 25px">
-        <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+        <div class="col-md-{{ sizeColumn }} col-sm-{{ sizeColumn+4 }}">
           <h3><b>Expectations</b></h3>
         </div>
     </div>
 <br>
 
     {% for key, screeningToolData in form.screeningToolData %}
-        <div class="row" style="padding-left: 25px">
-            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+        <div class="row">
+            <div class="col-md-{{ sizeColumn }} col-sm-{{ sizeColumn }}+4">
                 {{ matrix.expectationTags[key].name }}
             </div>
 
-            <div class="col-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
+            <div class="col-md-{{ sizeColumn }} col-sm-{{ sizeColumn }}">
                 {{ form_widget(screeningToolData.value) }}
 
                 <div class="d-none">

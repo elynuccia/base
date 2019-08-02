@@ -88,6 +88,7 @@ security:
     access_control:
         #- { path: ^/userpage, roles:  ROLE_0AUTH_USER }
         - { path: /studentpage, roles: [ROLE_STUDENT, ROLE_PERSON] }
+        - { path: ^/studentdashboard, roles: [ROLE_0AUTH_USER] }
         - { path: /adminpage, roles: ROLE_ADMIN }
         - { path: ^/matrix, roles: [ROLE_ADMIN, ROLE_USER_PBS_TEAM_MEMBER] }
         - { path: ^/list, roles: [ROLE_ADMIN, ROLE_0AUTH_USER] }

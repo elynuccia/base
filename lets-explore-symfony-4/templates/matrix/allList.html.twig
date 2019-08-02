@@ -50,10 +50,10 @@
             <div class="col-md-2"></div>
             <div class="col-md-1 ">#{{ m.id }}</div>
             <div class="col-md-5 ">{{ m.motto }}</div>
-            <a href="{{ path('matrix_list', {'id': m.id}) }}">
-                <i class="fa fa-eye"></i>
-            </a>
-            <div class="col-md-3 "><a class="delete" data-toggle="modal" data-url="{{ path('matrix_delete', {'id': m.id}) }}" href="#basic">
+
+            <div class="col-md-3 "> <a href="{{ path('matrix_list', {'id': m.id}) }}">
+                    <i class="fa fa-eye"></i>
+                </a><a class="delete" data-toggle="modal" data-url="{{ path('matrix_delete', {'id': m.id}) }}" href="#basic">
                     <i class="fa fa-trash"></i>
                 </a></div>
 

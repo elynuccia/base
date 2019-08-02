@@ -34,7 +34,7 @@ class RewardsController extends AbstractController
         $schoolCode=$school->getSchoolCode();
 
         $form = $this->createForm(RewardsType::class, $rewards);
-        dump($form);
+        //dump($form);
 
         if ($lastId = $formHandler->handle($form, $request)) {
 
