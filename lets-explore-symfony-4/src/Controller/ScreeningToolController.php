@@ -76,11 +76,12 @@ class ScreeningToolController extends AbstractController
      */
     public function listAction() {
 
+        $schoolCode = $this->getUser()->getSchoolCode();
 
-        $screeningTool = $this->getDoctrine()->getRepository('App\Entity\ScreeningTool')->findAll();
-        $valueByExp = $this->getDoctrine()->getRepository('App\Entity\ScreeningToolData')->countValueByExpectation();
-
-    dump($valueByExp);
+        // $screeningTools = $this->getDoctrine()->getRepository('App\Entity\ScreeningTool')->findAll();
+        $valueByExp = $this->getDoctrine()->getRepository('App\Entity\ScreeningToolData')->countValueByExpectation($schoolCode);
+        $screeningTool = $this->getDoctrine()->getRepository('App\Entity\ScreeningTool')->findScreeningToolBySchoolCode($schoolCode);
+   //dump($screenSchool);
         return $this->render('screeningtool/list.html.twig', array(
 
             'screeningTool' => $screeningTool,

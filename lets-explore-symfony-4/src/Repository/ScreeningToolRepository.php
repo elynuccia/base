@@ -19,6 +19,23 @@ class ScreeningToolRepository extends ServiceEntityRepository
         parent::__construct($registry, ScreeningTool::class);
     }
 
+
+    public function findScreeningToolBySchoolCode($schoolCode)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(/** @lang text */
+            'SELECT DISTINCT screen
+          FROM \App\Entity\ScreeningTool screen 
+          JOIN screen.student stud
+          WHERE stud.schoolCode = :schoolCode
+       '
+        )->setParameter('schoolCode', $schoolCode);
+
+// returns an array of Product objects
+        return $query->execute();
+    }
+
 //    /**
 //     * @return ScreeningTool[] Returns an array of ScreeningTool objects
 //     */

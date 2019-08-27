@@ -35,7 +35,7 @@ class ScreeningToolDataRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function countValueByExpectation()
+    public function countValueByExpectation($schoolCode)
     {
         $entityManager = $this->getEntityManager();
 //query che restituisce per ogni aspettativa il count dei singoli value
@@ -43,8 +43,11 @@ class ScreeningToolDataRepository extends ServiceEntityRepository
             'SELECT DISTINCT (exp.id) as id, std.value, count(std.value) as count, exp.name
                     FROM \App\Entity\ScreeningToolData std
                     JOIN std.expectation exp
+                    JOIN exp.matrix mat
+                    JOIN mat.school sch
+                    WHERE sch.schoolCode = :schoolCode
                     GROUP BY exp.id, std.value, exp.name'
-        );
+        )->setParameter('schoolCode', $schoolCode);;
 
 // returns an array of Product objects
         $results = $query->execute();

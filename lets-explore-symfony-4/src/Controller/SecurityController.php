@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
         $image = __DIR__  .  "/../../public/img/qrcode.png";
         $qrcode = new QrReader($image);
         $qrcode->text();
-        dump($qrcode);
+        //dump($qrcode);
         //legge il qr code correttamente, vedere il result trovare un modo per usarlo per il login e buona pasqua
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);

@@ -99,7 +99,7 @@
 {% block main %}
 
     <div class="container-fluid">
-        {% if "ROLE_USER_PBS_TEAM_MEMBER" in app.user.roles %}
+        {#% if "ROLE_USER_PBS_TEAM_MEMBER" in app.user.roles %}#}
 
             <section class="mb-5">
 
@@ -369,7 +369,7 @@
 
 
 
-
+<div style="padding-bottom: 50px"></div>
 
                         <div class="row mt-lg-5">
                             <div class="col-md-6">
@@ -467,9 +467,9 @@
             </section>
 
 
-        {% else %}
+        {#{% else %}#}
 
-            <section class="mb-5">
+        {#    <section class="mb-5">
 
 
                 <!--Card-->
@@ -845,7 +845,7 @@
                 </div>
                 <!--/.Card-->
 
-            </section>        {% endif %}
+            </section>  #}      {#{% endif %}#}
 
     </div>
 

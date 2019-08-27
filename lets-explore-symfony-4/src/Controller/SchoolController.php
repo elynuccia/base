@@ -104,7 +104,7 @@ class SchoolController extends AbstractController
 
      $schoolCode= $school->getSchoolCode();
         $minorAndMajor = $this->getDoctrine()->getRepository('App\Entity\MinorAndMajorBehavior')->findMinMajBySchoolCode($schoolCode);
-        dump($school);
+        //dump($school);
 
         return $this->render('school/list.html.twig', array(
 
