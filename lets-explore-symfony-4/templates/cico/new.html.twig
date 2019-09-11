@@ -8,17 +8,18 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href={{ asset('css/bootstrap.min.css') }} >
     <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
 
 {% endblock %}
 {% block main %}
+
+
     {% if cico.matrix is not empty %}
         <div class="container-fluid" >
 
         <!--Section: Inputs-->
         <section class="section card mb-5">
-            <div class="card-body">
+            <div class="card-body text-center">
 
                 <!--Section heading-->
                 <h1 class=" text-center font-weight-bold mb-3" style="color: #714275;" >Check-in/Check-out</h1>
@@ -30,6 +31,7 @@
                     <div class="col-md-4">
                 <h5>Student:{{ form_row(form.student) }}
                 </h5>
+
                     </div>
                     <div class="col-md-4"></div>
                 <div id="goals" class="col-md-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
@@ -38,13 +40,11 @@
    <div class="row">
        <div class="col-md-6">
 
-    <label for="customRange1">Goal percentage</label>
            <input type="range" id="customRange1" value="80" min="0" max="100" />
 
        </div>
-       <br>
-
    </div>
+
 
 
         <div class="row">

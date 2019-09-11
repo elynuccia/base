@@ -42,9 +42,13 @@
         <div class="col-6 col-sm-4">
             <div class="md-form">
                 {{ form_row(form.sessions[lastSessionIndex].fillInDate) }}
+
+
             </div>
         </div>
     </div>
+
+
 
     <div id="goals" class="col-6 col-sm-4"><h4>Your Goal is {{ cico.threshold }} /<span id="max2">{{ 3 * ( (cico.matrix.expectationTags | length ) * (cico.periodNumber)) }} </span></h4></div>
 
@@ -151,6 +155,7 @@
             $var= $('#cico_periodNumber');
             $exp = document.getElementById("expectations");
             rows=2;
+
         });
 
         lastSessionIndex = $("input[id*='fillInDate']").length - 1;
@@ -178,9 +183,10 @@
             $('#sumSpan').text(total);
 
 
-
-
         });
+
+
+
     </script>
 
 {% endblock %}

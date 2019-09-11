@@ -26,7 +26,9 @@ class CicoSessionType extends AbstractType
             'entry_type' => CicoDataType::class,
         ));
 
-        $builder->add('fillInDate', TextType::class);
+        $builder->add('fillInDate', TextType::class, [
+            'required' => true,
+        ]);
         $builder->add('submit', SubmitType::class, array('label'=>'Save'));
         $builder->add('submitAndAdd', SubmitType::class, array('label'=>'Save and Add'));
 
