@@ -29,7 +29,7 @@
     </li>
 {% endblock %}
 
-{% block body %}
+{% block main %}
 
     <div class="row">
         <div class="col-md-12 col-sm-12">
@@ -94,7 +94,7 @@
                                         {% set indexGrid = 2 %}
                                     {% endif %}
 
-                                    <div class="col-lg-{{ indexGrid }} bg-grey mt-step-col phase-container" data-phase-name="{{ phase.name }}" data-phase-count="{{ phase.dataIds | length }}" data-phase-ids="{{ phase.dataIds | join(',') }}">
+                                    <div class="col-lg-12 bg-grey mt-step-col phase-container" data-phase-name="{{ phase.name }}" data-phase-count="{{ phase.dataIds | length }}" data-phase-ids="{{ phase.dataIds | join(',') }}">
                                         <div class="mt-step-number first bg-white font-grey">{{ loop.index }}</div>
                                         <div class="mt-step-title uppercase font-grey-cascade">{{ phase.name }}</div>
                                         <div class="mt-step-content font-grey-cascade">{{ phase.dataIds | length }}
@@ -144,7 +144,7 @@
                                         {% set indexGrid = 2 %}
                                     {% endif %}
 
-                                    <div class="col-lg-{{ indexGrid }} bg-grey mt-step-col item-container" data-item-id="{{ key | split('-') | last }}">
+                                    <div class="col-lg-12 bg-grey mt-step-col item-container" data-item-id="{{ key | split('-') | last }}">
                                         <div class="mt-step-number first bg-white font-grey">{{ loop.index }}</div>
                                         <div class="mt-step-title uppercase font-grey-cascade">
                                             {{ itemValues.label }}

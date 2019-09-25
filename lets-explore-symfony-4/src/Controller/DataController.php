@@ -122,7 +122,9 @@ class DataController extends Controller
             'Value',
             true
         );
-        return array(
+
+
+        $templateVariables = array(
             'data' => $data,
             'analysisMessage' => $effectSizeChecker->getResultMessage($data),
             'phasesLength' => array_count_values($data->database->PHASE),
@@ -134,14 +136,19 @@ class DataController extends Controller
             'treatmentStdError' => $data->regression->coefficients[1]->{'Std. Error'},
             'treatmentTValue' => $data->regression->coefficients[1]->{'t value'},
             'treatmentPr' => $data->regression->coefficients[1]->{'Pr(>|t|)'},
-            'treatmentXTimeNaEstimate' => $data->regression->coefficients[2]->Estimate,
-            'treatmentXTimeNaStdError' => $data->regression->coefficients[2]->{'Std. Error'},
-            'treatmentXTimeNaTValue' => $data->regression->coefficients[2]->{'t value'},
-            'treatmentXTimeNaPr' => $data->regression->coefficients[2]->{'Pr(>|t|)'},
             'r2' => $data->regression->{'r.squared'},
             'adjustedR2' => $data->regression->{'adj.r.squared'},
             'chart' => $chart
         );
+
+        if(isset($data->regression->coeffients[2])) {
+            $templateVariables['treatmentXTimeNaEstimate'] = $data->regression->coefficients[2]->Estimate;
+            $templateVariables['treatmentXTimeNaStdError'] = $data->regression->coefficients[2]->{'Std. Error'};
+            $templateVariables['treatmentXTimeNaTValue'] = $data->regression->coefficients[2]->{'t value'};
+            $templateVariables['treatmentXTimeNaPr'] = $data->regression->coefficients[2]->{'Pr(>|t|)'};
+        }
+
+        return $templateVariables;
     }
     /**
      * @Route("/list/{id}", name="data_list")
@@ -154,11 +161,11 @@ class DataController extends Controller
      */
     public function dataListAction(ObservationPhase $observationPhase, CouchDbClient $couchDbClient, CouchDbDataTransformer $couchDbDataTransformer)
     {
-        if($observationPhase->getObservation()->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
+      /*  if($observationPhase->getObservation()->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
             $response->setStatusCode(403);
             return $response;
-        }
+        }*/
         $rawPhaseData = $couchDbClient->getByIds($observationPhase->getDataIds());
         $rawPhaseData = json_decode($rawPhaseData->getContents(), true)['rows'];
         //ordering data for timestamp ASC

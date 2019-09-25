@@ -29,7 +29,7 @@ class CicoRepository extends ServiceEntityRepository
           FROM \App\Entity\Cico cico
           JOIN cico.sessions sessions 
           JOIN sessions.data data
-          WHERE cico.student = :student and cico.id = 29
+          WHERE cico.student = :student
           GROUP BY sessions.id
           ORDER BY cico.id DESC' //Sistema il piu recente
         )->setParameter('student', $student);

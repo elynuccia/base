@@ -11,6 +11,6 @@ the observation of the {{ student.studentId }}'s behaviour "{{ behaviour }}" has
     </ul>
 
 {% else %}
-    Here below the link to gather data: {{ url('measure', { 'id' : observation.id, 'token': observation.token }) }}
+    Here below the link to gather data: https://app.behaveproject.eu{{ path('measure', { 'id' : observation.id, 'token': observation.token }) }}
 
 {% endif %}

@@ -50,11 +50,6 @@
             //showHideTime();
             showHideRepeatOptions();
             showHideRepeatEndOptions();
-            isSingleCaseDesign = ($("#observation_edit_base_observation_isSingleCaseDesign").is(':checked')) ? true : false;
-            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('state', isSingleCaseDesign);
-            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('size', 'small');
-            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('onText', 'Yes');
-            $("#observation_base_observation_isSingleCaseDesign").bootstrapSwitch('offText', 'No');
             $('#observation_observationScheduler_hasDates').bootstrapSwitch();
             moment.locale("en-GB");
             var $range = $(".js-range-slider");
@@ -177,9 +172,7 @@
             <i class="fa fa-gift"></i>New observation
         </div>
 
-        <div class="actions">
-            {{ form_widget(form.base_observation.isSingleCaseDesign) }}
-        </div>
+
 
     </div>
 
@@ -312,7 +305,6 @@
             <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                     {{ form_widget(form.base_observation.submit, {'class': 'btn btn-circle green'}) }}
-                    <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
                 </div>
             </div>
         </div>

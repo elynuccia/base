@@ -115,11 +115,11 @@ class ObservationController extends Controller
      */
     public function editAction(Request $request, Observation $observation, ObservationFormHandler $formHandler)
     {
-        if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
+        /*if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
             $response = new Response('not allowed');
             $response->setStatusCode(403);
             return $response;
-        }
+        }*/
         $form = $this->createForm(ObservationType::class, $observation, array(
             'action' => $this->generateUrl('observation_edit', array('id' => $observation->getId())),
             'creatorUserId' => $this->getUser()->getUserId()
@@ -196,11 +196,11 @@ class ObservationController extends Controller
         $em = $this->getDoctrine()->getManager();
         foreach($ids as $id) {
             $observation = $em->getRepository('App\Entity\Observation')->find($id);
-            if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
+          /*  if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
                 $response = new Response('not allowed');
                 $response->setStatusCode(403);
                 return $response;
-            }
+            }*/
             $em->remove($observation);
             $em->flush();
         }
@@ -306,8 +306,14 @@ class ObservationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getNotificationEmails(Request $request)
+    public function getNotificationEmailsAction(Request $request)
     {
+        if(!$request->isXmlHttpRequest()) {
+            $response = new Response('not allowed');
+            $response->setStatusCode(403);
+
+            return $response;
+        }
         $em = $this->getDoctrine()->getManager();
         $observation = $em->getRepository('App\Entity\Observation')->find($request->get('observationId'));
         $result = '';
@@ -318,6 +324,33 @@ class ObservationController extends Controller
         }
         return new Response($result);
     }
+
+    /**
+     * @Route("/has-scheduled-dates", name="observation_has_scheduled_dates")
+     * @Method({"GET"})
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function hasScheduledDatesAction(Request $request)
+    {
+        if(!$request->isXmlHttpRequest()) {
+            $response = new Response('not allowed');
+            $response->setStatusCode(403);
+
+            return $response;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $observation = $em->getRepository('App\Entity\Observation')->find($request->get('observationId'));
+
+        $result = ($observation->getObservationScheduler() && !$observation->getObservationScheduler()->getHasDates()) ? 'false' : 'true';
+
+        return new Response($result);
+    }
+
+
     /**
      * @Route("/save-notification-emails", name="observation_save_notification_emails")
      * @Method({"POST"})

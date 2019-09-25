@@ -18,23 +18,27 @@ class MeasureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, array('required' => true))
-            ->add('isShared', null, array(
-                'required' => false,
-                'label' => 'Shared',
+            ->add('name', null, array(
+                'label' => 'Name of the measure',
+                'required' => true,
+                'translation_domain' => 'forms',
                 'attr' => array(
-                    'data-on-color' => 'primary',
-                    'data-off-color' => 'default'
+                    'placeholder' => 'For instance: Anxiety scale',
                 )
             ))
-            ->add('description', TextareaType::class, array('required' => true))
+            ->add('description', TextareaType::class, array(
+                'required' => true,
+                'translation_domain' => 'forms',
+                'attr' => array(
+                    'placeholder' => 'For instance: the scale consists of 10 items designed to assess a person\'s anxiety as presence of cognitive and somatic symptoms'
+                )
+            ))
             ->add('choiceItems', CollectionType::class, array(
                 'entry_type' => ChoiceItemType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'attr' => array(
-                    'class' => 'md-form')
+                'translation_domain' => 'forms'
             ))
             ->add('directObservationItems', CollectionType::class, array(
                 'entry_type' => DirectObservationItemType::class,
@@ -66,7 +70,9 @@ class MeasureType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false
             ))
-            ->add('submit', SubmitType::class);;
+            ->add('submit', SubmitType::class, array(
+                'translation_domain' => 'forms'
+            ));;
     }
     public function configureOptions(OptionsResolver $resolver)
     {

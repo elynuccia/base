@@ -125,7 +125,6 @@ Measures
                         </th>
                         <th> Name</th>
                         <th> Description</th>
-                        <th> Shared</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -142,16 +141,7 @@ Measures
                         <td>
                             {{ record.description }}
                         </td>
-                        <td>
-                            {% if(record.isShared == '1') %}
-                                {% set classname = 'label-success' %}
-                            {% else %}
-                                {% set classname = 'label-warning' %}
-                            {% endif %}
-                            <span class="label label-sm {{ classname }}">
-                                {{ record.slugIsShared }}
-                            </span>
-                        </td>
+
                     </tr>
                     {% endfor %}
 

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; //TO BE REMOVED?
 
 /**
@@ -83,12 +84,7 @@ class Measure
     private $directObservationItems;
 
     /**
-     * @ORM\Column(name="is_shared", type="boolean")
-     */
-    private $isShared;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="measure", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="measure")
      */
     private $observations;
 
@@ -101,12 +97,29 @@ class Measure
         $this->textItems = new ArrayCollection();
         $this->directObservationItems = new ArrayCollection();
         $this->observations = new ArrayCollection();
-        $this->isShared = false;
     }
 
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if($this->countItems() == 0) {
+            $context->buildViolation('You have to insert at least 1 item: click on the button "Add item" below to do it')
+                ->atPath('name')
+                ->addViolation();
+        }
+
+        if($this->observations->count() > 0) {
+            $context->buildViolation('The measure is used in one or more observations. You can\'t edit it.')
+                ->atPath('name')
+                ->addViolation();
+        }
     }
 
     /**
@@ -369,27 +382,6 @@ class Measure
                 $directObservationItem->setMeasure(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getSlugIsShared()
-    {
-        if($this->getIsShared()) {
-            return 'Yes';
-        }
-
-        return 'No';
-    }
-
-    public function getIsShared()
-    {
-        return $this->isShared;
-    }
-
-    public function setIsShared(bool $isShared)
-    {
-        $this->isShared = $isShared;
 
         return $this;
     }

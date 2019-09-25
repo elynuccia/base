@@ -23,17 +23,28 @@ class DirectObservationItemType extends AbstractType
             'Interval Recording - Momentary Time Sampling' => 'momentary-time-sampling'
         );
 
-        $choicesForFeedback = array(
-            'Bell' => 'bell',
-            'Visual feedback' => 'visual-feedback'
-        );
-
         $builder
             ->add('positionNumber', HiddenType::class, array('required' => true))
-            ->add('label', null, array('required' => true))
-            ->add('observationLengthInMinutes', null, array('required' => true))
+            ->add('label', null, array(
+                    'label' => 'Text of the item',
+                    'required' => true,
+                    'attr' => array(
+                        'placeholder' => 'For instance: Interruptions of conversation'
+                    )
+                )
+            )
+            ->add('observationLengthInMinutes', null, array(
+                    'required' => true,
+                    'attr' => array(
+                        'placeholder' => 'In general, 10 or 15 minutes'
+                    )
+                )
+            )
             ->add('intervalLengthInSeconds', null, array(
                 'required' => false,
+                'attr' => array(
+                    'placeholder' => 'The number of seconds has to be multiple of the observation length'
+                ),
                 'constraints' => array(
                     new IsMultiple()
                 )
@@ -44,15 +55,6 @@ class DirectObservationItemType extends AbstractType
                     new Choice(array(
                         'choices' => $choices,
                         'message' => 'Choose a valid typology of observation'
-                    ))
-                )
-            ))
-            ->add('feedbackForIntervalRecording', ChoiceType::class, array(
-                'choices' => $choicesForFeedback,
-                'constraints' => array(
-                    new Choice(array(
-                        'choices' => $choicesForFeedback,
-                        'message' => 'Choose a valid feedback typology'
                     ))
                 )
             ))

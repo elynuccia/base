@@ -22,7 +22,7 @@ class CicoSession
 
     /**
      * @Assert\NotBlank
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=false)
      */
     private $fillInDate;
 

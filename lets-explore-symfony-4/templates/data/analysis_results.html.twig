@@ -216,13 +216,15 @@
                                 <td>{{ treatmentTValue | round(4, 'ceil') }}</td>
                                 <td>{{ treatmentPr | round(5, 'ceil') }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">Treatment x (Time-na)</th>
-                                <td>{{ treatmentXTimeNaEstimate | round(4, 'ceil') }}</td>
-                                <td>{{ treatmentXTimeNaStdError | round(4, 'ceil') }}</td>
-                                <td>{{ treatmentXTimeNaTValue | round(4, 'ceil') }}</td>
-                                <td>{{ treatmentXTimeNaPr | round(4, 'ceil') }}</td>
-                            </tr>
+                            {% if treatmentXTimeNaEstimate is defined %}
+                                <tr>​
+                                    <th scope="row">Treatment x (Time-na)</th>​
+                                    <td>{{ treatmentXTimeNaEstimate | round(4, 'ceil') }}</td>​
+                                    <td>{{ treatmentXTimeNaStdError | round(4, 'ceil') }}</td>​
+                                    <td>{{ treatmentXTimeNaTValue | round(4, 'ceil') }}</td>​
+                                    <td>{{ treatmentXTimeNaPr | round(4, 'ceil') }}</td>​
+                                </tr>​
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>

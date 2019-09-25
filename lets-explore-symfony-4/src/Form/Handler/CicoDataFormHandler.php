@@ -61,27 +61,9 @@ class CicoDataFormHandler
 
     }
 
-    public function create(CicoData $entity, $fillInDate)
+    public function create(CicoData $entity)
     {
-        //dump($fillInDate); exit;
-       // $totCols = $entity->getTmpData();
 
-        /*foreach(explode(',', $totCols) as $key => $totCol) {
-            $fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));*/
-
-
-        //$cicoData = new CicoData();
-           // $cicoData->setExpectation($entity->getMatrix()->getExpectationTags()->get($key));
-           // $cicoData->setCico($entity);
-           // $cicoData->setValue($totCol);
-            //$cicoData->setFillInDate($fillInDateTime);
-
-           // $entity->addData($cicoData);
-        /*}*/
-
-      //  $entity->setTmpData(null);
-        //$fillInDateTime = \DateTime::createFromFormat('U', strtotime($fillInDate));
-        //$entity->setFillInDate($fillInDateTime);
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
 

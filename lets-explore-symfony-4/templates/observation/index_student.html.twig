@@ -200,18 +200,19 @@
                                 </div>
                             </div>
 
-                            <div class="row top5">
-                                <div class="col-md-12">
-                                    If you scheduled the observation dates, you can insert the email addresses of the
-                                    observers (press enter to add every new entry). They will be notified via email 1 hour before
-                                    the observation:
+                            <div id="scheduled-dates" class="hidden">
+                                <div class="row top5">
+                                    <div class="col-md-12">
+                                        If you scheduled the observation dates, you can insert the email addresses of the
+                                        observers (press enter to add every new entry). They will be notified via email 1 hour before
+                                        the observation:
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row top5">
-                                <div class="col-md-12" style="color: red;">
-                                    <ul id="messages"></ul>
-                                </div>
+                             <div class="row top5">
+                                     <div class="col-md-12" style="color: red;">
+                                         <ul id="messages"></ul>
+                                     </div>
 
                                 <div class="col-md-12">
                                     {{ form_start(form) }}
@@ -369,6 +370,26 @@
                         console.log(error);
                     }
                 });
+
+                  $.ajax({
+                     url:"{{ path('observation_has_scheduled_dates') }}",
+                     type:"GET",
+                     data: {
+                         'observationId' : ids[0]
+                     },
+                     success: function(response) {
+                         console.log(response);
+
+                         if(response == 'true') {
+                             $('#scheduled-dates').removeClass('hidden');
+                         }
+                     },
+                     error: function(xhr, status, error) {
+                         console.log(xhr.responseText);
+                         console.log(error);
+                     }
+                 });
+
                 $('#share').modal('show');
                 $('#share').data('observation-id', ids[0]);
                 $('#observation_notification_emails_observationId').val(ids[0]);
