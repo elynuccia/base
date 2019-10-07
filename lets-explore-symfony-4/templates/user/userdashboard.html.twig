@@ -417,7 +417,7 @@
                                                 <tbody>
                                                 {% for reward in rewards%}
                                                 <tr>
-                                                    {% if reward.value > student.points %}
+                                                    {% if reward.value < student.points %}
 
                                                         <th scope="row">
                                                         <!-- Material unchecked -->

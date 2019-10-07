@@ -7,8 +7,58 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
 
-    <link rel="stylesheet" href={{ asset('css/mdb.min.css') }} >
+        .thumb {
+
+            color: #0a001f;
+            font-size: 20px;
+            text-align: right;
+
+        }
+
+        .slidecontainer {
+            width: 100%; /* Width of the outside container */
+        }
+
+        /* The slider itself */
+        .slider {
+            -webkit-appearance: none;  /* Override default CSS styles */
+            appearance: none;
+            width: 100%; /* Full-width */
+            height: 15px;
+            border-radius: 5px;
+            background: #94b7d2; /* Grey background */
+            outline: none; /* Remove outline */
+            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+        }
+
+        /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Override default look */
+            appearance: none;
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px;
+            border-radius: 50%;
+            background: #1047af; !important;
+            cursor: pointer; /* Cursor on hover */
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50; /* Green background */
+            cursor: pointer; /* Cursor on hover */
+        }
+    </style>
 
 {% endblock %}
 {% block main %}
@@ -22,6 +72,7 @@
             <div class="card-body text-center">
 
                 <!--Section heading-->
+
                 <h1 class=" text-center font-weight-bold mb-3" style="color: #714275;" >Check-in/Check-out</h1>
 
                 <h6 class="text-center my-5 h3" style="color:#4d87ec">{{ matrix.motto }} </h6>
@@ -37,13 +88,17 @@
                 <div id="goals" class="col-md-4"><h4>Your Goal is <span id="goal"></span>/<span id="max2"></span></h4></div>
                 </div>
 
-   <div class="row">
-       <div class="col-md-6">
+                <div class="row ">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 slidecontainer" style=" padding-bottom: 75px">
 
-           <input type="range"  value="80" min="0" max="100" />
+                        <label for="customRange1">Goal percentage</label>
+                        <input type="range" id="customRange1" class="slider" value="80" min="0" max="100" />
+                            %
+                    </div>
+                    <br>
 
-       </div>
-   </div>
+                </div>
 
 
 
@@ -124,6 +179,8 @@
     var $collectionHolder;
 
     $(document).ready( function() {
+
+
         $('.mdb-select').material_select();
 
             $var= $('#cico_periodNumber');
@@ -138,8 +195,12 @@
            // $('#range').append($('#customRange1').val());
 
 
+
         $var.on('change', function(e) {
                     // alert("onchange event");
+
+
+
             $totale_massimo=3*$exp.length*e.currentTarget.value;
 
 
@@ -151,7 +212,7 @@
             $goal = Math.round(($totale_massimo*$percentage)/100);
 
 
-                    //console.log($goal);
+                    console.log($percentage);
             $('#max').text($totale_massimo);
             $('#goal').text($goal);
             $('#max2').text($totale_massimo);
@@ -207,7 +268,7 @@
         $('#thresholds2').append(newForm);
 
     }
-        
+
 
 
     </script>

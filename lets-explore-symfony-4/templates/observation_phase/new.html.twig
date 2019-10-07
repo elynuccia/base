@@ -40,34 +40,73 @@
 {% block main %}
     {{ form_start(form) }}
 
-<div class="portlet box green">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-gift"></i>New phase
-        </div>
-    </div>
-
-    <div class="portlet-body">
-        {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form._token) }}
-
-        {{ form_end(form, {'render_rest': false}) }}
-
-        <div class="form-actions">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-9">
-                    {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
-                </div>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>{{ title }}
             </div>
         </div>
 
-    </div>
+        <div class="portlet-body">
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
 
-</div>
+            <div class="form-group">
+                <label class="control-label required col-md-3">Is the subject under pharmacological treatment during this phase?</label>
+                <div class="col-md-9">
+                    {{ form_widget(form.isUnderPharmacologicalTreatment) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required col-md-3">Is the phase an intervention?</label>
+                <div class="col-md-9">
+                    {{ form_widget(form.isIntervention) }}
+                </div>
+            </div>
+
+            {{ form_row(form.intervention) }}
+            {{ form_row(form._token) }}
+
+            {{ form_end(form, {'render_rest': false}) }}
+
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                        {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 {% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $( document ).ready(function() {
+            $('#observation_phase_isIntervention').bootstrapSwitch();
+            $('#observation_phase_isUnderPharmacologicalTreatment').bootstrapSwitch();
+            if($('#observation_phase_isIntervention').bootstrapSwitch('state') == true) {
+                $('#observation_phase_intervention').parent().show();
+            } else {
+                $('#observation_phase_intervention').parent().hide();
+            }
+        });
+        $('#observation_phase_isIntervention').on('switchChange.bootstrapSwitch', function (event, state) {
+            if(state == true) {
+                $('#observation_phase_intervention').parent().show();
+            } else {
+                $('#observation_phase_intervention').parent().hide();
+            }
+        });
+    </script>
 {% endblock %}

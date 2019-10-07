@@ -88,7 +88,7 @@ class Student implements UserInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $points;
+    private $points = 0;
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
@@ -442,7 +442,7 @@ class Student implements UserInterface
 
     public function addPoints(?int $points): self
     {
-       // dump($points);
+        // dump($points);
         //dump($this->points);
 
         $this->points += $points;
@@ -457,7 +457,9 @@ class Student implements UserInterface
         //dump($points);
         //dump($this->points);
 
-        //$this->points -= $points;
+        if($this->point) {
+            $this->points -= $points;
+        }
 
         //dump($this->points);
 

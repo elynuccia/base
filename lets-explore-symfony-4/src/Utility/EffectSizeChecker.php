@@ -32,30 +32,29 @@ class EffectSizeChecker {
                 break;
         }
 
-        $sign = ($analysisValue > 0) ? $this->translator->trans('increase', array(), 'r_analysis')
-            : $this->translator->trans('decrease', array(), 'r_analysis');
+        $sign = ($analysisValue > 0) ? 'increase' : 'decrease';
 
         if ($this->hasTauNotEffect($analysisValue)) {
-            return $this->translator->trans('treatment_no_effect', array(), 'r_analysis');
+            return 'The treatment doesn\'t have effect on the behaviour occurrence';
         }
 
         if ($this->hasTauSmallEffect($analysisValue)) {
-            $small = $this->translator->trans('small', array(), 'r_analysis');
-            $message = sprintf($this->translator->trans('treatment_effect', array(), 'r_analysis'), $small, $sign);
+            $small = 'small';
+            $message = sprintf('The treatment has a %s effect on the %s of the behaviour occurrence', $small, $sign);
 
             return $message;
         }
 
         if ($this->hasTauMediumEffect($analysisValue)) {
-            $small = $this->translator->trans('medium', array(), 'r_analysis');
-            $message = sprintf($this->translator->trans('treatment_effect', array(), 'r_analysis'), $small, $sign);
+            $small = 'medium';
+            $message = sprintf('The treatment has a %s effect on the %s of the behaviour occurrence', $small, $sign);
 
             return $message;
         }
 
         if ($this->hasTauLargeEffect($analysisValue)) {
-            $small = $this->translator->trans('large', array(), 'r_analysis');
-            $message = sprintf($this->translator->trans('treatment_effect', array(), 'r_analysis'), $small, $sign);
+            $small = 'large';
+            $message = sprintf('The treatment has a %s effect on the %s of the behaviour occurrence', $small, $sign);
 
             return $message;
         }

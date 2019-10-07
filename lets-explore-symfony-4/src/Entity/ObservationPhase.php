@@ -54,6 +54,11 @@ class ObservationPhase
     private $dataIds;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isUnderPharmacologicalTreatment;
+
+    /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
@@ -155,6 +160,17 @@ class ObservationPhase
     {
         $this->dataIds = $dataIds;
 
+        return $this;
+    }
+
+
+    public function getIsUnderPharmacologicalTreatment(): ?bool
+    {
+        return $this->isUnderPharmacologicalTreatment;
+    }
+    public function setIsUnderPharmacologicalTreatment(bool $isUnderPharmacologicalTreatment): self
+    {
+        $this->isUnderPharmacologicalTreatment = $isUnderPharmacologicalTreatment;
         return $this;
     }
 }

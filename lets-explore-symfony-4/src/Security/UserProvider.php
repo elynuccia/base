@@ -44,7 +44,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user = new User();
         $user->setEmail($auth0User->email);
         $user->setName($auth0User->name);
-        $user->setGivenName($auth0User->given_name);
+        $user->setGivenName((isset($auth0User->given_name)) ? $auth0User->given_name : "");
         $user->setPicture($auth0User->picture);
         $user->setUserId($auth0User->user_id);
         $user->setUsername($username);
@@ -87,7 +87,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $user = new User();
         $user->setEmail($auth0User[0]->email);
         $user->setName($auth0User[0]->name);
-        $user->setGivenName($auth0User[0]->given_name);
+        $user->setGivenName((isset($auth0User->given_name)) ? $auth0User->given_name : "");
         $user->setPicture($auth0User[0]->picture);
         $user->setUserId($auth0User[0]->user_id);
         $user->setUsername($username);
