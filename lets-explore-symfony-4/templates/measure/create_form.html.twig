@@ -30,138 +30,111 @@
         </div>
     {% endfor %}
 
-
     <div class="container-fluid">
+        <!--Card-->
+        <div class="card m-12">
 
-        <section class="mb-5">
+            <!--Card content-->
+            <div class="card-body form">
+                <!--Title-->
+                <h1 class="display-4 text-center">Observation: {{ observation.name }}</h1>
+                <!--Title-->
 
+                {{ form_start(form) }}
 
-            <!--Card-->
-            <div class="card card-cascade narrower">
-
-                <!--Section: Chart-->
-                <section>
-
-
-                    <!--Grid row-->
-                    <div class="row">
-
-                        <!--Grid column-->
-                        <div class="col-12 mr-0 ">
-
-                            <!--Card image-->
-                            <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 ">Observation: {{ observation.name }}</h4>
+                {% for key, field in form.children %}
+                    {% if key != 'submit' %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_row(field) }}
                             </div>
-                            <!--/Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body ">
-                                <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6 card testimonial-card form">
-
-                                    <!-- Background color -->
-
-                                    <!-- Avatar -->
-                                    {{ form_start(form) }}
-
-                                    {% for key, field in form.children %}
-                                        {% if key != 'submit' %}
-                                            {{ form_row(field) }}
-                                        {% endif %}
-                                    {% endfor %}
-
-                                    <!-- Content -->
-                                    <div class="card-body">
-                                        <!--a Name -->
-                                        <div class="form-actions">
-                                            <div class="row">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                    {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{ form_end(form) }}
-                                    </div>
-
-                                </div>
-                                </div>
-
-                            </div>
-                            <!--/.Card content-->
-
                         </div>
-                        <!--Grid column-->
+                    {% endif %}
+                {% endfor %}
+
+                <div class="col-sm-10">{{ form_row(form.submit) }}</div>
+                {{ form_end(form) }}
 
 
-                    </div>
-                    <!--Grid row-->
-
-
-
-                </section>
-                <!--Section: Chart-->
-
-
-
-
-            </div>
-            <!--/.Card-->
-
-        </section>
-
-
-
-
-    </div>
-
-
-
-
- <!-- <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>{#{{ observation.name }}#}</div>
-        </div>
-        <div class="portlet-body form">
-           {# {{ form_start(form) }}
-
-            {% for key, field in form.children %}
-            {% if key != 'submit' %}
-                {{ form_row(field) }}
-            {% endif %}
-        {% endfor %}
-#}
-        <div class="form-actions">
-            <div class="row">
-                <div class="col-md-offset-3 col-md-9">
-                 {#   {{ form_widget(form.submit, {'class': 'btn btn-circle green'}) }}#}
-                    <button type="button" class="btn btn-circle grey-salsa btn-outline">Cancel</button>
+                <!--
+                <div class="row">
+                    <select class="browser-default custom-select">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
                 </div>
+                -->
+
             </div>
+
         </div>
-      {#  {{ form_end(form) }}#}
+        <!--/.Card-->
     </div>
--->
 
 
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href={{ asset('css/addons-pro/mdb.min.css') }} >
+    <link href="{{ asset('theme/assets/global/css/components.min.css') }}" rel="stylesheet" id="style_components"
+          type="text/css"/>
+    <link href="{{ asset('theme/assets/global/css/plugins.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/meter.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.css') }}">
-    <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('theme/assets/global/plugins/ion.rangeslider/css/ion.rangeSlider.skinFlat.css') }}">
 
     <style>
 
-     .form-control
-        {    display: block !important;
+        .form-control {
+            display: block !important;
 
         }
-</style>
+
+        .behavioral-recording-progress-bar {
+            width: 100%;
+            margin: 10px auto;
+            height: 22px;
+            background-color: darkgray;
+        }
+
+        .behavioral-recording-progress-bar div {
+            height: 100%;
+            text-align: right;
+            padding: 0;
+            line-height: 22px;
+            width: 0;
+            background-color: cornflowerblue;
+            box-sizing: border-box;
+        }
+
+        .progress {
+            background-color: lightgray;
+        }
+
+        .md-form {
+            position: static !important;
+        }
+
+        .red-button, .red-button:hover, .red-button:visited, .red-button:link, .red-button:active {
+            background-color: darkred !important;
+            color: #ffffff !important;
+        }
+
+        .control-label .required, .form-group .required {
+            text-align: right;
+            margin-bottom: 0;
+            padding-top: 7px;
+            color: #333;
+            font-size: 14px;
+        }
+
+    </style>
 {% endblock %}
 
 {% block javascripts %}
@@ -176,10 +149,10 @@
     <script src="{{ asset('theme/assets/global/plugins/ion.rangeslider/js/ion.rangeSlider.min.js') }}"></script>
 
     <script>
-        $( document ).ready(function() {
-            $( '.form' ).behavioralRecordingTool();
+        $(document).ready(function () {
+            $('.form').behavioralRecordingTool();
 
-            $( 'input[type="range"]').each(function(i, e){
+            $('input[type="range"]').each(function (i, e) {
                 $(e).ionRangeSlider({
                     min: $(e).attr('min'),
                     max: $(e).attr('max'),
@@ -190,16 +163,16 @@
 
         });
 
-        $( '.square' ).on('click', function(e){
+        $('.square').on('click', function (e) {
 
-            $( '.square' ).each(function(){
+            $('.square').each(function () {
                 $(this).css('background-color', 'transparent');
             });
 
             $(this).css('background-color', 'greenyellow');
 
-            $( "input[name*='xValue']" ).val($( this ).attr('data-row'));
-            $( "input[name*='yValue']" ).val($( this ).attr('data-column'));
+            $("input[name*='xValue']").val($(this).attr('data-row'));
+            $("input[name*='yValue']").val($(this).attr('data-column'));
         });
     </script>
 {% endblock %}

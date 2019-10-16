@@ -196,7 +196,7 @@
                             <i class="fa fa-plus"></i> Add item
                             <i class="fa fa-angle-down"></i>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu items">
                             <li>
                                 <a href="javascript:;">
                                     <i class="fa fa-dot-circle-o"></i> Choice</a>
@@ -440,13 +440,18 @@
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
+
     <style>
     .form-control
     {    display: block !important;
 
     }
 
+
     </style>
+    <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
+
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
 {% endblock %}
@@ -535,7 +540,7 @@
             }
         });
 
-        $( '.dropdown-menu a' ).on('click', function(e) {
+        $( '.dropdown-menu .items a' ).on('click', function(e) {
             e.preventDefault();
             switch($.trim($( this ).text())) {
                 case 'Choice':

@@ -148,6 +148,8 @@ if (typeof jQuery.ui == 'undefined') {
             });
 
             $( '.frequency-item a.frequency-counter').on('click', function(e) {
+                e.preventDefault();
+
                 if($(this).html().indexOf('START') > -1) {
                     $(this).html('+');
 
@@ -160,6 +162,19 @@ if (typeof jQuery.ui == 'undefined') {
 
                     startTimer(observationLengthInMinutesId, timerId, null, buttonId, progressBarId, null);
 
+                } else {
+                    baseSelectorId = $( this ).attr('data-base-selector-id');
+                    counterValue = parseInt($( '#' + baseSelectorId + '_counter').val()) + 1;
+                    occurrencesTimestampDiv = $( "#" + baseSelectorId + '_occurrenceTimestamps' );
+
+                    addOccurrenceTimestampForm(occurrencesTimestampDiv);
+
+                    lastIndex = $( "#" + baseSelectorId + '_occurrenceTimestamps' ).find(':input').length - 1;
+                    timestamp = ~~(Date.now()/1000);
+
+                    $( '#' + baseSelectorId + '_occurrenceTimestamps_' + lastIndex).val(timestamp);
+                    $( '#' + baseSelectorId + '_counter').val(counterValue);
+                    $( '#counter-' + baseSelectorId).text(counterValue);
                 }
 
             });
@@ -198,7 +213,9 @@ if (typeof jQuery.ui == 'undefined') {
                         $( '#' + baseSelectorId + '_intervalData_' + lastIndex + '_intervalNumber').val(activeIntervalNumber[timerSelectorId]);
                         $( '#' + baseSelectorId + '_intervalData_' + lastIndex + '_isBehaviorOccurred').val(true);
 
-                        counterValue = parseInt($( '#' + baseSelectorId + '_counter').val()) + 1;​
+                        counterValue = $( '#' + baseSelectorId + '_counter').val() == 0 ?
+                            parseInt($( '#' + baseSelectorId + '_counter').val()) + 2 :
+                            parseInt($( '#' + baseSelectorId + '_counter').val()) + 1;
 
                         $( '#' + baseSelectorId + '_counter').val(counterValue);
 
@@ -207,24 +224,6 @@ if (typeof jQuery.ui == 'undefined') {
                         isCounterClicked[$(this).attr("id")] = true;
                     }
                 }
-            });
-
-            $( "a.frequency-counter" ).click(function(e){
-                e.preventDefault();
-
-                baseSelectorId = $( this ).attr('data-base-selector-id');
-                counterValue = parseInt($( '#' + baseSelectorId + '_counter').val()) + 1;
-                occurrencesTimestampDiv = $( "#" + baseSelectorId + '_occurrenceTimestamps' );
-
-                addOccurrenceTimestampForm(occurrencesTimestampDiv);
-
-                lastIndex = $( "#" + baseSelectorId + '_occurrenceTimestamps' ).find(':input').length - 1;
-                timestamp = ~~(Date.now()/1000);
-
-                $( '#' + baseSelectorId + '_occurrenceTimestamps_' + lastIndex).val(timestamp);
-                $( '#' + baseSelectorId + '_counter').val(counterValue);
-                $( '#counter-' + baseSelectorId).text(counterValue);
-
             });
 
             $( "a.player" ).click(function(e){

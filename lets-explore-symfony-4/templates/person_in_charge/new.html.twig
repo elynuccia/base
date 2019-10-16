@@ -481,10 +481,10 @@
         var myLineChart = new Chart(ctxL, {
             type: 'line',
             data: {
-                labels: [{% for cico in cicos %}"{{ cico.fillInDate | date('Y-m-d') }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
+                labels: [{% for cico in cicos %}"{{ cico.fillInDate | date('Y-m-d') }}"{% if loop.index != cicos | length %},{% endif %}{% endfor %}],
                 datasets: [{
                     label: "Line Goal",
-                    data: [{% for cico in cicos %}"{{ cico.threshold }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
+                    data: [{% for cico in cicos %}"{{ cico.threshold }}"{% if loop.index != cicos | length %},{% endif %}{% endfor %}],
                     backgroundColor: [
                         'rgba(105, 0, 132, .2)',
                     ],
@@ -495,7 +495,7 @@
                 },
                     {
                         label: "Data",
-                        data: [{% for cico in cicos %}"{{ cico.sumDatas }}"{% if loop.index != cico | length %},{% endif %}{% endfor %}],
+                        data: [{% for cico in cicos %}"{{ cico.sumDatas }}"{% if loop.index != cicos | length %},{% endif %}{% endfor %}],
                         backgroundColor: [
                             'rgba(0, 137, 132, .2)',
                         ],

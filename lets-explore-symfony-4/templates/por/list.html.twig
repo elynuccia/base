@@ -19,128 +19,126 @@
 {% endblock %}
 
 {% block main %}
- <div class="container-fluid">
+<div class="container-fluid">
 
-        <!--Section: Analytical panel-->
-        <section class="mb-5">
+    <!--Section: Analytical panel-->
+    <section class="mb-5">
 
-            <!--Card-->
-            <div class="card card-cascade narrower">
+        <!--Card-->
+        <div class="card card-cascade narrower">
 
-                <!--Section: Chart-->
-                <section>
+            <!--Section: Chart-->
+            <section>
 
-                    <!--Grid row-->
-                    <div class="row">
+                <!--Grid row-->
+                <div class="row">
 
-                        <!--Grid column-->
-                        <div class="col-12 mr-0">
+                    <!--Grid column-->
+                    <div class="col-12 mr-0">
 
-                            <!--Card image-->
-                            <div class="view view-cascade gradient-card-header primary-color">
-                                <h4 class="h4-responsive mb-0 font-weight-bold">PORs List</h4>
+                        <!--Card image-->
+                        <div class="view view-cascade gradient-card-header primary-color">
+                            <h4 class="h4-responsive mb-0 font-weight-bold">PORs List</h4>
+                        </div>
+                        <!--/Card image-->
+
+                        <!--Card content-->
+                        <div class="card-body card-body-cascade pb-0">
+
+
+                            {% for single_por in por %}
+                                <div class="row" style="display: none">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <b>POR #{{ single_por.id }}</b>
+                                        <div>  {% for positiveBehavior in single_por.positiveBehaviors %}
+                                                {{ positiveBehavior.behavior}}
+                                            {% endfor %}
+                                            {% for location in single_por.locations %}
+                                                {{ location.name }}
+                                            {% endfor %}
+
+                                            {{ single_por.note }}
+                                            {{ single_por.fillInDate }}
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
                             </div>
-                            <!--/Card image-->
+                            <!--/.Card content-->
 
-                            <!--Card content-->
-                            <div class="card-body card-body-cascade pb-0">
+                        </div>
+                        <!--Grid column-->
 
 
-    <h1>List of PORs</h1>
-
-    {% for single_por in por %}
-       <div class="row" style="display: none">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-        <b>POR #{{ single_por.id }}</b>
-      <div>  {% for positiveBehavior in single_por.positiveBehaviors %}
-            {{ positiveBehavior.behavior}}
-        {% endfor %}
-        {% for location in single_por.locations %}
-            {{ location.name }}
-        {% endfor %}
-
-        {{ single_por.note }}
-        {{ single_por.fillInDate }}
+                    </div>
+                    <!--Grid row-->
                 </div>
-          <div class="col-md-1"></div>
-      </div>
-</div>
-    {% endfor %}
+            </section>
+            <!--Section: Chart-->
 
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-    <canvas id="myChart"></canvas>
-    </div>
-
-    <div class="col-md-1"></div>
-
-</div>
-    <!--/.Card content-->
-
-    </div>
-    <!--Grid column-->
-
-
-    </div>
-    <!--Grid row-->
-</div>
-    </section>
-    <!--Section: Chart-->
-
-    </div>
-    <!--/.Card-->
+        </div>
+        <!--/.Card-->
 
     </section>
     <!--Section: Analytical panel-->
-{% endblock %}
+    {% endblock %}
 
-{% block javascripts %}
-    {{ parent () }}
-    <script>
+    {% block javascripts %}
+        {{ parent () }}
+        <script>
 
-        var ctx = document.getElementById("myChart").getContext('2d');
+            var ctx = document.getElementById("myChart").getContext('2d');
 
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
-            data: {
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
 
-                labels: [{% for behavior in porPosBehavior %}"{{ behavior.behavior }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
-                datasets: [{
-                    label: '# of POR',
-                    data: [{% for behavior in porPosBehavior %}"{{ behavior.countPOR }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero:true,
-                            stepSize: 1
-
-
-                        }
+                    labels: [{% for behavior in porPosBehavior %}"{{ behavior.behavior }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
+                    datasets: [{
+                        label: '# of POR',
+                        data: [{% for behavior in porPosBehavior %}"{{ behavior.countPOR }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero:true,
+                                stepSize: 1
+
+
+                            }
+                        }]
+                    }
                 }
-            }
-        });
-    </script>
-{% endblock %}
+            });
+        </script>
+    {% endblock %}

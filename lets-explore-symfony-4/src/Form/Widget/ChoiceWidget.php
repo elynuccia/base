@@ -43,6 +43,18 @@ class ChoiceWidget implements WidgetInterface {
             )
         );
 
+        if(!$this->isExpanded) {
+            $options['attr'] = array(
+                'class' => 'mdb-select'
+            );
+        }
+
+        if(($this->isExpanded && !$this->isMultiple) || ($this->isExpanded && $this->isMultiple)) {
+            $options['attr'] = array(
+                'class' => 'form-check-inline'
+            );
+        }
+
         if($this->emptyValue) {
             $options['placeholder'] = $this->emptyValue;
         }

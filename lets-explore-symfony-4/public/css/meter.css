@@ -53,6 +53,10 @@
     position: relative;
 }
 
+.label-y {
+    right: 50px;
+}
+
 .x-axis {
     border: 0;
     /*border-top: 1px solid #000000;*/

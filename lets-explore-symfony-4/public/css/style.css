@@ -10,7 +10,8 @@ dropdown-menu.measure-menu {
     top:-230px;
     left: 15px;
 }
-fstResultItem {
+
+.fstResultItem {
     font-size: 1em !important;
     display: block;
     padding: .5em .71429em;

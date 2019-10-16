@@ -122,11 +122,13 @@ class SchoolController extends AbstractController
      */
     public function deleteMinorAction(Request $request, MinorAndMajorBehavior $entity)
     {
+
+        $schoolCode= $this->getUser()->getSchoolCode();
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
         $this->get('session')->getFlashbag()->add('success', 'Deleted');
-        return $this->redirect($this->generateUrl('minorandmajorbehavior_list'));
+        return $this->redirect($this->generateUrl('minorandmajorbehavior_list', array ('schoolCode' => $schoolCode)));
     }
 
 
