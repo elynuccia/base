@@ -9,6 +9,7 @@
         "chillerlan/php-qrcode": "dev-master",
         "craue/formflow-bundle": "~3.0",
         "endroid/qr-code": "^3.2",
+        "fzaninotto/faker": "^1.8",
         "hwi/oauth-bundle": "^0.6.1",
         "ob/highcharts-bundle": "^1.6",
         "php-http/curl-client": "^1.7",

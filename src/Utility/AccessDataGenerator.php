@@ -12,119 +12,10 @@ use App\Entity\PersonInCharge;
 use App\Entity\Student;
 use Doctrine\ORM\EntityManagerInterface;
 use chillerlan\QRCode\QRCode;
-
+use Faker\Factory;
 
 class AccessDataGenerator
 {
-    const ANIMALS = [
-        "Albatross",
-        "Alpaca",
-        "Antelope",
-        "Ape",
-        "Armadillo",
-        "Donkey",
-        "Barracuda",
-        "Bat",
-        "Bear",
-        "Bee",
-        "Buffalo",
-        "Butterfly",
-        "Camel",
-        "Capybara",
-        "Cat",
-        "Caterpillar",
-        "Cattle",
-        "Cheetah",
-        "Chicken",
-        "Chimpanzee",
-        "Clam",
-        "Cobra",
-        "Coyote",
-        "Crab",
-        "Crocodile",
-        "Deer",
-        "Dinosaur",
-        "Dog",
-        "Dogfish",
-        "Dolphin",
-        "Dove",
-        "Dragonfly",
-        "Duck",
-        "Dugong",
-        "Eagle",
-        "Elephant",
-        "Emu",
-        "Falcon",
-        "Fish",
-        "Flamingo",
-        "Fox",
-        "Frog",
-        "Gazelle",
-        "Giraffe",
-        "Gnu",
-        "Goat",
-        "Goldfish",
-        "Gorilla",
-        "Hamster",
-        "Hawk",
-        "Hippopotamus",
-        "Horse",
-        "Jaguar",
-        "Jellyfish",
-        "Kangaroo",
-        "Koala",
-        "Lemur",
-        "Leopard",
-        "Lion",
-        "Llama",
-        "Lobster",
-        "Mantis",
-        "Monkey",
-        "Mouse",
-        "Octopus",
-        "Opossum",
-        "Ostrich",
-        "Otter",
-        "Owl",
-        "Oyster",
-        "Panther",
-        "Parrot",
-        "Pelican",
-        "Penguin",
-        "Pig",
-        "Pony",
-        "Porcupine",
-        "Rabbit",
-        "Raccoon",
-        "Raven",
-        "Red_deer",
-        "Red_panda",
-        "Reindeer",
-        "Rhinoceros",
-        "Salmon",
-        "Seahorse",
-        "Seal",
-        "Shark",
-        "Sheep",
-        "Snail",
-        "Snake",
-        "Sparrow",
-        "Squid",
-        "Squirrel",
-        "Swan",
-        "Tapir",
-        "Tiger",
-        "Toad",
-        "Turkey",
-        "Turtle",
-        "Weasel",
-        "Whale",
-        "Wildcat",
-        "Wolf",
-        "Wolverine",
-        "Woodpecker",
-        "Zebra"];
-
     private $entityManager;
     private $qrCode;
 
@@ -176,7 +67,9 @@ class AccessDataGenerator
     }
 
     private function generateNickname() {
-        return self::ANIMALS[array_rand(self::ANIMALS)] . rand(100, 999);
+        $faker = Factory::create();
+
+        return $faker->firstName . $faker->unique()->randomDigit;
     }
 
     private function generateCode() {
