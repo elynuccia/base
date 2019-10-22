@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      fields={"name", "creatorUserId"},
  *      message = "This value is already used"
  * )
- * @AppAssert\isMeasureChangeable*
+ * @AppAssert\IsMeasureChangeable*
  */
 class Observation
 {

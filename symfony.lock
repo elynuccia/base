@@ -14,6 +14,9 @@
     "craue/formflow-bundle": {
         "version": "3.0.3"
     },
+    "dasprid/enum": {
+        "version": "1.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -137,6 +140,9 @@
     "ob/highcharts-bundle": {
         "version": "1.6"
     },
+    "ocramius/package-versions": {
+        "version": "1.4.0"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
@@ -212,6 +218,9 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
+    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {
@@ -232,6 +241,9 @@
     },
     "symfony/cache": {
         "version": "v4.0.10"
+    },
+    "symfony/cache-contracts": {
+        "version": "v1.1.7"
     },
     "symfony/config": {
         "version": "v4.0.10"
@@ -277,6 +289,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.0.10"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.7"
     },
     "symfony/expression-language": {
         "version": "v4.0.10"
@@ -332,6 +347,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mime": {
+        "version": "v4.3.5"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.0.10"
     },
@@ -365,11 +383,17 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.8.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.12.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.8.0"
     },
     "symfony/polyfill-php72": {
         "version": "v1.8.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.12.0"
     },
     "symfony/process": {
         "version": "v4.0.10"
@@ -404,11 +428,26 @@
             "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
         }
     },
+    "symfony/security-core": {
+        "version": "v4.3.5"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.3.5"
+    },
+    "symfony/security-guard": {
+        "version": "v4.3.5"
+    },
+    "symfony/security-http": {
+        "version": "v4.3.5"
+    },
     "symfony/serializer": {
         "version": "v4.0.10"
     },
     "symfony/serializer-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/service-contracts": {
+        "version": "v1.1.7"
     },
     "symfony/stopwatch": {
         "version": "v4.0.10"
@@ -451,6 +490,9 @@
     },
     "symfony/var-dumper": {
         "version": "v4.0.10"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.3.5"
     },
     "symfony/web-link": {
         "version": "v4.0.10"
