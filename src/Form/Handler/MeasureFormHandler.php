@@ -38,7 +38,7 @@ class MeasureFormHandler
         $this->originalTextItems = new ArrayCollection();
     }
 
-    public function handle(FormInterface $form, Request $request, $message)
+    public function handle(FormInterface $form, Request $request, $message, $schoolCode)
     {
         if (!$request->isMethod('POST')) {
             return false;
@@ -59,12 +59,12 @@ class MeasureFormHandler
         $this->removeRangeItems($validObject);
         $this->removeTextItems($validObject);
 
-        $this->create($validObject, $message);
+        $this->create($validObject, $message, $schoolCode);
 
         return true;
     }
 
-    public function create(Measure $entity, $message)
+    public function create(Measure $entity, $message, $schoolCode)
     {
         if ($entity->getChoiceItems()->isEmpty() == false) {
             foreach ($entity->getChoiceItems() as $relatedEntity) {
@@ -96,6 +96,8 @@ class MeasureFormHandler
                 $relatedEntity->setMeasure($entity);
             }
         }
+
+        $entity->setSchoolCode($schoolCode);
         
         $this->entityManager->persist($entity);
         $this->entityManager->flush();

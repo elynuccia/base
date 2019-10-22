@@ -35,8 +35,8 @@ class BaseObservationType extends AbstractType
                     'choice_label' => 'name',
                     'query_builder' => function (EntityRepository $er) use ($options) {
                         return $er->createQueryBuilder('m')
-                        //    ->where('m.creatorUserId = :creatorUserId')
-                          //  ->setParameter('creatorUserId', $options['creatorUserId'])
+                            ->where('m.schoolCode = :schoolCode')
+                            ->setParameter('schoolCode', $options['schoolCode'])
                             ->orderBy('m.name', 'asc')
                             ;
                     },
@@ -51,7 +51,8 @@ class BaseObservationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'inherit_data' => true,
-            'creatorUserId' => array()
+            'creatorUserId' => array(),
+            'schoolCode' => null
         ));
     }
 }

@@ -81,6 +81,7 @@ class MeasureController extends Controller
             )
         );
     }
+
     /**
      * @Route("/new", name="measure_new")
      * @Method({"GET", "POST"})
@@ -97,7 +98,9 @@ class MeasureController extends Controller
         $form = $this->createForm(MeasureType::class, $entity, array(
             'action' => $this->generateUrl('measure_new')
         ));
-        if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING))) {
+
+        if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING),
+            $this->getUser()->getSchoolCode())) {
             return $this->redirect($this->generateUrl('measure_list'));
         }
         $numberOfItems = $form->get('choiceItems')->count() + $form->get('directObservationItems')->count() +

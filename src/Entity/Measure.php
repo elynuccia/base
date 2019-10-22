@@ -23,6 +23,11 @@ class Measure
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $schoolCode;
+
+    /**
      * @ORM\Column(name="creator_user_id", type="string", length=255)
      */
     private $creatorUserId;
@@ -128,6 +133,19 @@ class Measure
     public function getId()
     {
         return $this->id;
+    }
+
+
+    public function getSchoolCode(): ?string
+    {
+        return $this->schoolCode;
+    }
+
+    public function setSchoolCode(string $schoolCode): self
+    {
+        $this->schoolCode = $schoolCode;
+
+        return $this;
     }
 
     /**

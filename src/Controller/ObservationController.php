@@ -122,7 +122,8 @@ class ObservationController extends Controller
         }*/
         $form = $this->createForm(ObservationType::class, $observation, array(
             'action' => $this->generateUrl('observation_edit', array('id' => $observation->getId())),
-            'creatorUserId' => $this->getUser()->getUserId()
+            'creatorUserId' => $this->getUser()->getUserId(),
+            'schoolCode' => $this->getUser()->getSchoolCode()
         ));
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::EDIT_SUCCESS_STRING))) {
             return $this->redirect($this->generateUrl('observation_student_list', array(
@@ -156,7 +157,8 @@ class ObservationController extends Controller
         $entity->setCreatorUserId($this->getUser()->getUserId());
         $form = $this->createForm(ObservationType::class, $entity, array(
             'action' => $this->generateUrl('observation_new', array('id' => $student->getId())),
-            'creatorUserId' => $this->getUser()->getUserId()
+            'creatorUserId' => $this->getUser()->getUserId(),
+            'schoolCode' => $this->getUser()->getSchoolCode()
         ));
 
         if($formHandler->handle($form, $request, $this->get('translator')->trans(self::NEW_SUCCESS_STRING))) {
