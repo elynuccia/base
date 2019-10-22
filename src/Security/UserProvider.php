@@ -117,7 +117,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->loadUserByUserId($user->getUserId());
     }
 
     public function supportsClass($class)
