@@ -23,6 +23,7 @@ class ObservationType extends AbstractType
         $builder->add('base_observation', BaseObservationType::class, array(
             'data_class' => Observation::class,
             'creatorUserId' => $options['creatorUserId'],
+            'schoolCode' => $options['schoolCode']
         ))
             ->add('observationScheduler', ObservationSchedulerType::class);
     }
@@ -31,7 +32,8 @@ class ObservationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Observation::class,
-            'creatorUserId' => array()
+            'creatorUserId' => array(),
+            'schoolCode' => null
         ));
     }
 }

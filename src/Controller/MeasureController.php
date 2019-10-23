@@ -69,7 +69,8 @@ class MeasureController extends Controller
         $form = $this->createForm(MeasureType::class, $measure, array(
             'action' => $this->generateUrl('measure_edit', array('id' => $measure->getId())),
         ));
-        if($formHandler->handle($form, $request, $this->get('translator')->trans(self::EDIT_SUCCESS_STRING))) {
+        if($formHandler->handle($form, $request, $this->get('translator')->trans(self::EDIT_SUCCESS_STRING),
+            $this->getUser()->getSchoolCode())) {
             return $this->redirect($this->generateUrl('measure_list'));
         }
         return $this->render('measure/new.html.twig',

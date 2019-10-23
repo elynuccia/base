@@ -43,7 +43,7 @@
         <div class="col-md-3">{{ form_row(form.submit) }}</div>
         <div class="col-md-3"></div>
 
-        <div class="col-md-4"><button id="showButton" class="btn">Show Inserted Codes</button></div>
+        <div class="col-md-4"><button id="showButton" class="btn blue">Show Inserted Codes</button></div>
     </div>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
@@ -85,8 +85,9 @@
     <script>
         $(document).ready( function() {
 
-        $("#showButton").on('click', function()
+        $("#showButton").on('click', function(e)
         {
+            e.preventDefault();
 
             $("#codes").toggle();
             $(this).text(function(i, text){
