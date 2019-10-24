@@ -25,10 +25,12 @@ class StudentRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(stud.id) as id, stud.teacherCoordinator, stud.code
+            'SELECT DISTINCT(stud.id) as id, stud.teacherCoordinator, stud.code, stud.nickname
           FROM \App\Entity\Student stud 
           WHERE stud.teacherCoordinator = :teacherCoordinator
-          GROUP BY stud.id, stud.teacherCoordinator, stud.code  '
+          GROUP BY stud.id, stud.teacherCoordinator, stud.code
+          ORDER BY stud.nickname ASC
+          '
         )->setParameter('teacherCoordinator', $teacherCoordinator);
 
         // returns an array of Product objects
@@ -44,7 +46,8 @@ class StudentRepository extends ServiceEntityRepository
           FROM \App\Entity\Student stud 
           JOIN stud.personInCharge personInCharge
           WHERE stud.schoolCode = :schoolCode
-          GROUP BY stud.id, stud.nickname, stud.code, stud.qrCode  '
+          GROUP BY stud.id, stud.nickname, stud.code, stud.qrCode
+          ORDER BY stud.nickname ASC'
         )->setParameter('schoolCode', $schoolCode);
 
         // returns an array of Product objects

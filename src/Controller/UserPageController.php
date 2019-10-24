@@ -20,11 +20,13 @@ use Symfony\Component\HttpFoundation\Request;
 class UserPageController extends AbstractController
 {
     /**
-     * @Route("/userpage/{schoolCode}", name="user_page")
+     * @Route("/userpage", name="user_page")
      */
-    public function index(Auth0Api $auth0Api, School $school)
+    public function index()
     {
-       // dump($this->getUser()->getRoles());
+        $school = $this->getDoctrine()->getManager()->getRepository('App\Entity\School')->findOneBySchoolCode(
+            $this->getUser()->getSchoolCode()
+        );
 
         if(in_array('ROLE_USER_TEACHER_COORDINATOR', $this->getUser()->getRoles())) {
 
@@ -38,29 +40,22 @@ class UserPageController extends AbstractController
 
         $schoolCode= $school->getSchoolCode();
 
-        $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findAll();
-        $students_ = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode( $schoolCode);
-        $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsById();
-        $odrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);
-        $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRById();
-        $bestOdrs_ = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRBySchoolCode($schoolCode);
-        $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORById();
-        $bestPors_ = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORBySchoolCode($schoolCode);
-        $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsById();
-        $pors_ = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsBySchoolCode($schoolCode);
+        $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode($schoolCode);
+        $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);
+        $bestOdrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countBestODRBySchoolCode($schoolCode);
+        $bestPors = $this->getDoctrine()->getRepository('App\Entity\POR')->countBestPORBySchoolCode($schoolCode);
+        $pors = $this->getDoctrine()->getRepository('App\Entity\POR')->countPositiveBehaviorsBySchoolCode($schoolCode);
         $rewards = $this->getDoctrine()->getRepository('App\Entity\Rewards')->findRewardsBySchoolCode($schoolCode);
         $user = $this->getUser();
 
-
-
         return $this->render('user/new.html.twig', array(
-            'user'=>$user,
-            'students' =>$students_,
-            'students_byteacher' =>$students_byteacher,
-            'odrs' => $odrs_,
-            'pors' => $pors_,
-            'bestOdrs' => $bestOdrs_,
-            'bestPors' => $bestPors_,
+            'user'=> $user,
+            'students' => $students,
+            'students_byteacher' => $students_byteacher,
+            'odrs' => $odrs,
+            'pors' => $pors,
+            'bestOdrs' => $bestOdrs,
+            'bestPors' => $bestPors,
             'rewards' => $rewards
 
         ));

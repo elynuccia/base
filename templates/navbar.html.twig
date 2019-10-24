@@ -48,7 +48,7 @@
 
                             {% if "ROLE_0AUTH_USER" in app.user.roles and app.user.schoolCode != '' %}
                                 <a class="dropdown-item"
-                                   href="{{ path('user_page',{'schoolCode' : app.user.schoolCode}) }}">User Page</a>
+                                   href="{{ path('user_page') }}">User Page</a>
                             {% elseif not "ROLE_ADMIN" in app.user.roles %}
                                 <a class="dropdown-item" href="{{ path('user_page') }}">User Page</a>
 
