@@ -47,36 +47,26 @@
                             <div class="card-body card-body-cascade pb-0 ">
                                 <div class="row">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-2 col-sm-4 "><p class="font-weight-bold">Cico Model ID</p></div>
-                                    <div class="col-md-4 col-sm-3"><p class="font-weight-bold">Date</p></div>
                                     <div class="col-md-4 col-sm-4"><p class="font-weight-bold">Student Code</p></div>
                                 </div>
 
-
-                                    {% for c in cicos %}
-                                        {% for s in c.sessions %}
-                                            {% for d in s.data %}
-
-                                    {% if loop.index != 0 %}
-
+                                    {% if cicos | length != 0 %}
+                                        {% for c in cicos %}
                                         <div class="row">
                                             <div class="col-md-2"></div>
-                                            <div class="col-md-2 col-sm-3"># {{ c.id }}</div>
-                                            <div class="col-md-4 col-sm-4">{{ s.fillInDate|date("m/d/y") }}</div>
-                                            <div class="col-md-3 col-sm-4">{{ c.student.code }}</div>
-                                            <a href="{{ path('cico_data', {'id': c.id}) }}">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-
-
+                                            <div class="col-md-8 col-sm-4">{{ c.student.code }}</div>
+                                            <div class="col-md-2">
+                                                <a href="{{ path('cico_data', {'id': c.id}) }}">
+                                                    <i class="fa fa-plus"></i>
+                                                </a>
+                                            </div>
 
                                         </div>
+                                        {% endfor %}
                                     {% else %}
                                         No Cico created
                                     {% endif %}
-                                            {% endfor %}
-                                        {% endfor %}
-                                    {% endfor %}
+
                             </div>
                             <!--/.Card content-->
 
