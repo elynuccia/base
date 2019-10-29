@@ -100,6 +100,12 @@ Measures
 </div>
 {% endfor %}
 
+{% for flashMessage in app.session.flashbag.get('warning') %}
+    <div class="alert alert-warning">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->

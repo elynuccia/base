@@ -28,9 +28,9 @@ class ObservationPhaseController extends Controller
     CONST NEW_SUCCESS_STRING = 'Observation phase inserted successfully';
     CONST EDIT_SUCCESS_STRING = 'Observation phase edited successfully';
     CONST DELETE_SUCCESS_STRING = 'Observation phase deleted successfully';
-    CONST NEW_TITLE = 'Insert new observation date';
-    CONST EDIT_TITLE = 'Edit observation date';
-    CONST INDEX_TITLE = 'List of observation dates';
+    CONST NEW_TITLE = 'Insert new observation phase';
+    CONST EDIT_TITLE = 'Edit observation phase';
+    CONST INDEX_TITLE = 'List of observation phases';
 
     /**
      * @Route("/list/{id}", name="observation_phase_list")

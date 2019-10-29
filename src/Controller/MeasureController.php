@@ -126,12 +126,27 @@ class MeasureController extends Controller
     {
         $ids = json_decode($request->get('ids'), true);
         $em = $this->getDoctrine()->getManager();
+
         foreach($ids as $id) {
             $measure = $em->getRepository('App\Entity\Measure')->find($id);
-            $em->remove($measure);
-            $em->flush();
+
+            $observations = $em->getRepository('App\Entity\Observation')->findByMeasure($measure);
+
+            if(!$observations) {
+                $flashTypology = 'success';
+                $flashMessage = self::DELETE_SUCCESS_STRING;
+
+                $em->remove($measure);
+                $em->flush();
+            } else {
+                $flashTypology = 'warning';
+                $flashMessage = sprintf('You can\'t delete the measure "%s": it has been already associated to at least to an observation.', (string) $measure);
+            }
+
         }
-        $this->get('session')->getFlashbag()->add('success', $this->get('translator')->trans(self::DELETE_SUCCESS_STRING));
+
+        $this->get('session')->getFlashbag()->add($flashTypology, $flashMessage);
+
         return $this->redirect($this->generateUrl('measure_list'));
     }
     /**

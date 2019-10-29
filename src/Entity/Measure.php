@@ -41,6 +41,7 @@ class Measure
 
     /**
      * @var string $description
+     * @Assert\NotBlank
      *
      * @ORM\Column(name="description", type="text", length=255)
      */
