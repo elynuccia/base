@@ -76,13 +76,17 @@ class ODRType extends AbstractType
 
             // uses the User.username property as the visible option string
             'choice_label' => 'code',
+            'choice_label' => function ($student) {
+                    return $student->getNickname() . ' (' . $student->getCode() . ')';
+                },
             'attr' => array(
                 'class' => 'mdb-select md-form'),
             'query_builder' => function (EntityRepository $er) use ($teacherCoordinator) {
                 // here you can use the $country variable in your anonymous function.
                 return $er->createQueryBuilder('c')
                     ->where('c.teacherCoordinator = ?1')
-                    ->setParameter(1, $teacherCoordinator);
+                    ->setParameter(1, $teacherCoordinator)
+                    ->orderBy('c.nickname', 'ASC');
 
             },
 

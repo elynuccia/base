@@ -28,17 +28,19 @@ class UserPageController extends AbstractController
             $this->getUser()->getSchoolCode()
         );
 
+        $schoolCode= $school->getSchoolCode();
+
         if(in_array('ROLE_USER_TEACHER_COORDINATOR', $this->getUser()->getRoles())) {
 
             $teacherCoordinator=$this->getUser()->getUserid();
-            $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator( $teacherCoordinator);
+            $students_byteacher = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsByTeacherCoordinator(
+                $teacherCoordinator, $schoolCode
+            );
         }
         else
         {
             $students_byteacher='';
         }
-
-        $schoolCode= $school->getSchoolCode();
 
         $students = $this->getDoctrine()->getRepository('App\Entity\Student')->findStudentsBySchoolCode($schoolCode);
         $odrs = $this->getDoctrine()->getRepository('App\Entity\ODR')->countMinorAndMajorBehaviorsBySchoolCode($schoolCode);

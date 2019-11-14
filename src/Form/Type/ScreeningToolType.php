@@ -36,6 +36,9 @@ class ScreeningToolType extends AbstractType
 
                 // uses the User.username property as the visible option string
                 'choice_label' => 'code',
+                'choice_label' => function ($student) {
+                        return $student->getNickname() . ' (' . $student->getCode() . ')';
+                    },
                 'attr' => array(
                     'class' => 'mdb-select md-form'),
                 //non si vede il bordo
@@ -47,7 +50,8 @@ class ScreeningToolType extends AbstractType
                     // here you can use the $country variable in your anonymous function.
                     return $er->createQueryBuilder('c')
                         ->where('c.schoolCode = ?1')
-                        ->setParameter(1, $schoolCode);
+                        ->setParameter(1, $schoolCode)
+                        ->orderBy('c.nickname', 'ASC');
 
                 },
             ]);

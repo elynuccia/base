@@ -20,7 +20,7 @@ class StudentRepository extends ServiceEntityRepository
     }
 
 
-    public function findStudentsByTeacherCoordinator( $teacherCoordinator)
+    public function findStudentsByTeacherCoordinator($teacherCoordinator, $schoolCode)
     {
         $entityManager = $this->getEntityManager();
 
@@ -28,10 +28,12 @@ class StudentRepository extends ServiceEntityRepository
             'SELECT DISTINCT(stud.id) as id, stud.teacherCoordinator, stud.code, stud.nickname
           FROM \App\Entity\Student stud 
           WHERE stud.teacherCoordinator = :teacherCoordinator
+          AND stud.schoolCode = :schoolCode
           GROUP BY stud.id, stud.teacherCoordinator, stud.code
           ORDER BY stud.nickname ASC
           '
-        )->setParameter('teacherCoordinator', $teacherCoordinator);
+        )->setParameter('teacherCoordinator', $teacherCoordinator)
+         ->setParameter('schoolCode', $schoolCode);
 
         // returns an array of Product objects
         return $query->execute();

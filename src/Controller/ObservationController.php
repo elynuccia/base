@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\CouchDb\Client;
 use App\Entity\StudentBehave;
 use App\Form\Handler\CalendarFormHandler;
 use App\Form\Type\CalendarType;
@@ -192,17 +193,23 @@ class ObservationController extends Controller
      * @param Observation $entity
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAction(Request $request, Student $student)
+    public function deleteAction(Request $request, Student $student, Client $couchDbClient)
     {
         $ids = json_decode($request->get('ids'), true);
         $em = $this->getDoctrine()->getManager();
         foreach($ids as $id) {
             $observation = $em->getRepository('App\Entity\Observation')->find($id);
-          /*  if($observation->getStudent()->getCreatorUserId() != $this->getUser()->getUserId()) {
-                $response = new Response('not allowed');
-                $response->setStatusCode(403);
-                return $response;
-            }*/
+
+            $data = $couchDbClient->getObservationsById($observation->getId());
+            $data = json_decode($data->getContents(), true)['rows'];
+
+            foreach($data as $document) {
+                $id = $document['value']['_id'];
+                $rev = $document['value']['_rev'];
+
+                $couchDbClient->delete($id, $rev);
+            }
+
             $em->remove($observation);
             $em->flush();
         }
