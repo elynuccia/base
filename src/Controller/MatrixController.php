@@ -217,7 +217,7 @@ class MatrixController extends AbstractController
      * @param Matrix $entity
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteMatrixAction(Request $request, School $school, Matrix $entity)
+    public function deleteMatrixAction(Request $request, Matrix $entity)
     {
         $schoolCode=$this->getUser()->getSchoolCode();
         $em = $this->getDoctrine()->getManager();

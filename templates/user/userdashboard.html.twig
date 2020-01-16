@@ -258,7 +258,7 @@
                                                             {% set behaviourCount = 0 %}
 
                                                             {% if bestPors[loop.index0] is defined %}
-                                                                {% set behaviourName = bestPors[loop.index0].behavior %}
+                                                                {% set behaviourName = '[' ~ bestPors[loop.index0].behaviorLocation | upper ~ '] ' ~ bestPors[loop.index0].behavior %}
                                                                 {% set behaviourCount = bestPors[loop.index0].countPOR %}
                                                             {% endif %}
 
@@ -645,7 +645,7 @@
             "type": "horizontalBar",
             data: {
 
-                labels: [{% for behavior in pors %}"{{ behavior.behavior }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
+                labels: [{% for behavior in pors %}"[{{ behavior.behaviorLocation | upper }}] {{ behavior.behavior }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
                 datasets: [{
                     label: '# of POR',
                     data: [{% for behavior in pors %}"{{ behavior.countPOR }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],

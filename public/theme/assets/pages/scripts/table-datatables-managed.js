@@ -51,15 +51,19 @@ var TableDatatablesManaged = function () {
     var observationPhaseDatatable = function () {
         var e = $("#observation-phase-datatable");
         e.dataTable({language: {aria: {sortAscending: ": activate to sort column ascending", sortDescending: ": activate to sort column descending"}, emptyTable: "No data available in table", info: "Showing _START_ to _END_ of _TOTAL_ records", infoEmpty: "No records found", infoFiltered: "(filtered1 from _MAX_ total records)", lengthMenu: "Show _MENU_", search: "Search:", zeroRecords: "No matching records found", paginate: {previous: "Prev", next: "Next", last: "Last", first: "First"}}, bStateSave: !0, lengthMenu: [
-                [20, 40, 50, -1],
-                [20, 40, 50, "All"]
-            ], pageLength: 20, pagingType: "bootstrap_full_number", columnDefs: [
-                {orderable: false, targets: 0 },
-                {searchable: false, targets: 0 },
-                {className: "dt-right"}
-            ], order: [
-                [1, "asc"]
-            ]});
+            [20, 40, 50, -1],
+            [20, 40, 50, "All"]
+        ], pageLength: 20, pagingType: "bootstrap_full_number", columnDefs: [
+            {orderable: false, targets: 0 },
+            {searchable: false, targets: 0 },
+            {className: "dt-right"}
+        ], order: [
+            [1, "asc"]
+        ],
+            language: {
+                url: dataTableUserLocaleUrl
+            }
+        });
         jQuery("#observation-phase-datatable_wrapper");
         e.find(".group-checkable").change(function () {
             var e = jQuery(this).attr("data-set"), t = jQuery(this).is(":checked");
@@ -68,27 +72,23 @@ var TableDatatablesManaged = function () {
             })
 
             if(t) {
-                $('#delete-button').removeClass('opaque');
+                $('#delete-raw-data').removeClass('opaque');
             } else {
-                $('#edit-button').addClass('opaque');
-                $('#delete-button').addClass('opaque');
+                $('#delete-raw-data').addClass('opaque');
             }
 
 
         }), e.on("change", "tbody tr .checkboxes", function () {
-
             if($('.checkboxes:checked').length == 1) {
-                $('#edit-button').removeClass('opaque');
-                $('#delete-button').removeClass('opaque');
+                $('#delete-raw-data').removeClass('opaque');
             }
 
             if($('.checkboxes:checked').length > 1) {
-                $('#edit-button').addClass('opaque');
+                $('#delete-raw-data').removeClass('opaque');
             }
 
             if($('.checkboxes:checked').length == 0) {
-                $('#edit-button').addClass('opaque');
-                $('#delete-button').addClass('opaque');
+                $('#delete-raw-data').addClass('opaque');
             }
 
             $(this).parents("tr").toggleClass("active")

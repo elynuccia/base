@@ -58,7 +58,8 @@ class DataController extends Controller
             return $response;
         }
         $config = array (
-            'base_uri' => 'http://150.145.114.110/rtest/p'
+            'base_uri' => getenv('RAPACHE_BASE_URI')
+            //'base_uri' => 'http://150.145.114.110/rtest/p'
         );
         $guzzle = new GuzzleClient($config);
         $fase = implode(',', array_fill(0, $request->get('selectedData')['phases'][0]['phase-count'],

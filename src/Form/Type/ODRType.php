@@ -30,6 +30,7 @@ class ODRType extends AbstractType
     {
         $teacherCoordinator = $options['teacherCoordinator'];
         $schoolId = $options['schoolId'];
+        $schoolCode = $options['schoolCode'];
 
         $builder->add('minorAndMajorBehaviors', EntityType::class, array(
             // looks for choices from this entity
@@ -81,11 +82,11 @@ class ODRType extends AbstractType
                 },
             'attr' => array(
                 'class' => 'mdb-select md-form'),
-            'query_builder' => function (EntityRepository $er) use ($teacherCoordinator) {
+            'query_builder' => function (EntityRepository $er) use ($schoolCode) {
                 // here you can use the $country variable in your anonymous function.
                 return $er->createQueryBuilder('c')
-                    ->where('c.teacherCoordinator = ?1')
-                    ->setParameter(1, $teacherCoordinator)
+                    ->where('c.schoolCode = :schoolCode')
+                    ->setParameter('schoolCode', $schoolCode)
                     ->orderBy('c.nickname', 'ASC');
 
             },
@@ -112,6 +113,7 @@ class ODRType extends AbstractType
             'data_class' => ODR::class,
             'teacherCoordinator' => null,
             'schoolId' => null,
+            'schoolCode' => null
         ]);
     }
 

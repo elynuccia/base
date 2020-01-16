@@ -6,15 +6,21 @@ use App\Form\Type\CodeGeneratorType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class WelcomeController extends AbstractController
 {
     /**
-     * @Route("/welcome", name="welcome")
+     * @Route("/welcome/{logged_out}", name="welcome", requirements={"logged_out" = "\d+"})
      */
-    public function index()
+    public function index(Request $request, $logged_out=0)
     {
+        if($request->get('logged_out')==1)
+        {
+            return $this->redirect('https://' . $_ENV['AUTH0_DOMAIN'] . '/v2/logout?returnTo=' . urlencode($this->get('router')->generate('app_login', array(), UrlGeneratorInterface::ABSOLUTE_URL)));
+        }
+
         $user = $this->getUser();
        // $schoolCode= $user->getSchoolCode();
 

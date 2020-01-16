@@ -25,9 +25,10 @@ class PORRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior, location.name AS behaviorLocation
           FROM \App\Entity\POR por 
           JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.location location
           GROUP BY posBehavior.id  
           HAVING countPOR >= 1'
         );
@@ -43,9 +44,10 @@ class PORRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
-          FROM \App\Entity\POR por 
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior, location.name AS behaviorLocation
+          FROM \App\Entity\POR por
           JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.location location
           JOIN posBehavior.matrix matrix
           JOIN matrix.school school
           WHERE school.schoolCode = :schoolCode
@@ -81,9 +83,10 @@ class PORRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior, location.name AS behaviorLocation
           FROM \App\Entity\POR por 
           JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.location location
           JOIN posBehavior.matrix matrix
           JOIN matrix.school school
           WHERE school.schoolCode = :schoolCode
@@ -102,9 +105,10 @@ class PORRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior, location.name AS behaviorLocation
           FROM \App\Entity\POR por 
           JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.location location
           WHERE por.student = :student
           GROUP BY posBehavior.id  
           HAVING countPOR >= 1'
@@ -119,9 +123,10 @@ class PORRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(/** @lang text */
-            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior
+            'SELECT DISTINCT(posBehavior.id) as id, count(posBehavior.id) AS countPOR, posBehavior.behavior, location.name AS behaviorLocation
           FROM \App\Entity\POR por 
           JOIN por.positiveBehaviors posBehavior
+          JOIN posBehavior.location location
           WHERE por.student = :student
           GROUP BY posBehavior.id 
           HAVING countPOR >=1

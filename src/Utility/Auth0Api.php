@@ -48,11 +48,41 @@ class Auth0Api {
                 'q' => 'user_metadata.schoolCode=' . $schoolCode
             )
         ));
+
         foreach(json_decode($response->getBody()->getContents()) as $user) {
-            $usersArray[$user->name] = $user->user_id;
+            $roles = array();
+
+            foreach($user->user_metadata->role as $role) {
+                switch($role) {
+                    case 'ROLE_USER':
+                    case 'ROLE_0AUTH_USER':
+                        break;
+
+                    case 'ROLE_USER_PBS_TEAM_MEMBER':
+                        $roles[]  = 'PBS team member';
+
+                        break;
+
+                    case 'ROLE_USER_TEACHER_COORDINATOR':
+                        $roles[] = 'Teacher coordinator';
+
+                        break;
+
+                    case 'ROLE_USER_SCHOOLS_COORDINATOR':
+                        $roles[] = 'Schools coordinator';
+
+                        break;
+
+                }
+            }
+
+            $userName = $user->name . ' ('. implode(', ', $roles) . ')';
+
+            $usersArray[$userName] = $user->user_id;
         }
 
-        return $usersArray;    }
+        return $usersArray;
+    }
 
     public function getUsers()
     {

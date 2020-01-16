@@ -34,15 +34,9 @@ class LocationTag
      */
     private $oDRs;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\POR", mappedBy="locations")
-     */
-    private $pORs;
-
     public function __construct()
     {
         $this->oDRs = new ArrayCollection();
-        $this->pORs = new ArrayCollection();
     }
 
     public function getId()
@@ -97,34 +91,4 @@ class LocationTag
 
         return $this;
     }
-
-    /**
-     * @return Collection|POR[]
-     */
-    public function getPORs(): Collection
-    {
-        return $this->pORs;
-    }
-
-    public function addPOR(POR $pOR): self
-    {
-        if (!$this->pORs->contains($pOR)) {
-            $this->pORs[] = $pOR;
-            $pOR->addLocation($this);
-        }
-
-        return $this;
-    }
-
-    public function removePOR(POR $pOR): self
-    {
-        if ($this->pORs->contains($pOR)) {
-            $this->pORs->removeElement($pOR);
-            $pOR->removeLocation($this);
-        }
-
-        return $this;
-    }
-
-
 }

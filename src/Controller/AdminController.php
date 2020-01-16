@@ -29,6 +29,7 @@ class AdminController extends AbstractController
     {
 
         $user = $this->getUser();
+
         $schoolCode=$user->getSchool()->getSchoolCode();
 
         $form = $this->createForm(AdminType::class, null, array(
@@ -42,7 +43,7 @@ class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', array(
             'user'=>$user,
             'usersInSchool'=> $usersInSchool,
-            'form'=>$form->createView(),
+            'form'=>$form->createView()
         ));
     }
 

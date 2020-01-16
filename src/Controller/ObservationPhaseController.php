@@ -146,6 +146,48 @@ class ObservationPhaseController extends Controller
     }
 
     /**
+     * @Route("/delete-raw-data/{id}/{ids}", name="observation_phase_delete_raw_data", requirements={"ids": "[a-zA-Z0-9\/]+"}, methods={"GET"})
+     *
+     * @param Request $request
+     * @param Observation $observation
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteRawAction(Observation $observation, $ids, CouchDbClient $couchDbClient)
+    {
+        $ids = explode('/', $ids);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $phases = $this->getDoctrine()
+            ->getRepository(ObservationPhase::class)
+            ->findByObservation($observation);
+
+        foreach($ids as $id) {
+            $data = $couchDbClient->getObservationById($id);
+            $data = json_decode($data->getContents(), true)['rows'];
+
+            $rev = $data[0]['value']['_rev'];
+
+            $couchDbClient->delete($id, $rev);
+
+            foreach($phases as $phase) {
+                if($phase->hasDataId($id)) {
+                    $phase->removeDataId($id);
+
+                    $em->persist($phase);
+                    $em->flush();
+                }
+            }
+        }
+
+        $this->get('session')->getFlashbag()->add('success', self::DELETE_SUCCESS_STRING);
+
+        return $this->redirect($this->generateUrl('observation_phase_list', array(
+            'id' => $observation->getId()
+        )));
+    }
+
+    /**
      * @Route("/has-data-id/{dataId}", name="observation_phase_has_data_id")
      * @Method({"GET"})
      *

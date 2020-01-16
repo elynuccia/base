@@ -54,9 +54,6 @@
                                         <div>  {% for positiveBehavior in single_por.positiveBehaviors %}
                                                 {{ positiveBehavior.behavior}}
                                             {% endfor %}
-                                            {% for location in single_por.locations %}
-                                                {{ location.name }}
-                                            {% endfor %}
 
                                             {{ single_por.note }}
                                             {{ single_por.fillInDate }}
@@ -104,7 +101,7 @@
                 type: 'horizontalBar',
                 data: {
 
-                    labels: [{% for behavior in porPosBehavior %}"{{ behavior.behavior }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
+                    labels: [{% for behavior in porPosBehavior %}"[{{ behavior.behaviorLocation | upper }}] {{ behavior.behavior }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],
                     datasets: [{
                         label: '# of POR',
                         data: [{% for behavior in porPosBehavior %}"{{ behavior.countPOR }}"{% if loop.index != porPosBehavior | length %},{% endif %}{% endfor %}],

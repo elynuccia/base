@@ -9,7 +9,6 @@
 namespace App\Controller;
 
 use GuzzleHttp\Exception\ClientException;
-use http\Env\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class FrontendController extends AbstractController
@@ -105,6 +105,9 @@ class FrontendController extends AbstractController
      */
     public function schoolCodeIndex(Request $request, SchoolCodeFormHandler $formHandler)
     {
+        if($this->getUser()->getSchoolCode() && !in_array('ROLE_USER_SCHOOLS_COORDINATOR', $this->getUser()->getRoles())) {
+            return new Response('You have not the right to access this page', 403);
+        }
 
         $form = $this->createForm(SchoolCodeType::class);
         if ($formHandler->handle($form, $request, $this->getUser()->getUserId())) {

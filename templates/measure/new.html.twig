@@ -88,7 +88,6 @@
                                         {{ form_row(directObservationItem.observationLengthInMinutes) }}
                                         {{ form_row(directObservationItem.intervalLengthInSeconds) }}
                                         {{ form_row(directObservationItem.typology) }}
-                                        {{ form_row(directObservationItem.feedbackForIntervalRecording) }}
                                         {{ form_row(directObservationItem.positionNumber) }}
                                     </div>
                                 </div>
@@ -442,18 +441,22 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <style>
-    .form-control
-    {    display: block !important;
-
-    }
-
-
-    </style>
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }} >
-
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('theme/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+
+    <style>
+        .form-control
+        {
+            display: block !important;
+        }
+
+        .md-form label {
+            position: relative !important;
+            padding: 0px !important;
+        }
+    </style>
+
 {% endblock %}
 
 {% block javascripts %}

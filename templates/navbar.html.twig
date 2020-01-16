@@ -58,6 +58,10 @@
                                 <a class="dropdown-item" href="{{ path('admin_personalpage') }}">Admin Page</a>
 
                             {% endif %}
+
+                            {% if "ROLE_USER_SCHOOLS_COORDINATOR" in app.user.roles %}
+                                <a class="dropdown-item" href="{{ path('school_code') }}">Switch school</a>
+                            {% endif %}
                         </div>
                     </li>
 

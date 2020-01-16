@@ -20,46 +20,50 @@
 
             <div class="card-body">
 
-   <h1>User Roles</h1>
+                <h1>User Roles</h1>
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="btn-group pull-right">
-                <button class="btn btn-primary btn-outline " data-toggle="dropdown" aria-expanded="false">
-                    Roles
-                    <i class="fa fa-angle-down"></i>
-                </button>
-                <ul class="dropdown-menu pull-right">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-primary btn-outline " data-toggle="dropdown" aria-expanded="false">
+                                Roles
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
 
-                        <li>
-                            <a data-role="ROLE_USER_PBS_TEAM_MEMBER" href="javascript:;">
-                                PBS team member
-                            </a>
-                        </li>
-                    <li>
-                            <a data-role="ROLE_USER_TEACHER_COORDINATOR" href="javascript:;">
-                                Teacher coordinator
-                            </a>
-                        </li>
+                                <li>
+                                    <a data-role="ROLE_USER_PBS_TEAM_MEMBER" href="javascript:;">
+                                        PBS team member
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-role="ROLE_USER_TEACHER_COORDINATOR" href="javascript:;">
+                                        Teacher coordinator
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-role="ROLE_USER_SCHOOLS_COORDINATOR" href="javascript:;">
+                                        Schools coordinator
+                                    </a>
+                                </li>
 
-                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    {% for user in usersInSchool %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form_row(form.check) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-
-        </div>
-
-{% for user in usersInSchool %}
-    <div class="row">
-
-        <div class="col-md-12">
-            {{ form_row(form.check) }}
-        </div>
-    </div>
-    {% endfor %}
-    </div>
-            </div>
-    </section>
+        </section>
     </div>
     {{ form_end(form) }}
 
@@ -70,28 +74,28 @@
 {% block javascripts %}
     {{ parent () }}
     <script>
-        $('ul.dropdown-menu li a').on('click', function(e) {
+        $('ul.dropdown-menu li a').on('click', function (e) {
             e.stopPropagation();
 
             role = $(this).data('role');
 
             values = [];
 
-            $('.form-check-input:checked').each(function() {
+            $('.form-check-input:checked').each(function () {
                 id = this.value;
 
                 values.push(id); //console.log(this.value);
             });
             $.ajax({
-                url:"{{ path('user_role_save_user_role_data')
+                url: "{{ path('user_role_save_user_role_data')
                 }}",
-                type:"POST",
+                type: "POST",
                 data: { usersId: values, role: role },
-                success:function(response) {
+                success: function (response) {
                     window.location.replace("{{ path('admin_page')
                     }}");
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.log(xhr.responseText);
                 }
             });

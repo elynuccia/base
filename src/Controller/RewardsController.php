@@ -83,11 +83,14 @@ class RewardsController extends AbstractController
      */
     public function deleteMatrixAction(Request $request, Rewards $entity)
     {
+        $schoolCode = $entity->getSchool()->getSchoolCode();
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
         $em->flush();
         $this->get('session')->getFlashbag()->add('success', 'Deleted');
-        return $this->redirect($this->generateUrl('rewards_list'));
+
+        return $this->redirect($this->generateUrl('rewards_list', array('schoolCode' => $schoolCode)));
     }
 
 }

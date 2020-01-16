@@ -248,7 +248,7 @@
                                                         {% set behaviourCount = 0 %}
 
                                                         {% if bestPors[loop.index0] is defined %}
-                                                            {% set behaviourName = bestPors[loop.index0].behavior %}
+                                                            {% set behaviourName = '[' ~ bestPors[loop.index0].behaviorLocation | upper ~ '] ' ~ bestPors[loop.index0].behavior %}
                                                             {% set behaviourCount = bestPors[loop.index0].countPOR %}
                                                         {% endif %}
 
@@ -541,10 +541,10 @@
         new Chart(document.getElementById("horizontalBar"), {
             "type": "horizontalBar",
             "data": {
-                labels: [{% for behavior in pors %}"{{ behavior.behavior }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
+                labels: [{% for behavior in pors %}"[{{ behavior.behaviorLocation | upper }}] {{ behavior.behavior }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
                 datasets: [{
                     label: '# of POR',
-                    data: [{% for behavior in pors %}"{{ behavior.countPOR }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
+                    data: [{% focr behavior in pors %}"{{ behavior.countPOR }}"{% if loop.index != pors | length %},{% endif %}{% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -554,7 +554,7 @@
                         'rgba(255, 159, 64, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
+                        'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',

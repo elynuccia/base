@@ -175,5 +175,4 @@ class UserPageController extends AbstractController
             json_encode($results)
         );
     }
-
-    }
+}

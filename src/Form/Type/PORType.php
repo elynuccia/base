@@ -27,6 +27,7 @@ class PORType extends AbstractType
 
         $teacherCoordinator = $options['teacherCoordinator'];
         $schoolId = $options['schoolId'];
+        $schoolCode = $options['schoolCode'];
 
         $builder->add('student', EntityType::class, [
             // looks for choices from this entity
@@ -39,11 +40,11 @@ class PORType extends AbstractType
                 },
             'attr' => array(
                 'class' => 'mdb-select md-form'),
-            'query_builder' => function (EntityRepository $er) use ($teacherCoordinator) {
+            'query_builder' => function (EntityRepository $er) use ($schoolCode) {
                 // here you can use the $country variable in your anonymous function.
                 return $er->createQueryBuilder('c')
-                    ->where('c.teacherCoordinator = ?1')
-                    ->setParameter(1, $teacherCoordinator)
+                    ->where('c.schoolCode = :schoolCode')
+                    ->setParameter('schoolCode', $schoolCode)
                     ->orderBy('c.nickname', 'ASC');
 
             },
@@ -58,6 +59,9 @@ class PORType extends AbstractType
         $builder->add('positiveBehaviors', EntityType::class, array(
             // looks for choices from this entity
             'class' => MatrixBehavior::class,
+            'choice_label' => function ($positiveBehavior) {
+                    return '[' . strtoupper($positiveBehavior->getLocation()->getName()) . '] ' . $positiveBehavior->getBehavior();
+                },
             'query_builder' => function (EntityRepository $er) use ($schoolId) {
                 return $er->createQueryBuilder('u')
                     ->join('u.matrix', 'm')
@@ -68,33 +72,12 @@ class PORType extends AbstractType
             },
 
             // uses the User.username property as the visible option string
-            'choice_label' => 'behavior',
+            //'choice_label' => 'behavior',
 
             // used to render a select box, check boxes or radios
             'multiple' => true,
             'expanded' => true,
         ));
-
-        $builder->add('locations', EntityType::class, array(
-            // looks for choices from this entity
-            'class' => LocationTag::class,
-            'query_builder' => function (EntityRepository $er) use ($schoolId) {
-                return $er->createQueryBuilder('l')
-                    ->join('l.matrix', 'm')
-                    ->join('m.school', 's')
-                    ->where('s.id = :schoolId')
-                    ->setParameter('schoolId', $schoolId)
-                    ->orderBy('l.id', 'ASC');
-            },
-
-            // uses the User.username property as the visible option string
-            'choice_label' => 'name',
-
-            // used to render a select box, check boxes or radios
-            'multiple' => true,
-            'expanded' => true,
-        ));
-
 
         $builder->add('fillInDate', TextType::class);
         $builder->add('note');
@@ -109,6 +92,7 @@ class PORType extends AbstractType
             'data_class' => POR::class,
             'teacherCoordinator' => null,
             'schoolId' => null,
+            'schoolCode' => null,
 
         ]);
     }

@@ -31,7 +31,7 @@ class ODRController extends AbstractController
         $schoolCode = $this->getUser()->getSchoolCode();
         //$schoolId=findSchoolIdByTeacherCode($teacherCode);
         $schoolId = $this->getDoctrine()->getRepository('App\Entity\School')->findSchoolIdByTeacherCode($schoolCode);
-        $form = $this->createForm(ODRType::class, $odr, array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId));
+        $form = $this->createForm(ODRType::class, $odr, array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId, 'schoolCode' => $schoolCode));
 
         if ($lastId = $formHandler->handle($form, $request)) {
             return $this->redirect($this->generateUrl('odr_list'));

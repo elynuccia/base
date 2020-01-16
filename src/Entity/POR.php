@@ -25,11 +25,6 @@ class POR
     private $positiveBehaviors;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\LocationTag", inversedBy="pORs")
-     */
-    private $locations;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $note;
@@ -48,7 +43,6 @@ class POR
     public function __construct()
     {
         $this->positiveBehaviors = new ArrayCollection();
-        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,32 +71,6 @@ class POR
     {
         if ($this->positiveBehaviors->contains($positiveBehavior)) {
             $this->positiveBehaviors->removeElement($positiveBehavior);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|LocationTag[]
-     */
-    public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    public function addLocation(LocationTag $location): self
-    {
-        if (!$this->locations->contains($location)) {
-            $this->locations[] = $location;
-        }
-
-        return $this;
-    }
-
-    public function removeLocation(LocationTag $location): self
-    {
-        if ($this->locations->contains($location)) {
-            $this->locations->removeElement($location);
         }
 
         return $this;

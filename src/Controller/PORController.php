@@ -30,7 +30,7 @@ class PORController extends AbstractController
         $schoolCode = $this->getUser()->getSchoolCode();
         $schoolId = $this->getDoctrine()->getRepository('App\Entity\School')->findSchoolIdByTeacherCode($schoolCode);
 
-        $form = $this->createForm(PORType::class, $por,  array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId));
+        $form = $this->createForm(PORType::class, $por,  array( 'teacherCoordinator' => $userId, 'schoolId'=> $schoolId, 'schoolCode' => $schoolCode));
 
 
         if ($lastId = $formHandler->handle($form, $request)) {

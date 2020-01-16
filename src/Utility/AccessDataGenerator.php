@@ -69,7 +69,7 @@ class AccessDataGenerator
     private function generateNickname() {
         $faker = Factory::create();
 
-        return $faker->firstName . $faker->unique()->randomDigit;
+        return $faker->lastName . $faker->unique()->randomDigit;
     }
 
     private function generateCode() {

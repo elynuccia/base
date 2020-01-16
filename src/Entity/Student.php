@@ -66,22 +66,22 @@ class Student implements UserInterface
     private $teacherCoordinator;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="student")
+     * @ORM\OneToMany(targetEntity="App\Entity\Observation", mappedBy="student", cascade={"persist", "remove"})
      */
     private $observations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ScreeningTool", mappedBy="student")
+     * @ORM\OneToMany(targetEntity="App\Entity\ScreeningTool", mappedBy="student", cascade={"persist", "remove"})
      */
     private $screeningTools;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ODR", mappedBy="student")
+     * @ORM\OneToMany(targetEntity="App\Entity\ODR", mappedBy="student", cascade={"persist", "remove"})
      */
     private $oDRs;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\POR", mappedBy="student")
+     * @ORM\OneToMany(targetEntity="App\Entity\POR", mappedBy="student", cascade={"persist", "remove"})
      */
     private $pORs;
 

@@ -54,7 +54,7 @@
                                         {% for c in cicos %}
                                         <div class="row">
                                             <div class="col-md-2"></div>
-                                            <div class="col-md-8 col-sm-4">{{ c.student.code }}</div>
+                                            <div class="col-md-8 col-sm-4">{{ c.student.nickname }} ({{ c.student.code }})</div>
                                             <div class="col-md-2">
                                                 <a href="{{ path('cico_data', {'id': c.id}) }}">
                                                     <i class="fa fa-plus"></i>
